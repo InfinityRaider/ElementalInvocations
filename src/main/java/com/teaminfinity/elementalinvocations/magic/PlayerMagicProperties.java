@@ -1,11 +1,16 @@
 package com.teaminfinity.elementalinvocations.magic;
 
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
+import com.teaminfinity.elementalinvocations.network.MessageAddCharge;
+import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Names;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerMagicProperties implements IPlayerMagicProperties {
+    /* player instance */
+    private EntityPlayer player;
+
     /* Persistent fields */
     private Element affinity;
     private int level;
@@ -29,6 +37,17 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
             this.chargeMap.put(element, new ArrayList<>());
         }
         this.charges = new ArrayList<>();
+    }
+
+    @Override
+    public PlayerMagicProperties setPlayer(EntityPlayer player) {
+        this.player = player;
+        return this;
+    }
+
+    @Override
+    public EntityPlayer getPlayer() {
+        return this.player;
     }
 
     @Override
@@ -70,6 +89,9 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
             this.chargeMap.get(charge.element()).add(charge);
             this.charges.add(charge);
             recalculateInstability(charge);
+            if(ElementalInvocations.proxy.getEffectiveSide() == Side.SERVER) {
+                NetworkWrapper.getInstance().sendToAll(new MessageAddCharge(this.getPlayer(), charge));
+            }
         }
     }
 

@@ -1,10 +1,15 @@
 package com.teaminfinity.elementalinvocations.api;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
 
 public interface IPlayerMagicProperties {
+    IPlayerMagicProperties setPlayer(EntityPlayer player);
+
+    EntityPlayer getPlayer();
+
     void setPlayerAffinity(Element element);
 
     Element getPlayerAffinity();

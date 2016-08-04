@@ -111,7 +111,9 @@ public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedW
         }
         if(shift) {
             //conjure charge
-            properties.addCharge(this.getCharge(stack));
+            if(!player.worldObj.isRemote) {
+                properties.addCharge(this.getCharge(stack));
+            }
         } else {
             //invoke spell
             //TODO

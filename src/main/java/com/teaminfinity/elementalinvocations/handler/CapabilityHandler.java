@@ -18,7 +18,7 @@ public class CapabilityHandler {
     @SuppressWarnings("unused")
     public void addEntityCapabilities(AttachCapabilitiesEvent.Entity event) {
         if(event.getEntity() instanceof EntityPlayer) {
-            event.addCapability(PlayerMagicProvider.KEY, new PlayerMagicProvider());
+            event.addCapability(PlayerMagicProvider.KEY, new PlayerMagicProvider((EntityPlayer) event.getEntity()));
         }
     }
 }

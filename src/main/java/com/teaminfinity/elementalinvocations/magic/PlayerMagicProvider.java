@@ -18,8 +18,8 @@ public class PlayerMagicProvider implements ICapabilitySerializable<NBTTagCompou
 
     private IPlayerMagicProperties magicProperties;
 
-    public PlayerMagicProvider() {
-        this.magicProperties = Capabilities.PLAYER_MAGIC_PROPERTIES != null ? Capabilities.PLAYER_MAGIC_PROPERTIES.getDefaultInstance() : null;
+    public PlayerMagicProvider(EntityPlayer player) {
+        this.magicProperties = Capabilities.PLAYER_MAGIC_PROPERTIES != null ? Capabilities.PLAYER_MAGIC_PROPERTIES.getDefaultInstance().setPlayer(player) : null;
     }
 
     @Override
