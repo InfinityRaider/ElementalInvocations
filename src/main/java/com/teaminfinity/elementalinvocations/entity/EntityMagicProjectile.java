@@ -2,6 +2,7 @@ package com.teaminfinity.elementalinvocations.entity;
 
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
+import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntityMagicProjectile;
 import io.netty.buffer.ByteBuf;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,12 @@ public class EntityMagicProjectile extends EntityThrowable implements IEntityAdd
     @Override
     protected float getGravityVelocity() {
         return 0.03F;
+    }
+
+    @Override
+    @Nullable
+    public EntityPlayer getThrower() {
+        return (EntityPlayer) super.getThrower();
     }
 
     @Override

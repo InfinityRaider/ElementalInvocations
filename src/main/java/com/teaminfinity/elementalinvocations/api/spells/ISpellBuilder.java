@@ -2,7 +2,7 @@
  */
 package com.teaminfinity.elementalinvocations.api.spells;
 
-import com.teaminfinity.elementalinvocations.impl.spell.SpellBuilder;
+import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
 import com.teaminfinity.elementalinvocations.api.Element;
 import java.util.List;
 
