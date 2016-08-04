@@ -2,6 +2,8 @@ package com.teaminfinity.elementalinvocations.api;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.List;
+
 public interface IPlayerMagicProperties {
     void setPlayerAffinity(Element element);
 
@@ -14,6 +16,10 @@ public interface IPlayerMagicProperties {
     void reset();
 
     void addCharge(IMagicCharge charge);
+
+    List<IMagicCharge> getCharges();
+
+    List<IMagicCharge> getCharges(Element element);
 
     int currentInstability();
 

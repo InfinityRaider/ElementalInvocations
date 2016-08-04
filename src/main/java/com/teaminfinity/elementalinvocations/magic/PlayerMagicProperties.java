@@ -20,14 +20,15 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
 
     /* Non-persistent fields */
     private int currentInstability;
-    private int chargeCount;
-    private Map<Element, List<IMagicCharge>> charges;
+    private Map<Element, List<IMagicCharge>> chargeMap;
+    private List<IMagicCharge> charges;
 
     public PlayerMagicProperties() {
-        this.charges = new HashMap<>();
+        this.chargeMap = new HashMap<>();
         for(Element element : Element.values()) {
-            this.charges.put(element, new ArrayList<>());
+            this.chargeMap.put(element, new ArrayList<>());
         }
+        this.charges = new ArrayList<>();
     }
 
     @Override
@@ -58,18 +59,28 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
         this.experience = 0;
         this.currentInstability = 0;
         for(Element element : Element.values()) {
-            this.charges.get(element).clear();
+            this.chargeMap.get(element).clear();
         }
-        this.chargeCount = 0;
+        this.charges.clear();
     }
 
     @Override
     public void addCharge(IMagicCharge charge) {
         if(charge != null) {
-            this.chargeCount++;
-            this.charges.get(charge.element()).add(charge);
+            this.chargeMap.get(charge.element()).add(charge);
+            this.charges.add(charge);
             recalculateInstability(charge);
         }
+    }
+
+    @Override
+    public List<IMagicCharge> getCharges() {
+        return charges;
+    }
+
+    @Override
+    public List<IMagicCharge> getCharges(Element element) {
+        return chargeMap.get(element);
     }
 
     private void recalculateInstability(IMagicCharge charge) {

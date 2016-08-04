@@ -6,6 +6,7 @@ import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 import com.teaminfinity.elementalinvocations.handler.MouseClickHandler;
 import com.teaminfinity.elementalinvocations.proxy.base.IClientProxyBase;
 import com.teaminfinity.elementalinvocations.render.model.ModelPlayerCustomized;
+import com.teaminfinity.elementalinvocations.render.player.RenderPlayerCharges;
 import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -37,6 +38,7 @@ public class ClientProxy implements IProxy, IClientProxyBase {
         IProxy.super.registerEventHandlers();
         MinecraftForge.EVENT_BUS.register(ArmSwingHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(MouseClickHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(RenderPlayerCharges.getInstance());
     }
 
     @Override

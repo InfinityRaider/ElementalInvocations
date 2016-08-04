@@ -110,7 +110,11 @@ public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedW
             return;
         }
         if(shift) {
-
+            //conjure charge
+            properties.addCharge(this.getCharge(stack));
+        } else {
+            //invoke spell
+            //TODO
         }
     }
 
