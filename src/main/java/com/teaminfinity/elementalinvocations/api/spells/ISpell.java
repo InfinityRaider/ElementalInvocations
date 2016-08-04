@@ -2,34 +2,34 @@
  */
 package com.teaminfinity.elementalinvocations.api.spells;
 
+import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.api.Element;
 import net.minecraft.entity.player.EntityPlayer;
-import java.util.List;
 
 /**
  *
  * @author RlonRyan
  */
 public interface ISpell {
-	
+
 	String getId();
 
 	int getCoolTicks();
 	
 	boolean isChanneled();
 
-	List<String> getDescription();
+	ImmutableList<String> getDescription();
 
-	List<Element> getElements();
+	ImmutableList<Element> getElements();
 	
-	List<ISpellRequirement> getRequirements();
+	ImmutableList<ISpellRequirement> getRequirements();
 	
-	List<ISpellEffect> getEffects();
+	ImmutableList<ISpellEffect> getEffects();
 
 	boolean invoke(EntityPlayer player);
 	
 	default boolean equals(ISpell spell) {
-		return this.getId().equals(spell.getId());
+		return this.getId().equals(spell.getId()) || this.getElements().equals(spell.getElements());
 	}
 	
 }

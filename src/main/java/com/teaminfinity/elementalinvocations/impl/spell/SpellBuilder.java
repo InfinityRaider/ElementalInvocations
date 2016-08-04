@@ -6,7 +6,6 @@ import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellBuilder;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellRequirement;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
