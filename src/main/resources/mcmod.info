@@ -1,21 +1,22 @@
 [
-{
-"modid": "elemental_invocations",
-"name": "Elemental Invocations",
-"description": "QUAS! WEX! ... DEATH???",
-"version": "${version}",
-"mcversion": "${mcversion}",
-"url": "",
-"updateUrl": "",
-"authorList": [
-"Team Infinity"
-],
-"credits": "",
-"logoFile": "",
-"screenshots": [
-],
-"parent":"",
-"dependencies": [
-]
-}
+	{
+		"modid": "${mod.id}",
+		"name": "${mod.name}",
+
+		"version": "${mod.version}",
+		"mcversion": "${mod.version_minecraft}",
+
+		"logoFile": "assets/${mod.id}/textures/logo.png",
+		"screenshots": [],
+
+		"parent":"",
+		"dependencies": [],
+
+		"authorList": [ "${mod.author}" ],
+		"credits": "",
+
+		"url": "${mod.update_url}",
+
+		"description": "QUAS! WEX! ... DEATH???"
+	}
 ]
