@@ -9,7 +9,6 @@ import com.teaminfinity.elementalinvocations.magic.PlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
 import com.teaminfinity.elementalinvocations.proxy.base.IProxyBase;
 import com.teaminfinity.elementalinvocations.utility.ModHelper;
-import net.minecraft.block.BlockAnvil;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
