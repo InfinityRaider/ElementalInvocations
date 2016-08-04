@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -90,5 +91,10 @@ public abstract class ItemDebuggerBase extends ItemBase {
         }
         tag.setInteger(Names.NBT.COUNT, index);
         return DEBUG_MODES.get(index);
+    }
+
+    @Override
+    public List<String> getOreTags() {
+        return Collections.emptyList();
     }
 }

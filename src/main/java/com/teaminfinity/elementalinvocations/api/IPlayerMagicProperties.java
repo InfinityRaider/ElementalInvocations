@@ -3,9 +3,15 @@ package com.teaminfinity.elementalinvocations.api;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IPlayerMagicProperties {
-    Element playerAffinity();
+    void setPlayerAffinity(Element element);
 
-    int playerAdeptness();
+    Element getPlayerAffinity();
+
+    void setPlayerAdeptness(int level);
+
+    int getPlayerAdeptness();
+
+    void reset();
 
     void addCharge(IMagicCharge charge);
 

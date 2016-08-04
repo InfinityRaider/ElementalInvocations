@@ -1,15 +1,16 @@
 package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
+import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import com.teaminfinity.elementalinvocations.utility.debug.DebugMode;
-import com.teaminfinity.elementalinvocations.utility.debug.DebugModeCapability;
+import com.teaminfinity.elementalinvocations.utility.debug.DebugModeClearMagicProperties;
+import com.teaminfinity.elementalinvocations.utility.debug.DebugModeCycleAffinity;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.Tuple;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ItemDebugger extends ItemDebuggerBase {
@@ -21,13 +22,11 @@ public class ItemDebugger extends ItemDebuggerBase {
     @Override
     protected List<DebugMode> getDebugModes() {
         List<DebugMode> list = new ArrayList<>();
-        list.add(new DebugModeCapability());
+        list.add(new DebugModeClearMagicProperties());
+        for(Element element : Element.values()) {
+            list.add(new DebugModeCycleAffinity(element));
+        }
         return list;
-    }
-
-    @Override
-    public List<String> getOreTags() {
-        return Collections.emptyList();
     }
 
     @Override
