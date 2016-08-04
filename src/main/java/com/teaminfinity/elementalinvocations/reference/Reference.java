@@ -8,7 +8,7 @@ package com.teaminfinity.elementalinvocations.reference;
  */
 public interface Reference {
 
-	String MOD_ID = /*^${mod.id}^*/ "default";
+	String MOD_ID = /*^${mod.id}^*/ "elemental_invocations";
 	String MOD_NAME = /*^${mod.name}^*/ "Default Mod";
 	String MOD_AUTHOR = /*^${mod.author}^*/ "Captain Nemo";
 
