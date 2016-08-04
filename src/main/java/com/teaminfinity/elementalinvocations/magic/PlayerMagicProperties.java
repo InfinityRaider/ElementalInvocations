@@ -88,9 +88,12 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
         if(charge != null) {
             this.chargeMap.get(charge.element()).add(charge);
             this.charges.add(charge);
-            recalculateInstability(charge);
             if(ElementalInvocations.proxy.getEffectiveSide() == Side.SERVER) {
                 NetworkWrapper.getInstance().sendToAll(new MessageAddCharge(this.getPlayer(), charge));
+                recalculateInstability(charge);
+                if(fizzleCheck()) {
+                    fizzle();
+                }
             }
         }
     }
@@ -106,6 +109,14 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     }
 
     private void recalculateInstability(IMagicCharge charge) {
+
+    }
+
+    private boolean fizzleCheck() {
+        return false;
+    }
+
+    private void fizzle() {
 
     }
 
