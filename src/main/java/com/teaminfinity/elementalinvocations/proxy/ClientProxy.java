@@ -29,6 +29,11 @@ public class ClientProxy implements IProxy, IClientProxyBase {
     }
 
     @Override
+    public void registerEntities(ModBase mod) {
+        ModHelper.getInstance().registerEntitiesClient(mod);
+    }
+
+    @Override
     public void overridePlayerModel() {
         ModelPlayerCustomized.replaceOldModel();
     }

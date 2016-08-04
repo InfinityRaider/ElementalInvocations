@@ -8,6 +8,7 @@ import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
 import com.teaminfinity.elementalinvocations.proxy.base.IProxyBase;
+import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraft.block.BlockAnvil;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -29,6 +30,10 @@ public interface IProxy extends IProxyBase {
     @Override
     default void postInitStart(FMLPostInitializationEvent event) {
         this.overridePlayerModel();
+    }
+
+    default void registerEntities(ModBase mod) {
+        ModHelper.getInstance().registerEntities(mod);
     }
 
     default void overridePlayerModel() {}

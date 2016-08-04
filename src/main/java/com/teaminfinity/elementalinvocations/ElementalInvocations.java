@@ -42,6 +42,11 @@ public class ElementalInvocations extends ModBase {
     }
 
     @Override
+    public Object getModEntityRegistry() {
+        return EntityRegistry.getInstance();
+    }
+
+    @Override
     public void registerMessages(INetworkWrapper wrapper) {
         wrapper.registerMessage(MessageAddCharge.class);
         wrapper.registerMessage(MessageAttackDualWielded.class);

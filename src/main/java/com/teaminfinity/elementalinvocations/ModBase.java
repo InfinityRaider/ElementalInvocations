@@ -32,6 +32,13 @@ public abstract class ModBase {
     public abstract Object getModItemRegistry();
 
     /**
+     * Used to register the Entities & renderers, the mod's entities.
+     * The object returned by this should have a field of type EntityRegistryEntry for each of its entities
+     * @return Entity registry object or class
+     */
+    public abstract Object getModEntityRegistry();
+
+    /**
      * Register all messages added by this mod
      * @param wrapper NetworkWrapper instance to register messages to
      */
@@ -42,6 +49,7 @@ public abstract class ModBase {
         proxy().preInitStart(event);
         ModHelper.getInstance().RegisterBlocksAndItems(this);
         ElementalInvocations.proxy.registerRenderers(this);
+        ElementalInvocations.proxy.registerEntities(this);
         proxy().preInitEnd(event);
         LogHelper.debug("Pre-Initialization Complete");
     }

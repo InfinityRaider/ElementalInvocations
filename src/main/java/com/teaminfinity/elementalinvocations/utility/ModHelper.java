@@ -2,6 +2,7 @@ package com.teaminfinity.elementalinvocations.utility;
 
 import com.teaminfinity.elementalinvocations.ModBase;
 import com.teaminfinity.elementalinvocations.block.BlockBase;
+import com.teaminfinity.elementalinvocations.entity.EntityRegistryEntry;
 import com.teaminfinity.elementalinvocations.item.IInfinityItem;
 import com.teaminfinity.elementalinvocations.item.IItemWithModel;
 import com.teaminfinity.elementalinvocations.item.IItemWithRecipe;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -71,6 +73,27 @@ public class ModHelper {
             }
         });
         LogHelper.debug("Finished Recipe Registration!");
+    }
+
+    public void registerEntities(ModBase mod) {
+        LogHelper.debug("Starting Entity Registration...");
+        ReflectionHelper.forEachIn(mod.getModEntityRegistry(), EntityRegistryEntry.class, (EntityRegistryEntry entry) -> {
+            if(entry.isEnabled()) {
+                entry.register(mod);
+            }
+        });
+        LogHelper.debug("Finished Entity Registration!");
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerEntitiesClient(ModBase mod) {
+        LogHelper.debug("Starting Entity Registration...");
+        ReflectionHelper.forEachIn(mod.getModEntityRegistry(), EntityRegistryEntry.class, (EntityRegistryEntry entry) -> {
+            if(entry.isEnabled()) {
+                entry.registerClient(mod);
+            }
+        });
+        LogHelper.debug("Finished Entity Registration!");
     }
 
     @SideOnly(Side.CLIENT)
