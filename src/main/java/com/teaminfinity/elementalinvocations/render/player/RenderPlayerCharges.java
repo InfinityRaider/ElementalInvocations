@@ -53,7 +53,6 @@ public final class RenderPlayerCharges extends RenderUtil {
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void renderPlayerCharges(RenderPlayerEvent.Post event) {
-
         IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(event.getEntityPlayer());
         if(properties == null) {
             return;
@@ -65,7 +64,6 @@ public final class RenderPlayerCharges extends RenderUtil {
         }
 
         GlStateManager.pushMatrix();
-
 
         float newAngle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
 
@@ -138,27 +136,27 @@ public final class RenderPlayerCharges extends RenderUtil {
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
 
         //translate to the orb position
-        GlStateManager.translate(x, y, z);
+        GlStateManager.translate(x, y + 1, z);
 
         //rotate so the texture always renders parallel to the screen
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
-        GlStateManager.rotate(renderManager.playerViewY, 0, 1, 0);
-        GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
+        GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
+        GlStateManager.rotate(-renderManager.playerViewX, 1, 0, 0);
 
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
         float u = Constants.UNIT;
-        float scale = 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS);
+        float scale = 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.level())/Constants.CORE_TIERS);
 
-        buffer.pos(-8 * scale * u, 0, 0).tex(16, 16);
-        buffer.pos(8 * scale * u, 0, 0).tex(0, 16);
-        buffer.pos(8 * scale * u, 16 * scale * u, 0).tex(0, 0);
-        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(16, 0);
+        buffer.pos(-8 * scale * u, 0, 0).tex(16, 16).endVertex();
+        buffer.pos(8 * scale * u, 0, 0).tex(0, 16).endVertex();
+        buffer.pos(8 * scale * u, 16 * scale * u, 0).tex(0, 0).endVertex();
+        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(16, 0).endVertex();
 
-        buffer.pos(-8 * scale * u, 0, 0).tex(16, 16);
-        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(16, 0);
-        buffer.pos(8 * scale * u, 16 * scale * u, 0).tex(0, 0);
-        buffer.pos(8 * scale * u, 0, 0).tex(0, 16);
+        buffer.pos(-8 * scale * u, 0, 0).tex(16, 16).endVertex();
+        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(16, 0).endVertex();
+        buffer.pos(8 * scale * u, 16 * scale * u, 0).tex(0, 0).endVertex();
+        buffer.pos(8 * scale * u, 0, 0).tex(0, 16).endVertex();
 
         tessellator.draw();
 
