@@ -2,11 +2,14 @@ package com.teaminfinity.elementalinvocations.proxy;
 
 import com.teaminfinity.elementalinvocations.ModBase;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
+import com.teaminfinity.elementalinvocations.api.spells.IPlayerSoulCollection;
 import com.teaminfinity.elementalinvocations.handler.AnvilRecipeHandler;
 import com.teaminfinity.elementalinvocations.handler.CapabilityHandler;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollection;
+import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
 import com.teaminfinity.elementalinvocations.proxy.base.IProxyBase;
 import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,6 +27,7 @@ public interface IProxy extends IProxyBase {
     @Override
     default void preInitEnd(FMLPreInitializationEvent event) {
         CapabilityManager.INSTANCE.register(IPlayerMagicProperties.class, new PlayerMagicProvider.Storage(), PlayerMagicProperties.class);
+        CapabilityManager.INSTANCE.register(IPlayerSoulCollection.class, new PlayerSoulCollectionProvider.Storage(), PlayerSoulCollection.class);
     }
 
     @Override

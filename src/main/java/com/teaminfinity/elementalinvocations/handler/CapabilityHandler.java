@@ -1,6 +1,7 @@
 package com.teaminfinity.elementalinvocations.handler;
 
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,6 +20,7 @@ public class CapabilityHandler {
     public void addEntityCapabilities(AttachCapabilitiesEvent.Entity event) {
         if(event.getEntity() instanceof EntityPlayer) {
             event.addCapability(PlayerMagicProvider.KEY, new PlayerMagicProvider((EntityPlayer) event.getEntity()));
+            event.addCapability(PlayerSoulCollectionProvider.KEY, new PlayerSoulCollectionProvider((EntityPlayer) event.getEntity()));
         }
     }
 }

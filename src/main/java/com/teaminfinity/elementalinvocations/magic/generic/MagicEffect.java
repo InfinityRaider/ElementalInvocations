@@ -58,7 +58,9 @@ public class MagicEffect {
             effect.applyEffectPre(this, caster, target, totalPotency.get(effect.element()), secondaryMask.get(effect.element()));
         }
         //apply damage
-
+        for(MagicDamage dmg : damageList) {
+            dmg.applyToEntity(target);
+        }
         //apply secondary effects after applying damage
         for(ElementEffect effect : secondaryEffects) {
             effect.applyEffectPost(this, caster, target, totalPotency.get(effect.element()), secondaryMask.get(effect.element()));
