@@ -1,6 +1,8 @@
 package com.teaminfinity.elementalinvocations.item;
 
+import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
+import com.teaminfinity.elementalinvocations.reference.Reference;
 import com.teaminfinity.elementalinvocations.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.utility.debug.DebugModeCapability;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -30,6 +32,6 @@ public class ItemDebugger extends ItemDebuggerBase {
 
     @Override
     public List<Tuple<Integer, ModelResourceLocation>> getModelDefinitions() {
-        return Collections.emptyList();
+        return ImmutableList.of(new Tuple<>(0, new ModelResourceLocation(Reference.MOD_ID.toLowerCase() + ":debugger", "inventory")));
     }
 }

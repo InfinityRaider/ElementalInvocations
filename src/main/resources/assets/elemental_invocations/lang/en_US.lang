@@ -1,0 +1,27 @@
+//items
+item.elemental_invocations:wand.name=Elemental Wand
+item.elemental_invocations:elemental_core_fire.name=Elemental Fire Core
+item.elemental_invocations:elemental_core_water.name=Elemental Water Core
+item.elemental_invocations:elemental_core_air.name=Elemental Air Core
+item.elemental_invocations:elemental_core_earth.name=Elemental Earth Core
+item.elemental_invocations:elemental_core_death.name=Elemental Death Core
+item.elemental_invocations:elemental_core_life.name=Elemental Life Core
+item.elemental_invocations:debugger.name=Debugger
+
+//creative tab
+itemGroup.elemental_invocations:Elemental Invocations
+
+//tooltips
+tooltip.elemental_invocations.core.L1=Apply to a wand in an anvil to augment the wand
+tooltip.elemental_invocations.core.L2=Or consume to set your magic affinity to the core's element
+tooltip.elemental_invocations.wand.info=Hold shift to show more info
+tooltip.elemental_invocations.wand.info.L1=Wands are used to conjure magic charges,
+tooltip.elemental_invocations.wand.info.L2=combinations of magic charges allow you to invoke spells
+tooltip.elemental_invocations.wand.info.L3=Conjuring charges requires concentration, more charges requires more concentration
+tooltip.elemental_invocations.wand.info.L4=When your concentration slips, the magic fizzles and fails on you.
+tooltip.elemental_invocations.wand.info.L5=Use RMB to invoke a spell, the invoked spell depends on the active charges
+tooltip.elemental_invocations.wand.info.L6=use shift + LMB to invoke a charge from the wand in your left hand
+tooltip.elemental_invocations.wand.info.L7=use shift + RMB to invoke a charge from the wand in your right hand
+tooltip.elemental_invocations.wand.noCore=This wand does not have a core, apply a core in an anvil
+tooltip.elemental_invocations.wand.coreType=Current wand core
+tooltip.elemental_invocations.wand.coreLevel=Wand power level

@@ -1,0 +1,21 @@
+[
+{
+"modid": "elemental_invocations",
+"name": "Elemental Invocations",
+"description": "QUAS! WEX! ... DEATH???",
+"version": "${version}",
+"mcversion": "${mcversion}",
+"url": "",
+"updateUrl": "",
+"authorList": [
+"Team Infinity"
+],
+"credits": "",
+"logoFile": "",
+"screenshots": [
+],
+"parent":"",
+"dependencies": [
+]
+}
+]

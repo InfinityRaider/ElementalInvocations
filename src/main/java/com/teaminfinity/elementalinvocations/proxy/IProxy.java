@@ -36,4 +36,8 @@ public interface IProxy extends IProxyBase {
     }
 
     default void registerRenderers(ModBase mod) {}
+
+    default boolean isShiftKeyPressed() {
+        return false;
+    }
 }

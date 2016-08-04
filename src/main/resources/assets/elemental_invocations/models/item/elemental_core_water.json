@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "elemental_invocations:items/elemental_core_water"
+  }
+}

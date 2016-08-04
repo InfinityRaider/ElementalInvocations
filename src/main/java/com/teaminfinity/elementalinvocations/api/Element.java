@@ -1,20 +1,30 @@
 package com.teaminfinity.elementalinvocations.api;
 
-public enum Element {
-    FIRE,
-    WATER(FIRE),
-    AIR,
-    EARTH(AIR),
-    DEATH,
-    LIFE(DEATH);
+import net.minecraft.util.text.TextFormatting;
 
+public enum Element {
+    FIRE(TextFormatting.RED),
+    WATER(TextFormatting.BLUE, FIRE),
+    AIR(TextFormatting.YELLOW),
+    EARTH(TextFormatting.GREEN, AIR),
+    DEATH(TextFormatting.DARK_PURPLE),
+    LIFE(TextFormatting.WHITE, DEATH);
+
+    private TextFormatting formatting;
     private Element opposite;
 
-    Element() {}
+    Element(TextFormatting formatting) {
+        this.formatting = formatting;
+    }
 
-    Element(Element opposite) {
+    Element(TextFormatting formatting, Element opposite) {
+        this(formatting);
         this.opposite = opposite;
         opposite.opposite = this;
+    }
+
+    public TextFormatting getTextFormat() {
+        return formatting;
     }
 
     public Element getOpposite() {

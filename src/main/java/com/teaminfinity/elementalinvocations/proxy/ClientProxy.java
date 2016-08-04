@@ -2,15 +2,16 @@ package com.teaminfinity.elementalinvocations.proxy;
 
 import com.teaminfinity.elementalinvocations.ModBase;
 import com.teaminfinity.elementalinvocations.handler.ArmSwingHandler;
-import com.teaminfinity.elementalinvocations.handler.CapabilityHandler;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 import com.teaminfinity.elementalinvocations.handler.MouseClickHandler;
 import com.teaminfinity.elementalinvocations.proxy.base.IClientProxyBase;
 import com.teaminfinity.elementalinvocations.render.model.ModelPlayerCustomized;
+import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
 
 @SideOnly(Side.CLIENT)
 @SuppressWarnings("unused")
@@ -23,7 +24,7 @@ public class ClientProxy implements IProxy, IClientProxyBase {
 
     @Override
     public void registerRenderers(ModBase mod) {
-
+        ModHelper.getInstance().initRenderers(mod);
     }
 
     @Override
@@ -36,5 +37,10 @@ public class ClientProxy implements IProxy, IClientProxyBase {
         IProxy.super.registerEventHandlers();
         MinecraftForge.EVENT_BUS.register(ArmSwingHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(MouseClickHandler.getInstance());
+    }
+
+    @Override
+    public boolean isShiftKeyPressed() {
+        return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
     }
 }

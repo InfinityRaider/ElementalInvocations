@@ -3,11 +3,17 @@ package com.teaminfinity.elementalinvocations.utility;
 import com.teaminfinity.elementalinvocations.ModBase;
 import com.teaminfinity.elementalinvocations.block.BlockBase;
 import com.teaminfinity.elementalinvocations.item.IInfinityItem;
+import com.teaminfinity.elementalinvocations.item.IItemWithModel;
 import com.teaminfinity.elementalinvocations.item.IItemWithRecipe;
 import com.teaminfinity.elementalinvocations.item.ItemBase;
 import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.util.Tuple;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ModHelper {
@@ -65,5 +71,21 @@ public class ModHelper {
             }
         });
         LogHelper.debug("Finished Recipe Registration!");
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void initRenderers(ModBase mod) {
+        LogHelper.debug("Starting Renderer Registration...");
+        //items
+        ReflectionHelper.forEachIn(mod.getModItemRegistry(), IInfinityItem.class, (IInfinityItem item) -> {
+            if ((item instanceof Item) && item.isEnabled()) {
+                if(item instanceof IItemWithModel) {
+                    for (Tuple<Integer, ModelResourceLocation> entry : ((IItemWithModel) item).getModelDefinitions()) {
+                        ModelLoader.setCustomModelResourceLocation((Item) item, entry.getFirst(), entry.getSecond());
+                    }
+                }
+            }
+        });
+        LogHelper.debug("Finished Renderer Registration!");
     }
 }
