@@ -27,6 +27,7 @@ public class ItemElementalCore extends ItemBase {
         this.CORES = ElementalCore.getCores();
         this.setCreativeTab(InventoryTabs.ELEMNTAL_INVOCATIONS);
         this.setHasSubtypes(true);
+        this.setMaxStackSize(1);
     }
 
     @Override
@@ -64,6 +65,10 @@ public class ItemElementalCore extends ItemBase {
             return CORES.get(0);
         }
         return CORES.get(stack.getItemDamage());
+    }
+
+    public Element getElement(ItemStack stack) {
+        return getElementalCore(stack).element();
     }
 
     public static class ElementalCore {

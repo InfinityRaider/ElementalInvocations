@@ -37,6 +37,7 @@ public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedW
         this.CORES = WandCore.getCores();
         this.setHasSubtypes(true);
         this.setCreativeTab(InventoryTabs.ELEMNTAL_INVOCATIONS);
+        this.setMaxStackSize(1);
     }
 
     @Override
@@ -56,6 +57,7 @@ public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedW
 
     @Override
     @SideOnly(Side.CLIENT)
+    @SuppressWarnings("deprecation")
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
         WandCore core = getWandCore(stack);
         if(core == null) {
@@ -90,7 +92,7 @@ public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedW
 
     @Nullable
     public WandCore getWandCore(ItemStack stack) {
-        if(stack.getItemDamage() > CORES.size() || stack.getItemDamage() <= 0) {
+        if(stack == null || stack.getItemDamage() > CORES.size() || stack.getItemDamage() <= 0) {
             return null;
         }
         return CORES.get(stack.getItemDamage() - 1);
@@ -121,6 +123,17 @@ public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedW
     public IMagicCharge getCharge(ItemStack stack) {
         WandCore core = this.getWandCore(stack);
         return core == null ? null : core.getCharge();
+    }
+
+    public ItemStack applyElementalCore(ItemStack stack, ItemElementalCore.ElementalCore core) {
+        WandCore wandCore = this.getWandCore(stack);
+        if(wandCore == null) {
+            return new ItemStack(this, 1, core.element().ordinal() * Constants.CORE_TIERS + 1);
+        }
+        if(wandCore.element() == core.element() && wandCore.tier() < (Constants.CORE_TIERS - 1)) {
+            return new ItemStack(this, 1, core.element().ordinal() * Constants.CORE_TIERS + wandCore.tier() + 2);
+        }
+        return stack;
     }
 
     public static class WandCore {
