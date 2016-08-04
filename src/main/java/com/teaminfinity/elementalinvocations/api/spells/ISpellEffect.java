@@ -3,14 +3,14 @@
 package com.teaminfinity.elementalinvocations.api.spells;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.Vec3d;
 
 /**
  *
- * @author RlonRyan
  */
 @FunctionalInterface
 public interface ISpellEffect {
 	
-	void apply(EntityPlayer player);
+	void apply(EntityPlayer player, Vec3d target);
 	
 }

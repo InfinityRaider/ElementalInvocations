@@ -15,7 +15,6 @@ import java.util.Set;
 
 /**
  *
- * @author RlonRyan
  */
 public final class SpellRegistry implements ISpellRegistry {
 	

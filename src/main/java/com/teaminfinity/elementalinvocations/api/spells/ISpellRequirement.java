@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 
 /**
  *
- * @author RlonRyan
  */
 @FunctionalInterface
 public interface ISpellRequirement {

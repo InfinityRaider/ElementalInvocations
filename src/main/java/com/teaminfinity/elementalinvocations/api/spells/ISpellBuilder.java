@@ -8,7 +8,6 @@ import java.util.List;
 
 /**
  *
- * @author RlonRyan
  */
 public interface ISpellBuilder {
 

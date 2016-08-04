@@ -5,10 +5,10 @@ package com.teaminfinity.elementalinvocations.api.spells;
 import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.api.Element;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.Vec3d;
 
 /**
  *
- * @author RlonRyan
  */
 public interface ISpell {
 
@@ -26,7 +26,7 @@ public interface ISpell {
 	
 	ImmutableList<ISpellEffect> getEffects();
 
-	boolean invoke(EntityPlayer player);
+	boolean invoke(EntityPlayer player, Vec3d target);
 	
 	default boolean equals(ISpell spell) {
 		return this.getId().equals(spell.getId()) || this.getElements().equals(spell.getElements());
