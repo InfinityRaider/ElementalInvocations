@@ -72,9 +72,9 @@ public class Spell implements ISpell {
 	}
 
 	@Override
-	public boolean invoke(EntityPlayer player, Vec3d target) {
+	public boolean invoke(EntityPlayer player, Vec3d target, int power) {
 		if (this.requirements.stream().allMatch(r -> r.isMet(player))) {
-			this.effects.forEach(e -> e.apply(player, target));
+			this.effects.forEach(e -> e.apply(player, target, power));
 			return true;
 		} else {
 			return false;

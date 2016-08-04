@@ -65,6 +65,7 @@ public class ElementalInvocations extends ModBase {
     @SuppressWarnings("unused")
     public void initMod(FMLInitializationEvent event) {
         super.init(event);
+		SpellInitializer.init();
     }
 
     @Mod.EventHandler

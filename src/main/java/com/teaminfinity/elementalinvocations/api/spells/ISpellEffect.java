@@ -11,6 +11,6 @@ import net.minecraft.util.math.Vec3d;
 @FunctionalInterface
 public interface ISpellEffect {
 	
-	void apply(EntityPlayer player, Vec3d target);
+	void apply(EntityPlayer player, Vec3d target, int power);
 	
 }
