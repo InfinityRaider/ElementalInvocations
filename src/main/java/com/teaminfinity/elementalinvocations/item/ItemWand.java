@@ -106,17 +106,17 @@ public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedW
     @Override
     public void onItemUsed(ItemStack stack, EntityPlayer player, boolean shift, boolean ctrl, EnumHand hand) {
         IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
-        if(properties == null) {
+        if (properties == null) {
             return;
         }
-        if(shift) {
-            //conjure charge
-            if(!player.worldObj.isRemote) {
+        if (!player.worldObj.isRemote) {
+            if (shift) {
+                //conjure charge
                 properties.addCharge(this.getCharge(stack));
+            } else {
+                //invoke spell
+                properties.invoke();
             }
-        } else {
-            //invoke spell
-            //TODO
         }
     }
 

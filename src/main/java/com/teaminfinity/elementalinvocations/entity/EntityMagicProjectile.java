@@ -1,8 +1,8 @@
 package com.teaminfinity.elementalinvocations.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
-import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntityMagicProjectile;
 import io.netty.buffer.ByteBuf;
@@ -27,13 +27,14 @@ import java.util.List;
 public class EntityMagicProjectile extends EntityThrowable implements IEntityAdditionalSpawnData {
     private List<IMagicCharge> charges;
 
+    @SuppressWarnings("unused")
     public EntityMagicProjectile(World world) {
         super(world);
     }
 
-    public EntityMagicProjectile(World world, EntityPlayer caster, List<IMagicCharge> charges) {
-        super(world, caster);
-        this.charges = charges;
+    public EntityMagicProjectile(EntityPlayer caster, List<IMagicCharge> charges) {
+        super(caster.getEntityWorld(), caster);
+        this.charges = ImmutableList.copyOf(charges);
     }
 
     @Override
@@ -77,13 +78,13 @@ public class EntityMagicProjectile extends EntityThrowable implements IEntityAdd
     }
 
     private void readChargeListFromNBT(NBTTagCompound tag) {
-        this.charges = new ArrayList<>();
-        NBTTagList list = tag.getTagList(Names.NBT.CHARGE, 10);
-        for(int i = 0; i < list.tagCount(); i++) {
-            NBTTagCompound chargeTag = list.getCompoundTagAt(i);
+        ArrayList<IMagicCharge> list = new ArrayList<>();
+        NBTTagList tagList = tag.getTagList(Names.NBT.CHARGE, 10);
+        for(int i = 0; i < tagList.tagCount(); i++) {
+            NBTTagCompound chargeTag = tagList.getCompoundTagAt(i);
             Element element = Element.values()[chargeTag.getInteger(Names.NBT.ELEMENT)];
             int level = chargeTag.getInteger(Names.NBT.LEVEL);
-            this.charges.add(new IMagicCharge() {
+            list.add(new IMagicCharge() {
                 @Override
                 public Element element() {
                     return element;
@@ -95,6 +96,7 @@ public class EntityMagicProjectile extends EntityThrowable implements IEntityAdd
                 }
             });
         }
+        this.charges = ImmutableList.copyOf(list);
     }
 
     @Override

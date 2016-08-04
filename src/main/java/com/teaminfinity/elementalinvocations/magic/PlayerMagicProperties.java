@@ -1,21 +1,22 @@
 package com.teaminfinity.elementalinvocations.magic;
 
-import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
+import com.teaminfinity.elementalinvocations.api.spells.ISpell;
+import com.teaminfinity.elementalinvocations.entity.EntityMagicProjectile;
+import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.network.MessageAddCharge;
+import com.teaminfinity.elementalinvocations.network.MessageInvoke;
 import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.relauncher.Side;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PlayerMagicProperties implements IPlayerMagicProperties {
     /* player instance */
@@ -84,11 +85,32 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     }
 
     @Override
+    public void invoke() {
+        if(!getPlayer().getEntityWorld().isRemote) {
+            ISpell spell = getSpell();
+            if(spell == null) {
+                NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer()));
+                EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getCharges());
+                getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
+            } else {
+                //TODO: cast spell
+            }
+            this.getCharges().clear();
+        }
+    }
+
+    @Nullable
+    private ISpell getSpell() {
+        Optional<ISpell> spell = SpellRegistry.getInstance().getSpell(getCharges().stream().map(IMagicCharge::element).collect(Collectors.toList()));
+        return spell.isPresent() ? spell.get() : null;
+    }
+
+    @Override
     public void addCharge(IMagicCharge charge) {
         if(charge != null) {
             this.chargeMap.get(charge.element()).add(charge);
             this.charges.add(charge);
-            if(ElementalInvocations.proxy.getEffectiveSide() == Side.SERVER) {
+            if(!getPlayer().getEntityWorld().isRemote) {
                 NetworkWrapper.getInstance().sendToAll(new MessageAddCharge(this.getPlayer(), charge));
                 recalculateInstability(charge);
                 if(fizzleCheck()) {

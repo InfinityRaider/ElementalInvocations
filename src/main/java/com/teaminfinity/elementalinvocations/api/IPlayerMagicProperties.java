@@ -20,6 +20,8 @@ public interface IPlayerMagicProperties {
 
     void reset();
 
+    void invoke();
+
     void addCharge(IMagicCharge charge);
 
     List<IMagicCharge> getCharges();

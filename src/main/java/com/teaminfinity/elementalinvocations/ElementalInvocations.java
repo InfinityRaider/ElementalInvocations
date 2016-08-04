@@ -50,6 +50,7 @@ public class ElementalInvocations extends ModBase {
     public void registerMessages(INetworkWrapper wrapper) {
         wrapper.registerMessage(MessageAddCharge.class);
         wrapper.registerMessage(MessageAttackDualWielded.class);
+        wrapper.registerMessage(MessageInvoke.class);
         wrapper.registerMessage(MessageMouseButtonPressed.class);
         wrapper.registerMessage(MessageSwingArm.class);
     }
