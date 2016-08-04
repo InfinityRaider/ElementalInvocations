@@ -2,14 +2,15 @@
  */
 package com.teaminfinity.elementalinvocations.impl.spell;
 
-import com.teaminfinity.elementalinvocations.api.ISpellRegistry;
+import com.teaminfinity.elementalinvocations.api.spells.ISpellRegistry;
 import com.teaminfinity.elementalinvocations.api.Element;
+import com.teaminfinity.elementalinvocations.api.spells.ISpell;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -19,7 +20,7 @@ public final class SpellRegistry implements ISpellRegistry {
 	
 	private static final SpellRegistry INSTANCE = new SpellRegistry();
 	
-	private final Map<String, Spell> spells;
+	private final Map<String, ISpell> spells;
 
 	public SpellRegistry() {
 		this.spells = new ConcurrentHashMap<>();
@@ -30,13 +31,25 @@ public final class SpellRegistry implements ISpellRegistry {
 	}
 	
 	@Override
-	public Spell addSpell(Spell spell) {
-		return spell == null ? null : spells.put(spell.getId(), spell);
+	public Optional<ISpell> addSpell(ISpell spell) {
+		return Optional.ofNullable(spells.put(spell.getId(), spell));
 	}
 	
 	@Override
-	public Spell getSpell(String spellId) {
-		return spells.get(spellId);
+	public Optional<ISpell> getSpell(String spellId) {
+		return Optional.ofNullable(spells.get(spellId));
+	}
+	
+	@Override
+	public Optional<ISpell> getSpell(Element... elements) {
+		return getSpell(Arrays.asList(elements));
+	}
+	
+	@Override
+	public Optional<ISpell> getSpell(List<Element> elements) {
+		return spells.values().stream()
+				.filter(s -> s.getElements().containsAll(elements))
+				.findAny();
 	}
 
 	@Override
@@ -45,20 +58,8 @@ public final class SpellRegistry implements ISpellRegistry {
 	}
 	
 	@Override
-	public List<Spell> getSpells() {
+	public List<ISpell> getSpells() {
 		return new ArrayList<>(spells.values());
-	}
-	
-	@Override
-	public List<Spell> getSpells(Element... elements) {
-		return getSpells(Arrays.asList(elements));
-	}
-	
-	@Override
-	public List<Spell> getSpells(List<Element> elements) {
-		return spells.values().stream()
-				.filter(s -> s.getElements().containsAll(elements))
-				.collect(Collectors.toList());
 	}
 	
 }

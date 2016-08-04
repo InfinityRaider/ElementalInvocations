@@ -2,7 +2,7 @@
  */
 package com.teaminfinity.elementalinvocations.impl.spell;
 
-import com.teaminfinity.elementalinvocations.api.ISpell;
+import com.teaminfinity.elementalinvocations.api.spells.ISpell;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellRequirement;

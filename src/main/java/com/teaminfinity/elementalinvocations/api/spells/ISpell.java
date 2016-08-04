@@ -1,12 +1,10 @@
 /*
  */
-package com.teaminfinity.elementalinvocations.api;
+package com.teaminfinity.elementalinvocations.api.spells;
 
 import com.teaminfinity.elementalinvocations.api.Element;
-import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
-import com.teaminfinity.elementalinvocations.api.spells.ISpellRequirement;
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
+import java.util.List;
 
 /**
  *
