@@ -1,6 +1,6 @@
 /*
  */
-package com.teaminfinity.elementalinvocations.impl.spell;
+package com.teaminfinity.elementalinvocations.magic.spell;
 
 import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.api.spells.ISpell;

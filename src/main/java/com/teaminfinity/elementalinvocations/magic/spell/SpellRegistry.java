@@ -1,19 +1,17 @@
 /*
  */
-package com.teaminfinity.elementalinvocations.impl.spell;
+package com.teaminfinity.elementalinvocations.magic.spell;
 
 import com.teaminfinity.elementalinvocations.api.spells.ISpellRegistry;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.spells.ISpell;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
