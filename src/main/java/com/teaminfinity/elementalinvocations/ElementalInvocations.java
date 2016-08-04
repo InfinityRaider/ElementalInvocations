@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.event.*;
 @Mod(
         modid = Reference.MOD_ID,
         name = Reference.MOD_NAME,
-        version = Reference.VERSION
+        version = Reference.MOD_VERSION
 )
 public class ElementalInvocations extends ModBase {
     @Mod.Instance
