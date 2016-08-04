@@ -9,7 +9,6 @@ import java.util.Set;
 
 /**
  *
- * @author RlonRyan
  */
 public interface ISpellRegistry {
 

@@ -9,7 +9,9 @@ import com.teaminfinity.elementalinvocations.api.spells.ISpellRequirement;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * 
+ */
 public class SpellBuilder implements ISpellBuilder {
 
 	private List<String> spellDescription;
