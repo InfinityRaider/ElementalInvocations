@@ -24,6 +24,6 @@ public interface ISpellBuilder {
 
 	SpellBuilder setSpellEffects(List<ISpellEffect> effects);
 	
-	ISpell createSpell(String spellId, int coolTicks, boolean isChanneled);
+	ISpell createSpell(String spellId, int coolTicks);
 	
 }

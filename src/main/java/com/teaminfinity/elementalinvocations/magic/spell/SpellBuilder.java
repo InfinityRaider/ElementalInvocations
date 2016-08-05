@@ -66,8 +66,8 @@ public class SpellBuilder implements ISpellBuilder {
 	}
 
 	@Override
-	public Spell createSpell(String spellId, int coolTicks, boolean isChanneled) {
-		return new Spell(spellId, coolTicks, isChanneled, spellDescription, spellElements, spellRequirements, spellEffects);
+	public Spell createSpell(String spellId, int coolTicks) {
+		return new Spell(spellId, coolTicks, spellDescription, spellElements, spellRequirements, spellEffects);
 	}
 
 }

@@ -20,7 +20,7 @@ public class SpellInitializer {
                 .setSpellDescription("Sunstrike", "The skies set you aflame")
                 .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.AIR, Element.AIR)
                 .setSpellEffects(new EffectSunstrike())
-                .createSpell("sunstrike", 0, false));
+                .createSpell("sunstrike", 0));
 
 
         //Water spells
@@ -28,7 +28,7 @@ public class SpellInitializer {
                 .setSpellDescription("Ball Lighning", "Ziiiiiiiiiip!")
                 .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.AIR, Element.AIR)
                 .setSpellEffects(new EffectBallLightning())
-                .createSpell("ball_lightning", 0, false));
+                .createSpell("ball_lightning", 0));
 
 
         //Air spells
@@ -42,7 +42,7 @@ public class SpellInitializer {
                 .setSpellDescription("Consume Soul", "You weren't using it were you?")
                 .setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH, Element.LIFE, Element.LIFE)
                 .setSpellEffects(new EffectConsumeSoul())
-                .createSpell("consume_soul", 0, false));
+                .createSpell("consume_soul", 0));
 
 
 
@@ -54,21 +54,21 @@ public class SpellInitializer {
 				.setSpellDescription("A fiery nova!", "Does something smell burnt to you?")
 				.setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE)
 				.setSpellEffects(new FireEffect())
-				.createSpell("Fire Nova", 0, false)
+				.createSpell("Fire Nova", 0)
 		);
 		
 		SpellRegistry.getInstance().addSpell(new SpellBuilder()
 				.setSpellDescription("Damage all the entities!", "Ouch! That hurt!")
 				.setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH)
 				.setSpellEffects(new DamageEffect())
-				.createSpell("Hit", 0, false)
+				.createSpell("Hit", 0)
 		);
 		
 		SpellRegistry.getInstance().addSpell(new SpellBuilder()
 				.setSpellDescription("Drown all the entities!", "You awake now?")
 				.setSpellElements(Element.WATER, Element.WATER, Element.WATER)
 				.setSpellEffects(new ExtinguishEffect())
-				.createSpell("Vortex", 0, false)
+				.createSpell("Vortex", 0)
 		);
 
 	}

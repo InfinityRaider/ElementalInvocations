@@ -11,8 +11,6 @@ public interface ISpell {
 	String getId();
 
 	int getCoolTicks();
-	
-	boolean isChanneled();
 
 	ImmutableList<String> getDescription();
 

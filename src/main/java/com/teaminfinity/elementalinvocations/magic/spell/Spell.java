@@ -17,17 +17,15 @@ public class Spell implements ISpell {
 
 	private final String id;
 	private final int coolTicks;
-	private final boolean channeled;
 	private final ImmutableList<String> description;
 	private final ImmutableList<Element> elements;
 	private final ImmutableList<ISpellRequirement> requirements;
 	private final ImmutableList<ISpellEffect> effects;
 
-	public Spell(String id, int coolTicks, boolean channeled, List<String> description, List<Element> elements, List<ISpellRequirement> requirements, List<ISpellEffect> effects) {
+	public Spell(String id, int coolTicks, List<String> description, List<Element> elements, List<ISpellRequirement> requirements, List<ISpellEffect> effects) {
 		Collections.sort(elements);
 		this.id = id;
 		this.coolTicks = coolTicks;
-		this.channeled = channeled;
 		this.description = ImmutableList.copyOf(description);
 		this.elements = ImmutableList.copyOf(elements);
 		this.requirements = ImmutableList.copyOf(requirements);
@@ -44,12 +42,7 @@ public class Spell implements ISpell {
 		return coolTicks;
 	}
 
-	@Override
-	public boolean isChanneled() {
-		return channeled;
-	}
-
-	@Override
+    @Override
 	public ImmutableList<String> getDescription() {
 		return description;
 	}
