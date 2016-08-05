@@ -62,7 +62,33 @@ public class PlayerStateHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("unused")
-    public void onPlayerRenderEvent(RenderPlayerEvent event) {
+    public void onPlayerRenderPreEvent(RenderPlayerEvent.Pre event) {
+        this.cancelRenderEvent(event);
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unused")
+    public void onPlayerRenderPostEvent(RenderPlayerEvent.Post event) {
+        this.cancelRenderEvent(event);
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unused")
+    public void onPlayerRenderEvent(RenderPlayerEvent.Specials.Pre event) {
+        this.cancelRenderEvent(event);
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unused")
+    public void onPlayerRenderEvent(RenderPlayerEvent.Specials.Post event) {
+        this.cancelRenderEvent(event);
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void cancelRenderEvent(RenderPlayerEvent event) {
         if(getState(event.getEntityPlayer()).isInvisible()) {
             if(event.isCancelable()) {
                 event.setCanceled(true);

@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -34,7 +35,7 @@ public class EntityBallLightning extends EntityThrowableMagic{
         this.potencyAir = potencyAir;
         this.potencyWater = potencyWater;
         this.setEntityBoundingBox(BOX);
-        this.setThrowableHeading(getDirection().xCoord, getDirection().yCoord, getDirection().zCoord, 2F, 0.1F);
+        this.setThrowableHeading(getDirection().xCoord, getDirection().yCoord, getDirection().zCoord, 3F, 0.1F);
         PlayerStateHandler.getInstance().getState(caster).setInvisible(true).setInvulnerable(true).setEthereal(true);
     }
 
@@ -46,9 +47,12 @@ public class EntityBallLightning extends EntityThrowableMagic{
                 entity.attackEntityFrom(new DamageSourceBallLightning(), this.potencyAir);
             }
         }
-        IBlockState state = getEntityWorld().getBlockState(result.getBlockPos());
-        if(!state.getBlock().isAir(state, getEntityWorld(), result.getBlockPos())) {
-            this.setDead();
+        BlockPos pos = result.getBlockPos();
+        if(pos != null) {
+            IBlockState state = getEntityWorld().getBlockState(pos);
+            if (!state.getBlock().isAir(state, getEntityWorld(), pos)) {
+                this.setDead();
+            }
         }
     }
 
@@ -65,10 +69,12 @@ public class EntityBallLightning extends EntityThrowableMagic{
 
     @Override
     public void setDead() {
-        super.setDead();
         EntityPlayer caster = this.getThrower();
-        caster.dismountRidingEntity();
-        PlayerStateHandler.getInstance().getState(caster).setInvisible(false).setInvulnerable(false).setEthereal(false);
+        if(caster != null) {
+            caster.dismountRidingEntity();
+            PlayerStateHandler.getInstance().getState(caster).setInvisible(false).setInvulnerable(false).setEthereal(false);
+        }
+        super.setDead();
     }
 
     @Override
