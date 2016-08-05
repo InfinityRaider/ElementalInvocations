@@ -148,15 +148,15 @@ public final class RenderPlayerCharges extends RenderUtil {
         float u = Constants.UNIT;
         float scale = 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.level())/Constants.CORE_TIERS);
 
-        buffer.pos(-8 * scale * u, 0, 0).tex(16, 16).endVertex();
-        buffer.pos(8 * scale * u, 0, 0).tex(0, 16).endVertex();
+        buffer.pos(-8 * scale * u, 0, 0).tex(1, 1).endVertex();
+        buffer.pos(8 * scale * u, 0, 0).tex(0, 1).endVertex();
         buffer.pos(8 * scale * u, 16 * scale * u, 0).tex(0, 0).endVertex();
         buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(16, 0).endVertex();
 
-        buffer.pos(-8 * scale * u, 0, 0).tex(16, 16).endVertex();
-        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(16, 0).endVertex();
+        buffer.pos(-8 * scale * u, 0, 0).tex(1, 1).endVertex();
+        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(1, 0).endVertex();
         buffer.pos(8 * scale * u, 16 * scale * u, 0).tex(0, 0).endVertex();
-        buffer.pos(8 * scale * u, 0, 0).tex(0, 16).endVertex();
+        buffer.pos(8 * scale * u, 0, 0).tex(0, 1).endVertex();
 
         tessellator.draw();
 
