@@ -7,9 +7,10 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class EffectBallLightning implements ISpellEffect {
     @Override
-    public void apply(EntityPlayer caster, int[] potencies) {
+    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
         EntityBallLightning ball = new EntityBallLightning(caster, potencies[Element.AIR.ordinal()], potencies[Element.WATER.ordinal()]);
         caster.getEntityWorld().spawnEntityInWorld(ball);
         caster.startRiding(ball, true);
+        return false;
     }
 }

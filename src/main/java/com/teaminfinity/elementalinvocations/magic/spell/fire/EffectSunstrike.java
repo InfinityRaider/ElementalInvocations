@@ -9,13 +9,14 @@ import net.minecraft.util.math.RayTraceResult;
 
 public class EffectSunstrike implements ISpellEffect {
     @Override
-    public void apply(EntityPlayer caster, int[] potencies) {
+    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
         RayTraceResult result = TargetHelper.getTarget(caster, 128);
         if(result == null) {
-            return;
+            return false;
         }
         caster.worldObj.spawnEntityInWorld(new EntitySunstrike(
                         caster.worldObj, result.hitVec.xCoord, result.hitVec.zCoord,
                         potencies[Element.FIRE.ordinal()], potencies[Element.AIR.ordinal()]));
+        return false;
     }
 }

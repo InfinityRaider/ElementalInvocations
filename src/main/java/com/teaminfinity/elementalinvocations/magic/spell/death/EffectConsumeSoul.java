@@ -7,12 +7,13 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class EffectConsumeSoul implements ISpellEffect {
     @Override
-    public void apply(EntityPlayer caster, int[] potencies) {
+    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
         IPlayerSoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(caster);
         if(collection != null && collection.getSoulCount() > 0) {
             collection.removeSoul();
             float potency = (float) (potencies[Element.DEATH.ordinal()] + potencies[Element.LIFE.ordinal()]);
             caster.heal(potency / 5);
         }
+        return false;
     }
 }

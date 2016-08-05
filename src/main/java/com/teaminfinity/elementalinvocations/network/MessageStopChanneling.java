@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations.network;
 
+import com.teaminfinity.elementalinvocations.handler.SpellCastingHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -21,7 +22,7 @@ public class MessageStopChanneling extends MessageBase<IMessage> {
         if(ctx.side == Side.SERVER) {
             EntityPlayer player = ctx.getServerHandler().playerEntity;
             if(player != null) {
-                //TODO: stop channeling action
+                SpellCastingHandler.getInstance().stopChanneling(player);
             }
         }
     }

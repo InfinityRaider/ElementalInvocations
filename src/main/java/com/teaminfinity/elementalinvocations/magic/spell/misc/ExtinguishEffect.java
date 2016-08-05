@@ -11,17 +11,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 
-/**
- *
- */
 public class ExtinguishEffect implements ISpellEffect {
-
 	@Override
-	public void apply(EntityPlayer caster, int[] potencies) {
+	public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
 		LogHelper.debug("Applying Extinguish Effect!\n\tTarget: ({0})\n\tPower: {1}", caster.getPositionVector(), potencies);
 		AxisAlignedBB area = AreaHelper.getArea(caster.getPositionVector(), potencies[Element.WATER.ordinal()]);
-		List<Entity> ents = caster.getEntityWorld().getEntitiesWithinAABB(Entity.class, area);
-		ents.forEach(e -> e.extinguish());
+		List<Entity> entitiess = caster.getEntityWorld().getEntitiesWithinAABB(Entity.class, area);
+		entitiess.forEach(Entity::extinguish);
+		return false;
 	}
 	
 }

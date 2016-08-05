@@ -5,7 +5,8 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class EffectWaveForm implements ISpellEffect {
     @Override
-    public void apply(EntityPlayer caster, int[] potencies) {
+    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
+        return false;
 
     }
 }

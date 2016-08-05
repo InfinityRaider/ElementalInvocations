@@ -9,6 +9,8 @@ import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellRequirement;
 import java.util.Collections;
 import java.util.List;
+
+import com.teaminfinity.elementalinvocations.handler.SpellCastingHandler;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class Spell implements ISpell {
@@ -70,7 +72,7 @@ public class Spell implements ISpell {
 	@Override
 	public boolean invoke(EntityPlayer caster, int[] power) {
 		if (this.requirements.stream().allMatch(r -> r.isMet(caster))) {
-			this.effects.forEach(e -> e.apply(caster, power));
+            SpellCastingHandler.getInstance().castSpell(caster, this, power);
 			return true;
 		} else {
 			return false;

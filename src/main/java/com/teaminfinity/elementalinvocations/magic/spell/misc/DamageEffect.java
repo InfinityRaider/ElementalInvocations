@@ -12,17 +12,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 
-/**
- *
- */
 public class DamageEffect implements ISpellEffect {
-
 	@Override
-	public void apply(EntityPlayer caster, int[] potencies) {
+	public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
 		LogHelper.debug("Applying Damage Effect!\n\tTarget: ({0})\n\tPower: {1}", caster.getPositionVector(), potencies);
 		AxisAlignedBB area = AreaHelper.getArea(caster.getPositionVector(), potencies[Element.DEATH.ordinal()]);
 		List<Entity> ents = caster.getEntityWorld().getEntitiesWithinAABB(Entity.class, area);
 		ents.forEach(e -> e.attackEntityFrom(DamageSource.magic, potencies[Element.DEATH.ordinal()]));
+		return false;
 	}
 	
 }
