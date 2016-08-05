@@ -2,7 +2,6 @@ package com.teaminfinity.elementalinvocations.proxy;
 
 import com.teaminfinity.elementalinvocations.ModBase;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
-import com.teaminfinity.elementalinvocations.api.spells.IPlayerSoulCollection;
 import com.teaminfinity.elementalinvocations.handler.*;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
@@ -18,6 +17,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 
 public interface IProxy extends IProxyBase {
     @Override
@@ -29,7 +29,7 @@ public interface IProxy extends IProxyBase {
     @Override
     default void preInitEnd(FMLPreInitializationEvent event) {
         CapabilityManager.INSTANCE.register(IPlayerMagicProperties.class, new PlayerMagicProvider.Storage(), PlayerMagicProperties.class);
-        CapabilityManager.INSTANCE.register(IPlayerSoulCollection.class, new PlayerSoulCollectionProvider.Storage(), PlayerSoulCollection.class);
+        CapabilityManager.INSTANCE.register(ISoulCollection.class, new PlayerSoulCollectionProvider.Storage(), PlayerSoulCollection.class);
     }
 
     @Override

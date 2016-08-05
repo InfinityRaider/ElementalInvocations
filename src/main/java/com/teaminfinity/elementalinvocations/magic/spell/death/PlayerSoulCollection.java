@@ -1,60 +1,69 @@
 package com.teaminfinity.elementalinvocations.magic.spell.death;
 
-import com.teaminfinity.elementalinvocations.api.spells.IPlayerSoulCollection;
+import com.teaminfinity.elementalinvocations.api.souls.ISoul;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
-public class PlayerSoulCollection implements IPlayerSoulCollection {
+public class PlayerSoulCollection implements ISoulCollection {
+
     /* player instance */
-    private EntityPlayer player;
+    private final EntityPlayer player;
 
     /* number of souls */
-    private int souls;
+    private final Deque<ISoul> souls;
+
+    public PlayerSoulCollection(EntityPlayer player) {
+        this.player = player;
+        this.souls = new ArrayDeque<>();
+    }
 
     @Override
     public EntityPlayer getPlayer() {
-        return player;
+        return this.player;
     }
 
     @Override
-    public PlayerSoulCollection setPlayer(EntityPlayer player) {
-        this.player = player;
-        return this;
+    public void addSoul(ISoul soul) {
+        this.souls.add(soul);
     }
 
     @Override
-    public IPlayerSoulCollection addSoul() {
-        this.souls = this.souls + 1;
-        return this;
+    public ISoul removeSoul() {
+        return this.souls.pollFirst();
     }
 
     @Override
-    public IPlayerSoulCollection removeSoul() {
-        this.souls = Math.max(0, this.souls - 1);
-        return this;
-    }
-
-    @Override
-    public IPlayerSoulCollection releaseSouls() {
-        this.souls = 0;
-        return this;
+    public List<ISoul> releaseSouls() {
+        List<ISoul> temp = new ArrayList<>(this.souls);
+        this.souls.clear();
+        return temp;
     }
 
     @Override
     public int getSoulCount() {
-        return souls;
+        return this.souls.size();
     }
 
     @Override
     public NBTTagCompound writeToNBT() {
         NBTTagCompound tag = new NBTTagCompound();
-        tag.setInteger(Names.NBT.COUNT, souls);
+        tag.setInteger(Names.NBT.COUNT, this.souls.size());
         return tag;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
-        this.souls = tag.getInteger(Names.NBT.COUNT);
+        int count = tag.getInteger(Names.NBT.COUNT);
+        this.souls.clear();
+        for (int i = 0; i < count; i++) {
+            this.souls.add(new BasicSoul("Generic Soul"));
+        }
     }
+
 }
