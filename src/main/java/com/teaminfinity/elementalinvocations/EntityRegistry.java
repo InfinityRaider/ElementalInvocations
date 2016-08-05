@@ -28,13 +28,13 @@ public class EntityRegistry {
                 .setVelocityUpdates(false)
                 .setRenderFactory(EntitySunstrike.RenderFactory.getInstance());
 
-        entityWaveForm = new EntityRegistryEntry<>(EntityWaveForm.class, "entity.sunstrike")
+        entityWaveForm = new EntityRegistryEntry<>(EntityWaveForm.class, "entity.wave_form")
                 .setTrackingDistance(64)
                 .setUpdateFrequency(1)
                 .setVelocityUpdates(true)
                 .setRenderFactory(EntityWaveForm.RenderFactory.getInstance());
 
-        entityMeteor = new EntityRegistryEntry<>(EntityMeteor.class, "entity.sunstrike")
+        entityMeteor = new EntityRegistryEntry<>(EntityMeteor.class, "entity.meteor")
                 .setTrackingDistance(128)
                 .setUpdateFrequency(1)
                 .setVelocityUpdates(true)
