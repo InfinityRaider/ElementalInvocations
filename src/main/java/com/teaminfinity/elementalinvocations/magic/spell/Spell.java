@@ -10,7 +10,6 @@ import com.teaminfinity.elementalinvocations.api.spells.ISpellRequirement;
 import java.util.Collections;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.Vec3d;
 
 public class Spell implements ISpell {
 
@@ -69,9 +68,9 @@ public class Spell implements ISpell {
 	}
 
 	@Override
-	public boolean invoke(EntityPlayer player, Vec3d target, int[] power) {
-		if (this.requirements.stream().allMatch(r -> r.isMet(player))) {
-			this.effects.forEach(e -> e.apply(player, target, power));
+	public boolean invoke(EntityPlayer caster, int[] power) {
+		if (this.requirements.stream().allMatch(r -> r.isMet(caster))) {
+			this.effects.forEach(e -> e.apply(caster, power));
 			return true;
 		} else {
 			return false;

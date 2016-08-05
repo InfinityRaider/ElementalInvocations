@@ -97,7 +97,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
                 EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getCharges());
                 getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
             } else {
-                spell.invoke(player, player.getPositionVector(), 5);
+                spell.invoke(player, getPotencyArray());
             }
             NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer()));
             this.getCharges().clear();
@@ -108,6 +108,14 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     private ISpell getSpell() {
         Optional<ISpell> spell = SpellRegistry.getInstance().getSpell(getCharges().stream().map(IMagicCharge::element).collect(Collectors.toList()));
         return spell.isPresent() ? spell.get() : null;
+    }
+
+    private int[] getPotencyArray() {
+        int[] potencies = new int[Element.values().length];
+        for(IMagicCharge charge : this.charges) {
+            potencies[charge.element().ordinal()] += charge.level();
+        }
+        return potencies;
     }
 
     @Override

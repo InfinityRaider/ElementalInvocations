@@ -3,9 +3,11 @@
 package com.teaminfinity.elementalinvocations;
 
 import com.teaminfinity.elementalinvocations.api.Element;
-import com.teaminfinity.elementalinvocations.magic.effects.*;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
+import com.teaminfinity.elementalinvocations.magic.spell.misc.DamageEffect;
+import com.teaminfinity.elementalinvocations.magic.spell.misc.ExtinguishEffect;
+import com.teaminfinity.elementalinvocations.magic.spell.misc.FireEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.water.EffectBallLightning;
 
 public class SpellInitializer {
