@@ -72,7 +72,7 @@ public class EntityMeteor extends EntityThrowableMagic {
                     Minecraft.getMinecraft().renderGlobal.spawnParticle(
                             EnumParticleTypes.SMOKE_LARGE.getParticleID(), true,
                             pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5D,
-                            0, 0, 0,
+                            ((double) x)/30.0D, ((double) y)/30.0D, ((double) z)/30.0D,
                             50
                     );
                 }
