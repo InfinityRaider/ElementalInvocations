@@ -13,9 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- *
- */
 public final class SpellRegistry implements ISpellRegistry {
 	
 	private static final SpellRegistry INSTANCE = new SpellRegistry();

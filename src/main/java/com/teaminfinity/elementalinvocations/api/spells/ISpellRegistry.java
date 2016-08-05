@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-/**
- *
- */
 public interface ISpellRegistry {
 
 	boolean addSpell(ISpell spell);

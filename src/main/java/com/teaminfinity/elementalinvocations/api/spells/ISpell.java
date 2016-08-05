@@ -7,9 +7,6 @@ import com.teaminfinity.elementalinvocations.api.Element;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
-/**
- *
- */
 public interface ISpell {
 
 	String getId();
@@ -26,7 +23,7 @@ public interface ISpell {
 	
 	ImmutableList<ISpellEffect> getEffects();
 
-	boolean invoke(EntityPlayer player, Vec3d target, int power);
+	boolean invoke(EntityPlayer player, Vec3d target, int[] power);
 	
 	default boolean equals(ISpell spell) {
 		return this.getId().equals(spell.getId()) || this.getElements().equals(spell.getElements());

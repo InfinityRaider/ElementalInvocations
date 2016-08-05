@@ -6,14 +6,35 @@ import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.magic.effects.*;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
+import com.teaminfinity.elementalinvocations.magic.spell.water.EffectBallLightning;
 
-/**
- *
- * @author RlonRyan
- */
 public class SpellInitializer {
 
-	public static final void init() {
+	public static void init() {
+        //Fire spells
+
+
+        //Water spells
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Ball Lighning", "Ziiiiiiiiiip!")
+                .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.AIR, Element.AIR)
+                .setSpellEffects(new EffectBallLightning())
+                .createSpell("ball_lightning", 0, false));
+
+
+        //Air spells
+
+
+        //Earth spells
+
+
+        //Death spells
+
+
+        //Life spells
+
+
+        //Misc spells
 		SpellRegistry.getInstance().addSpell(new SpellBuilder()
 				.setSpellDescription("A fiery nova!", "Does something smell burnt to you?")
 				.setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE)
@@ -34,6 +55,7 @@ public class SpellInitializer {
 				.setSpellEffects(new ExtinguishEffect())
 				.createSpell("Vortex", 0, false)
 		);
+
 	}
 
 }

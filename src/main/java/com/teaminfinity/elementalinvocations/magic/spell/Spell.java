@@ -12,9 +12,6 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 
-/**
- *
- */
 public class Spell implements ISpell {
 
 	private final String id;
@@ -72,7 +69,7 @@ public class Spell implements ISpell {
 	}
 
 	@Override
-	public boolean invoke(EntityPlayer player, Vec3d target, int power) {
+	public boolean invoke(EntityPlayer player, Vec3d target, int[] power) {
 		if (this.requirements.stream().allMatch(r -> r.isMet(player))) {
 			this.effects.forEach(e -> e.apply(player, target, power));
 			return true;

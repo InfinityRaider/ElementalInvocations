@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- *
- */
 public class SpellBuilder implements ISpellBuilder {
 
 	private List<String> spellDescription = new ArrayList<>(0);

@@ -8,7 +8,6 @@ import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 
@@ -18,7 +17,7 @@ import net.minecraft.util.math.Vec3d;
 public class FireEffect implements ISpellEffect {
 
 	@Override
-	public void apply(EntityPlayer player, Vec3d target, int power) {
+	public void apply(EntityPlayer player, Vec3d target, int[] power) {
 		LogHelper.debug("Applying Fire Effect!\n\tTarget: ({0})\n\tPower: {1}", target, power);
 		AxisAlignedBB area = AreaHelper.getArea(target, power);
 		List<Entity> ents = player.getEntityWorld().getEntitiesWithinAABB(Entity.class, area);

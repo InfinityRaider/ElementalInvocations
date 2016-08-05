@@ -1,12 +1,21 @@
 package com.teaminfinity.elementalinvocations.entity;
 
+import com.teaminfinity.elementalinvocations.handler.PlayerStateHandler;
 import com.teaminfinity.elementalinvocations.reference.Names;
+import com.teaminfinity.elementalinvocations.render.entity.RenderEntityBallLightning;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityBallLightning extends EntityThrowableMagic{
     private static final AxisAlignedBB BOX = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
@@ -26,14 +35,20 @@ public class EntityBallLightning extends EntityThrowableMagic{
         this.potencyWater = potencyWater;
         this.setEntityBoundingBox(BOX);
         this.setThrowableHeading(getDirection().xCoord, getDirection().yCoord, getDirection().zCoord, 2F, 0.1F);
+        PlayerStateHandler.getInstance().getState(caster).setInvisible(true).setInvulnerable(true).setEthereal(true);
     }
 
     @Override
     protected void onImpact(RayTraceResult result) {
         if(result.entityHit != null && result.entityHit != this.getThrower()) {
             if(result.entityHit instanceof EntityLivingBase) {
-
+                EntityLivingBase entity = (EntityLivingBase) result.entityHit;
+                entity.attackEntityFrom(new DamageSourceBallLightning(), this.potencyAir);
             }
+        }
+        IBlockState state = getEntityWorld().getBlockState(result.getBlockPos());
+        if(!state.getBlock().isAir(state, getEntityWorld(), result.getBlockPos())) {
+            this.setDead();
         }
     }
 
@@ -49,6 +64,14 @@ public class EntityBallLightning extends EntityThrowableMagic{
     }
 
     @Override
+    public void setDead() {
+        super.setDead();
+        EntityPlayer caster = this.getThrower();
+        caster.dismountRidingEntity();
+        PlayerStateHandler.getInstance().getState(caster).setInvisible(false).setInvulnerable(false).setEthereal(false);
+    }
+
+    @Override
     protected NBTTagCompound writeDataToNBT(NBTTagCompound tag) {
         tag.setInteger(Names.NBT.LEVEL, this.potencyAir);
         tag.setInteger(Names.NBT.COUNT, this.potencyWater);
@@ -59,5 +82,29 @@ public class EntityBallLightning extends EntityThrowableMagic{
     protected void readDataFromNBT(NBTTagCompound tag) {
         this.potencyAir = tag.getInteger(Names.NBT.LEVEL);
         this.potencyWater = tag.getInteger(Names.NBT.COUNT);
+    }
+
+    public static class RenderFactory implements IRenderFactory<EntityBallLightning> {
+        private static final EntityBallLightning.RenderFactory INSTANCE = new EntityBallLightning.RenderFactory();
+
+        public static EntityBallLightning.RenderFactory getInstance() {
+            return INSTANCE;
+        }
+
+        private RenderFactory() {}
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public Render<? super EntityBallLightning> createRenderFor(RenderManager manager) {
+            return new RenderEntityBallLightning(manager);
+        }
+    }
+
+    public static class DamageSourceBallLightning extends DamageSource {
+        public DamageSourceBallLightning() {
+            super("lightning");
+            this.setMagicDamage();
+            this.setDamageBypassesArmor();
+        }
     }
 }

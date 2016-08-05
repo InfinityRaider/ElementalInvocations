@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations;
 
+import com.teaminfinity.elementalinvocations.entity.EntityBallLightning;
 import com.teaminfinity.elementalinvocations.entity.EntityMagicProjectile;
 import com.teaminfinity.elementalinvocations.entity.EntityRegistryEntry;
 
@@ -16,7 +17,14 @@ public class EntityRegistry {
                 .setUpdateFrequency(1)
                 .setVelocityUpdates(true)
                 .setRenderFactory(EntityMagicProjectile.RenderFactory.getInstance());
+
+        entityBallLightning = new EntityRegistryEntry<>(EntityBallLightning.class, "entity.ball_lightning")
+                .setTrackingDistance(32)
+                .setUpdateFrequency(1)
+                .setVelocityUpdates(true)
+                .setRenderFactory(EntityBallLightning.RenderFactory.getInstance());
     }
 
-    public EntityRegistryEntry<EntityMagicProjectile> entityMagicProjectile;
+    public final EntityRegistryEntry<EntityMagicProjectile> entityMagicProjectile;
+    public final EntityRegistryEntry<EntityBallLightning> entityBallLightning;
 }

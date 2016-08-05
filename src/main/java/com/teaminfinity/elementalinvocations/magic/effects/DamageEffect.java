@@ -18,7 +18,7 @@ import net.minecraft.util.math.Vec3d;
 public class DamageEffect implements ISpellEffect {
 
 	@Override
-	public void apply(EntityPlayer player, Vec3d target, int power) {
+	public void apply(EntityPlayer player, Vec3d target, int[] power) {
 		LogHelper.debug("Applying Damage Effect!\n\tTarget: ({0})\n\tPower: {1}", target, power);
 		AxisAlignedBB area = AreaHelper.getArea(target, power);
 		List<Entity> ents = player.getEntityWorld().getEntitiesWithinAABB(Entity.class, area);

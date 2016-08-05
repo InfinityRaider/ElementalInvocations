@@ -6,9 +6,6 @@ import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
 import com.teaminfinity.elementalinvocations.api.Element;
 import java.util.List;
 
-/**
- *
- */
 public interface ISpellBuilder {
 
 	SpellBuilder setSpellDescription(String... lines);
