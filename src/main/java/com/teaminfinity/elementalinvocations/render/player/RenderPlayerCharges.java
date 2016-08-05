@@ -68,8 +68,6 @@ public final class RenderPlayerCharges extends RenderUtil {
         float newAngle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
 
         for(int orb = 0; orb < chargeList.size(); orb++) {
-            //GlStateManager.pushAttrib();
-
             GlStateManager.enableBlend();
             GlStateManager.disableLighting();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -79,8 +77,6 @@ public final class RenderPlayerCharges extends RenderUtil {
                 float[] position = calculateOrbPosition(newAngle, orb, chargeList.size(), blur);
                 renderCharge(chargeList.get(orb), position[0], position[1], position[2], blur);
             }
-
-            //GlStateManager.popAttrib();
         }
 
         GlStateManager.popMatrix();
@@ -146,7 +142,7 @@ public final class RenderPlayerCharges extends RenderUtil {
         //rotate so the texture always renders parallel to the screen
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
-        GlStateManager.rotate(-renderManager.playerViewX, 1, 0, 0);
+        GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
 
         float u = Constants.UNIT;
         float scale = 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.level())/Constants.CORE_TIERS);

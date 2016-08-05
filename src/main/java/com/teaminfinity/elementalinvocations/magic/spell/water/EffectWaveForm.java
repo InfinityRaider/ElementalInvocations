@@ -34,8 +34,7 @@ public class EffectWaveForm implements ISpellEffect {
             waveForms.remove(caster);
             return false;
         } else {
-            Vec3d direction = caster.getLookVec();
-            waveForm.setThrowableHeading(direction.xCoord, direction.yCoord, direction.zCoord, 2, 0.1F);
+            waveForm.channelUpdate(caster);
             return true;
         }
     }

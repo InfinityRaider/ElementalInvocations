@@ -28,13 +28,13 @@ public class SpellInitializer {
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Wave Form", "Surf's Up!")
                 .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.WATER, Element.WATER)
-                .setSpellEffects(new EffectBallLightning())
+                .setSpellEffects(new EffectWaveForm())
                 .createSpell("ball_lightning", 0));
 
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Ball Lighning", "Ziiiiiiiiiip!")
                 .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.AIR, Element.AIR)
-                .setSpellEffects(new EffectWaveForm())
+                .setSpellEffects(new EffectBallLightning())
                 .createSpell("wave_form", 0));
 
 

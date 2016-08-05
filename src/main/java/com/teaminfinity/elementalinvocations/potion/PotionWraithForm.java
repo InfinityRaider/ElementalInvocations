@@ -13,6 +13,7 @@ public class PotionWraithForm extends PotionBase {
 
     protected PotionWraithForm() {
         super(false, 0);
+        this.setPotionName(Reference.MOD_ID.toLowerCase() + ":potion.wraithForm");
     }
 
     @Override

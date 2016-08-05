@@ -11,11 +11,11 @@ public class LogHelper {
 	/**
 	 * Logs an object (normally a string), to the {@link FMLLog}.
 	 *
-	 * Please use {@link #debug(Object)} for logs of {@link Level#DEBUG}.
+	 * Please use {@link #debug(String, Object...)} for logs of {@link Level#DEBUG}.
 	 *
 	 * @param logLevel the level at which to log the object, for filtering
 	 * purposes.
-	 * @param object the object to be logged (interpreted into a string).
+	 * @param objects the object to be logged (interpreted into a string).
 	 */
 	public static void log(Level logLevel, String format, Object... objects) {
 		try {
@@ -29,7 +29,7 @@ public class LogHelper {
 	/**
 	 * Logs an object to the {@link FMLLog} at the level {@link Level#ALL}.
 	 *
-	 * @param object the object to be logged (interpreted into a string).
+	 * @param objects the object to be logged (interpreted into a string).
 	 */
 	public static void all(String format, Object... objects) {
 		log(Level.ALL, format, objects);
@@ -38,7 +38,7 @@ public class LogHelper {
 	/**
 	 * Logs an object to the {@link FMLLog} at the level {@link Level#ALL}.
 	 *
-	 * @param object the object to be logged (interpreted into a string).
+	 * @param objects the object to be logged (interpreted into a string).
 	 */
 	public static void debug(String format, Object... objects) {
 		if (ConfigurationHandler.getInstance().debug) {
@@ -49,7 +49,7 @@ public class LogHelper {
 	/**
 	 * Logs an object to the {@link FMLLog} at the level {@link Level#ERROR}.
 	 *
-	 * @param object the object to be logged (interpreted into a string).
+	 * @param objects the object to be logged (interpreted into a string).
 	 */
 	public static void error(String format, Object... objects) {
 		log(Level.ERROR, format, objects);
@@ -58,7 +58,7 @@ public class LogHelper {
 	/**
 	 * Logs an object to the {@link FMLLog} at the level {@link Level#FATAL}.
 	 *
-	 * @param object the object to be logged (interpreted into a string).
+	 * @param objects the object to be logged (interpreted into a string).
 	 */
 	public static void fatal(String format, Object... objects) {
 		log(Level.FATAL, format, objects);
@@ -67,7 +67,7 @@ public class LogHelper {
 	/**
 	 * Logs an object to the {@link FMLLog} at the level {@link Level#INFO}.
 	 *
-	 * @param object the object to be logged (interpreted into a string).
+	 * @param objects the object to be logged (interpreted into a string).
 	 */
 	public static void info(String format, Object... objects) {
 		log(Level.INFO, format, objects);
@@ -76,7 +76,7 @@ public class LogHelper {
 	/**
 	 * Logs an object to the {@link FMLLog} at the level {@link Level#INFO}.
 	 *
-	 * @param object the object to be logged (interpreted into a string).
+	 * @param objects the object to be logged (interpreted into a string).
 	 */
 	public static void off(String format, Object... objects) {
 		log(Level.OFF, format, objects);
@@ -85,7 +85,7 @@ public class LogHelper {
 	/**
 	 * Logs an object to the {@link FMLLog} at the level {@link Level#TRACE}.
 	 *
-	 * @param object the object to be logged (interpreted into a string).
+	 * @param objects the object to be logged (interpreted into a string).
 	 */
 	public static void trace(String format, Object... objects) {
 		log(Level.TRACE, format, objects);
@@ -94,7 +94,7 @@ public class LogHelper {
 	/**
 	 * Logs an object to the {@link FMLLog} at the level {@link Level#WARN}.
 	 *
-	 * @param object the object to be logged (interpreted into a string).
+	 * @param objects the object to be logged (interpreted into a string).
 	 */
 	public static void warn(String format, Object... objects) {
 		log(Level.WARN, format, objects);
