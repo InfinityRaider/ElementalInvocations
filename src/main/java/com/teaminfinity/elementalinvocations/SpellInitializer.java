@@ -8,6 +8,7 @@ import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.magic.spell.death.EffectConsumeSoul;
 import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectSunstrike;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.DamageEffect;
+import com.teaminfinity.elementalinvocations.magic.spell.misc.EffectAttract;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.ExtinguishEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.FireEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.water.EffectBallLightning;
@@ -39,6 +40,11 @@ public class SpellInitializer {
 
 
         //Air spells
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Vaccuum", "Well this sucks!")
+                .setSpellElements(Element.AIR, Element.AIR, Element.AIR, Element.DEATH, Element.DEATH)
+                .setSpellEffects(new EffectAttract())
+                .createSpell("vaccuum", 0));
 
 
         //Earth spells

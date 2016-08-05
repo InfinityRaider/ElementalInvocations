@@ -23,6 +23,6 @@ public abstract class ElementEffect implements Comparable<ElementEffect> {
 
     @Override
     public int compareTo(ElementEffect o) {
-        return this.element().ordinal() - o.element().ordinal();
+		return this.element.compareTo(o.element);
     }
 }
