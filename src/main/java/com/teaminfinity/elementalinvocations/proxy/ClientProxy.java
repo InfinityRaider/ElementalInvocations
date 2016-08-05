@@ -3,11 +3,13 @@ package com.teaminfinity.elementalinvocations.proxy;
 import com.teaminfinity.elementalinvocations.ModBase;
 import com.teaminfinity.elementalinvocations.handler.ArmSwingHandler;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
+import com.teaminfinity.elementalinvocations.handler.KeyInputHandler;
 import com.teaminfinity.elementalinvocations.handler.MouseClickHandler;
 import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
 import com.teaminfinity.elementalinvocations.proxy.base.IClientProxyBase;
 import com.teaminfinity.elementalinvocations.render.model.ModelPlayerCustomized;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerCharges;
+import com.teaminfinity.elementalinvocations.utility.KeyBindings;
 import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,6 +33,11 @@ public class ClientProxy implements IProxy, IClientProxyBase {
     }
 
     @Override
+    public void registerKeyBindings() {
+        KeyBindings.register();
+    }
+
+    @Override
     public void registerEntities(ModBase mod) {
         ModHelper.getInstance().registerEntitiesClient(mod);
     }
@@ -46,6 +53,7 @@ public class ClientProxy implements IProxy, IClientProxyBase {
         MinecraftForge.EVENT_BUS.register(ArmSwingHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(MouseClickHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(RenderPlayerCharges.getInstance());
+        MinecraftForge.EVENT_BUS.register(KeyInputHandler.getInstance());
     }
 
     @Override

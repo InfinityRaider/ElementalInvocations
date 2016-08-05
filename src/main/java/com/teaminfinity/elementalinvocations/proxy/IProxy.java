@@ -18,6 +18,7 @@ import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -32,6 +33,11 @@ public interface IProxy extends IProxyBase {
     default void preInitEnd(FMLPreInitializationEvent event) {
         CapabilityManager.INSTANCE.register(IPlayerMagicProperties.class, new PlayerMagicProvider.Storage(), PlayerMagicProperties.class);
         CapabilityManager.INSTANCE.register(IPlayerSoulCollection.class, new PlayerSoulCollectionProvider.Storage(), PlayerSoulCollection.class);
+    }
+
+    @Override
+    default void initStart(FMLInitializationEvent event) {
+        registerKeyBindings();
     }
 
     @Override
@@ -53,6 +59,8 @@ public interface IProxy extends IProxyBase {
     }
 
     default void registerRenderers(ModBase mod) {}
+
+    default void registerKeyBindings() {}
 
     default boolean isShiftKeyPressed() {
         return false;
