@@ -11,6 +11,7 @@ import com.teaminfinity.elementalinvocations.magic.spell.misc.DamageEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.ExtinguishEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.FireEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.water.EffectBallLightning;
+import com.teaminfinity.elementalinvocations.magic.spell.water.EffectWaveForm;
 
 public class SpellInitializer {
 
@@ -25,10 +26,16 @@ public class SpellInitializer {
 
         //Water spells
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("Ball Lighning", "Ziiiiiiiiiip!")
-                .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.AIR, Element.AIR)
+                .setSpellDescription("Wave Form", "Surf's Up!")
+                .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.WATER, Element.WATER)
                 .setSpellEffects(new EffectBallLightning())
                 .createSpell("ball_lightning", 0));
+
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Ball Lighning", "Ziiiiiiiiiip!")
+                .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.AIR, Element.AIR)
+                .setSpellEffects(new EffectWaveForm())
+                .createSpell("wave_form", 0));
 
 
         //Air spells
