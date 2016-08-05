@@ -3,6 +3,7 @@ package com.teaminfinity.elementalinvocations.render.entity;
 import com.teaminfinity.elementalinvocations.entity.EntityMagicProjectile;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Reference;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -20,6 +21,8 @@ public class RenderEntityMagicProjectile extends RenderEntityFlatTexture<EntityM
     @Override
     protected void renderTexture(EntityMagicProjectile e, VertexBuffer buffer, Tessellator tessellator) {
         float u = Constants.UNIT;
+
+        GlStateManager.color(e.getRed(), e.getGreen(), e.getBlue(), 127);
 
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 

@@ -6,6 +6,7 @@ import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.magic.spell.death.EffectConsumeSoul;
+import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectConjureMeteor;
 import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectSunstrike;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.DamageEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.ExtinguishEffect;
@@ -23,6 +24,11 @@ public class SpellInitializer {
                 .setSpellEffects(new EffectSunstrike())
                 .createSpell("sunstrike", 0));
 
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Conjure Meteor", "Behold the meatball!")
+                .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.EARTH, Element.EARTH)
+                .setSpellEffects(new EffectConjureMeteor())
+                .createSpell("conjure_meteor", 0));
 
         //Water spells
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
@@ -36,7 +42,6 @@ public class SpellInitializer {
                 .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.AIR, Element.AIR)
                 .setSpellEffects(new EffectBallLightning())
                 .createSpell("wave_form", 0));
-
 
         //Air spells
 

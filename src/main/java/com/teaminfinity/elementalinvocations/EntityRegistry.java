@@ -34,6 +34,12 @@ public class EntityRegistry {
                 .setVelocityUpdates(true)
                 .setRenderFactory(EntityWaveForm.RenderFactory.getInstance());
 
+        entityMeteor = new EntityRegistryEntry<>(EntityMeteor.class, "entity.sunstrike")
+                .setTrackingDistance(128)
+                .setUpdateFrequency(1)
+                .setVelocityUpdates(true)
+                .setRenderFactory(EntityMeteor.RenderFactory.getInstance());
+
 
     }
 
@@ -41,4 +47,5 @@ public class EntityRegistry {
     public final EntityRegistryEntry<EntityBallLightning> entityBallLightning;
     public final EntityRegistryEntry<EntitySunstrike> entitySunstrike;
     public final EntityRegistryEntry<EntityWaveForm> entityWaveForm;
+    public final EntityRegistryEntry<EntityMeteor> entityMeteor;
 }
