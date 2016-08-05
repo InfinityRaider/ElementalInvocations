@@ -3,8 +3,7 @@
 package com.teaminfinity.elementalinvocations;
 
 import com.teaminfinity.elementalinvocations.api.Element;
-import com.teaminfinity.elementalinvocations.magic.effects.DamageEffect;
-import com.teaminfinity.elementalinvocations.magic.effects.FireEffect;
+import com.teaminfinity.elementalinvocations.magic.effects.*;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 
@@ -24,8 +23,15 @@ public class SpellInitializer {
 		
 		SpellRegistry.getInstance().addSpell(new SpellBuilder()
 				.setSpellDescription("Damage all the entities!", "Ouch! That hurt!")
-				.setSpellElements(Element.WATER, Element.WATER, Element.WATER)
+				.setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH)
 				.setSpellEffects(new DamageEffect())
+				.createSpell("Hit", 0, false)
+		);
+		
+		SpellRegistry.getInstance().addSpell(new SpellBuilder()
+				.setSpellDescription("Drown all the entities!", "You awake now?")
+				.setSpellElements(Element.WATER, Element.WATER, Element.WATER)
+				.setSpellEffects(new ExtinguishEffect())
 				.createSpell("Vortex", 0, false)
 		);
 	}
