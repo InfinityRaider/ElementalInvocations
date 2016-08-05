@@ -5,11 +5,7 @@ import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
-import com.teaminfinity.elementalinvocations.api.spells.ISpell;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
-import com.teaminfinity.elementalinvocations.magic.effects.DamageEffect;
-import com.teaminfinity.elementalinvocations.magic.effects.FireEffect;
-import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
 import com.teaminfinity.elementalinvocations.reference.Reference;
@@ -31,10 +27,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.lang.model.util.Elements;
-import net.minecraft.util.math.Vec3d;
 
 public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedWeapon {
     public final List<WandCore> CORES;
@@ -122,9 +115,6 @@ public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedW
                 properties.addCharge(this.getCharge(stack));
             } else {
                 //invoke spell
-				List<Element> elements = properties.getCharges().stream().map(IMagicCharge::element).collect(Collectors.toList());
-				Optional<ISpell> spell = SpellRegistry.getInstance().getSpell(elements);
-				spell.ifPresent(s -> s.invoke(player, player.getPositionVector(), 5));
                 properties.invoke();
             }
         }

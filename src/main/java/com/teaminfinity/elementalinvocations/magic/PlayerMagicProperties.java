@@ -87,14 +87,17 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     @Override
     public void invoke() {
         if(!getPlayer().getEntityWorld().isRemote) {
+            if(getCharges().size() <= 0) {
+                return;
+            }
             ISpell spell = getSpell();
             if(spell == null) {
-                NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer()));
                 EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getCharges());
                 getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
             } else {
-                //TODO: cast spell
+                spell.invoke(player, player.getPositionVector(), 5);
             }
+            NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer()));
             this.getCharges().clear();
         }
     }

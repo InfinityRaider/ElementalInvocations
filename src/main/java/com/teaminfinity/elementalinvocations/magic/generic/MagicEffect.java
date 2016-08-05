@@ -5,11 +5,12 @@ import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.magic.generic.effect.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
 
 public class MagicEffect {
-    protected static final int MAX_WEIGHT = 50;
+    protected static final int MAX_WEIGHT = 25;
 
     public static final ElementEffect FIRE = new ElementEffectFire();
     public static final ElementEffect WATER = new ElementEffectWater();
@@ -20,6 +21,7 @@ public class MagicEffect {
 
     private final EntityPlayer caster;
     private final EntityLivingBase target;
+    private final Vec3d direction;
 
     private Map<Element, Integer> totalPotency;
     private Map<Element, Boolean> secondaryMask;
@@ -28,16 +30,18 @@ public class MagicEffect {
 
     private List<MagicDamage> damageList;
 
-    public MagicEffect(EntityPlayer caster, EntityLivingBase target) {
+    public MagicEffect(EntityPlayer caster, EntityLivingBase target, Vec3d direction, List<IMagicCharge> charges) {
         this.caster = caster;
         this.target = target;
+        this.direction = direction;
         this.totalPotency = new HashMap<>();
         this.secondaryEffects = new TreeSet<>();
         this.secondaryMask = new HashMap<>();
         this.damageList = new ArrayList<>();
+        charges.forEach(this::addChargeEffect);
     }
 
-    public MagicEffect addChargeEffect(IMagicCharge charge) {
+    private MagicEffect addChargeEffect(IMagicCharge charge) {
         if(!totalPotency.containsKey(charge.element())) {
             totalPotency.put(charge.element(), charge.level());
         } else {
@@ -65,6 +69,10 @@ public class MagicEffect {
         for(ElementEffect effect : secondaryEffects) {
             effect.applyEffectPost(this, caster, target, totalPotency.get(effect.element()), secondaryMask.get(effect.element()));
         }
+    }
+
+    public Vec3d getDirection() {
+        return direction;
     }
 
     public List<MagicDamage> getAppliedDamage() {

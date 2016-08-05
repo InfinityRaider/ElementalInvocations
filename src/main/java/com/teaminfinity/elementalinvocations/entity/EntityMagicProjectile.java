@@ -3,11 +3,13 @@ package com.teaminfinity.elementalinvocations.entity;
 import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
+import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntityMagicProjectile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
@@ -63,6 +65,11 @@ public class EntityMagicProjectile extends EntityThrowable implements IEntityAdd
 
     @Override
     protected void onImpact(RayTraceResult result) {
+        if(!worldObj.isRemote) {
+            if(result.entityHit != null && (result.entityHit instanceof EntityLivingBase)) {
+                new MagicEffect(getThrower(), (EntityLivingBase) result.entityHit, getDirection(), charges).apply();
+            }
+        }
         this.setDead();
     }
 

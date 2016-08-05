@@ -17,5 +17,8 @@ public class ElementEffectEarth extends ElementEffect {
 
     @Override
     public void applyEffectPost(MagicEffect effect, EntityPlayer caster, EntityLivingBase target, int potency, boolean secondary) {
+        if(secondary) {
+            target.knockBack(caster, ((float) potency) / 3, effect.getDirection().xCoord, effect.getDirection().zCoord);
+        }
     }
 }
