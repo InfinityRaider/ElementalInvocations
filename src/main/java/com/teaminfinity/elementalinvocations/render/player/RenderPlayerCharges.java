@@ -68,10 +68,19 @@ public final class RenderPlayerCharges extends RenderUtil {
         float newAngle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
 
         for(int orb = 0; orb < chargeList.size(); orb++) {
+            //GlStateManager.pushAttrib();
+
+            GlStateManager.enableBlend();
+            GlStateManager.disableLighting();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
+
             for(int blur = 0; blur < MAX_BLURS; blur++) {
                 float[] position = calculateOrbPosition(newAngle, orb, chargeList.size(), blur);
                 renderCharge(chargeList.get(orb), position[0], position[1], position[2], blur);
             }
+
+            //GlStateManager.popAttrib();
         }
 
         GlStateManager.popMatrix();
@@ -127,13 +136,9 @@ public final class RenderPlayerCharges extends RenderUtil {
         VertexBuffer buffer = tessellator.getBuffer();
 
         GlStateManager.pushMatrix();
-        GlStateManager.pushAttrib();
 
         //configure GL settings
-        GlStateManager.enableBlend();
-        GlStateManager.disableLighting();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
+        GlStateManager.color(1F, 1F, 1F, 0.7F*(1.0F - (blurIndex + 0.0F)/MAX_BLURS));
 
         //translate to the orb position
         GlStateManager.translate(x, y + 1, z);
@@ -141,17 +146,12 @@ public final class RenderPlayerCharges extends RenderUtil {
         //rotate so the texture always renders parallel to the screen
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
-        GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
-
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        GlStateManager.rotate(-renderManager.playerViewX, 1, 0, 0);
 
         float u = Constants.UNIT;
         float scale = 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.level())/Constants.CORE_TIERS);
 
-        buffer.pos(-8 * scale * u, 0, 0).tex(1, 1).endVertex();
-        buffer.pos(8 * scale * u, 0, 0).tex(0, 1).endVertex();
-        buffer.pos(8 * scale * u, 16 * scale * u, 0).tex(0, 0).endVertex();
-        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(1, 0).endVertex();
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
         buffer.pos(-8 * scale * u, 0, 0).tex(1, 1).endVertex();
         buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(1, 0).endVertex();
@@ -160,7 +160,6 @@ public final class RenderPlayerCharges extends RenderUtil {
 
         tessellator.draw();
 
-        GlStateManager.popAttrib();
         GlStateManager.popMatrix();
     }
 
