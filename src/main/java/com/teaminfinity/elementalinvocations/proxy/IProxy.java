@@ -6,6 +6,7 @@ import com.teaminfinity.elementalinvocations.api.spells.IPlayerSoulCollection;
 import com.teaminfinity.elementalinvocations.handler.AnvilRecipeHandler;
 import com.teaminfinity.elementalinvocations.handler.CapabilityHandler;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
+import com.teaminfinity.elementalinvocations.handler.PlayerStateHandler;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollection;
@@ -48,6 +49,7 @@ public interface IProxy extends IProxyBase {
     default void registerEventHandlers() {
         MinecraftForge.EVENT_BUS.register(AnvilRecipeHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(CapabilityHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(PlayerStateHandler.getInstance());
     }
 
     default void registerRenderers(ModBase mod) {}

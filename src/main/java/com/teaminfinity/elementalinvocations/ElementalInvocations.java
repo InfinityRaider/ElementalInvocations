@@ -53,6 +53,7 @@ public class ElementalInvocations extends ModBase {
         wrapper.registerMessage(MessageInvoke.class);
         wrapper.registerMessage(MessageMouseButtonPressed.class);
         wrapper.registerMessage(MessageSwingArm.class);
+        wrapper.registerMessage(MessageSyncState.class);
     }
 
     @Mod.EventHandler
