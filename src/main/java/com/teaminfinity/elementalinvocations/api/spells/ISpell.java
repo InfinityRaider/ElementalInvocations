@@ -26,7 +26,7 @@ public interface ISpell {
 	
 	ImmutableList<ISpellEffect> getEffects();
 
-	boolean invoke(EntityPlayer player, Vec3d target);
+	boolean invoke(EntityPlayer player, Vec3d target, int power);
 	
 	default boolean equals(ISpell spell) {
 		return this.getId().equals(spell.getId()) || this.getElements().equals(spell.getElements());

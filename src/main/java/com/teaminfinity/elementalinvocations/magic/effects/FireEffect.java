@@ -15,14 +15,14 @@ import net.minecraft.util.math.Vec3d;
 /**
  *
  */
-public class DamageEffect implements ISpellEffect {
+public class FireEffect implements ISpellEffect {
 
 	@Override
 	public void apply(EntityPlayer player, Vec3d target, int power) {
-		LogHelper.debug("Applying Damage Effect!\n\tTarget: ({0})\n\tPower: {1}", target, power);
+		LogHelper.debug("Applying Fire Effect!\n\tTarget: ({0})\n\tPower: {1}", target, power);
 		AxisAlignedBB area = AreaHelper.getArea(target, power);
 		List<Entity> ents = player.getEntityWorld().getEntitiesWithinAABB(Entity.class, area);
-		ents.forEach(e -> e.attackEntityFrom(DamageSource.magic, power));
+		ents.forEach(e -> e.setFire(1));
 	}
 	
 }
