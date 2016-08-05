@@ -5,6 +5,7 @@ package com.teaminfinity.elementalinvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
+import com.teaminfinity.elementalinvocations.magic.spell.death.EffectConsumeSoul;
 import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectSunstrike;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.DamageEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.ExtinguishEffect;
@@ -37,6 +38,12 @@ public class SpellInitializer {
 
 
         //Death spells
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Consume Soul", "You weren't using it were you?")
+                .setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH, Element.LIFE, Element.LIFE)
+                .setSpellEffects(new EffectConsumeSoul())
+                .createSpell("consume_soul", 0, false));
+
 
 
         //Life spells
