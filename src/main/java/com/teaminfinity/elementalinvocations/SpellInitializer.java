@@ -5,6 +5,7 @@ package com.teaminfinity.elementalinvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
+import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectSunstrike;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.DamageEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.ExtinguishEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.FireEffect;
@@ -14,6 +15,11 @@ public class SpellInitializer {
 
 	public static void init() {
         //Fire spells
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Sunstrike", "The skies set you aflame")
+                .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.AIR, Element.AIR)
+                .setSpellEffects(new EffectSunstrike())
+                .createSpell("sunstrike", 0, false));
 
 
         //Water spells
