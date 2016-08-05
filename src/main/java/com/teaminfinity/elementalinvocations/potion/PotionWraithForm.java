@@ -1,7 +1,11 @@
 package com.teaminfinity.elementalinvocations.potion;
 
+import com.teaminfinity.elementalinvocations.api.spells.IPlayerSoulCollection;
+import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 
 public class PotionWraithForm extends PotionBase {
@@ -23,7 +27,23 @@ public class PotionWraithForm extends PotionBase {
 
     @Override
     public void performEffect(EntityLivingBase entity, int amplification) {
+        if(!(entity instanceof EntityPlayer)) {
+            entity.setDead();
+        }
+        EntityPlayer player = (EntityPlayer) entity;
+        if(player.getHealth() <= 1.0F) {
+            IPlayerSoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(player);
+            if(collection != null && collection.getSoulCount() > 0) {
+                collection.removeSoul();
+                player.setHealth(amplification);
+            }
+        }
+        player.attackEntityFrom(new DamageSourceWraithWither(), 1);
     }
 
-
+    public static class DamageSourceWraithWither extends DamageSource {
+        public DamageSourceWraithWither() {
+            super("wither");
+        }
+    }
 }
