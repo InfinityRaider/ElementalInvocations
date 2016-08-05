@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations.handler;
 
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.network.MessageSyncState;
 import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -153,7 +154,7 @@ public class PlayerStateHandler {
         }
 
         private void syncToClient() {
-            if(!getPlayer().getEntityWorld().isRemote) {
+            if(ElementalInvocations.proxy.getEffectiveSide() == Side.SERVER) {
                 NetworkWrapper.getInstance().sendToAll(new MessageSyncState(getPlayer(), this));
             }
         }
