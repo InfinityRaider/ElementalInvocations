@@ -26,8 +26,12 @@ public abstract class RenderEntityFlatTexture<E extends Entity> extends Render<E
 
         //rotate so the texture always renders parallel to the screen
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
-        GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
-        GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
+        if(rotateY()) {
+            GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
+        }
+        if(rotateX()) {
+            GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
+        }
 
         if (this.renderOutlines) {
             GlStateManager.enableColorMaterial();
@@ -46,4 +50,12 @@ public abstract class RenderEntityFlatTexture<E extends Entity> extends Render<E
     }
 
     protected abstract void renderTexture(E entity, VertexBuffer buffer, Tessellator tessellator);
+
+    protected boolean rotateY() {
+        return true;
+    }
+
+    protected boolean rotateX() {
+        return true;
+    }
 }

@@ -37,6 +37,11 @@ public class RenderEntitySunstrike extends RenderEntityFlatTexture<EntitySunstri
     }
 
     @Override
+    protected boolean rotateX() {
+        return false;
+    }
+
+    @Override
     protected ResourceLocation getEntityTexture(EntitySunstrike entity) {
         return TEXTURE;
     }
