@@ -6,6 +6,7 @@ import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import com.teaminfinity.elementalinvocations.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.utility.debug.DebugModeClearMagicProperties;
+import com.teaminfinity.elementalinvocations.utility.debug.DebugModeConfusion;
 import com.teaminfinity.elementalinvocations.utility.debug.DebugModeCycleAffinity;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.Tuple;
@@ -26,6 +27,7 @@ public class ItemDebugger extends ItemDebuggerBase {
         for(Element element : Element.values()) {
             list.add(new DebugModeCycleAffinity(element));
         }
+        list.add(new DebugModeConfusion());
         return list;
     }
 

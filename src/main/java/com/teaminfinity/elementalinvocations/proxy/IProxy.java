@@ -10,8 +10,11 @@ import com.teaminfinity.elementalinvocations.magic.PlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollection;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
+import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
+import com.teaminfinity.elementalinvocations.potion.PotionRegistry;
 import com.teaminfinity.elementalinvocations.proxy.base.IProxyBase;
 import com.teaminfinity.elementalinvocations.utility.ModHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -32,6 +35,7 @@ public interface IProxy extends IProxyBase {
 
     @Override
     default void postInitStart(FMLPostInitializationEvent event) {
+        PotionRegistry.getInstance();
         this.overridePlayerModel();
     }
 
@@ -51,4 +55,6 @@ public interface IProxy extends IProxyBase {
     default boolean isShiftKeyPressed() {
         return false;
     }
+
+    default void performConfusionEffect(PotionConfusion potion, EntityLivingBase entity, int amplification) {}
 }

@@ -5,6 +5,7 @@ import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.api.spells.ISpell;
 import com.teaminfinity.elementalinvocations.entity.EntityMagicProjectile;
+import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.network.MessageAddCharge;
 import com.teaminfinity.elementalinvocations.network.MessageInvoke;
@@ -13,6 +14,7 @@ import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -142,7 +144,10 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     }
 
     private void fizzle() {
-
+        Vec3d vec3d = getPlayer().getLookVec();
+        new MagicEffect(getPlayer(), getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), getCharges()).apply();
+        this.getCharges().clear();
+        NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer()));
     }
 
     @Override

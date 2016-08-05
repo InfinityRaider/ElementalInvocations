@@ -62,8 +62,18 @@ public class ConfigurationHandler {
 
     }
 
+    public int getPotionEffectId(String name, int defaultId) {
+        int id = config.getInt(name, Categories.POTION.getName(), defaultId, 0, 255,
+                "Id for the " + name + " potion effect, this potion effect is generated on the first run by detecting a free potion id.");
+        if(config.hasChanged()) {
+            config.save();
+        }
+        return id;
+    }
+
     public enum Categories {
-        CATEGORY_CLIENT("Client"),
+        POTION("potion"),
+        CATEGORY_CLIENT("client"),
         CATEGORY_DEBUG("debug");
 
         private final String name;
