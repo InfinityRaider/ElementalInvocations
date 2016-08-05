@@ -141,7 +141,7 @@ public final class RenderPlayerCharges extends RenderUtil {
         //rotate so the texture always renders parallel to the screen
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
-        GlStateManager.rotate(-renderManager.playerViewX, 1, 0, 0);
+        GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
 
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
@@ -151,7 +151,7 @@ public final class RenderPlayerCharges extends RenderUtil {
         buffer.pos(-8 * scale * u, 0, 0).tex(1, 1).endVertex();
         buffer.pos(8 * scale * u, 0, 0).tex(0, 1).endVertex();
         buffer.pos(8 * scale * u, 16 * scale * u, 0).tex(0, 0).endVertex();
-        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(16, 0).endVertex();
+        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(1, 0).endVertex();
 
         buffer.pos(-8 * scale * u, 0, 0).tex(1, 1).endVertex();
         buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(1, 0).endVertex();

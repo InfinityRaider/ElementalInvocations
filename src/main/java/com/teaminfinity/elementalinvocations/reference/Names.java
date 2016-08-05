@@ -7,5 +7,8 @@ public class Names {
         public static final String ELEMENT = "EL_element";
         public static final String EXPERIENCE = "EL_experience";
         public static final String LEVEL = "EL_level";
+        public static final String X = "EL_X";
+        public static final String Y = "EL_Y";
+        public static final String Z = "EL_Z";
     }
 }

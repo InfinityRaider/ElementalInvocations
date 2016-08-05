@@ -12,7 +12,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -25,26 +27,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityMagicProjectile extends EntityThrowable implements IEntityAdditionalSpawnData {
+    private static final AxisAlignedBB BOX = new AxisAlignedBB(0, 0, 0, 0.25, 0.25, 0.25);
+
     private List<IMagicCharge> charges;
+    private int timer;
+    private Vec3d dir;
+    private int red = -1;
+    private int green = -1;
+    private int blue = -1;
 
     @SuppressWarnings("unused")
     public EntityMagicProjectile(World world) {
         super(world);
+        this.setEntityBoundingBox(BOX);
     }
 
     public EntityMagicProjectile(EntityPlayer caster, List<IMagicCharge> charges) {
         super(caster.getEntityWorld(), caster);
         this.charges = ImmutableList.copyOf(charges);
+        this.setEntityBoundingBox(BOX);
+        this.dir = caster.getLookVec();
+        this.setThrowableHeading(dir.xCoord, dir.yCoord, dir.zCoord, 2F, 0.5F);
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+        if(!this.getEntityWorld().isRemote) {
+            timer = timer + 1;
+            if(timer > 5000) {
+                this.setDead();
+            }
+        }
     }
 
     @Override
     protected void onImpact(RayTraceResult result) {
-
+        this.setDead();
     }
 
     @Override
     protected float getGravityVelocity() {
-        return 0.03F;
+        return 0.05F;
     }
 
     @Override
@@ -53,19 +77,60 @@ public class EntityMagicProjectile extends EntityThrowable implements IEntityAdd
         return (EntityPlayer) super.getThrower();
     }
 
+    public Vec3d getDirection() {
+        return dir;
+    }
+
+    public int getRed() {
+        if(red < -1) {
+            compileColors();
+        }
+        return red;
+    }
+
+    public int getGreen() {
+        if(green < -1) {
+            compileColors();
+        }
+        return green;
+    }
+
+    public int getBlue() {
+        if(blue < -1) {
+            compileColors();
+        }
+        return blue;
+    }
+
+    private void compileColors() {
+        int total = 0;
+        this.red = 0;
+        this.green = 0;
+        this.blue = 0;
+        for(IMagicCharge charge : charges) {
+            total = total + charge.level();
+            this.red = this.red + charge.element().getRed()*charge.level();
+            this.green = this.green + charge.element().getGreen()*charge.level();
+            this.blue = this.blue + charge.element().getBlue()*charge.level();
+        }
+        this.red = this.red / total;
+        this.green = this.green / total;
+        this.blue = this.blue / total;
+    }
+
     @Override
     public void writeEntityToNBT(NBTTagCompound tag) {
         super.writeEntityToNBT(tag);
-        this.writeChargeListToNBT(tag);
+        this.writeDataToNBT(tag);
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound tag) {
         super.readEntityFromNBT(tag);
-        this.readChargeListFromNBT(tag);
+        this.readDataFromNBT(tag);
     }
 
-    private NBTTagCompound writeChargeListToNBT(NBTTagCompound tag) {
+    private NBTTagCompound writeDataToNBT(NBTTagCompound tag) {
         NBTTagList list = new NBTTagList();
         for(IMagicCharge charge : charges) {
             NBTTagCompound chargeTag = new NBTTagCompound();
@@ -74,10 +139,13 @@ public class EntityMagicProjectile extends EntityThrowable implements IEntityAdd
             list.appendTag(chargeTag);
         }
         tag.setTag(Names.NBT.CHARGE, list);
+        tag.setDouble(Names.NBT.X, this.dir.xCoord);
+        tag.setDouble(Names.NBT.Y, this.dir.yCoord);
+        tag.setDouble(Names.NBT.Z, this.dir.zCoord);
         return tag;
     }
 
-    private void readChargeListFromNBT(NBTTagCompound tag) {
+    private void readDataFromNBT(NBTTagCompound tag) {
         ArrayList<IMagicCharge> list = new ArrayList<>();
         NBTTagList tagList = tag.getTagList(Names.NBT.CHARGE, 10);
         for(int i = 0; i < tagList.tagCount(); i++) {
@@ -97,16 +165,17 @@ public class EntityMagicProjectile extends EntityThrowable implements IEntityAdd
             });
         }
         this.charges = ImmutableList.copyOf(list);
+        this.dir = new Vec3d(tag.getDouble(Names.NBT.X), tag.getDouble(Names.NBT.Y), tag.getDouble(Names.NBT.Z));
     }
 
     @Override
     public void writeSpawnData(ByteBuf buffer) {
-        ByteBufUtils.writeTag(buffer, this.writeChargeListToNBT(new NBTTagCompound()));
+        ByteBufUtils.writeTag(buffer, this.writeDataToNBT(new NBTTagCompound()));
     }
 
     @Override
     public void readSpawnData(ByteBuf buffer) {
-        this.readChargeListFromNBT(ByteBufUtils.readTag(buffer));
+        this.readDataFromNBT(ByteBufUtils.readTag(buffer));
     }
 
     public static class RenderFactory implements IRenderFactory<EntityMagicProjectile> {
