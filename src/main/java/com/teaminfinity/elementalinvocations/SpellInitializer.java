@@ -7,6 +7,7 @@ import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.magic.spell.death.EffectConsumeSoul;
 import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectConjureMeteor;
+import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectDeathNova;
 import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectSunstrike;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.DamageEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.EffectAttract;
@@ -30,6 +31,14 @@ public class SpellInitializer {
                 .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.EARTH, Element.EARTH)
                 .setSpellEffects(new EffectConjureMeteor())
                 .createSpell("conjure_meteor", 0));
+
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Death Nova", "Meatsplosion!")
+                .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.DEATH, Element.DEATH)
+                .setSpellEffects(new EffectDeathNova())
+                .createSpell("death_nova", 0));
+
+
 
         //Water spells
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
