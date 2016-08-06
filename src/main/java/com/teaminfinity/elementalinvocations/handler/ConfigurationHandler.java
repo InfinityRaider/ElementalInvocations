@@ -7,8 +7,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.apache.commons.lang3.tuple.Triple;
 
 public class ConfigurationHandler {
     private static final ConfigurationHandler INSTANCE = new ConfigurationHandler();
@@ -20,6 +18,9 @@ public class ConfigurationHandler {
     }
 
     private Configuration config;
+
+    //general
+    public boolean orbRecipes;
 
     //client
     @SideOnly(Side.CLIENT)
@@ -52,14 +53,16 @@ public class ConfigurationHandler {
     }
 
     private void loadConfiguration() {
+        //general
+        orbRecipes = config.getBoolean("enable orb recipes", Categories.GENERAL.getName(), true, "set to false to disable recipes for the elemental orbs");
         //debug
-        debug = config.getBoolean("debug", Categories.CATEGORY_DEBUG.getName(), false, "Set to true if you wish to enable debug mode");
+        debug = config.getBoolean("debug", Categories.DEBUG.getName(), false, "Set to true if you wish to enable debug mode");
     }
 
     @SideOnly(Side.CLIENT)
     private void loadClientConfiguration(FMLPreInitializationEvent event) {
         //override rendering
-        overridePlayerRenderer = config.getBoolean("Left arm swing animation", Categories.CATEGORY_CLIENT.getName(), true,
+        overridePlayerRenderer = config.getBoolean("Left arm swing animation", Categories.CLIENT.getName(), true,
                 "Set to false if you experience issues with player rendering, " +
                         "disabling this will have the effect of no animating the left arm of players using the maneuver gear sword." +
                         "This is a client side only config and does not have to match the server");
@@ -76,9 +79,9 @@ public class ConfigurationHandler {
     }
 
     public Tuple<Float, Integer> getElementChargeLootProperties(Element element, String type, boolean generate) {
-        float chance = config.getFloat(element.name().toLowerCase() + " elemental charge " + type + " loot chance", Categories.CATEGORY_LOOT.getName(), generate ? 0.1F : 1.0F, 0.0F, 1.0F,
+        float chance = config.getFloat(element.name().toLowerCase() + " elemental charge " + type + " loot chance", Categories.LOOT.getName(), generate ? 0.1F : 1.0F, 0.0F, 1.0F,
                 "chance for this elemental charge to generate as loot in " + type + "s");
-        int rolls = config.getInt(element.name().toLowerCase() + " elemental charge " + type + " loot rolls", Categories.CATEGORY_LOOT.getName(), 1, 1, 5,
+        int rolls = config.getInt(element.name().toLowerCase() + " elemental charge " + type + " loot rolls", Categories.LOOT.getName(), 1, 1, 5,
                 "maximum amount of charges generating in each chest");
         if(config.hasChanged()) {
             config.save();
@@ -87,10 +90,12 @@ public class ConfigurationHandler {
     }
 
     public enum Categories {
+        GENERAL("general"),
+        SPELLS("spells"),
         POTION("potion"),
-        CATEGORY_LOOT("loot"),
-        CATEGORY_CLIENT("client"),
-        CATEGORY_DEBUG("debug");
+        LOOT("loot"),
+        CLIENT("client"),
+        DEBUG("debug");
 
         private final String name;
 

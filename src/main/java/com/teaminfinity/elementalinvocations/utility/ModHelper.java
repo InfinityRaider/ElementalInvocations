@@ -6,7 +6,6 @@ import com.teaminfinity.elementalinvocations.entity.EntityRegistryEntry;
 import com.teaminfinity.elementalinvocations.item.IInfinityItem;
 import com.teaminfinity.elementalinvocations.item.IItemWithModel;
 import com.teaminfinity.elementalinvocations.item.IItemWithRecipe;
-import com.teaminfinity.elementalinvocations.item.ItemBase;
 import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -66,7 +65,7 @@ public class ModHelper {
             }
         });
         //items
-        ReflectionHelper.forEachIn(mod.getModBlockRegistry(), ItemBase.class, (ItemBase item) -> {
+        ReflectionHelper.forEachIn(mod.getModItemRegistry(), IInfinityItem.class, (IInfinityItem item) -> {
             if(item.isEnabled() && (item instanceof IItemWithRecipe)) {
                 ((IItemWithRecipe) item).getRecipes().forEach(GameRegistry::addRecipe);
             }

@@ -22,6 +22,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -100,7 +101,9 @@ public class ItemWand extends ItemBase implements IItemWithRecipe, IDualWieldedW
 
     @Override
     public List<IRecipe> getRecipes() {
-        return Collections.emptyList();
+        return ImmutableList.of(
+                new ShapedOreRecipe(this, "idi", " i ", " i ", 'i', "ingotIron", 'd', "gemDiamond")
+        );
     }
 
     @Override

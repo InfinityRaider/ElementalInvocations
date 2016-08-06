@@ -2,24 +2,29 @@ package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.api.Element;
+import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ItemElementalCore extends ItemBase {
+public class ItemElementalCore extends ItemBase implements IItemWithRecipe {
     public final List<ElementalCore> CORES;
 
     public ItemElementalCore() {
@@ -69,6 +74,52 @@ public class ItemElementalCore extends ItemBase {
 
     public Element getElement(ItemStack stack) {
         return getElementalCore(stack).element();
+    }
+
+    @Override
+    public List<IRecipe> getRecipes() {
+        if(ConfigurationHandler.getInstance().orbRecipes) {
+            return ImmutableList.of(
+                    //fire
+                    new ShapedOreRecipe(new ItemStack(this, 1, 0),
+                            " f ", "bsb", " f ",
+                            'f', new ItemStack(Items.FIRE_CHARGE),
+                            'b', new ItemStack(Items.BLAZE_ROD),
+                            's', new ItemStack(Items.NETHER_STAR)),
+                    //water
+                    new ShapedOreRecipe(new ItemStack(this, 1, 1),
+                            " b ", "psp", " b ",
+                            'b', new ItemStack(Items.WATER_BUCKET),
+                            'p', new ItemStack(Items.PRISMARINE_CRYSTALS),
+                            's', new ItemStack(Items.NETHER_STAR)),
+                    //air
+                    new ShapedOreRecipe(new ItemStack(this, 1, 2),
+                            " f ", "gsg", " f ",
+                            'f', new ItemStack(Items.FEATHER),
+                            'g', new ItemStack(Items.GHAST_TEAR),
+                            's', new ItemStack(Items.NETHER_STAR)),
+                    //earth
+                    new ShapedOreRecipe(new ItemStack(this, 1, 3),
+                            " o ", "ese", " o ",
+                            'o', new ItemStack(Blocks.OBSIDIAN),
+                            'e', new ItemStack(Items.EMERALD),
+                            's', new ItemStack(Items.NETHER_STAR)),
+                    //death
+                    new ShapedOreRecipe(new ItemStack(this, 1, 4),
+                            " w ", "psp", " w ",
+                            'w', new ItemStack(Items.SKULL, 1, 1),
+                            'p', new ItemStack(Items.ENDER_PEARL),
+                            's', new ItemStack(Items.NETHER_STAR)),
+                    //life
+                    new ShapedOreRecipe(new ItemStack(this, 1, 5),
+                            " a ", "bsb", " a ",
+                            'a', new ItemStack(Items.GOLDEN_APPLE),
+                            'b', new ItemStack(Items.MILK_BUCKET),
+                            's', new ItemStack(Items.NETHER_STAR))
+            );
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public static class ElementalCore {
