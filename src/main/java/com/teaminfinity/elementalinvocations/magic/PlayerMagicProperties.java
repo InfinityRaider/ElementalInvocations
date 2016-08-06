@@ -12,6 +12,7 @@ import com.teaminfinity.elementalinvocations.network.MessageInvoke;
 import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Names;
+import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.Vec3d;
@@ -56,6 +57,10 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     @Override
     public void setPlayerAffinity(Element element) {
         this.affinity = element;
+        if(element == null) {
+            this.getCharges().clear();
+        }
+        LogHelper.debug("Set player affinity to " + element == null ? "NULL" : (element.getTextFormat() + element.name()));
     }
 
     @Override
@@ -120,7 +125,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
 
     @Override
     public void addCharge(IMagicCharge charge) {
-        if(charge != null) {
+        if(charge != null && getPlayerAffinity() != null) {
             this.chargeMap.get(charge.element()).add(charge);
             this.charges.add(charge);
             if(!getPlayer().getEntityWorld().isRemote) {

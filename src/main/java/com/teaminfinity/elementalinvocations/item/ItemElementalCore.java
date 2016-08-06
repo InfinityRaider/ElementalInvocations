@@ -2,19 +2,25 @@ package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.api.Element;
+import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
+import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.Tuple;
+import net.minecraft.util.*;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -33,6 +39,56 @@ public class ItemElementalCore extends ItemBase implements IItemWithRecipe {
         this.setCreativeTab(InventoryTabs.ELEMNTAL_INVOCATIONS);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
+    }
+
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+        player.setActiveHand(hand);
+        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+    }
+
+    @Override
+    public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase entity) {
+        boolean consume = false;
+        if(entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
+            if(properties != null) {
+                Element current = properties.getPlayerAffinity();
+                Element orb = this.getElement(stack);
+                if(current == null) {
+                    properties.setPlayerAffinity(orb);
+                    consume = true;
+                } else if(current == orb && properties.getPlayerAdeptness() < Constants.MAX_LEVEL) {
+                    properties.setPlayerAdeptness(properties.getPlayerAdeptness() + 1);
+                    consume = true;
+                } else {
+                    if(orb == current.getOpposite() && !world.isRemote) {
+                        player.attackEntityFrom(new DamageSourceChangeAffinity(), properties.getPlayerAdeptness() * player.getMaxHealth() / Constants.MAX_LEVEL);
+                    }
+                    properties.reset();
+                    properties.setPlayerAffinity(orb);
+                    consume = true;
+                }
+            }
+            if(player.capabilities.isCreativeMode) {
+                consume = false;
+            }
+        }
+        return consume ? null : stack;
+    }
+
+
+    public int getMaxItemUseDuration(ItemStack stack) {
+        return 100;
+    }
+
+    /**
+     * returns the action that specifies what animation to play when the items is being used
+     */
+    public EnumAction getItemUseAction(ItemStack stack)
+    {
+        return EnumAction.BOW;
     }
 
     @Override
@@ -56,7 +112,22 @@ public class ItemElementalCore extends ItemBase implements IItemWithRecipe {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
         tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L1"));
+        IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
+        if(properties == null) {
+            tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));
+        } else {
+            Element orb = this.getElement(stack);
+            if(orb == properties.getPlayerAffinity()) {
+                tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.positive"));
+            } else if(orb.getOpposite() == properties.getPlayerAffinity()) {
+                tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.negative"));
+            } else {
+                tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));
+            }
+        }
+        tooltip.add(I18n.translateToLocal(" "));
         tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L2"));
+        tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L3"));
     }
 
     @Override
@@ -148,6 +219,14 @@ public class ItemElementalCore extends ItemBase implements IItemWithRecipe {
                 cores.add(new ElementalCore(Element.values()[i]));
             }
             return ImmutableList.copyOf(cores);
+        }
+    }
+
+    public static class DamageSourceChangeAffinity extends DamageSource {
+        public DamageSourceChangeAffinity() {
+            super("changeAffinity");
+            this.setMagicDamage();
+            this.setDamageBypassesArmor();
         }
     }
 }
