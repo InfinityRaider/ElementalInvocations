@@ -23,6 +23,8 @@ public class ConfigurationHandler {
     public boolean orbRecipes;
     public int levelingSpeed;
     public int experienceMultiplier;
+    public boolean allowOrbLevelling;
+    public int levelLossOnElementChange;
 
     //client
     @SideOnly(Side.CLIENT)
@@ -59,9 +61,14 @@ public class ConfigurationHandler {
         orbRecipes = config.getBoolean("enable orb recipes", Categories.GENERAL.getName(), true,
                 "set to false to disable recipes for the elemental orbs");
         levelingSpeed = config.getInt("magic level growth rate", Categories.GENERAL.getName(), 3, 2, 5,
-                "This number determines the speed at which players grow in magic level, the lower, the faster players will level (scales exponential)");
+                "This number determines the speed at which players grow in magic level, the lower, the faster players will level (scales exponentially)");
         experienceMultiplier = config.getInt("magic experience multiplier", Categories.GENERAL.getName(), 1, 0, 50,
                 "Whenever the player gains magic experience, the amount is multiplied by this number");
+        allowOrbLevelling = config.getBoolean("orb levelling", Categories.GENERAL.getName(), true,
+                "Set to false to disable players increasing their magic level by consuming orbs");
+        levelLossOnElementChange = config.getInt("level loss on element change", Categories.GENERAL.getName(), 10, 0, 10,
+                "The amount of magic levels the player loses when changing its magic affinity to another element");
+
         //debug
         debug = config.getBoolean("debug", Categories.DEBUG.getName(), false, "Set to true if you wish to enable debug mode");
     }

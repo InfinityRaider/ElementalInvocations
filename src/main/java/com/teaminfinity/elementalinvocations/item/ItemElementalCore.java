@@ -60,14 +60,18 @@ public class ItemElementalCore extends ItemBase implements IItemWithRecipe {
                     properties.setPlayerAffinity(orb);
                     consume = true;
                 } else if(current == orb && properties.getPlayerAdeptness() < Constants.MAX_LEVEL) {
-                    properties.setPlayerAdeptness(properties.getPlayerAdeptness() + 1);
-                    consume = true;
+                    if(ConfigurationHandler.getInstance().allowOrbLevelling) {
+                        properties.setPlayerAdeptness(properties.getPlayerAdeptness() + 1);
+                        consume = true;
+                    }
                 } else {
                     if(orb == current.getOpposite() && !world.isRemote) {
                         player.attackEntityFrom(new DamageSourceChangeAffinity(), properties.getPlayerAdeptness() * player.getMaxHealth() / Constants.MAX_LEVEL);
                     }
+                    int lvl = properties.getPlayerAdeptness() - ConfigurationHandler.getInstance().levelLossOnElementChange;
                     properties.reset();
                     properties.setPlayerAffinity(orb);
+                    properties.setPlayerAdeptness(lvl);
                     consume = true;
                 }
             }
@@ -113,10 +117,10 @@ public class ItemElementalCore extends ItemBase implements IItemWithRecipe {
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
         tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L1"));
         IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
+        Element orb = this.getElement(stack);
         if(properties == null) {
             tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));
         } else {
-            Element orb = this.getElement(stack);
             if(orb == properties.getPlayerAffinity()) {
                 tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.positive"));
             } else if(orb.getOpposite() == properties.getPlayerAffinity()) {
@@ -127,7 +131,13 @@ public class ItemElementalCore extends ItemBase implements IItemWithRecipe {
         }
         tooltip.add(I18n.translateToLocal(" "));
         tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L2"));
-        tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L3"));
+        if(properties != null && properties.getPlayerAffinity() == orb) {
+            if(ConfigurationHandler.getInstance().allowOrbLevelling) {
+                tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L3"));
+            }
+        } else {
+            tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L4") + " " + orb.getTextFormat() + orb.name());
+        }
     }
 
     @Override

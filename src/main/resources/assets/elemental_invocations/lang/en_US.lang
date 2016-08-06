@@ -14,7 +14,8 @@ itemGroup.elemental_invocations:Elemental Invocations
 //tooltips
 tooltip.elemental_invocations.core.L1=A rare artifact found in dungeons
 tooltip.elemental_invocations.core.L2=Apply to a wand in an anvil to augment the wand
-tooltip.elemental_invocations.core.L3=Or consume to set your magic affinity to the core's element
+tooltip.elemental_invocations.core.L3=Or consume to increase your adeptness in magic
+tooltip.elemental_invocations.core.L4=Or consume to set your magic affinity to
 tooltip.elemental_invocations.core.neutral=It emits a strange glow
 tooltip.elemental_invocations.core.positive=The orb radiates strongly, you feel energized by touching it
 tooltip.elemental_invocations.core.negative=Merely touching the orb hurts your skin

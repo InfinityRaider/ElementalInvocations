@@ -71,7 +71,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
 
     @Override
     public void setPlayerAdeptness(int level) {
-        this.level = Math.min(level, Constants.MAX_LEVEL);
+        this.level = Math.max(0, Math.min(level, Constants.MAX_LEVEL));
         this.experience = 0;
     }
 
