@@ -71,21 +71,21 @@ public class EntityMagicProjectile extends EntityThrowableMagic {
     }
 
     public int getRed() {
-        if(red < -1) {
+        if(red < 0) {
             compileColors();
         }
         return red;
     }
 
     public int getGreen() {
-        if(green < -1) {
+        if(green < 0) {
             compileColors();
         }
         return green;
     }
 
     public int getBlue() {
-        if(blue < -1) {
+        if(blue < 0) {
             compileColors();
         }
         return blue;

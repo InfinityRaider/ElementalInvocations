@@ -26,6 +26,9 @@ tooltip.elemental_invocations.wand.noCore=This wand does not have a core, apply 
 tooltip.elemental_invocations.wand.coreType=Current wand core
 tooltip.elemental_invocations.wand.coreLevel=Wand power level
 
+//potion
+elemental_invocations:potion.oonfusion=Confused
+
 //keybindings
 keybinding.elemental_invocations.invoke=Invoke Spell
 keybinding.elemental_invocations.spellAction=Spell Action

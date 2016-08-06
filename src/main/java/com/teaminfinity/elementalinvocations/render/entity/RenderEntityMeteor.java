@@ -1,6 +1,7 @@
 package com.teaminfinity.elementalinvocations.render.entity;
 
 import com.teaminfinity.elementalinvocations.entity.EntityMeteor;
+import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import com.teaminfinity.elementalinvocations.render.model.ModelMeteor;
 import net.minecraft.client.Minecraft;
@@ -28,10 +29,19 @@ public class RenderEntityMeteor extends Render<EntityMeteor> {
 
         float newAngle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
 
-        MODEL.render(e, 0, 0, 0, 0, 0, 0);
+
+        GlStateManager.rotate(newAngle, 1, 0, 0);
+        GlStateManager.rotate(newAngle, 0, 1, 0);
+
+        GlStateManager.translate(0, -5, 0);
+
+
+        MODEL.render(e, 0, 0, 0, 0, 0, Constants.UNIT * (3 + e.getPotencyEarth()/3));
 
         GlStateManager.popAttrib();
         GlStateManager.popMatrix();
+
+        e.spawnFireParticles();
     }
 
     @Override

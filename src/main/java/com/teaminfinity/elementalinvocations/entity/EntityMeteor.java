@@ -3,6 +3,7 @@ package com.teaminfinity.elementalinvocations.entity;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntityMeteor;
 import com.teaminfinity.elementalinvocations.utility.AreaHelper;
+import com.teaminfinity.elementalinvocations.utility.TargetHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class EntityMeteor extends EntityThrowableMagic {
     private int potencyFire;
-    private int getPotencyEarth;
+    private int potencyEarth;
 
     @SuppressWarnings("unused")
     public EntityMeteor(World world) {
@@ -34,33 +35,76 @@ public class EntityMeteor extends EntityThrowableMagic {
     public EntityMeteor(EntityPlayer caster, int potencyFire, int potencyEarth) {
         super(caster);
         this.potencyFire = potencyFire;
-        this.getPotencyEarth = potencyEarth;
+        this.potencyEarth = potencyEarth;
         Vec3d look = caster.getLookVec();
         this.posX = caster.posX - look.xCoord * 50;
         this.posY = 100;
         this.posZ = caster.posZ - look.zCoord * 50;
-        this.setThrowableHeading(look.xCoord, 0, look.zCoord, 2.5F, 0F);
+        this.setThrowableHeading(look.xCoord, 0, look.zCoord, 5.0F, 0F);
+    }
+
+    public int getPotencyFire() {
+        return potencyFire;
+    }
+
+    public int getPotencyEarth() {
+        return potencyEarth;
     }
 
     public void channelUpdate(EntityPlayer caster) {
-        Vec3d direction = caster.getLookVec();
-        //this.setThrowableHeading(direction.xCoord, 0, direction.zCoord, 10F, 0F);
+        RayTraceResult result = TargetHelper.getTarget(caster, 64);
+        if(result != null && result.hitVec != null) {
+            Vec3d target = new Vec3d(result.hitVec.xCoord - posX, 0, result.hitVec.zCoord - posZ).normalize();
+            Vec3d vOld = new Vec3d(motionX, motionY, motionZ).normalize();
+            double v = Math.sqrt(motionX*motionX + motionY*motionY + motionZ*motionZ);
+            double x = 1.0 - 0.05*(getPotencyFire()/3);
+            Vec3d vNew = new Vec3d(x*vOld.xCoord + (1 - x)*target.xCoord, vOld.yCoord, x*vOld.zCoord + (1 - x)*target.zCoord).scale(v);
+            this.motionX = vNew.xCoord;
+            this.motionY = vNew.yCoord;
+            this.motionZ = vNew.zCoord;
+        }
+    }
+
+    @Override
+    protected float getGravityVelocity() {
+        return 0.5F;
     }
 
     @Override
     protected void onImpact(RayTraceResult result) {
         if(getEntityWorld().isRemote) {
-            spawnParticles();
+            spawnSmokeParticles();
         }
-        AxisAlignedBB area = AreaHelper.getArea(result.hitVec, 3 + getPotencyEarth/3);
+        AxisAlignedBB area = AreaHelper.getArea(result.hitVec, 3 + getPotencyEarth() /3);
         List<EntityLivingBase> entities = getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, area);
-        entities.forEach(e -> e.attackEntityFrom(new DamageSourceMeteor(), 2 * potencyFire));
+        entities.forEach(e -> e.attackEntityFrom(new DamageSourceMeteor(), 2 * getPotencyFire()));
         this.setDead();
     }
 
     @SideOnly(Side.CLIENT)
-    private void spawnParticles() {
-        int r = 3 + getPotencyEarth/3;
+    public void spawnFireParticles() {
+        int r = 3 + getPotencyEarth() / 3;
+        int delta = 40;
+        double f = 0;
+        for(int phi = 0 ; phi < 360 ; phi = phi + delta) {
+            for(int theta = 0; theta < 180; theta = theta + delta) {
+                double t = Math.toRadians(theta);
+                double p = Math.toRadians(phi);
+                double x = r * Math.cos(t) * Math.sin(p);
+                double y = r * Math.sin(t);
+                double z = r * Math.cos(t) * Math.cos(p);
+                Minecraft.getMinecraft().renderGlobal.spawnParticle(
+                        EnumParticleTypes.FLAME.getParticleID(), true,
+                        posX + x, posY + y, posZ + z,
+                        f * motionX, f * motionY, f * motionZ, 10);
+
+            }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void spawnSmokeParticles() {
+        int r = 3 + potencyEarth /3;
         for(int x = -r; x <= r; x++) {
             for (int y = -r; y <= r; y++) {
                 for (int z = -r; z <= r; z++) {
@@ -81,21 +125,16 @@ public class EntityMeteor extends EntityThrowableMagic {
     }
 
     @Override
-    protected float getGravityVelocity() {
-        return 0.1F;
-    }
-
-    @Override
     protected NBTTagCompound writeDataToNBT(NBTTagCompound tag) {
         tag.setInteger(Names.NBT.LEVEL, this.potencyFire);
-        tag.setInteger(Names.NBT.COUNT, this.getPotencyEarth);
+        tag.setInteger(Names.NBT.COUNT, this.potencyEarth);
         return tag;
     }
 
     @Override
     protected void readDataFromNBT(NBTTagCompound tag) {
         this.potencyFire = tag.getInteger(Names.NBT.LEVEL);
-        this.getPotencyEarth = tag.getInteger(Names.NBT.COUNT);
+        this.potencyEarth = tag.getInteger(Names.NBT.COUNT);
     }
     public static class RenderFactory implements IRenderFactory<EntityMeteor> {
         private static final RenderFactory INSTANCE = new RenderFactory();

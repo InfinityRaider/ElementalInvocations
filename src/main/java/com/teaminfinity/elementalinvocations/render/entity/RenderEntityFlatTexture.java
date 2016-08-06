@@ -9,6 +9,10 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 
 public abstract class RenderEntityFlatTexture<E extends Entity> extends Render<E> {
+    private float lastPartialTick = -1;
+    private int counter = 0;
+    private int frame;
+
     protected RenderEntityFlatTexture(RenderManager renderManager) {
         super(renderManager);
     }
@@ -47,6 +51,23 @@ public abstract class RenderEntityFlatTexture<E extends Entity> extends Render<E
 
         GlStateManager.popAttrib();
         GlStateManager.popMatrix();
+    }
+
+    protected void calculateFrame(float partialTicks, int frameTime, int frames) {
+        if(lastPartialTick < 0) {
+            frame = 0;
+            counter = 0;
+        } else {
+            if(partialTicks <= lastPartialTick) {
+                counter = (counter + 1) % frameTime;
+                frame = counter == 0 ? (frame + 1) % frames : frame;
+            }
+        }
+        lastPartialTick = partialTicks;
+    }
+
+    protected int getFrame() {
+        return frame;
     }
 
     protected abstract void renderTexture(E entity, VertexBuffer buffer, Tessellator tessellator);

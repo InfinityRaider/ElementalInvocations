@@ -25,10 +25,6 @@ public class RenderEntityBallLightning extends RenderEntityFlatTexture<EntityBal
     private static final int FRAMES = 7;
     private static final int FRAME_TIME = 2;
 
-    private float lastPartialTick = -1;
-    private int counter = 0;
-    private int frame;
-
     public RenderEntityBallLightning(RenderManager renderManager) {
         super(renderManager);
     }
@@ -37,26 +33,11 @@ public class RenderEntityBallLightning extends RenderEntityFlatTexture<EntityBal
     public void doRender(EntityBallLightning e, double x, double y, double z, float entityYaw, float partialTicks) {
         List<Entity> mounted = e.getPassengers();
         if(mounted.size() > 0 && mounted.get(0) == ElementalInvocations.proxy.getClientPlayer() && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
-            lastPartialTick = -1;
-            counter = 0;
-            frame = 0;
             //don't render the entity in first person
             return;
         }
-        calculateFrame(partialTicks);
+        calculateFrame(partialTicks, FRAME_TIME, FRAMES);
         super.doRender(e, x, y, z, entityYaw, partialTicks);
-    }
-
-    private void calculateFrame(float partialTicks) {
-        if(lastPartialTick < 0) {
-            frame = 0;
-        } else {
-            if(partialTicks <= lastPartialTick) {
-                counter = (counter + 1) % FRAME_TIME;
-                frame = counter == 0 ? (frame + 1) % FRAMES : frame;
-            }
-        }
-        lastPartialTick = partialTicks;
     }
 
     @Override
@@ -73,8 +54,8 @@ public class RenderEntityBallLightning extends RenderEntityFlatTexture<EntityBal
 
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-        double minV = (frame) * (1.0/FRAMES);
-        double maxV = (frame + 1) * (1.0/FRAMES);
+        double minV = (getFrame()) * (1.0/FRAMES);
+        double maxV = (getFrame() + 1) * (1.0/FRAMES);
 
         buffer.pos(-12 * u, 0, 0).tex(1, maxV).endVertex();
         buffer.pos(-12 * u, 24 * u, 0).tex(1, minV).endVertex();

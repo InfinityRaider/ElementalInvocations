@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
 import com.teaminfinity.elementalinvocations.reference.Reference;
-import com.teaminfinity.elementalinvocations.utility.debug.DebugMode;
-import com.teaminfinity.elementalinvocations.utility.debug.DebugModeClearMagicProperties;
-import com.teaminfinity.elementalinvocations.utility.debug.DebugModeConfusion;
-import com.teaminfinity.elementalinvocations.utility.debug.DebugModeCycleAffinity;
+import com.teaminfinity.elementalinvocations.utility.debug.*;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.Tuple;
 
@@ -28,6 +25,7 @@ public class ItemDebugger extends ItemDebuggerBase {
             list.add(new DebugModeCycleAffinity(element));
         }
         list.add(new DebugModeConfusion());
+        list.add(new DebugModeMeteor());
         return list;
     }
 
