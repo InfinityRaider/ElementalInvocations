@@ -153,8 +153,9 @@ public final class RenderPlayerCharges extends RenderUtil {
 
         //rotate so the texture always renders parallel to the screen
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
+        boolean invert = Minecraft.getMinecraft().gameSettings.thirdPersonView == 2;
         GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
-        GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
+        GlStateManager.rotate((invert ? -1 : 1) * renderManager.playerViewX, 1, 0, 0);
 
         float u = Constants.UNIT;
         float scale = 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.level())/Constants.CORE_TIERS);

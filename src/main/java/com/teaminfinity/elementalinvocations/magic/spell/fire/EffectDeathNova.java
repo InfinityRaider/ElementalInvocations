@@ -32,6 +32,5 @@ public class EffectDeathNova implements ISpellEffect {
             }
         }
         return false;
-
     }
 }

@@ -34,7 +34,8 @@ public abstract class RenderEntityFlatTexture<E extends Entity> extends Render<E
             GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
         }
         if(rotateX()) {
-            GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
+            boolean invert = Minecraft.getMinecraft().gameSettings.thirdPersonView == 2;
+            GlStateManager.rotate((invert ? -1 : 1) * renderManager.playerViewX, 1, 0, 0);
         }
 
         if (this.renderOutlines) {

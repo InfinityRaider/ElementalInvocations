@@ -3,6 +3,7 @@ package com.teaminfinity.elementalinvocations.render.entity;
 import com.teaminfinity.elementalinvocations.entity.EntitySunstrike;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Reference;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -24,6 +25,11 @@ public class RenderEntitySunstrike extends RenderEntityFlatTexture<EntitySunstri
     protected void renderTexture(EntitySunstrike entity, VertexBuffer buffer, Tessellator tessellator) {
         if(entity.shouldRender()) {
             float u = Constants.UNIT;
+
+            GlStateManager.enableAlpha();
+            GlStateManager.enableBlend();
+            GlStateManager.disableLighting();
+            GlStateManager.color(255, 255, 255, 127);
 
             buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 
