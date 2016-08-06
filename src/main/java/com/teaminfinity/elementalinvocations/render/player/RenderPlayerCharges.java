@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations.render.player;
 
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -66,6 +68,16 @@ public final class RenderPlayerCharges extends RenderUtil {
         GlStateManager.pushMatrix();
 
         float newAngle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
+
+        if(event.getEntityPlayer() != ElementalInvocations.proxy.getClientPlayer()) {
+            EntityPlayer local = ElementalInvocations.proxy.getClientPlayer();
+            EntityPlayer player = event.getEntityPlayer();
+            float f = event.getPartialRenderTick();
+            double dx = player.prevPosX + (player.posX - player.prevPosX)*f - (local.prevPosX + (local.posX - local.prevPosX)*f);
+            double dy = player.prevPosY + (player.posY - player.prevPosY)*f - (local.prevPosY + (local.posY - local.prevPosY)*f);
+            double dz = player.prevPosZ + (player.posX - player.prevPosX)*f - (local.prevPosZ + (local.posZ - local.prevPosZ)*f);
+            GlStateManager.translate(dx, dy, dz);
+        }
 
         for(int orb = 0; orb < chargeList.size(); orb++) {
             GlStateManager.enableBlend();

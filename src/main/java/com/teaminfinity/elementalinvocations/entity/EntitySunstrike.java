@@ -33,6 +33,7 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
 
     public EntitySunstrike(World world) {
         super(world);
+        this.timer = 60;
     }
 
     public EntitySunstrike(World world, double x, double z, int potencyFire, int potencyAir) {
@@ -67,17 +68,19 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
     @Override
     public void onEntityUpdate() {
         super.onEntityUpdate();
+        timer = timer - 1;
         if (!worldObj.isRemote) {
-            timer = timer - 1;
             if (timer == 0) {
                 NetworkWrapper.getInstance().sendToAll(new MessageRenderSunstrike(this));
-                AxisAlignedBB area = AreaHelper.getArea(this.getPositionVector(), Math.max(1, getPotencyAir()/3));
+                AxisAlignedBB area = AreaHelper.getArea(this.getPositionVector(), Math.max(1, getPotencyAir() / 3));
                 List<EntityLivingBase> entities = getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, area);
-                entities.forEach(e -> e.attackEntityFrom(new DamageSourceSunstrike(), getPotencyFire()*2));
+                entities.forEach(e -> e.attackEntityFrom(new DamageSourceSunstrike(), getPotencyFire() * 2));
             }
             if (timer <= -10) {
                 this.setDead();
             }
+        } else {
+            this.setShouldRender();
         }
     }
 

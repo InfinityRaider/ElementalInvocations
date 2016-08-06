@@ -19,7 +19,6 @@ public class EntityRegistryEntry<E extends Entity> implements IToggleable {
     private int updateFrequency;
     private boolean velocityUpdates;
     private boolean enabled;
-    @SideOnly(Side.CLIENT)
     private IRenderFactory<E> renderFactory;
 
     public EntityRegistryEntry(Class<? extends  E> entityClass, String name) {
@@ -46,7 +45,6 @@ public class EntityRegistryEntry<E extends Entity> implements IToggleable {
         return this;
     }
 
-    @SideOnly(Side.CLIENT)
     public EntityRegistryEntry<E> setRenderFactory(IRenderFactory<E> renderFactory) {
         this.renderFactory = renderFactory;
         return this;

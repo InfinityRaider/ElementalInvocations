@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderEntitySunstrike extends RenderEntityFlatTexture<EntitySunstrike> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/magic_missile.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/sunstrike.png");
 
     public RenderEntitySunstrike(RenderManager renderManager) {
         super(renderManager);

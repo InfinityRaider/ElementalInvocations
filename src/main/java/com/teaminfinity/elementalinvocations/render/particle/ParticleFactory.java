@@ -24,7 +24,7 @@ public final class ParticleFactory implements IParticleFactory {
     private final Map<Integer, Creator> particleCreators;
     private final ParticleManager manager;
 
-    private Map<Integer, IParticleFactory> particleFactoryMap;
+    private final Map<Integer, IParticleFactory> particleFactoryMap;
 
     private int lastId = 46;
 

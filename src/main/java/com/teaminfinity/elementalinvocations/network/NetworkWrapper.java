@@ -1,7 +1,6 @@
 package com.teaminfinity.elementalinvocations.network;
 
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
-import com.teaminfinity.elementalinvocations.reference.Reference;
 import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
@@ -24,7 +23,7 @@ public class NetworkWrapper implements INetworkWrapper {
     private int nextId = 0;
 
     private NetworkWrapper() {
-        this.wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID.toLowerCase());}
+        this.wrapper = NetworkRegistry.INSTANCE.newSimpleChannel("ele_inv");}
 
     @Override
     public void sendToAll(MessageBase message) {

@@ -55,12 +55,11 @@ public class EntityMeteor extends EntityThrowableMagic {
         RayTraceResult result = TargetHelper.getTarget(caster, 64);
         if(result != null && result.hitVec != null) {
             Vec3d target = new Vec3d(result.hitVec.xCoord - posX, 0, result.hitVec.zCoord - posZ).normalize();
-            Vec3d vOld = new Vec3d(motionX, motionY, motionZ).normalize();
-            double v = Math.sqrt(motionX*motionX + motionY*motionY + motionZ*motionZ);
+            Vec3d vOld = new Vec3d(motionX, 0, motionZ).normalize();
+            double v = Math.sqrt(motionX*motionX + motionZ*motionZ);
             double x = 1.0 - 0.05*(getPotencyFire()/3);
-            Vec3d vNew = new Vec3d(x*vOld.xCoord + (1 - x)*target.xCoord, vOld.yCoord, x*vOld.zCoord + (1 - x)*target.zCoord).scale(v);
+            Vec3d vNew = new Vec3d(x*vOld.xCoord + (1 - x)*target.xCoord, 0, x*vOld.zCoord + (1 - x)*target.zCoord).scale(v);
             this.motionX = vNew.xCoord;
-            this.motionY = vNew.yCoord;
             this.motionZ = vNew.zCoord;
         }
     }
