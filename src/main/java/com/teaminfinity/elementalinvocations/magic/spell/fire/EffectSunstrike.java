@@ -10,7 +10,7 @@ import net.minecraft.util.math.RayTraceResult;
 public class EffectSunstrike implements ISpellEffect {
     @Override
     public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
-        RayTraceResult result = TargetHelper.getTarget(caster, 128);
+        RayTraceResult result = TargetHelper.getTargetBlock(caster, 128);
         if(result == null) {
             return false;
         }
