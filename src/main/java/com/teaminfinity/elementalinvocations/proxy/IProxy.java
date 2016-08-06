@@ -14,9 +14,7 @@ import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 
 public interface IProxy extends IProxyBase {
@@ -41,6 +39,11 @@ public interface IProxy extends IProxyBase {
     default void postInitStart(FMLPostInitializationEvent event) {
         PotionRegistry.getInstance();
         this.overridePlayerModel();
+    }
+
+    @Override
+    default void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+        MinecraftForge.EVENT_BUS.register(LootHandler.getInstance());
     }
 
     default void registerEntities(ModBase mod) {

@@ -77,4 +77,10 @@ public class ElementalInvocations extends ModBase {
     public void postInitMod(FMLPostInitializationEvent event) {
         super.postInit(event);
     }
+
+    @Mod.EventHandler
+    @SuppressWarnings("unused")
+    public void serverAboutToStart(FMLServerAboutToStartEvent event) {
+        super.onServerAboutToStart(event);
+    }
 }

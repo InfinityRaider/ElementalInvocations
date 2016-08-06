@@ -1,10 +1,14 @@
 package com.teaminfinity.elementalinvocations.handler;
 
+import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.utility.LogHelper;
+import net.minecraft.util.Tuple;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 
 public class ConfigurationHandler {
     private static final ConfigurationHandler INSTANCE = new ConfigurationHandler();
@@ -71,8 +75,20 @@ public class ConfigurationHandler {
         return id;
     }
 
+    public Tuple<Float, Integer> getElementChargeLootProperties(Element element, String type, boolean generate) {
+        float chance = config.getFloat(element.name().toLowerCase() + " elemental charge " + type + " loot chance", Categories.CATEGORY_LOOT.getName(), generate ? 0.1F : 1.0F, 0.0F, 1.0F,
+                "chance for this elemental charge to generate as loot in " + type + "s");
+        int rolls = config.getInt(element.name().toLowerCase() + " elemental charge " + type + " loot rolls", Categories.CATEGORY_LOOT.getName(), 1, 1, 5,
+                "maximum amount of charges generating in each chest");
+        if(config.hasChanged()) {
+            config.save();
+        }
+        return new Tuple<>(chance, rolls);
+    }
+
     public enum Categories {
         POTION("potion"),
+        CATEGORY_LOOT("loot"),
         CATEGORY_CLIENT("client"),
         CATEGORY_DEBUG("debug");
 
