@@ -5,6 +5,7 @@ import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.api.spells.ISpell;
 import com.teaminfinity.elementalinvocations.entity.EntityMagicProjectile;
+import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.network.MessageAddCharge;
@@ -80,6 +81,28 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     }
 
     @Override
+    public void addExperience(int amount) {
+        this.experience = experience + amount * ConfigurationHandler.getInstance().experienceMultiplier;
+        int nextLevel = this.experienceToLevelUp();
+        if(this.experience >= nextLevel && this.getPlayerAdeptness() < Constants.MAX_LEVEL) {
+            int exp = this.experience - nextLevel;
+            this.setPlayerAdeptness(this.getPlayerAdeptness() + 1);
+            this.experience = exp;
+        }
+    }
+
+    private int experienceToLevelUp() {
+        return calculatePowerRecursively(ConfigurationHandler.getInstance().levelingSpeed, this.getPlayerAdeptness() + 1);
+    }
+
+    private int calculatePowerRecursively(int base, int exponent) {
+        if(base == 1 || exponent <= 0) {
+            return 1;
+        }
+        return base * calculatePowerRecursively(base, exponent - 1);
+    }
+
+    @Override
     public void reset() {
         this.affinity = null;
         this.level = 0;
@@ -93,18 +116,21 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
 
     @Override
     public void invoke() {
-        if(!getPlayer().getEntityWorld().isRemote) {
+        if(!getPlayer().getEntityWorld().isRemote && this.getPlayerAffinity() != null) {
             if(getCharges().size() <= 0) {
                 return;
             }
             ISpell spell = getSpell();
+            int[] potencies = getPotencyArray();
+            this.addExperience(potencies[this.getPlayerAffinity().ordinal()]);
+
             if(spell == null) {
                 EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getCharges());
                 getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
             } else {
-                spell.invoke(player, getPotencyArray());
+                spell.invoke(player, potencies);
             }
-            NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer()));
+            NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), potencies[this.getPlayerAffinity().ordinal()]));
             this.getCharges().clear();
         }
     }
@@ -160,7 +186,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
         Vec3d vec3d = getPlayer().getLookVec();
         new MagicEffect(getPlayer(), getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), getCharges()).apply();
         this.getCharges().clear();
-        NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer()));
+        NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), 0));
     }
 
     @Override

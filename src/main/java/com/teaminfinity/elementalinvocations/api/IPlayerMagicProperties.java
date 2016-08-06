@@ -18,6 +18,8 @@ public interface IPlayerMagicProperties {
 
     int getPlayerAdeptness();
 
+    void addExperience(int amount);
+
     void reset();
 
     void invoke();

@@ -10,14 +10,16 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class MessageInvoke extends MessageBase<IMessage> {
     private EntityPlayer player;
+    private int experience;
 
     public MessageInvoke() {
         super();
     }
 
-    public MessageInvoke(EntityPlayer player) {
+    public MessageInvoke(EntityPlayer player, int experience) {
         this();
         this.player = player;
+        this.experience = experience;
     }
 
     @Override
@@ -31,6 +33,7 @@ public class MessageInvoke extends MessageBase<IMessage> {
             IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(this.player);
             if(properties != null) {
                 properties.getCharges().clear();
+                properties.addExperience(this.experience);
             }
         }
     }
@@ -43,10 +46,12 @@ public class MessageInvoke extends MessageBase<IMessage> {
     @Override
     public void fromBytes(ByteBuf buf) {
         this.player = readPlayerFromByteBuf(buf);
+        this.experience = buf.readInt();
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         this.writePlayerToByteBuf(buf, this.player);
+        buf.writeInt(this.experience);
     }
 }
