@@ -35,6 +35,19 @@ public class RenderEntityBallLightning extends RenderEntityFlatTexture<EntityBal
 
     @Override
     public void doRender(EntityBallLightning e, double x, double y, double z, float entityYaw, float partialTicks) {
+        List<Entity> mounted = e.getPassengers();
+        if(mounted.size() > 0 && mounted.get(0) == ElementalInvocations.proxy.getClientPlayer() && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
+            lastPartialTick = -1;
+            counter = 0;
+            frame = 0;
+            //don't render the entity in first person
+            return;
+        }
+        calculateFrame(partialTicks);
+        super.doRender(e, x, y, z, entityYaw, partialTicks);
+    }
+
+    private void calculateFrame(float partialTicks) {
         if(lastPartialTick < 0) {
             frame = 0;
         } else {
@@ -44,13 +57,6 @@ public class RenderEntityBallLightning extends RenderEntityFlatTexture<EntityBal
             }
         }
         lastPartialTick = partialTicks;
-
-        List<Entity> mounted = e.getPassengers();
-        if(mounted.size() > 0 && mounted.get(0) == ElementalInvocations.proxy.getClientPlayer() && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
-            //don't render the entity in first person
-            return;
-        }
-        super.doRender(e, x, y, z, entityYaw, partialTicks);
     }
 
     @Override
