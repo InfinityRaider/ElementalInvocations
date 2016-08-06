@@ -80,7 +80,9 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
                 this.setDead();
             }
         } else {
-            this.setShouldRender();
+            if(timer == 0) {
+                this.setShouldRender();
+            }
         }
     }
 
