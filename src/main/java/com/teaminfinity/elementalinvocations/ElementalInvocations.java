@@ -54,8 +54,10 @@ public class ElementalInvocations extends ModBase {
         wrapper.registerMessage(MessageKeyPressed.class);
         wrapper.registerMessage(MessageMouseButtonPressed.class);
         wrapper.registerMessage(MessageRenderSunstrike.class);
+        wrapper.registerMessage(MessageRequestCapabilities.class);
         wrapper.registerMessage(MessageStopChanneling.class);
         wrapper.registerMessage(MessageSwingArm.class);
+        wrapper.registerMessage(MessageSyncCapabilities.class);
         wrapper.registerMessage(MessageSyncState.class);
     }
 
