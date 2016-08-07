@@ -49,8 +49,7 @@ public class EntityWaveForm extends EntityThrowableMagic {
 
     @Override
     protected float getGravityVelocity() {
-        //return 0.5F;
-        return 0;
+        return 0.25F;
     }
 
     public void channelUpdate(EntityPlayer caster) {
@@ -64,7 +63,7 @@ public class EntityWaveForm extends EntityThrowableMagic {
         super.onUpdate();
         if(!this.getEntityWorld().isRemote) {
             if(getThrower() == null || !this.channeled) {
-                //this.setDead();
+                this.setDead();
             }
             this.channeled = false;
         }
