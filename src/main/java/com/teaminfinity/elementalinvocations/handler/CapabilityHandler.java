@@ -3,13 +3,11 @@ package com.teaminfinity.elementalinvocations.handler;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
-import com.teaminfinity.elementalinvocations.network.MessageRequestCapabilities;
-import com.teaminfinity.elementalinvocations.network.MessageSyncCapabilities;
-import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class CapabilityHandler {
     private static final CapabilityHandler INSTANCE = new CapabilityHandler();
@@ -31,15 +29,12 @@ public class CapabilityHandler {
 
     @SubscribeEvent
     @SuppressWarnings("unused")
-    public void onPlayerJoin(EntityJoinWorldEvent event) {
-        if((event.getEntity() instanceof EntityPlayer)) {
-            if(event.getWorld().isRemote) {
-                NetworkWrapper.getInstance().sendToServer(new MessageRequestCapabilities((EntityPlayer) event.getEntity()));
-            } else {
-                IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties((EntityPlayer) event.getEntity());
-                if(properties != null) {
-                    NetworkWrapper.getInstance().sendToAll(new MessageSyncCapabilities((EntityPlayer) event.getEntity(), properties.writeToNBT()));
-                }
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if(event.phase == TickEvent.Phase.START) {
+            EntityPlayer player = event.player;
+            IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
+            if(properties != null) {
+                properties.updateTick();
             }
         }
     }

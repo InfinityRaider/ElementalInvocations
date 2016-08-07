@@ -53,7 +53,7 @@ public class EntityWaveForm extends EntityThrowableMagic {
     public void onUpdate() {
         super.onUpdate();
         if(!this.getEntityWorld().isRemote) {
-            if(!this.channeled) {
+            if(getThrower() == null || !this.channeled) {
                 this.setDead();
             }
             this.channeled = false;

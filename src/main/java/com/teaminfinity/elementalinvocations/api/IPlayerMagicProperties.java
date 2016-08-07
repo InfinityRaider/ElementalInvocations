@@ -10,6 +10,8 @@ public interface IPlayerMagicProperties {
 
     EntityPlayer getPlayer();
 
+    void updateTick();
+
     void setPlayerAffinity(Element element);
 
     Element getPlayerAffinity();

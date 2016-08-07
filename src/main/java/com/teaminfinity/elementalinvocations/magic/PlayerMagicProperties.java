@@ -10,9 +10,11 @@ import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.network.MessageAddCharge;
 import com.teaminfinity.elementalinvocations.network.MessageInvoke;
+import com.teaminfinity.elementalinvocations.network.MessageSyncCapabilities;
 import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Names;
+import com.teaminfinity.elementalinvocations.reference.UniqueIds;
 import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,6 +37,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     private int currentInstability;
     private Map<Element, List<IMagicCharge>> chargeMap;
     private List<IMagicCharge> charges;
+    private boolean needsSync;
 
     public PlayerMagicProperties() {
         this.chargeMap = new HashMap<>();
@@ -56,11 +59,23 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     }
 
     @Override
+    public void updateTick() {
+        if(this.needsSync && !this.player.getEntityWorld().isRemote) {
+            NetworkWrapper.getInstance().sendToAll(new MessageSyncCapabilities(player, this.writeToNBT()));
+            this.needsSync = false;
+        }
+        if(this.getCharges().isEmpty()) {
+            this.currentInstability = Math.min(0, this.currentInstability - 1);
+        }
+    }
+
+    @Override
     public void setPlayerAffinity(Element element) {
         this.affinity = element;
         if(element == null) {
             this.getCharges().clear();
         }
+        this.needsSync = true;
         LogHelper.debug("Set player affinity to " + element == null ? "NULL" : (element.getTextFormat() + element.name()));
     }
 
@@ -73,6 +88,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     public void setPlayerAdeptness(int level) {
         this.level = Math.max(0, Math.min(level, Constants.MAX_LEVEL));
         this.experience = 0;
+        this.needsSync = true;
     }
 
     @Override
@@ -89,6 +105,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
             this.setPlayerAdeptness(this.getPlayerAdeptness() + 1);
             this.experience = exp;
         }
+        this.needsSync = true;
     }
 
     private int experienceToLevelUp() {
@@ -112,6 +129,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
             this.chargeMap.get(element).clear();
         }
         this.charges.clear();
+        this.needsSync = true;
     }
 
     @Override
@@ -122,7 +140,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
             }
             ISpell spell = getSpell();
             int[] potencies = getPotencyArray();
-            this.addExperience(potencies[this.getPlayerAffinity().ordinal()]);
+            this.addExperience(potencies[this.getPlayerAffinity().ordinal()]*charges.size());
 
             if(spell == null) {
                 EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getCharges());
@@ -175,11 +193,34 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     }
 
     private void recalculateInstability(IMagicCharge charge) {
-
+        if(charge.element() == this.getPlayerAffinity()) {
+            this.currentInstability = this.currentInstability() + 1;
+        } else if(charge.element().getOpposite() == this.getPlayerAffinity()) {
+            this.currentInstability = this.currentInstability() + 3;
+        } else {
+            this.currentInstability = this.currentInstability() + 2;
+        }
     }
 
     private boolean fizzleCheck() {
-        return false;
+        if(player.getUniqueID().equals(UniqueIds.ARRRRIK)
+                || player.getUniqueID().equals(UniqueIds.INFINITYRAIDER)
+                || player.getUniqueID().equals(UniqueIds.RLONRYAN)) {
+            return false;
+        }
+        return player.getRNG().nextDouble() < getFizzleChance();
+    }
+
+    private double getFizzleChance() {
+        int max = this.getMaxInstability();
+        if(this.currentInstability <= max) {
+            return 0;
+        }
+        return 1.0 - Math.exp(-0.2*(this.currentInstability - max));
+    }
+
+    private int getMaxInstability() {
+        return this.level*2 + 1;
     }
 
     private void fizzle() {
@@ -210,5 +251,6 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
         this.affinity = tag.hasKey(Names.NBT.ELEMENT) ? Element.values()[tag.getInteger(Names.NBT.ELEMENT)] : null;
         this.experience = tag.hasKey(Names.NBT.EXPERIENCE) ? tag.getInteger(Names.NBT.EXPERIENCE) : 0;
         this.level = tag.hasKey(Names.NBT.LEVEL) ? tag.getInteger(Names.NBT.LEVEL) : 0;
+        this.needsSync = true;
     }
 }
