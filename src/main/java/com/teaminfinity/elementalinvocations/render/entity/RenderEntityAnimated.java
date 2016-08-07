@@ -3,7 +3,10 @@ package com.teaminfinity.elementalinvocations.render.entity;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public abstract class RenderEntityAnimated<E extends Entity> extends Render<E> {
     private float lastPartialTick = -1;
     private int counter = 0;

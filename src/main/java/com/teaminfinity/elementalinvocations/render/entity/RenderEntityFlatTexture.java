@@ -6,7 +6,10 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public abstract class RenderEntityFlatTexture<E extends Entity> extends RenderEntityAnimated<E> {
 
     protected RenderEntityFlatTexture(RenderManager renderManager) {

@@ -12,8 +12,11 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(Side.CLIENT)
 public class RenderEntityWaveForm extends RenderEntityAnimated<EntityWaveForm> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/wave_form.png");
     private static final ResourceLocation TEXTURE_BACK = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/wave_form_back.png");
