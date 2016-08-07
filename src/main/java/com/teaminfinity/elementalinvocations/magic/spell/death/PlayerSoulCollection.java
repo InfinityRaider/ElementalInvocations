@@ -1,17 +1,16 @@
 package com.teaminfinity.elementalinvocations.magic.spell.death;
 
 import com.teaminfinity.elementalinvocations.api.souls.ISoul;
+import com.teaminfinity.elementalinvocations.network.MessageSyncSouls;
+import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+
+import java.util.*;
 
 public class PlayerSoulCollection implements ISoulCollection {
-
     /* player instance */
     private final EntityPlayer player;
 
@@ -30,24 +29,41 @@ public class PlayerSoulCollection implements ISoulCollection {
 
     @Override
     public void addSoul(ISoul soul) {
-        this.souls.add(soul);
+        if(!player.worldObj.isRemote) {
+            this.souls.add(soul);
+            this.syncToClient();
+        }
     }
 
     @Override
     public ISoul removeSoul() {
-        return this.souls.pollFirst();
+        if(!player.worldObj.isRemote) {
+            ISoul soul = this.souls.pollFirst();
+            this.syncToClient();
+            return soul;
+        }
+        return null;
     }
 
     @Override
     public List<ISoul> releaseSouls() {
-        List<ISoul> temp = new ArrayList<>(this.souls);
-        this.souls.clear();
-        return temp;
+        if (!player.worldObj.isRemote) {
+            List<ISoul> temp = new ArrayList<>(this.souls);
+            this.souls.clear();
+            this.syncToClient();
+            return temp;
+        }
+        return Collections.emptyList();
     }
+
 
     @Override
     public int getSoulCount() {
         return this.souls.size();
+    }
+
+    private void syncToClient() {
+        NetworkWrapper.getInstance().sendToAll(new MessageSyncSouls(player, this.writeToNBT()));
     }
 
     @Override

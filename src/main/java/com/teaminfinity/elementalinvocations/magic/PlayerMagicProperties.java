@@ -10,7 +10,7 @@ import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.network.MessageAddCharge;
 import com.teaminfinity.elementalinvocations.network.MessageInvoke;
-import com.teaminfinity.elementalinvocations.network.MessageSyncCapabilities;
+import com.teaminfinity.elementalinvocations.network.MessageSyncMagicProperties;
 import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Names;
@@ -61,7 +61,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
     @Override
     public void updateTick() {
         if(this.needsSync && !this.player.getEntityWorld().isRemote) {
-            NetworkWrapper.getInstance().sendToAll(new MessageSyncCapabilities(player, this.writeToNBT()));
+            NetworkWrapper.getInstance().sendToAll(new MessageSyncMagicProperties(player, this.writeToNBT()));
             this.needsSync = false;
         }
         if(this.getCharges().isEmpty()) {

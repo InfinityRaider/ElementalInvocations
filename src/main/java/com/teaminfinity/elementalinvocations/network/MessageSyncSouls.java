@@ -1,7 +1,9 @@
 package com.teaminfinity.elementalinvocations.network;
 
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
+import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,15 +12,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageSyncCapabilities extends MessageBase<IMessage> {
+public class MessageSyncSouls extends MessageBase<IMessage> {
     private EntityPlayer player;
     private NBTTagCompound tag;
 
-    public MessageSyncCapabilities() {
+    public MessageSyncSouls() {
         super();
     }
 
-    public MessageSyncCapabilities(EntityPlayer player, NBTTagCompound tag) {
+    public MessageSyncSouls(EntityPlayer player, NBTTagCompound tag) {
         this();
         this.player = player;
         this.tag = tag;
@@ -32,9 +34,9 @@ public class MessageSyncCapabilities extends MessageBase<IMessage> {
     @Override
     protected void processMessage(MessageContext ctx) {
         if (ctx.side == Side.CLIENT && this.player != null) {
-            IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(this.player);
-            if (properties != null) {
-                properties.readFromNBT(this.tag);
+            ISoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(this.player);
+            if (collection != null) {
+                collection.readFromNBT(this.tag);
             }
         }
     }
