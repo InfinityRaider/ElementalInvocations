@@ -16,8 +16,7 @@ public class PotionConfusion extends PotionBase {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potion_confusion.png");
 
     protected PotionConfusion() {
-        super(true, 0);
-        this.setPotionName(Reference.MOD_ID.toLowerCase() + ":potion.confusion");
+        super(true,"confusion", 0);
     }
 
     @Override

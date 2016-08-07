@@ -40,7 +40,6 @@ public class SpellInitializer {
                 .createSpell("purifying_flame", 0));
 
 
-
         //Water spells
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Wave Form", "Surf's Up!")
@@ -53,6 +52,13 @@ public class SpellInitializer {
                 .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.AIR, Element.AIR)
                 .setSpellEffects(new EffectBallLightning())
                 .createSpell("wave_form", 0));
+
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Frost Armor", "Stay frosty!")
+                .setSpellElements(Element.WATER, Element.WATER, Element.WATER, Element.EARTH, Element.EARTH)
+                .setSpellEffects(new EffectFrostArmor())
+                .createSpell("frost_armor", 0));
+
 
         //Air spells
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
@@ -82,7 +88,6 @@ public class SpellInitializer {
                 .setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH, Element.LIFE, Element.LIFE)
                 .setSpellEffects(new EffectConsumeSoul())
                 .createSpell("consume_soul", 0));
-
 
 
         //Life spells

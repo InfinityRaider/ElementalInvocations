@@ -17,7 +17,7 @@ public class EffectPurifyingFlame implements ISpellEffect {
         if(target != null && target.entityHit != null && (target.entityHit instanceof EntityLivingBase)) {
             EntityLivingBase entity = (EntityLivingBase) target.entityHit;
             entity.attackEntityFrom(new DamageSourcePurifyingFlame(), potencies[Element.FIRE.ordinal()]);
-            entity.addPotionEffect(new PotionEffect(Potion.getPotionById(10), 15 - potencies[Element.LIFE.ordinal()]));
+            entity.addPotionEffect(new PotionEffect(Potion.getPotionById(10), (15 - potencies[Element.LIFE.ordinal()])*20));
         }
         return false;
     }

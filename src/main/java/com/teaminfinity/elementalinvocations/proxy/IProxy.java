@@ -57,6 +57,7 @@ public interface IProxy extends IProxyBase {
         MinecraftForge.EVENT_BUS.register(CapabilityHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(PlayerStateHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(SpellCastingHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(DamageReductorHandler.getInstance());
     }
 
     default void registerRenderers(ModBase mod) {}

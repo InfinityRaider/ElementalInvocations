@@ -32,7 +32,10 @@ tooltip.elemental_invocations.wand.coreType=Current wand core
 tooltip.elemental_invocations.wand.coreLevel=Wand power level
 
 //potion
-elemental_invocations:potion.oonfusion=Confused
+elemental_invocations:potion.confusion=Confused
+elemental_invocations:potion.wraith_form=Wraith Form
+elemental_invocations:potion.living_armor=Living Armor
+elemental_invocations:potion.frost_armor=Frost Armor
 
 //keybindings
 keybinding.elemental_invocations.invoke=Invoke Spell

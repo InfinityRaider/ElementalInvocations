@@ -12,8 +12,7 @@ public class PotionWraithForm extends PotionBase {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potion_wraith.png");
 
     protected PotionWraithForm() {
-        super(false, 0);
-        this.setPotionName(Reference.MOD_ID.toLowerCase() + ":potion.wraithForm");
+        super(false, "wraith_form", 0);
     }
 
     @Override

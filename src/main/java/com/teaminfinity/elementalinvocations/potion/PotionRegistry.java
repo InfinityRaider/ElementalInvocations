@@ -21,11 +21,13 @@ public class PotionRegistry {
         this.POTION_CONFUSION = this.registerPotion(new PotionConfusion());
         this.POTION_WRAITH_FORM = this.registerPotion(new PotionWraithForm());
         this.POTION_LIVING_ARMOR = this.registerPotion(new PotionLivingArmor());
+        this.POTION_FROST_ARMOR = this.registerPotion(new PotionFrostArmor());
     }
 
     public final Potion POTION_CONFUSION;
     public final Potion POTION_WRAITH_FORM;
     public final Potion POTION_LIVING_ARMOR;
+    public final Potion POTION_FROST_ARMOR;
 
     private Potion registerPotion(Potion potion) {
         String name = potion.getName();

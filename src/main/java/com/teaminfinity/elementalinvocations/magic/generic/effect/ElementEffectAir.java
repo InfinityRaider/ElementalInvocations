@@ -20,7 +20,7 @@ public class ElementEffectAir extends ElementEffect {
     @Override
     public void applyEffectPost(MagicEffect effect, EntityPlayer caster, EntityLivingBase target, int potency, boolean secondary) {
         if(secondary) {
-            target.addPotionEffect(new PotionEffect(PotionRegistry.getInstance().POTION_CONFUSION, potency));
+            target.addPotionEffect(new PotionEffect(PotionRegistry.getInstance().POTION_CONFUSION, 20*potency));
         }
     }
 }

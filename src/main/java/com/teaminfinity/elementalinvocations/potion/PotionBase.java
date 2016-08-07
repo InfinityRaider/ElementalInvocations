@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations.potion;
 
+import com.teaminfinity.elementalinvocations.reference.Reference;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
@@ -7,8 +8,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class PotionBase extends Potion {
-    protected PotionBase(boolean isBadEffectIn, int liquidColorIn) {
+    protected PotionBase(boolean isBadEffectIn, String name, int liquidColorIn) {
         super(isBadEffectIn, liquidColorIn);
+        this.setPotionName(Reference.MOD_ID.toLowerCase() + ":potion." + name);
     }
 
     protected abstract ResourceLocation getTexture();
