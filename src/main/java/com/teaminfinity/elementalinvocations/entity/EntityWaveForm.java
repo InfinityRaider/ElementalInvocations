@@ -36,11 +36,21 @@ public class EntityWaveForm extends EntityThrowableMagic {
         this.potencyWater = potencyWater;
         this.setEntityBoundingBox(BOX);
         this.noClip = false;
+        this.posX = caster.posX;
+        this.posY = caster.posY;
+        this.posZ = caster.posZ;
+        this.prevPosX = caster.posX;
+        this.prevPosY = caster.posY;
+        this.prevPosZ = caster.posZ;
+        this.motionX = 0;
+        this.motionY = 0;
+        this.motionZ = 0;
     }
 
     @Override
     protected float getGravityVelocity() {
-        return 0.5F;
+        //return 0.5F;
+        return 0;
     }
 
     public void channelUpdate(EntityPlayer caster) {
@@ -54,11 +64,10 @@ public class EntityWaveForm extends EntityThrowableMagic {
         super.onUpdate();
         if(!this.getEntityWorld().isRemote) {
             if(getThrower() == null || !this.channeled) {
-                this.setDead();
+                //this.setDead();
             }
             this.channeled = false;
         }
-        LogHelper.debug("vertical velocity: " + motionY);
     }
 
     @Override
@@ -77,7 +86,6 @@ public class EntityWaveForm extends EntityThrowableMagic {
                     break;
                 case Y:
                     this.motionY = 0;
-                    LogHelper.debug("set vertical velocity to 0");
                     break;
                 case Z:
                     this.motionZ = 0;

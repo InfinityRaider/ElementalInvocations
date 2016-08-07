@@ -64,12 +64,12 @@ public abstract class EntityThrowableMagic extends EntityThrowable implements IE
 
     @Override
     public final void writeSpawnData(ByteBuf buffer) {
-        ByteBufUtils.writeTag(buffer, this.writeToNBTExtra(new NBTTagCompound()));
+        ByteBufUtils.writeTag(buffer, this.writeToNBT(new NBTTagCompound()));
     }
 
     @Override
     public final void readSpawnData(ByteBuf buffer) {
-        this.readFromNBTExtra(ByteBufUtils.readTag(buffer));
+        this.readFromNBT(ByteBufUtils.readTag(buffer));
     }
 
 }

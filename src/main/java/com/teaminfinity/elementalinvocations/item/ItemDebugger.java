@@ -25,6 +25,7 @@ public class ItemDebugger extends ItemDebuggerBase {
             list.add(new DebugModeCycleAffinity(element));
         }
         list.add(new DebugModeConfusion());
+        list.add(new DebugModeWaveForm());
         return list;
     }
 
