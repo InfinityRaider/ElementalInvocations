@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderEntityWaveForm extends RenderEntityAnimated<EntityWaveForm> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/wave_form.png");
-    private static final ResourceLocation TEXTURE_BACK = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/wave_back.png");
+    private static final ResourceLocation TEXTURE_BACK = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/wave_form_back.png");
 
     private static final int FRAMES = 4;
     private static final int FRAME_TIME = 2;
