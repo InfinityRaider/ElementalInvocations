@@ -81,8 +81,8 @@
 		- BALL LIGHTNING (WATER + AIR) [ W - W - W - A - A ]
 			The player becomes a ball of lightning and quickly zaps towards the target location, damaging enemies which are passed	
 			
-		- FROST FORM (WATER + EARTH) [ W - W - W - E - E ]
-			The caster becomes icy cold and everyone hitting the caster takes mild cold damage and is slowed.
+		- FROST Armor (WATER + EARTH) [ W - W - W - E - E ]
+			The caster becomes icy cold and everyone hitting the caster is slowed.
 			Freezes the ground under the casters feet (apply layer of ice on normal blocks, and freeze water to ice, lava to obsidian + ice layer).
 			Ice is very slippery.			
 		
