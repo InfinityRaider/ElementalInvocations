@@ -9,6 +9,7 @@ import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
 import com.teaminfinity.elementalinvocations.proxy.base.IClientProxyBase;
 import com.teaminfinity.elementalinvocations.render.model.ModelPlayerCustomized;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerCharges;
+import com.teaminfinity.elementalinvocations.render.player.RenderPlayerHUD;
 import com.teaminfinity.elementalinvocations.utility.KeyBindings;
 import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,6 +55,7 @@ public class ClientProxy implements IProxy, IClientProxyBase {
         MinecraftForge.EVENT_BUS.register(MouseClickHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(RenderPlayerCharges.getInstance());
         MinecraftForge.EVENT_BUS.register(KeyInputHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(RenderPlayerHUD.getInstance());
     }
 
     @Override
