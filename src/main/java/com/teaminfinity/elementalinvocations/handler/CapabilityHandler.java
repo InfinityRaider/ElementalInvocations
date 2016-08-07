@@ -5,9 +5,9 @@ import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class CapabilityHandler {
     private static final CapabilityHandler INSTANCE = new CapabilityHandler();
@@ -18,6 +18,9 @@ public class CapabilityHandler {
 
     private CapabilityHandler() {}
 
+    /**
+     * used to initialize player's capabilities
+     */
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void addEntityCapabilities(AttachCapabilitiesEvent.Entity event) {
@@ -27,6 +30,9 @@ public class CapabilityHandler {
         }
     }
 
+    /**
+     * uused to tick the player's capabilities
+     */
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -35,6 +41,20 @@ public class CapabilityHandler {
             IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
             if(properties != null) {
                 properties.updateTick();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    @SuppressWarnings("unused")
+    public void onPlayerClone(PlayerEvent.Clone event) {
+        EntityPlayer oldPlayer = event.getOriginal();
+        EntityPlayer newPlayer = event.getEntityPlayer();
+        if(!oldPlayer.getEntityWorld().isRemote) {
+            IPlayerMagicProperties oldProps = PlayerMagicProvider.getMagicProperties(oldPlayer);
+            IPlayerMagicProperties newProps = PlayerMagicProvider.getMagicProperties(newPlayer);
+            if(oldPlayer != null && newProps != null) {
+                newProps.readFromNBT(oldProps.writeToNBT());
             }
         }
     }

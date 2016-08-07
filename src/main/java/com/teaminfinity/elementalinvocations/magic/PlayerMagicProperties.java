@@ -65,7 +65,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
             this.needsSync = false;
         }
         if(this.getCharges().isEmpty()) {
-            this.currentInstability = Math.min(0, this.currentInstability - 1);
+            this.currentInstability = Math.max(0, this.currentInstability - 1);
         }
     }
 
@@ -223,7 +223,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
         if(this.currentInstability <= max) {
             return 0;
         }
-        return 1.0 - Math.exp(-0.1*(this.currentInstability - max));
+        return  1.0 - Math.exp(-0.1*(this.currentInstability - max));
     }
 
     private int getMaxInstability() {
