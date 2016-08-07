@@ -34,10 +34,9 @@ public class RenderPlayerHUD {
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onRenderScreen(RenderGameOverlayEvent.Pre event) {
-        if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
+        if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
             ISoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(ElementalInvocations.proxy.getClientPlayer());
             if(collection != null && collection.getSoulCount() > 0) {
-
                 Minecraft.getMinecraft().renderEngine.bindTexture(SOUL_TEXTURE);
                 Tessellator tessellator = Tessellator.getInstance();
                 VertexBuffer buffer = tessellator.getBuffer();
