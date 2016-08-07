@@ -6,6 +6,7 @@ import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.magic.spell.*;
 import com.teaminfinity.elementalinvocations.magic.spell.air.*;
 import com.teaminfinity.elementalinvocations.magic.spell.death.*;
+import com.teaminfinity.elementalinvocations.magic.spell.earth.EffectLivingArmor;
 import com.teaminfinity.elementalinvocations.magic.spell.fire.*;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.*;
 import com.teaminfinity.elementalinvocations.magic.spell.water.*;
@@ -31,6 +32,12 @@ public class SpellInitializer {
                 .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.DEATH, Element.DEATH)
                 .setSpellEffects(new EffectDeathNova())
                 .createSpell("death_nova", 0));
+
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Purifying Flame", "Cleansing fire!")
+                .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.LIFE, Element.LIFE)
+                .setSpellEffects(new EffectPurifyingFlame())
+                .createSpell("purifying_flame", 0));
 
 
 
@@ -59,7 +66,7 @@ public class SpellInitializer {
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Living Armor", "I'm in my safe spot now")
                 .setSpellElements(Element.EARTH, Element.EARTH, Element.EARTH, Element.LIFE, Element.LIFE)
-                .setSpellEffects(new EffectVacuum())
+                .setSpellEffects(new EffectLivingArmor())
                 .createSpell("living_armor", 0));
 
 
