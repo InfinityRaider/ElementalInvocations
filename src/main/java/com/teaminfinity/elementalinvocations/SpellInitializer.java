@@ -59,6 +59,12 @@ public class SpellInitializer {
 
 
         //Death spells
+		SpellRegistry.getInstance().addSpell(new SpellBuilder()
+				.setSpellDescription("Necromancy", "Rise my minions!")
+				.setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH, Element.EARTH, Element.EARTH)
+				.setSpellEffects(new EffectNecromancy())
+				.createSpell("necromancy", 0));
+
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Consume Soul", "You weren't using it were you?")
                 .setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH, Element.LIFE, Element.LIFE)

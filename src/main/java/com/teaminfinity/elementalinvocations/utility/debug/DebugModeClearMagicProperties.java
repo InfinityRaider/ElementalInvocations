@@ -19,12 +19,9 @@ public class DebugModeClearMagicProperties extends DebugMode {
     @Override
     public void debugAction(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
-        if(properties != null) {
+        if(!world.isRemote && properties != null) {
             properties.reset();
-            if(player.worldObj.isRemote) {
-                player.addChatComponentMessage(new TextComponentString(
-                        "Reset player magic properties"));
-            }
+            player.addChatComponentMessage(new TextComponentString("Reset player magic properties"));
         }
     }
 }

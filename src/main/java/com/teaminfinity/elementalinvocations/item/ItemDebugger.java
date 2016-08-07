@@ -24,6 +24,7 @@ public class ItemDebugger extends ItemDebuggerBase {
         for(Element element : Element.values()) {
             list.add(new DebugModeCycleAffinity(element));
         }
+        list.add(new DebugModeAddSoul());
         list.add(new DebugModeConfusion());
         return list;
     }

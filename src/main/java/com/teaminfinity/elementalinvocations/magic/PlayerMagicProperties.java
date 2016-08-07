@@ -150,6 +150,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
             }
             NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), potencies[this.getPlayerAffinity().ordinal()]));
             this.getCharges().clear();
+            this.currentInstability = 0;
         }
     }
 
