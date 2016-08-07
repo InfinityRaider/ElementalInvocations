@@ -3,18 +3,12 @@
 package com.teaminfinity.elementalinvocations;
 
 import com.teaminfinity.elementalinvocations.api.Element;
-import com.teaminfinity.elementalinvocations.magic.spell.SpellBuilder;
-import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
-import com.teaminfinity.elementalinvocations.magic.spell.death.EffectConsumeSoul;
-import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectConjureMeteor;
-import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectDeathNova;
-import com.teaminfinity.elementalinvocations.magic.spell.fire.EffectSunstrike;
-import com.teaminfinity.elementalinvocations.magic.spell.misc.DamageEffect;
-import com.teaminfinity.elementalinvocations.magic.spell.misc.EffectAttract;
-import com.teaminfinity.elementalinvocations.magic.spell.misc.ExtinguishEffect;
-import com.teaminfinity.elementalinvocations.magic.spell.misc.FireEffect;
-import com.teaminfinity.elementalinvocations.magic.spell.water.EffectBallLightning;
-import com.teaminfinity.elementalinvocations.magic.spell.water.EffectWaveForm;
+import com.teaminfinity.elementalinvocations.magic.spell.*;
+import com.teaminfinity.elementalinvocations.magic.spell.air.*;
+import com.teaminfinity.elementalinvocations.magic.spell.death.*;
+import com.teaminfinity.elementalinvocations.magic.spell.fire.*;
+import com.teaminfinity.elementalinvocations.magic.spell.misc.*;
+import com.teaminfinity.elementalinvocations.magic.spell.water.*;
 
 public class SpellInitializer {
 
@@ -55,10 +49,10 @@ public class SpellInitializer {
 
         //Air spells
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("Vaccuum", "Well this sucks!")
+                .setSpellDescription("Vacuum", "Well this sucks!")
                 .setSpellElements(Element.AIR, Element.AIR, Element.AIR, Element.DEATH, Element.DEATH)
-                .setSpellEffects(new EffectAttract())
-                .createSpell("vaccuum", 0));
+                .setSpellEffects(new EffectVacuum())
+                .createSpell("vacuum", 0));
 
 
         //Earth spells

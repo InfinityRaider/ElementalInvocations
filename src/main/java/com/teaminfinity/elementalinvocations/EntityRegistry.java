@@ -40,6 +40,12 @@ public class EntityRegistry {
                 .setVelocityUpdates(true)
                 .setRenderFactory(EntityMeteor.RenderFactory.getInstance());
 
+        entityVacuum = new EntityRegistryEntry<>(EntityVacuum.class, "entity.vacuum")
+                .setTrackingDistance(32)
+                .setUpdateFrequency(1)
+                .setVelocityUpdates(false)
+                .setRenderFactory(EntityVacuum.RenderFactory.getInstance());
+
 
     }
 
@@ -48,4 +54,5 @@ public class EntityRegistry {
     public final EntityRegistryEntry<EntitySunstrike> entitySunstrike;
     public final EntityRegistryEntry<EntityWaveForm> entityWaveForm;
     public final EntityRegistryEntry<EntityMeteor> entityMeteor;
+    public final EntityRegistryEntry<EntityVacuum> entityVacuum;
 }
