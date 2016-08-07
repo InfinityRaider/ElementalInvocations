@@ -3,10 +3,13 @@ package com.teaminfinity.elementalinvocations.handler;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.network.MessageSyncState;
 import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.ThrowableImpactEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -98,6 +101,19 @@ public class PlayerStateHandler {
         }
     }
 
+    @SubscribeEvent
+    @SuppressWarnings("unused")
+    public void onEntityTargetingEvent(LivingSetAttackTargetEvent event) {
+        EntityLivingBase target = event.getTarget();
+        EntityLivingBase attacker = event.getEntityLiving();
+        if(target == null || attacker == null || !(target instanceof EntityPlayer) || !(attacker instanceof EntityLiving)) {
+            return;
+        }
+        if(getState((EntityPlayer) target).isUndetectable()) {
+            ((EntityLiving) attacker).setAttackTarget(null);
+        }
+    }
+
     public static class State {
         /** Player pointer */
         private final EntityPlayer player;
@@ -108,6 +124,8 @@ public class PlayerStateHandler {
         private boolean invulnerable;
         /** Non colliding with entities */
         private boolean ethereal;
+        /** Mobs do not target the player */
+        private boolean undetectable;
 
         private State(EntityPlayer player) {
             this.player = player;
@@ -141,6 +159,14 @@ public class PlayerStateHandler {
             return this;
         }
 
+        public State setUndetectable(boolean status) {
+            if(status != this.undetectable) {
+                this.undetectable = status;
+                this.syncToClient();
+            }
+            return this;
+        }
+
         public boolean isInvisible() {
             return this.invisible;
         }
@@ -151,6 +177,10 @@ public class PlayerStateHandler {
 
         public boolean isEthereal() {
             return this.ethereal;
+        }
+
+        public boolean isUndetectable() {
+            return this.undetectable;
         }
 
         private void syncToClient() {

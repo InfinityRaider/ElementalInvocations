@@ -36,7 +36,7 @@ public class EntityBallLightning extends EntityThrowableMagic{
         this.potencyWater = potencyWater;
         this.setEntityBoundingBox(BOX);
         this.setThrowableHeading(getDirection().xCoord, getDirection().yCoord, getDirection().zCoord, 3F, 0.1F);
-        PlayerStateHandler.getInstance().getState(caster).setInvisible(true).setInvulnerable(true).setEthereal(true);
+        PlayerStateHandler.getInstance().getState(caster).setInvisible(true).setInvulnerable(true).setEthereal(true).setUndetectable(true);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class EntityBallLightning extends EntityThrowableMagic{
         EntityPlayer caster = this.getThrower();
         if(caster != null) {
             caster.dismountRidingEntity();
-            PlayerStateHandler.getInstance().getState(caster).setInvisible(false).setInvulnerable(false).setEthereal(false);
+            PlayerStateHandler.getInstance().getState(caster).setInvisible(false).setInvulnerable(false).setEthereal(false).setUndetectable(false);
         }
         super.setDead();
     }

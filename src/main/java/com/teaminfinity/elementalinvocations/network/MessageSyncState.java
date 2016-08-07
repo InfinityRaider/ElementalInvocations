@@ -18,7 +18,11 @@ public class MessageSyncState extends MessageBase<IMessage> {
     public MessageSyncState(EntityPlayer player, PlayerStateHandler.State state) {
         this();
         this.player = player;
-        this.state = (byte) ((state.isInvisible() ? 1 : 0) | ((state.isInvulnerable() ? 1 : 0) << 1) | ((state.isEthereal() ? 1 : 0) << 2));
+        this.state =
+                (byte) ((state.isInvisible() ? 1 : 0)
+                        | ((state.isInvulnerable() ? 1 : 0) << 1)
+                        | ((state.isEthereal() ? 1 : 0) << 2)
+                        | ((state.isUndetectable() ? 1 : 0) << 3));
     }
 
     @Override
@@ -30,9 +34,10 @@ public class MessageSyncState extends MessageBase<IMessage> {
     protected void processMessage(MessageContext ctx) {
         if(ctx.side == Side.CLIENT && this.player != null) {
             PlayerStateHandler.getInstance().getState(this.player)
-                    .setInvisible(((this.state >> 2) & 1) == 1)
+                    .setInvisible(((this.state) & 1) == 1)
                     .setInvulnerable(((this.state >> 1) & 1) == 1)
-                    .setEthereal((this.state & 1) == 1);
+                    .setEthereal(((this.state >> 2) & 1) == 1)
+                    .setUndetectable(((this.state >> 3) & 1) == 1);
         }
     }
 
