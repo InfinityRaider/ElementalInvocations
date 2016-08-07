@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 
 public class PotionWraithForm extends PotionBase {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potionWraithForm.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potion_wraith.png");
 
     protected PotionWraithForm() {
         super(false, 0);

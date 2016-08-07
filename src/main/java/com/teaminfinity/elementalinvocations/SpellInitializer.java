@@ -56,6 +56,11 @@ public class SpellInitializer {
 
 
         //Earth spells
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Living Armor", "I'm in my safe spot now")
+                .setSpellElements(Element.EARTH, Element.EARTH, Element.EARTH, Element.LIFE, Element.LIFE)
+                .setSpellEffects(new EffectVacuum())
+                .createSpell("living_armor", 0));
 
 
         //Death spells
