@@ -139,11 +139,11 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
                 return;
             }
             ISpell spell = getSpell();
-            int[] potencies = getPotencyArray();
+            int[] potencies = getPotencyArray(false);
             this.addExperience(potencies[this.getPlayerAffinity().ordinal()]*charges.size());
 
             if(spell == null) {
-                EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getCharges());
+                EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getPotencyArray(false));
                 getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
             } else {
                 spell.invoke(player, potencies);
@@ -159,11 +159,18 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
         return spell.isPresent() ? spell.get() : null;
     }
 
-    private int[] getPotencyArray() {
+    private int[] getPotencyArray(boolean fizzle) {
         int[] potencies = new int[Element.values().length];
         for(IMagicCharge charge : this.charges) {
-            potencies[charge.element().ordinal()] += charge.level();
+            float pre = 1.0F;
+            if(charge.element() == this.getPlayerAffinity()) {
+                pre = pre + ConfigurationHandler.getInstance().affinityBonus;
+            } else if(charge.element() == this.getPlayerAffinity().getOpposite()) {
+                pre = pre - ConfigurationHandler.getInstance().affinityBonus;
+            }
+            potencies[charge.element().ordinal()] += (int) ((pre * charge.level()) / (fizzle ? 2.0F : 1.0F));
         }
+
         return potencies;
     }
 
@@ -194,11 +201,11 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
 
     private void recalculateInstability(IMagicCharge charge) {
         if(charge.element() == this.getPlayerAffinity()) {
-            this.currentInstability = this.currentInstability() + 1;
+            this.currentInstability = this.currentInstability() + charge.level();
         } else if(charge.element().getOpposite() == this.getPlayerAffinity()) {
-            this.currentInstability = this.currentInstability() + 3;
+            this.currentInstability = this.currentInstability() + 3*charge.level();
         } else {
-            this.currentInstability = this.currentInstability() + 2;
+            this.currentInstability = this.currentInstability() + 2*charge.level();
         }
     }
 
@@ -216,16 +223,16 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
         if(this.currentInstability <= max) {
             return 0;
         }
-        return 1.0 - Math.exp(-0.2*(this.currentInstability - max));
+        return 1.0 - Math.exp(-0.1*(this.currentInstability - max));
     }
 
     private int getMaxInstability() {
-        return this.level*2 + 1;
+        return this.level*7 + 1;
     }
 
     private void fizzle() {
         Vec3d vec3d = getPlayer().getLookVec();
-        new MagicEffect(getPlayer(), getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), getCharges()).apply();
+        new MagicEffect(getPlayer(), getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), getPotencyArray(true)).apply();
         this.getCharges().clear();
         NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), 0));
     }

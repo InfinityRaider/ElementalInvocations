@@ -1,8 +1,6 @@
 package com.teaminfinity.elementalinvocations.entity;
 
-import com.google.common.collect.ImmutableList;
 import com.teaminfinity.elementalinvocations.api.Element;
-import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntityMagicProjectile;
@@ -11,7 +9,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -19,13 +16,10 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EntityMagicProjectile extends EntityThrowableMagic {
     private static final AxisAlignedBB BOX = new AxisAlignedBB(0, 0, 0, 0.25, 0.25, 0.25);
 
-    private List<IMagicCharge> charges;
+    private int[] potencies;
     private int timer;
     private int red = -1;
     private int green = -1;
@@ -37,9 +31,9 @@ public class EntityMagicProjectile extends EntityThrowableMagic {
         this.setEntityBoundingBox(BOX);
     }
 
-    public EntityMagicProjectile(EntityPlayer caster, List<IMagicCharge> charges) {
+    public EntityMagicProjectile(EntityPlayer caster, int[] potencies) {
         super(caster);
-        this.charges = ImmutableList.copyOf(charges);
+        this.potencies = potencies;
         this.setEntityBoundingBox(BOX);
         this.setThrowableHeading(getDirection().xCoord, getDirection().yCoord, getDirection().zCoord, 2F, 0.5F);
     }
@@ -59,7 +53,7 @@ public class EntityMagicProjectile extends EntityThrowableMagic {
     protected void onImpact(RayTraceResult result) {
         if(!worldObj.isRemote) {
             if(result.entityHit != null && (result.entityHit instanceof EntityLivingBase)) {
-                new MagicEffect(getThrower(), (EntityLivingBase) result.entityHit, getDirection(), charges).apply();
+                new MagicEffect(getThrower(), (EntityLivingBase) result.entityHit, getDirection(), potencies).apply();
             }
         }
         this.setDead();
@@ -96,11 +90,11 @@ public class EntityMagicProjectile extends EntityThrowableMagic {
         this.red = 0;
         this.green = 0;
         this.blue = 0;
-        for(IMagicCharge charge : charges) {
-            total = total + charge.level();
-            this.red = this.red + charge.element().getRed()*charge.level();
-            this.green = this.green + charge.element().getGreen()*charge.level();
-            this.blue = this.blue + charge.element().getBlue()*charge.level();
+        for(Element element : Element.values()) {
+            total = total + potencies[element.ordinal()];
+            this.red = this.red + element.getRed()*potencies[element.ordinal()];
+            this.green = this.green + element.getGreen()*potencies[element.ordinal()];
+            this.blue = this.blue + element.getBlue()*potencies[element.ordinal()];
         }
         this.red = this.red / total;
         this.green = this.green / total;
@@ -109,38 +103,13 @@ public class EntityMagicProjectile extends EntityThrowableMagic {
 
     @Override
     protected NBTTagCompound writeDataToNBT(NBTTagCompound tag) {
-        NBTTagList list = new NBTTagList();
-        for(IMagicCharge charge : charges) {
-            NBTTagCompound chargeTag = new NBTTagCompound();
-            chargeTag.setInteger(Names.NBT.LEVEL, charge.level());
-            chargeTag.setInteger(Names.NBT.ELEMENT, charge.element().ordinal());
-            list.appendTag(chargeTag);
-        }
-        tag.setTag(Names.NBT.CHARGE, list);
+        tag.setIntArray(Names.NBT.CHARGE, potencies);
         return tag;
     }
 
     @Override
     protected void readDataFromNBT(NBTTagCompound tag) {
-        ArrayList<IMagicCharge> list = new ArrayList<>();
-        NBTTagList tagList = tag.getTagList(Names.NBT.CHARGE, 10);
-        for(int i = 0; i < tagList.tagCount(); i++) {
-            NBTTagCompound chargeTag = tagList.getCompoundTagAt(i);
-            Element element = Element.values()[chargeTag.getInteger(Names.NBT.ELEMENT)];
-            int level = chargeTag.getInteger(Names.NBT.LEVEL);
-            list.add(new IMagicCharge() {
-                @Override
-                public Element element() {
-                    return element;
-                }
-
-                @Override
-                public int level() {
-                    return level;
-                }
-            });
-        }
-        this.charges = ImmutableList.copyOf(list);
+        this.potencies = tag.getIntArray(Names.NBT.CHARGE);
     }
 
     public static class RenderFactory implements IRenderFactory<EntityMagicProjectile> {

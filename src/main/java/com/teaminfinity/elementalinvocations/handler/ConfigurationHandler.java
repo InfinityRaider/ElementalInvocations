@@ -25,6 +25,7 @@ public class ConfigurationHandler {
     public int experienceMultiplier;
     public boolean allowOrbLevelling;
     public int levelLossOnElementChange;
+    public float affinityBonus;
 
     //client
     @SideOnly(Side.CLIENT)
@@ -68,6 +69,8 @@ public class ConfigurationHandler {
                 "Set to false to disable players increasing their magic level by consuming orbs");
         levelLossOnElementChange = config.getInt("level loss on element change", Categories.GENERAL.getName(), 10, 0, 10,
                 "The amount of magic levels the player loses when changing its magic affinity to another element");
+        affinityBonus = config.getFloat("affinity bonus", Categories.GENERAL.getName(), 0.2F, 0.0F, 1.0F,
+                "The potency of spells is increased/decreased proportionality if the spell's element matches the player's element/opposite element");
 
         //debug
         debug = config.getBoolean("debug", Categories.DEBUG.getName(), false, "Set to true if you wish to enable debug mode");
