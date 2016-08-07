@@ -1,6 +1,7 @@
 package com.teaminfinity.elementalinvocations.handler;
 
 import com.teaminfinity.elementalinvocations.api.Element;
+import com.teaminfinity.elementalinvocations.api.spells.ISpell;
 import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.common.config.Configuration;
@@ -104,6 +105,15 @@ public class ConfigurationHandler {
             config.save();
         }
         return new Tuple<>(chance, rolls);
+    }
+
+    public boolean isSpellDisabled(ISpell spell) {
+        boolean disabled = config.getBoolean("Disable " + spell.getId(), Categories.SPELLS.getName(), false,
+                "set to true to disable the " + spell.getId() + " spell");
+        if(config.hasChanged()) {
+            config.save();
+        }
+        return disabled;
     }
 
     public enum Categories {

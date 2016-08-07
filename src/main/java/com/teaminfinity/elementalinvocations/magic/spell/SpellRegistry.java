@@ -5,6 +5,7 @@ package com.teaminfinity.elementalinvocations.magic.spell;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellRegistry;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.spells.ISpell;
+import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,8 +30,8 @@ public final class SpellRegistry implements ISpellRegistry {
 	
 	@Override
 	public boolean addSpell(ISpell spell) {
-		return spells.add(spell);
-	}
+        return (!ConfigurationHandler.getInstance().isSpellDisabled(spell)) && spells.add(spell);
+    }
 	
 	@Override
 	public Optional<ISpell> getSpell(String spellId) {
