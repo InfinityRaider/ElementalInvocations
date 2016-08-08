@@ -1,6 +1,8 @@
 package com.teaminfinity.elementalinvocations.potion;
 
 import com.teaminfinity.elementalinvocations.reference.Reference;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockGrass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -38,6 +40,14 @@ public class PotionFrostArmor extends PotionBase implements IDamageReductor {
                 entity.getEntityWorld().setBlockState(below, Blocks.OBSIDIAN.getDefaultState(), 3);
             } else if(state.getBlock() == Blocks.WATER || state.getBlock() == Blocks.FLOWING_WATER) {
                 entity.getEntityWorld().setBlockState(below, Blocks.ICE.getDefaultState(), 3);
+            } else if(state.getBlock() == Blocks.DIRT) {
+                IBlockState newState = Blocks.DIRT.getDefaultState().withProperty(BlockDirt.SNOWY, true);
+                entity.getEntityWorld().setBlockState(below, newState, 3);
+                entity.getEntityWorld().notifyBlockUpdate(below, state, newState, 3);
+            } else if(state.getBlock() == Blocks.GRASS) {
+                IBlockState newState = Blocks.GRASS.getDefaultState().withProperty(BlockGrass.SNOWY, true);
+                entity.getEntityWorld().setBlockState(below, newState, 3);
+                entity.getEntityWorld().notifyBlockUpdate(below, state, newState, 3);
             }
         }
     }
