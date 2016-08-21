@@ -3,7 +3,6 @@
 package com.teaminfinity.elementalinvocations.magic.spell;
 
 import com.teaminfinity.elementalinvocations.api.Element;
-import com.teaminfinity.elementalinvocations.magic.spell.*;
 import com.teaminfinity.elementalinvocations.magic.spell.air.*;
 import com.teaminfinity.elementalinvocations.magic.spell.death.*;
 import com.teaminfinity.elementalinvocations.magic.spell.earth.EffectLivingArmor;
