@@ -38,7 +38,7 @@ public class EntityMeteor extends EntityThrowableMagic {
         this.potencyEarth = potencyEarth;
         Vec3d look = caster.getLookVec();
         this.posX = caster.posX - look.xCoord * 50;
-        this.posY = 100;
+        this.posY = caster.posY + 100;
         this.posZ = caster.posZ - look.zCoord * 50;
         this.setThrowableHeading(look.xCoord, 0, look.zCoord, 5.0F, 0F);
     }
