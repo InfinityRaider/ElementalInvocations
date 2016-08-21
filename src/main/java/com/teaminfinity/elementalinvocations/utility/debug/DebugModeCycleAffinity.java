@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations.utility.debug;
 
+import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;

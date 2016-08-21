@@ -1,7 +1,7 @@
 package com.teaminfinity.elementalinvocations.entity;
 
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.network.MessageRenderSunstrike;
-import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntitySunstrike;
 import com.teaminfinity.elementalinvocations.utility.AreaHelper;

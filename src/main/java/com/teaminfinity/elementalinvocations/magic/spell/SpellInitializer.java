@@ -1,6 +1,6 @@
 /*
  */
-package com.teaminfinity.elementalinvocations;
+package com.teaminfinity.elementalinvocations.magic.spell;
 
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.magic.spell.*;

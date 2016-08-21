@@ -1,4 +1,4 @@
-package com.teaminfinity.elementalinvocations;
+package com.teaminfinity.elementalinvocations.registry;
 
 public class BlockRegistry {
     private static final BlockRegistry INSTANCE = new BlockRegistry();

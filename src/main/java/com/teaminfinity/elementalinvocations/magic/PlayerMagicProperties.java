@@ -1,5 +1,7 @@
 package com.teaminfinity.elementalinvocations.magic;
 
+import com.infinityraider.infinitylib.network.NetworkWrapper;
+import com.infinityraider.infinitylib.utility.LogHelper;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
@@ -11,11 +13,9 @@ import com.teaminfinity.elementalinvocations.magic.spell.SpellRegistry;
 import com.teaminfinity.elementalinvocations.network.MessageAddCharge;
 import com.teaminfinity.elementalinvocations.network.MessageInvoke;
 import com.teaminfinity.elementalinvocations.network.MessageSyncMagicProperties;
-import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.reference.UniqueIds;
-import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.Vec3d;

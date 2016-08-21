@@ -1,6 +1,8 @@
 package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
+import com.infinityraider.infinitylib.item.IItemWithRecipe;
+import com.infinityraider.infinitylib.item.ItemBase;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;

@@ -1,17 +1,15 @@
 package com.teaminfinity.elementalinvocations.proxy;
 
-import com.teaminfinity.elementalinvocations.ModBase;
+import com.infinityraider.infinitylib.proxy.base.IClientProxyBase;
 import com.teaminfinity.elementalinvocations.handler.ArmSwingHandler;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 import com.teaminfinity.elementalinvocations.handler.KeyInputHandler;
 import com.teaminfinity.elementalinvocations.handler.MouseClickHandler;
 import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
-import com.teaminfinity.elementalinvocations.proxy.base.IClientProxyBase;
 import com.teaminfinity.elementalinvocations.render.model.ModelPlayerCustomized;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerCharges;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerHUD;
 import com.teaminfinity.elementalinvocations.utility.KeyBindings;
-import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -29,18 +27,8 @@ public class ClientProxy implements IProxy, IClientProxyBase {
     }
 
     @Override
-    public void registerRenderers(ModBase mod) {
-        ModHelper.getInstance().initRenderers(mod);
-    }
-
-    @Override
     public void registerKeyBindings() {
         KeyBindings.register();
-    }
-
-    @Override
-    public void registerEntities(ModBase mod) {
-        ModHelper.getInstance().registerEntitiesClient(mod);
     }
 
     @Override

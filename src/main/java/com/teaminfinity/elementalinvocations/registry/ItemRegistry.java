@@ -1,4 +1,4 @@
-package com.teaminfinity.elementalinvocations;
+package com.teaminfinity.elementalinvocations.registry;
 
 import com.teaminfinity.elementalinvocations.item.ItemDebugger;
 import com.teaminfinity.elementalinvocations.item.ItemElementalCore;

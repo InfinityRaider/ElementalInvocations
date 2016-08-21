@@ -1,7 +1,7 @@
 [
 	{
-		"modid": "${mod.id}",
-		"name": "${mod.name}",
+		"modid": "elemental_invocations",
+		"name": "Elemental Invocations",
 
 		"version": "${mod.version}",
 		"mcversion": "${mod.version_minecraft}",

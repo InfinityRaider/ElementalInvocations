@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations.network;
 
+import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;

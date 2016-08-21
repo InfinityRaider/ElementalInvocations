@@ -1,15 +1,16 @@
 package com.teaminfinity.elementalinvocations.network;
 
+import com.infinityraider.infinitylib.network.MessageBase;
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.item.IDualWieldedWeapon;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageMouseButtonPressed extends MessageBase<IMessage> {
+public class MessageMouseButtonPressed extends MessageBase<MessageSwingArm> {
     private boolean left;
     private boolean shift;
     private boolean ctrl;
@@ -55,7 +56,7 @@ public class MessageMouseButtonPressed extends MessageBase<IMessage> {
     }
 
     @Override
-    protected IMessage getReply(MessageContext ctx) {
+    protected MessageSwingArm getReply(MessageContext ctx) {
         if(ctx.side == Side.SERVER) {
             NetworkWrapper.getInstance().sendToAll(new MessageSwingArm(ctx.getServerHandler().playerEntity, left ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND));
         }

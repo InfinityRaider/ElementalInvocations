@@ -1,9 +1,10 @@
 package com.teaminfinity.elementalinvocations.utility.debug;
 
+import com.infinityraider.infinitylib.utility.LogHelper;
+import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 import com.teaminfinity.elementalinvocations.magic.spell.death.BasicSoul;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
-import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;

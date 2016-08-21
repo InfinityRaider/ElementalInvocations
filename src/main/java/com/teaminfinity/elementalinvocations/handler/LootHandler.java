@@ -1,7 +1,7 @@
 package com.teaminfinity.elementalinvocations.handler;
 
 import com.google.common.collect.ImmutableList;
-import com.teaminfinity.elementalinvocations.ItemRegistry;
+import com.teaminfinity.elementalinvocations.registry.ItemRegistry;
 import com.teaminfinity.elementalinvocations.api.Element;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;

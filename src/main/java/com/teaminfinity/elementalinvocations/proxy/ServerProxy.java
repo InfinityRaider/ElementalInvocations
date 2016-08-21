@@ -1,6 +1,6 @@
 package com.teaminfinity.elementalinvocations.proxy;
 
-import com.teaminfinity.elementalinvocations.proxy.base.IServerProxyBase;
+import com.infinityraider.infinitylib.proxy.base.IServerProxyBase;
 
 @SuppressWarnings("unused")
 public class ServerProxy implements IProxy, IServerProxyBase {

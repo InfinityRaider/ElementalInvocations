@@ -1,16 +1,15 @@
 package com.teaminfinity.elementalinvocations.proxy;
 
-import com.teaminfinity.elementalinvocations.ModBase;
+import com.infinityraider.infinitylib.proxy.base.IProxyBase;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.handler.*;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.magic.spell.SpellInitializer;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollection;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
 import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
 import com.teaminfinity.elementalinvocations.potion.PotionRegistry;
-import com.teaminfinity.elementalinvocations.proxy.base.IProxyBase;
-import com.teaminfinity.elementalinvocations.utility.ModHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -33,6 +32,7 @@ public interface IProxy extends IProxyBase {
     @Override
     default void initStart(FMLInitializationEvent event) {
         registerKeyBindings();
+        SpellInitializer.init();
     }
 
     @Override
@@ -46,10 +46,6 @@ public interface IProxy extends IProxyBase {
         MinecraftForge.EVENT_BUS.register(LootHandler.getInstance());
     }
 
-    default void registerEntities(ModBase mod) {
-        ModHelper.getInstance().registerEntities(mod);
-    }
-
     default void overridePlayerModel() {}
 
     default void registerEventHandlers() {
@@ -59,8 +55,6 @@ public interface IProxy extends IProxyBase {
         MinecraftForge.EVENT_BUS.register(SpellCastingHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(DamageReductorHandler.getInstance());
     }
-
-    default void registerRenderers(ModBase mod) {}
 
     default void registerKeyBindings() {}
 

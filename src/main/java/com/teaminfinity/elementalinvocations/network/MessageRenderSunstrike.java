@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations.network;
 
+import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.entity.EntitySunstrike;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;

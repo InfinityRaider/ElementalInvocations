@@ -1,8 +1,8 @@
 package com.teaminfinity.elementalinvocations.handler;
 
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.network.MessageSyncState;
-import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

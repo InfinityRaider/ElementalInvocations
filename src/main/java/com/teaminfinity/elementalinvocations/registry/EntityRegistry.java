@@ -1,5 +1,6 @@
-package com.teaminfinity.elementalinvocations;
+package com.teaminfinity.elementalinvocations.registry;
 
+import com.infinityraider.infinitylib.entity.EntityRegistryEntry;
 import com.teaminfinity.elementalinvocations.entity.*;
 
 public class EntityRegistry {

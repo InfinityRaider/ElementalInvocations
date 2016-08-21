@@ -1,9 +1,14 @@
 package com.teaminfinity.elementalinvocations;
 
+import com.infinityraider.infinitylib.InfinityMod;
+import com.infinityraider.infinitylib.network.INetworkWrapper;
+import com.teaminfinity.elementalinvocations.magic.spell.SpellInitializer;
 import com.teaminfinity.elementalinvocations.network.*;
 import com.teaminfinity.elementalinvocations.proxy.IProxy;
-import com.teaminfinity.elementalinvocations.proxy.base.IProxyBase;
 import com.teaminfinity.elementalinvocations.reference.Reference;
+import com.teaminfinity.elementalinvocations.registry.BlockRegistry;
+import com.teaminfinity.elementalinvocations.registry.EntityRegistry;
+import com.teaminfinity.elementalinvocations.registry.ItemRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
@@ -11,9 +16,10 @@ import net.minecraftforge.fml.common.event.*;
 @Mod(
         modid = Reference.MOD_ID,
         name = Reference.MOD_NAME,
-        version = Reference.MOD_VERSION
+        version = Reference.MOD_VERSION,
+        dependencies = "required-after:infinitylib"
 )
-public class ElementalInvocations extends ModBase {
+public class ElementalInvocations extends InfinityMod {
     @Mod.Instance
     @SuppressWarnings("unused")
     public static ElementalInvocations instance;
@@ -22,7 +28,7 @@ public class ElementalInvocations extends ModBase {
     public static IProxy proxy;
 
     @Override
-    public IProxyBase proxy() {
+    public IProxy proxy() {
         return proxy;
     }
 
@@ -71,7 +77,6 @@ public class ElementalInvocations extends ModBase {
     @SuppressWarnings("unused")
     public void initMod(FMLInitializationEvent event) {
         super.init(event);
-		SpellInitializer.init();
     }
 
     @Mod.EventHandler

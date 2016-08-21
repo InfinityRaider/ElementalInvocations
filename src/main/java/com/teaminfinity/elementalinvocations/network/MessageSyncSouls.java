@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations.network;
 
+import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;

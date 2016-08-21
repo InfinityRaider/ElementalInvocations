@@ -1,8 +1,8 @@
 package com.teaminfinity.elementalinvocations.handler;
 
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.network.MessageKeyPressed;
 import com.teaminfinity.elementalinvocations.network.MessageStopChanneling;
-import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.utility.KeyBindings;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;

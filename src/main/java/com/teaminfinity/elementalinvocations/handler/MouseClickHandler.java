@@ -1,9 +1,9 @@
 package com.teaminfinity.elementalinvocations.handler;
 
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.item.IDualWieldedWeapon;
 import com.teaminfinity.elementalinvocations.network.MessageAttackDualWielded;
 import com.teaminfinity.elementalinvocations.network.MessageMouseButtonPressed;
-import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

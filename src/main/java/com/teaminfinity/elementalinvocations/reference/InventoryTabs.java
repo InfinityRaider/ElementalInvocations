@@ -1,6 +1,6 @@
 package com.teaminfinity.elementalinvocations.reference;
 
-import com.teaminfinity.elementalinvocations.ItemRegistry;
+import com.teaminfinity.elementalinvocations.registry.ItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 

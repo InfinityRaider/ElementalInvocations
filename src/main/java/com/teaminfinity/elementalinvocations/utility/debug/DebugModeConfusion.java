@@ -1,5 +1,6 @@
 package com.teaminfinity.elementalinvocations.utility.debug;
 
+import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.potion.PotionRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

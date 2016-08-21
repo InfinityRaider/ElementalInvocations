@@ -1,6 +1,8 @@
 package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
+import com.infinityraider.infinitylib.item.IItemWithRecipe;
+import com.infinityraider.infinitylib.item.ItemBase;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;

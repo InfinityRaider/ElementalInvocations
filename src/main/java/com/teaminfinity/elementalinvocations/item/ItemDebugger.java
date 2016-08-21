@@ -1,6 +1,8 @@
 package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
+import com.infinityraider.infinitylib.item.ItemDebuggerBase;
+import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
 import com.teaminfinity.elementalinvocations.reference.Reference;

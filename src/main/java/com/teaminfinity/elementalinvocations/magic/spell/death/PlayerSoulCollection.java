@@ -1,8 +1,8 @@
 package com.teaminfinity.elementalinvocations.magic.spell.death;
 
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.api.souls.ISoul;
 import com.teaminfinity.elementalinvocations.network.MessageSyncSouls;
-import com.teaminfinity.elementalinvocations.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
