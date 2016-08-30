@@ -2,7 +2,6 @@ package com.teaminfinity.elementalinvocations;
 
 import com.infinityraider.infinitylib.InfinityMod;
 import com.infinityraider.infinitylib.network.INetworkWrapper;
-import com.teaminfinity.elementalinvocations.magic.spell.SpellInitializer;
 import com.teaminfinity.elementalinvocations.network.*;
 import com.teaminfinity.elementalinvocations.proxy.IProxy;
 import com.teaminfinity.elementalinvocations.reference.Reference;
@@ -20,7 +19,7 @@ import net.minecraftforge.fml.common.event.*;
         dependencies = "required-after:infinitylib"
 )
 public class ElementalInvocations extends InfinityMod {
-    @Mod.Instance
+    @Mod.Instance(Reference.MOD_ID)
     @SuppressWarnings("unused")
     public static ElementalInvocations instance;
 
