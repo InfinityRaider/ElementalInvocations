@@ -1,6 +1,10 @@
-package com.teaminfinity.elementalinvocations.potion;
+package com.teaminfinity.elementalinvocations.registry;
 
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
+import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
+import com.teaminfinity.elementalinvocations.potion.PotionFrostArmor;
+import com.teaminfinity.elementalinvocations.potion.PotionLivingArmor;
+import com.teaminfinity.elementalinvocations.potion.PotionWraithForm;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
