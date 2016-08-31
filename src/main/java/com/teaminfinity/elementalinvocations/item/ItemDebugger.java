@@ -1,6 +1,7 @@
 package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
+import com.infinityraider.infinitylib.item.IItemWithModel;
 import com.infinityraider.infinitylib.item.ItemDebuggerBase;
 import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.api.Element;
@@ -13,9 +14,9 @@ import net.minecraft.util.Tuple;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemDebugger extends ItemDebuggerBase {
+public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel {
     public ItemDebugger() {
-        super();
+        super(false);
         this.setCreativeTab(InventoryTabs.ELEMNTAL_INVOCATIONS);
     }
 

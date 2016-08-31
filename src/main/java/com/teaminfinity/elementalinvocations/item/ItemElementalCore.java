@@ -2,7 +2,7 @@ package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
 import com.infinityraider.infinitylib.item.IItemWithRecipe;
-import com.infinityraider.infinitylib.item.ItemBase;
+import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ItemElementalCore extends ItemBase implements IItemWithRecipe {
+public class ItemElementalCore extends ItemWithModelBase implements IItemWithRecipe {
     public final List<ElementalCore> CORES;
 
     public ItemElementalCore() {
