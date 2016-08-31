@@ -19,11 +19,6 @@ import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 
 public interface IProxy extends IProxyBase {
     @Override
-    default void preInitStart(FMLPreInitializationEvent event) {
-        ConfigurationHandler.getInstance().init(event);
-    }
-
-    @Override
     default void preInitEnd(FMLPreInitializationEvent event) {
         CapabilityManager.INSTANCE.register(IPlayerMagicProperties.class, new PlayerMagicProvider.Storage(), PlayerMagicProperties.class);
         CapabilityManager.INSTANCE.register(ISoulCollection.class, new PlayerSoulCollectionProvider.Storage(), PlayerSoulCollection.class);
@@ -38,7 +33,6 @@ public interface IProxy extends IProxyBase {
     @Override
     default void postInitStart(FMLPostInitializationEvent event) {
         PotionRegistry.getInstance();
-        this.overridePlayerModel();
     }
 
     @Override
@@ -46,7 +40,17 @@ public interface IProxy extends IProxyBase {
         this.registerEventHandler(LootHandler.getInstance());
     }
 
-    default void overridePlayerModel() {}
+
+    @Override
+    default void initConfiguration(FMLPreInitializationEvent event) {
+        ConfigurationHandler.getInstance().init(event);
+    }
+
+    @Override
+    default void activateRequiredModules() {
+        ModulePlayerState.getInstance().activate();
+        ModuleDualWield.getInstance().activate();
+    }
 
     @Override
     default void registerEventHandlers() {
@@ -54,12 +58,6 @@ public interface IProxy extends IProxyBase {
         this.registerEventHandler(CapabilityHandler.getInstance());
         this.registerEventHandler(SpellCastingHandler.getInstance());
         this.registerEventHandler(DamageReductorHandler.getInstance());
-    }
-
-    @Override
-    default void activateRequiredModules() {
-        ModulePlayerState.getInstance().activate();
-        ModuleDualWield.getInstance().activate();
     }
 
     default void registerKeyBindings() {}

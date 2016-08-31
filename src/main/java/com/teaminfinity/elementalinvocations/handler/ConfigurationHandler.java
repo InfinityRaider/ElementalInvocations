@@ -1,8 +1,8 @@
 package com.teaminfinity.elementalinvocations.handler;
 
+import com.infinityraider.infinitylib.utility.LogHelper;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.spells.ISpell;
-import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
