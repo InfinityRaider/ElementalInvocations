@@ -2,7 +2,7 @@ package com.teaminfinity.elementalinvocations.magic.generic.effect;
 
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
-import com.teaminfinity.elementalinvocations.potion.PotionRegistry;
+import com.teaminfinity.elementalinvocations.registry.PotionRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;

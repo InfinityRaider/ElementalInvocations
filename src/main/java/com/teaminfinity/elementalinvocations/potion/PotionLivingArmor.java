@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 public class PotionLivingArmor extends PotionBase implements IDamageReductor {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potion_living_armor.png");
 
-    protected PotionLivingArmor() {
+    public PotionLivingArmor() {
         super(false, "living_armor", 0x047040);
     }
 

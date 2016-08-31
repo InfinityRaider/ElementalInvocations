@@ -2,7 +2,7 @@ package com.teaminfinity.elementalinvocations.magic.spell.water;
 
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
-import com.teaminfinity.elementalinvocations.potion.PotionRegistry;
+import com.teaminfinity.elementalinvocations.registry.PotionRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 

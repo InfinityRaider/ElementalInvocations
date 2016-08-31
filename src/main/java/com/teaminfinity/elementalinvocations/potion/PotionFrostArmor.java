@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 public class PotionFrostArmor extends PotionBase implements IDamageReductor {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potion_frost_armor.png");
 
-    protected PotionFrostArmor() {
+    public PotionFrostArmor() {
         super(false, "frost_armor", 0x49EFF1);
     }
 

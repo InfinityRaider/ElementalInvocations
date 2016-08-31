@@ -9,7 +9,7 @@ import com.teaminfinity.elementalinvocations.magic.spell.SpellInitializer;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollection;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
 import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
-import com.teaminfinity.elementalinvocations.potion.PotionRegistry;
+import com.teaminfinity.elementalinvocations.registry.PotionRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;

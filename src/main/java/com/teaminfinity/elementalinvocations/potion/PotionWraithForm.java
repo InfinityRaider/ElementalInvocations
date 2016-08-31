@@ -11,7 +11,7 @@ import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 public class PotionWraithForm extends PotionBase {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potion_wraith.png");
 
-    protected PotionWraithForm() {
+    public PotionWraithForm() {
         super(false, "wraith_form", 0);
     }
 

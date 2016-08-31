@@ -2,6 +2,7 @@ package com.teaminfinity.elementalinvocations.potion;
 
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.reference.Reference;
+import com.teaminfinity.elementalinvocations.registry.PotionRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.GameSettings;
@@ -15,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class PotionConfusion extends PotionBase {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potion_confusion.png");
 
-    protected PotionConfusion() {
+    public PotionConfusion() {
         super(true,"confusion", 0);
     }
 
