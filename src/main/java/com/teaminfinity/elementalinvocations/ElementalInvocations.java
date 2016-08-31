@@ -1,6 +1,8 @@
 package com.teaminfinity.elementalinvocations;
 
 import com.infinityraider.infinitylib.InfinityMod;
+import com.infinityraider.infinitylib.modules.dualwield.MessageAttackDualWielded;
+import com.infinityraider.infinitylib.modules.dualwield.MessageSwingArm;
 import com.infinityraider.infinitylib.network.INetworkWrapper;
 import com.teaminfinity.elementalinvocations.network.*;
 import com.teaminfinity.elementalinvocations.proxy.IProxy;
@@ -54,16 +56,12 @@ public class ElementalInvocations extends InfinityMod {
     @Override
     public void registerMessages(INetworkWrapper wrapper) {
         wrapper.registerMessage(MessageAddCharge.class);
-        wrapper.registerMessage(MessageAttackDualWielded.class);
         wrapper.registerMessage(MessageInvoke.class);
         wrapper.registerMessage(MessageKeyPressed.class);
-        wrapper.registerMessage(MessageMouseButtonPressed.class);
         wrapper.registerMessage(MessageRenderSunstrike.class);
         wrapper.registerMessage(MessageStopChanneling.class);
-        wrapper.registerMessage(MessageSwingArm.class);
         wrapper.registerMessage(MessageSyncMagicProperties.class);
         wrapper.registerMessage(MessageSyncSouls.class);
-        wrapper.registerMessage(MessageSyncState.class);
     }
 
     @Mod.EventHandler

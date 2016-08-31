@@ -1,9 +1,8 @@
 package com.teaminfinity.elementalinvocations.entity;
 
-import com.teaminfinity.elementalinvocations.handler.PlayerStateHandler;
+import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntityWaveForm;
-import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -98,7 +97,7 @@ public class EntityWaveForm extends EntityThrowableMagic {
         EntityPlayer caster = this.getThrower();
         if(caster != null) {
             caster.dismountRidingEntity();
-            PlayerStateHandler.getInstance().getState(caster).setInvisible(false).setInvulnerable(false).setEthereal(false);
+            ModulePlayerState.getInstance().getState(caster).setInvisible(false).setInvulnerable(false).setEthereal(false);
         }
         super.setDead();
     }

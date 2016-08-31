@@ -1,17 +1,14 @@
 package com.teaminfinity.elementalinvocations.proxy;
 
 import com.infinityraider.infinitylib.proxy.base.IClientProxyBase;
-import com.teaminfinity.elementalinvocations.handler.ArmSwingHandler;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 import com.teaminfinity.elementalinvocations.handler.KeyInputHandler;
-import com.teaminfinity.elementalinvocations.handler.MouseClickHandler;
 import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
-import com.teaminfinity.elementalinvocations.render.model.ModelPlayerCustomized;
+import com.infinityraider.infinitylib.modules.dualwield.ModelPlayerCustomized;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerCharges;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerHUD;
 import com.teaminfinity.elementalinvocations.utility.KeyBindings;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,17 +30,14 @@ public class ClientProxy implements IProxy, IClientProxyBase {
 
     @Override
     public void overridePlayerModel() {
-        ModelPlayerCustomized.replaceOldModel();
     }
 
     @Override
     public void registerEventHandlers() {
         IProxy.super.registerEventHandlers();
-        MinecraftForge.EVENT_BUS.register(ArmSwingHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(MouseClickHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(RenderPlayerCharges.getInstance());
-        MinecraftForge.EVENT_BUS.register(KeyInputHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(RenderPlayerHUD.getInstance());
+        this.registerEventHandler(RenderPlayerCharges.getInstance());
+        this.registerEventHandler(KeyInputHandler.getInstance());
+        this.registerEventHandler(RenderPlayerHUD.getInstance());
     }
 
     @Override

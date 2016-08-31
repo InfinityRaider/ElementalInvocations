@@ -38,5 +38,4 @@ public class KeyInputHandler {
             NetworkWrapper.getInstance().sendToServer(new MessageKeyPressed(KeyBindings.KEY_SPELL_ACTION));
         }
     }
-
 }
