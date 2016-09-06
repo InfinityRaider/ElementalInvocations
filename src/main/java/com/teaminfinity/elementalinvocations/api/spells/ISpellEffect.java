@@ -17,5 +17,4 @@ public interface ISpellEffect {
      * @return false to stop channeling this spell
      */
 	boolean apply(EntityPlayer caster, int[] potencies, int channelTick);
-	
 }

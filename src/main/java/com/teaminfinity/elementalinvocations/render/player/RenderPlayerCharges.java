@@ -72,6 +72,7 @@ public final class RenderPlayerCharges extends RenderUtil {
 
         float newAngle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
 
+        /*
         if(event.getEntityPlayer() != ElementalInvocations.proxy.getClientPlayer()) {
             EntityPlayer local = ElementalInvocations.proxy.getClientPlayer();
             EntityPlayer player = event.getEntityPlayer();
@@ -81,6 +82,8 @@ public final class RenderPlayerCharges extends RenderUtil {
             double dz = player.prevPosZ + (player.posX - player.prevPosX)*f - (local.prevPosZ + (local.posZ - local.prevPosZ)*f);
             GlStateManager.translate(dx, dy, dz);
         }
+        */
+        GlStateManager.translate(event.getX(), event.getY(), event.getZ());
 
         for(int orb = 0; orb < chargeList.size(); orb++) {
             GlStateManager.enableBlend();

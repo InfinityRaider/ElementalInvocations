@@ -77,6 +77,12 @@ public class SpellInitializer {
 
         //Death spells
 		SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Replicate", "Fool you once, fool you twice!")
+                .setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH, Element.AIR, Element.AIR)
+                .setSpellEffects(new EffectReplicate())
+                .createSpell("replicate", 0));
+
+		SpellRegistry.getInstance().addSpell(new SpellBuilder()
 				.setSpellDescription("Necromancy", "Rise my minions!")
 				.setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH, Element.EARTH, Element.EARTH)
 				.setSpellEffects(new EffectNecromancy())
