@@ -5,6 +5,7 @@ import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
 import com.teaminfinity.elementalinvocations.reference.Constants;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -26,7 +27,10 @@ public class DebugModeCycleAffinity extends DebugMode {
     }
 
     @Override
-    public void debugAction(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public void debugActionBlockClicked(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {}
+
+    @Override
+    public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
         IPlayerMagicProperties magicProperties = PlayerMagicProvider.getMagicProperties(player);
         if(magicProperties != null && !world.isRemote) {
             if (magicProperties.getPlayerAffinity() == this.element) {
@@ -39,4 +43,7 @@ public class DebugModeCycleAffinity extends DebugMode {
                     "Set player magic properties to: " + magicProperties.getPlayerAffinity().name() + " level " + magicProperties.getPlayerAdeptness()));
         }
     }
+
+    @Override
+    public void debugActionEntityClicked(ItemStack stack, EntityPlayer player, EntityLivingBase target, EnumHand hand) { }
 }

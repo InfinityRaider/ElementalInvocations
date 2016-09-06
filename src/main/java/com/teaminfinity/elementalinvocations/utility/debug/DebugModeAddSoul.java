@@ -5,6 +5,7 @@ import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 import com.teaminfinity.elementalinvocations.magic.spell.death.BasicSoul;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -19,7 +20,10 @@ public class DebugModeAddSoul extends DebugMode {
     }
 
     @Override
-    public void debugAction(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public void debugActionBlockClicked(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {}
+
+    @Override
+    public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
         ISoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(player);
         if(collection != null) {
             collection.addSoul(new BasicSoul("debug"));
@@ -28,4 +32,7 @@ public class DebugModeAddSoul extends DebugMode {
             }
         }
     }
+
+    @Override
+    public void debugActionEntityClicked(ItemStack stack, EntityPlayer player, EntityLivingBase target, EnumHand hand) {}
 }
