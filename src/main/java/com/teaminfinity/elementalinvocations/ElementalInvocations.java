@@ -57,10 +57,13 @@ public class ElementalInvocations extends InfinityMod {
         wrapper.registerMessage(MessageInvoke.class);
         wrapper.registerMessage(MessageKeyPressed.class);
         wrapper.registerMessage(MessageRenderSunstrike.class);
-        wrapper.registerMessage(MessageSwapPlayerPosition.class);
+        wrapper.registerMessage(MessageSetPlayerPosition.class);
         wrapper.registerMessage(MessageStopChanneling.class);
+        wrapper.registerMessage(MessageSwapPlayerPosition.class);
         wrapper.registerMessage(MessageSyncMagicProperties.class);
         wrapper.registerMessage(MessageSyncSouls.class);
+        wrapper.registerMessage(MessageTrackPlayer.class);
+        wrapper.registerMessage(MessageTrackPlayerUpdate.class);
     }
 
     @Mod.EventHandler

@@ -30,7 +30,7 @@ public class EffectReplicate implements ISpellEffect {
         double y = caster.posY;
         double z = caster.posZ;
         float yaw = caster.rotationYaw;
-        double radius = 1.5F;
+        double radius = 2.5F;
         List<EntityReplicate> replicas = new ArrayList<>();
         for(int i = 0; i < (amount + 1); i++) {
             double angle = (yaw + (i*360/(amount + 1)) + offsetForIndex(i)) % 360;

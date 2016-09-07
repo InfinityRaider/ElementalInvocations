@@ -3,6 +3,7 @@ package com.teaminfinity.elementalinvocations.proxy;
 import com.infinityraider.infinitylib.proxy.base.IClientProxyBase;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
 import com.teaminfinity.elementalinvocations.handler.KeyInputHandler;
+import com.teaminfinity.elementalinvocations.handler.PlayerMovementTrackingHandler;
 import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerCharges;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerHUD;
@@ -33,6 +34,7 @@ public class ClientProxy implements IProxy, IClientProxyBase {
         this.registerEventHandler(RenderPlayerCharges.getInstance());
         this.registerEventHandler(KeyInputHandler.getInstance());
         this.registerEventHandler(RenderPlayerHUD.getInstance());
+        this.registerEventHandler(PlayerMovementTrackingHandler.getInstance());
     }
 
     @Override
