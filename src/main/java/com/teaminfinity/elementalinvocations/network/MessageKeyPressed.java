@@ -2,6 +2,7 @@ package com.teaminfinity.elementalinvocations.network;
 
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
+import com.teaminfinity.elementalinvocations.handler.SpellCastingHandler;
 import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
 import com.teaminfinity.elementalinvocations.utility.KeyBindings;
 import io.netty.buffer.ByteBuf;
@@ -40,7 +41,7 @@ public class MessageKeyPressed extends MessageBase<IMessage> {
                         }
                         break;
                     case KeyBindings.KEY_SPELL_ACTION:
-                        //TODO
+                        SpellCastingHandler.getInstance().onSpellAction(player);
                         break;
                 }
             }

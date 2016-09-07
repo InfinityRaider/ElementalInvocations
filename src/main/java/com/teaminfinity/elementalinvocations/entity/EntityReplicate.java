@@ -1,7 +1,10 @@
 package com.teaminfinity.elementalinvocations.entity;
 
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.handler.PlayerReplicaHandler;
+import com.teaminfinity.elementalinvocations.magic.spell.death.EffectReplicate;
+import com.teaminfinity.elementalinvocations.network.MessageSwapPlayerPosition;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntityReplicate;
 import io.netty.buffer.ByteBuf;
@@ -24,14 +27,18 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
     private EntityPlayer player;
     private int lifeTime;
 
+    /** only exists on the server thread */
+    private EffectReplicate spellEffect;
+
     public EntityReplicate(World world) {
         super(world);
     }
 
-    public EntityReplicate(EntityPlayer player, int lifeTime) {
+    public EntityReplicate(EntityPlayer player, EffectReplicate spellEffect, int lifeTime) {
         this(player.getEntityWorld());
         this.lifeTime = lifeTime;
         this.player = player;
+        this.spellEffect = spellEffect;
         this.posX = player.posX;
         this.posY = player.posY;
         this.posZ = player.posZ;
@@ -63,7 +70,25 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
     }
 
     public void swapWithPlayer() {
-
+        if(this.isEntityAlive() && this.getPlayer() != null) {
+            if(!this.getEntityWorld().isRemote) {
+                NetworkWrapper.getInstance().sendToAll(new MessageSwapPlayerPosition(this));
+            }
+            //get current player position
+            double playerX = this.getPlayer().posX;
+            double playerY = this.getPlayer().posY;
+            double playerZ = this.getPlayer().posZ;
+            //set player's new position
+            this.getPlayer().prevPosX = this.posX;
+            this.getPlayer().prevPosY = this.posY;
+            this.getPlayer().prevPosZ = this.posZ;
+            this.getPlayer().setPosition(this.posX, this.posY, this.posZ);
+            //set this position
+            this.prevPosX = playerX;
+            this.prevPosY = playerY;
+            this.prevPosZ = playerZ;
+            this.setPosition(playerX, playerY, playerZ);
+        }
     }
 
     public EntityPlayer getPlayer() {
@@ -82,9 +107,20 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
     public void onUpdate() {
         super.onUpdate();
         this.lifeTime--;
-        if(this.lifeTime < 0) {
+        if(this.getPlayer() == null || this.lifeTime < 0) {
             this.setDead();
         }
+        if(!this.worldObj.isRemote && this.spellEffect == null) {
+            this.setDead();
+        }
+    }
+
+    @Override
+    public void setDead() {
+        if(this.spellEffect != null) {
+            this.spellEffect.onReplicaDeath(this);
+        }
+        super.setDead();
     }
 
     @Override
@@ -102,13 +138,17 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
 
     public void writeEntityToNBT(NBTTagCompound tag) {
         super.writeEntityToNBT(tag);
-        tag.setString(Names.NBT.PLAYER, this.getPlayer().getUniqueID().toString());
+        if(this.getPlayer() != null) {
+            tag.setString(Names.NBT.PLAYER, this.getPlayer().getUniqueID().toString());
+        }
         tag.setInteger(Names.NBT.COUNT, this.lifeTime);
     }
 
     public void readEntityFromNBT(NBTTagCompound tag) {
         super.readEntityFromNBT(tag);
-        this.player = this.getEntityWorld().getPlayerEntityByUUID(UUID.fromString(tag.getString(Names.NBT.PLAYER)));
+        if(tag.hasKey(Names.NBT.PLAYER)) {
+            this.player = this.getEntityWorld().getPlayerEntityByUUID(UUID.fromString(tag.getString(Names.NBT.PLAYER)));
+        }
         this.lifeTime = tag.getInteger(Names.NBT.COUNT);
     }
 
