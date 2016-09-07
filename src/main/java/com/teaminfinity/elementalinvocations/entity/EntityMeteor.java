@@ -1,9 +1,9 @@
 package com.teaminfinity.elementalinvocations.entity;
 
+import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntityMeteor;
 import com.teaminfinity.elementalinvocations.utility.AreaHelper;
-import com.teaminfinity.elementalinvocations.utility.TargetHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -52,7 +52,7 @@ public class EntityMeteor extends EntityThrowableMagic {
     }
 
     public void channelUpdate(EntityPlayer caster) {
-        RayTraceResult result = TargetHelper.getTargetBlock(caster, 64);
+        RayTraceResult result = RayTraceHelper.getTargetBlock(caster, 64);
         if(result != null && result.hitVec != null) {
             Vec3d target = new Vec3d(result.hitVec.xCoord - posX, 0, result.hitVec.zCoord - posZ).normalize();
             Vec3d vOld = new Vec3d(motionX, 0, motionZ).normalize();

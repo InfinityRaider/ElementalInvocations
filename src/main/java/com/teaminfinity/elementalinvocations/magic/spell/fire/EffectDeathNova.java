@@ -1,11 +1,11 @@
 package com.teaminfinity.elementalinvocations.magic.spell.fire;
 
+import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.death.BasicSoul;
 import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
-import com.teaminfinity.elementalinvocations.utility.TargetHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.RayTraceResult;
@@ -16,7 +16,7 @@ public class EffectDeathNova implements ISpellEffect {
     public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
         int potencyFire = potencies[Element.FIRE.ordinal()];
         int potencyDeath = potencies[Element.DEATH.ordinal()];
-        RayTraceResult hit = TargetHelper.getTargetEntityOrBlock(caster, 64);
+        RayTraceResult hit = RayTraceHelper.getTargetEntityOrBlock(caster, 64);
         if(hit != null && hit.entityHit != null && (hit.entityHit instanceof EntityLivingBase)) {
             EntityLivingBase target = (EntityLivingBase) hit.entityHit;
             float relative = target.getMaxHealth() * (potencyDeath * 2.5F) / 100.0F;

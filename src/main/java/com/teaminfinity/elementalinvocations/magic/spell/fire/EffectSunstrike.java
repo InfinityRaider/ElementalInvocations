@@ -1,16 +1,16 @@
 package com.teaminfinity.elementalinvocations.magic.spell.fire;
 
+import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
 import com.teaminfinity.elementalinvocations.entity.EntitySunstrike;
-import com.teaminfinity.elementalinvocations.utility.TargetHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.RayTraceResult;
 
 public class EffectSunstrike implements ISpellEffect {
     @Override
     public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
-        RayTraceResult result = TargetHelper.getTargetBlock(caster, 128);
+        RayTraceResult result = RayTraceHelper.getTargetBlock(caster, 128);
         if(result == null) {
             return false;
         }

@@ -5,9 +5,6 @@ package com.teaminfinity.elementalinvocations.utility;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 
-/**
- *
- */
 public class AreaHelper {
 	
 	public static AxisAlignedBB getArea(Vec3d center, double radius) {
