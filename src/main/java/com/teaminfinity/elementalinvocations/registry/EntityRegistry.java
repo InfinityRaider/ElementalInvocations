@@ -2,6 +2,7 @@ package com.teaminfinity.elementalinvocations.registry;
 
 import com.infinityraider.infinitylib.entity.EntityRegistryEntry;
 import com.teaminfinity.elementalinvocations.entity.*;
+import net.minecraft.entity.monster.EntityMob;
 
 public class EntityRegistry {
     private static final EntityRegistry INSTANCE = new EntityRegistry();
@@ -10,6 +11,7 @@ public class EntityRegistry {
         return INSTANCE;
     }
 
+    @SuppressWarnings("unchecked")
     private EntityRegistry() {
         entityMagicProjectile = new EntityRegistryEntry<>(EntityMagicProjectile.class, "entity.magic_missile")
                 .setTrackingDistance(64)
@@ -51,7 +53,8 @@ public class EntityRegistry {
                 .setTrackingDistance(64)
                 .setUpdateFrequency(1)
                 .setVelocityUpdates(true)
-                .setRenderFactory(EntityReplicate.RenderFactory.getInstance());
+                .setRenderFactory(EntityReplicate.RenderFactory.getInstance())
+                .setEntityTargetedBy(EntityMob.class);
 
 
     }

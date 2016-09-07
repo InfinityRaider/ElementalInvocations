@@ -86,7 +86,7 @@ public class EffectReplicate implements ISpellEffect {
      * @return true to end this effect
      */
     public boolean spellContextAction(EntityPlayer caster) {
-        RayTraceResult target = RayTraceHelper.getTargetEntityOrBlock(caster, 32);
+        RayTraceResult target = RayTraceHelper.getTargetEntityOrBlock(caster, 32, EntityReplicate.class);
         if(target.typeOfHit == RayTraceResult.Type.ENTITY && target.entityHit instanceof EntityReplicate) {
             EntityReplicate replica = (EntityReplicate) target.entityHit;
             if(replica.getPlayer().getUniqueID().equals(caster.getUniqueID())) {
