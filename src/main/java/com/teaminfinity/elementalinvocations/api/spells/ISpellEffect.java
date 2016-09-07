@@ -17,4 +17,33 @@ public interface ISpellEffect {
      * @return false to stop channeling this spell
      */
 	boolean apply(EntityPlayer caster, int[] potencies, int channelTick);
+
+    /**
+     * Some spell effects can linger for a while, even though the player  is not channeling.
+     * Return true from this method to have this effect linger.
+     * Lingering effects will have the lingerUpdate() method called every tick.
+     * Lingering effects will have the spellContextAction() method called when the player presses the spell context key bind
+     * @return true to make this effect lingering
+     */
+	default boolean isLingeringEffect() {
+        return false;
+    }
+
+    /**
+     * Called every tick for lingering effects
+     * @param caster the player who cast this spell effect and has it as a lingering effect
+     * @return true to end this effect
+     */
+    default boolean lingerUpdate(EntityPlayer caster) {
+        return true;
+    }
+
+    /**
+     * Called when the caster presses the spell context key bind,
+     * @param caster the player who cast this spell effect and has it as a lingering effect
+     * @return true to end this effect
+     */
+    default boolean spellContextAction(EntityPlayer caster) {
+        return false;
+    }
 }

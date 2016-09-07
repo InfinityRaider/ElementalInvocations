@@ -8,7 +8,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SpellCastingHandler {
     private static final SpellCastingHandler INSTANCE = new SpellCastingHandler();
@@ -17,22 +16,46 @@ public class SpellCastingHandler {
         return INSTANCE;
     }
 
-    private Map<UUID, List<ChannelProgress>> activeSpellEffects;
+    private Map<UUID, List<ChannelProgress>> activeChanneledEffects;
+    private Map<UUID, List<ISpellEffect>> lingeringEffects;
 
     private SpellCastingHandler() {
-        activeSpellEffects = new HashMap<>();
+        this.activeChanneledEffects = new HashMap<>();
+        this.lingeringEffects = new HashMap<>();
     }
 
     public void castSpell(EntityPlayer caster, ISpell spell, int[] potencies) {
-        if(!activeSpellEffects.containsKey(caster.getUniqueID())) {
-            List<ChannelProgress> list = spell.getEffects().stream().map(effect -> new ChannelProgress(effect, potencies)).collect(Collectors.toList());
-            activeSpellEffects.put(caster.getUniqueID(), list);
+        if(!lingeringEffects.containsKey(caster.getUniqueID())) {
+            lingeringEffects.put(caster.getUniqueID(), new ArrayList<>());
+        }
+        if(!activeChanneledEffects.containsKey(caster.getUniqueID())) {
+            List<ChannelProgress> channelProgressList = new ArrayList<>();
+            List<ISpellEffect> lingerEffectList = lingeringEffects.get(caster.getUniqueID());
+            for(ISpellEffect effect : spell.getEffects()) {
+                channelProgressList.add(new ChannelProgress(effect, potencies));
+                if(effect.isLingeringEffect() && !lingerEffectList.contains(effect)) {
+                    lingerEffectList.add(effect);
+                }
+            }
+            activeChanneledEffects.put(caster.getUniqueID(), channelProgressList);
+        }
+    }
+
+    public void onSpellAction(EntityPlayer caster) {
+        if(lingeringEffects.containsKey(caster.getUniqueID())) {
+            Iterator<ISpellEffect> iterator = lingeringEffects.get(caster.getUniqueID()).iterator();
+            while(iterator.hasNext()) {
+                ISpellEffect effect = iterator.next();
+                if(effect.spellContextAction(caster)) {
+                    iterator.remove();
+                }
+            }
         }
     }
 
     public void stopChanneling(EntityPlayer player) {
-        if(activeSpellEffects.containsKey(player.getUniqueID())) {
-            activeSpellEffects.remove(player.getUniqueID());
+        if(activeChanneledEffects.containsKey(player.getUniqueID())) {
+            activeChanneledEffects.remove(player.getUniqueID());
         }
     }
 
@@ -40,8 +63,8 @@ public class SpellCastingHandler {
     @SuppressWarnings("unused")
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if(event.side == Side.SERVER && event.phase == TickEvent.Phase.END) {
-            if(activeSpellEffects.containsKey(event.player.getUniqueID())) {
-                List<ChannelProgress> list = activeSpellEffects.get(event.player.getUniqueID());
+            if(activeChanneledEffects.containsKey(event.player.getUniqueID())) {
+                List<ChannelProgress> list = activeChanneledEffects.get(event.player.getUniqueID());
                 Iterator<ChannelProgress> iterator = list.iterator();
                 while(iterator.hasNext()) {
                     ChannelProgress progress = iterator.next();
@@ -50,7 +73,16 @@ public class SpellCastingHandler {
                     }
                 }
                 if(list.isEmpty()) {
-                    activeSpellEffects.remove(event.player.getUniqueID());
+                    activeChanneledEffects.remove(event.player.getUniqueID());
+                }
+            }
+            if(lingeringEffects.containsKey(event.player.getUniqueID())) {
+                Iterator<ISpellEffect> iterator = lingeringEffects.get(event.player.getUniqueID()).iterator();
+                while(iterator.hasNext()) {
+                    ISpellEffect effect = iterator.next();
+                    if(effect.lingerUpdate(event.player)) {
+                        iterator.remove();
+                    }
                 }
             }
         }
