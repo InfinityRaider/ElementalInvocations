@@ -2,7 +2,6 @@ package com.teaminfinity.elementalinvocations.entity;
 
 import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
-import com.teaminfinity.elementalinvocations.entity.ai.EntityMoveHelperTest;
 import com.teaminfinity.elementalinvocations.magic.spell.death.EffectReplicate;
 import com.teaminfinity.elementalinvocations.network.MessageSwapPlayerPosition;
 import com.teaminfinity.elementalinvocations.network.MessageTrackPlayer;
@@ -68,7 +67,6 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
         this.prevCameraPitch = player.prevCameraPitch;
         this.copyDataFromPlayer();
         this.addToReplicaMap();
-        this.moveHelper = new EntityMoveHelperTest(this);
     }
 
     protected void addToReplicaMap() {
