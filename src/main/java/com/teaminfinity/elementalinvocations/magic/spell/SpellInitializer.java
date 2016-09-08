@@ -6,6 +6,7 @@ import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.magic.spell.air.*;
 import com.teaminfinity.elementalinvocations.magic.spell.death.*;
 import com.teaminfinity.elementalinvocations.magic.spell.earth.EffectLivingArmor;
+import com.teaminfinity.elementalinvocations.magic.spell.earth.EffectMagnetize;
 import com.teaminfinity.elementalinvocations.magic.spell.fire.*;
 import com.teaminfinity.elementalinvocations.magic.spell.misc.*;
 import com.teaminfinity.elementalinvocations.magic.spell.water.*;
@@ -68,6 +69,12 @@ public class SpellInitializer {
 
 
         //Earth spells
+		SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Magnetize", "The earth moves me, and I move the earth")
+                .setSpellElements(Element.EARTH, Element.EARTH, Element.EARTH, Element.EARTH, Element.EARTH)
+                .setSpellEffects(new EffectMagnetize())
+                .createSpell("magnetize", 0));
+
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Living Armor", "I'm in my safe spot now")
                 .setSpellElements(Element.EARTH, Element.EARTH, Element.EARTH, Element.LIFE, Element.LIFE)
