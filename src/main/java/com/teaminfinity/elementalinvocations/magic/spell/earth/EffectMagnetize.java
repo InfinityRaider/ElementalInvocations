@@ -43,7 +43,7 @@ public class EffectMagnetize implements ISpellEffect {
             if(positions.isEmpty()) {
                 break;
             }
-            int index = caster.getRNG().nextInt(blocks.size());
+            int index = caster.getRNG().nextInt(positions.size());
             BlockPos pos = positions.get(index);
             EntityMagnetizedRock entity = new EntityMagnetizedRock(caster, this, blocks.get(pos), potency);
             entity.posX = pos.getX();
@@ -111,7 +111,7 @@ public class EffectMagnetize implements ISpellEffect {
             if(list.isEmpty()) {
                 return true;
             }
-            list.get(0).throwStone();
+            list.get(0).throwStone(caster.getLookVec());
         }
         return false;
     }

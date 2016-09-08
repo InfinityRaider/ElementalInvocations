@@ -74,8 +74,14 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
         this.getDataManager().register(DATA_HITS, 0);
     }
 
-    public void throwStone() {
+    public void throwStone(Vec3d direction) {
+        this.setThrowableHeading(direction.xCoord, direction.yCoord, direction.zCoord, 2.5F, 0.1F);
+        this.setStage(EnumStage.THROWN);
+    }
 
+    @Override
+    protected float getGravityVelocity() {
+        return 0.1F;
     }
 
     @Override

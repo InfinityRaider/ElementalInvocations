@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,14 +29,14 @@ public class RenderEntityMagnetizedRock extends Render<EntityMagnetizedRock> {
         GlStateManager.pushAttrib();
 
         GlStateManager.translate(x, y, z);
-        GlStateManager.disableLighting();
 
         IBlockState state = entity.getBlockState();
-        ItemStack stack = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
-        IBakedModel model = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(stack);
+        IBakedModel model = Minecraft.getMinecraft().getBlockRendererDispatcher().getModelForState(state);
+
+        this.bindEntityTexture(entity);
 
         for(EnumFacing facing : EnumFacing.values()) {
-            List<BakedQuad> quads = model.getQuads(state, facing, entity.getThrower().getRNG().nextLong());
+            List<BakedQuad> quads = model.getQuads(state, facing, 0);
             if (quads.size() > 0) {
                 TessellatorVertexBuffer tessellator = TessellatorVertexBuffer.getInstance();
                 tessellator.startDrawingQuads(quads.get(0).getFormat());
