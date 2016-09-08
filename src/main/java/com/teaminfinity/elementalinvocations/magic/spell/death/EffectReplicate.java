@@ -15,7 +15,7 @@ import java.util.*;
 public class EffectReplicate implements ISpellEffect {
     private static final int REPLICA_LIFETIME_PER_LEVEL = 10;
 
-    private Map<UUID, List<EntityReplicate>> replicas = new HashMap<>();
+    private static final Map<UUID, List<EntityReplicate>> replicas = new HashMap<>();
 
     @Override
     public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
@@ -52,10 +52,10 @@ public class EffectReplicate implements ISpellEffect {
         if(swap < replicas.size()) {
             replicas.get(swap).swapWithPlayer();
         }
-        if(!this.replicas.containsKey(caster.getUniqueID())) {
-            this.replicas.put(caster.getUniqueID(), replicas);
+        if(!EffectReplicate.replicas.containsKey(caster.getUniqueID())) {
+            EffectReplicate.replicas.put(caster.getUniqueID(), replicas);
         } else {
-            this.replicas.get(caster.getUniqueID()).addAll(replicas);
+            EffectReplicate.replicas.get(caster.getUniqueID()).addAll(replicas);
         }
         return false;
     }
@@ -78,7 +78,7 @@ public class EffectReplicate implements ISpellEffect {
      * @return true to end this effect
      */
     public boolean lingerUpdate(EntityPlayer caster) {
-        return this.replicas.containsKey(caster.getUniqueID()) && this.replicas.get(caster.getUniqueID()).isEmpty();
+        return !EffectReplicate.replicas.containsKey(caster.getUniqueID()) || EffectReplicate.replicas.get(caster.getUniqueID()).isEmpty();
     }
 
     /**
@@ -97,8 +97,8 @@ public class EffectReplicate implements ISpellEffect {
     }
 
     public void onReplicaDeath(EntityReplicate replica) {
-        if(this.replicas.containsKey(replica.getPlayer().getUniqueID())) {
-            this.replicas.get(replica.getPlayer().getUniqueID()).remove(replica);
+        if(EffectReplicate.replicas.containsKey(replica.getPlayer().getUniqueID())) {
+            EffectReplicate.replicas.get(replica.getPlayer().getUniqueID()).remove(replica);
         }
     }
 }

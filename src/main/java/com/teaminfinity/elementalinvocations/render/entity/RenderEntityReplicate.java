@@ -9,7 +9,10 @@ import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RenderEntityReplicate extends RenderLivingBase<EntityReplicate> {
     public RenderEntityReplicate(RenderManager renderManager) {
         super(renderManager, new ModelPlayer(0.0F, true), 0.5F);

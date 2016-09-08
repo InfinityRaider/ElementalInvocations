@@ -174,8 +174,8 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
     public void setDead() {
         if(this.spellEffect != null) {
             this.spellEffect.onReplicaDeath(this);
-            this.removeFromReplicaMap();
         }
+        this.removeFromReplicaMap();
         super.setDead();
     }
 
