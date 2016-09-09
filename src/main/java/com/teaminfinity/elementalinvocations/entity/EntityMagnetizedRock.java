@@ -20,10 +20,7 @@ import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -110,11 +107,19 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
             double dx = player.posX - this.posX;
             double dy = player.posY + player.height/2 - this.posY;
             double dz = player.posZ - this.posZ;
-            double delta = dx*dx + dz*dz - RADIUS*RADIUS;
+            double delta = Math.sqrt(dx*dx + dz*dz) - RADIUS;
             Vec3d direction = new Vec3d(dx, 0, dz).normalize();
-            this.motionX = direction.xCoord*(VELOCITY)*(delta > 0 ? 1 : -1);
+            double m = 1;
+            if(delta > 20) {
+                this.setDead();
+                return;
+            }
+            if(delta > 2*VELOCITY) {
+                m = 2*delta/3;
+            }
+            this.motionX = direction.xCoord*(VELOCITY)*m*(delta > 0 ? 1 : -1);
             this.motionY = dy;
-            this.motionZ = direction.zCoord*(VELOCITY)*(delta > 0 ? 1 : -1);
+            this.motionZ = direction.zCoord*(VELOCITY)*m*(delta > 0 ? 1 : -1);
         } else {
             this.motionX = 0;
             this.motionY = (VELOCITY) * ((player.posY + player.height/2) >= this.posY ? 1 : -1);
@@ -276,7 +281,13 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
                 shouldStop = true;
             }
         } else if(result.typeOfHit == RayTraceResult.Type.BLOCK) {
-            shouldStop = this.getStage() == EnumStage.THROWN;
+            EnumStage stage = this.getStage();
+            shouldStop = stage == EnumStage.THROWN || stage == EnumStage.ORBITING;
+            if(shouldStop) {
+                BlockPos pos = result.getBlockPos();
+                pos = pos.offset(result.sideHit);
+                this.setPosition(pos.getX(), pos.getY(), pos.getZ());
+            }
         }
         if(shouldStop) {
             this.setDead();
@@ -299,6 +310,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
     public void setDead() {
         if(!this.getEntityWorld().isRemote) {
             EntityFallingBlock fallingBlock = new EntityFallingBlock(this.getEntityWorld(), this.posX, this.posY, this.posZ, this.getBlockState());
+            fallingBlock.fallTime = 1;
             this.getEntityWorld().spawnEntityInWorld(fallingBlock);
             if(this.effect != null) {
                 this.effect.onEntityMagnetizedRockRemoved(this);
