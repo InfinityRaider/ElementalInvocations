@@ -49,7 +49,6 @@ public class RenderEntityMagnetizedRock extends Render<EntityMagnetizedRock> {
         GlStateManager.popMatrix();
     }
 
-
     @Override
     protected ResourceLocation getEntityTexture(EntityMagnetizedRock entity) {
         return TextureMap.LOCATION_BLOCKS_TEXTURE;

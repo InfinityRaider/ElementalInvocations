@@ -26,6 +26,8 @@ public interface IPlayerMagicProperties {
 
     void invoke();
 
+    void fizzle();
+
     void addCharge(IMagicCharge charge);
 
     List<IMagicCharge> getCharges();

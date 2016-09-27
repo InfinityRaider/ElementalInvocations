@@ -134,24 +134,34 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
 
     @Override
     public void invoke() {
-        if(!getPlayer().getEntityWorld().isRemote && this.getPlayerAffinity() != null) {
-            if(getCharges().size() <= 0) {
-                return;
-            }
-            ISpell spell = getSpell();
-            int[] potencies = getPotencyArray(false);
-            this.addExperience(potencies[this.getPlayerAffinity().ordinal()]*charges.size());
-
-            if(spell == null) {
+        if (getCharges().size() <= 0 || this.getPlayerAffinity() == null) {
+            return;
+        }
+        ISpell spell = getSpell();
+        int[] potencies = getPotencyArray(false);
+        this.addExperience(potencies[this.getPlayerAffinity().ordinal()] * charges.size());
+        if(spell != null) {
+            spell.invoke(getPlayer(), potencies);
+        }
+        if (!getPlayer().getEntityWorld().isRemote) {
+            if (spell == null) {
                 EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getPotencyArray(false));
                 getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
-            } else {
-                spell.invoke(player, potencies);
             }
-            NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), potencies[this.getPlayerAffinity().ordinal()]));
-            this.getCharges().clear();
-            this.currentInstability = 0;
+            NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), false));
         }
+        this.getCharges().clear();
+        this.currentInstability = 0;
+    }
+
+    @Override
+    public void fizzle() {
+        if(!getPlayer().getEntityWorld().isRemote) {
+            Vec3d vec3d = getPlayer().getLookVec();
+            new MagicEffect(getPlayer(), getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), getPotencyArray(true)).apply();
+            NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), true));
+        }
+        this.getCharges().clear();
     }
 
     @Nullable
@@ -229,13 +239,6 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
 
     private int getMaxInstability() {
         return this.level*7 + 1;
-    }
-
-    private void fizzle() {
-        Vec3d vec3d = getPlayer().getLookVec();
-        new MagicEffect(getPlayer(), getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), getPotencyArray(true)).apply();
-        this.getCharges().clear();
-        NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), 0));
     }
 
     @Override

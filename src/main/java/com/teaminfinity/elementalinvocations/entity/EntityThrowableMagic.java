@@ -17,11 +17,13 @@ public abstract class EntityThrowableMagic extends EntityThrowable implements IE
 
     public EntityThrowableMagic(World world) {
         super(world);
+        this.setSize(1F, 1F);
     }
 
     public EntityThrowableMagic(EntityPlayer caster) {
         super(caster.getEntityWorld(), caster);
         this.dir = caster.getLookVec();
+        this.setSize(1F, 1F);
     }
 
     @Override

@@ -15,8 +15,9 @@ public class SpellCastingHandler {
     public static SpellCastingHandler getInstance() {
         return INSTANCE;
     }
-
+    /**  One-fire channeled effects which can not be active at the same time */
     private Map<UUID, List<ChannelProgress>> activeChanneledEffects;
+    /** Continuous effects which can be effective while not channelling */
     private Map<UUID, List<ISpellEffect>> lingeringEffects;
 
     private SpellCastingHandler() {
@@ -25,19 +26,21 @@ public class SpellCastingHandler {
     }
 
     public void castSpell(EntityPlayer caster, ISpell spell, int[] potencies) {
-        if(!lingeringEffects.containsKey(caster.getUniqueID())) {
-            lingeringEffects.put(caster.getUniqueID(), new ArrayList<>());
-        }
-        if(!activeChanneledEffects.containsKey(caster.getUniqueID())) {
-            List<ChannelProgress> channelProgressList = new ArrayList<>();
-            List<ISpellEffect> lingerEffectList = lingeringEffects.get(caster.getUniqueID());
-            for(ISpellEffect effect : spell.getEffects()) {
-                channelProgressList.add(new ChannelProgress(effect, potencies));
-                if(effect.isLingeringEffect() && !lingerEffectList.contains(effect)) {
-                    lingerEffectList.add(effect);
-                }
+        if(!caster.getEntityWorld().isRemote) {
+            if (!lingeringEffects.containsKey(caster.getUniqueID())) {
+                lingeringEffects.put(caster.getUniqueID(), new ArrayList<>());
             }
-            activeChanneledEffects.put(caster.getUniqueID(), channelProgressList);
+            if (!activeChanneledEffects.containsKey(caster.getUniqueID())) {
+                List<ChannelProgress> channelProgressList = new ArrayList<>();
+                List<ISpellEffect> lingerEffectList = lingeringEffects.get(caster.getUniqueID());
+                for (ISpellEffect effect : spell.getEffects()) {
+                    channelProgressList.add(new ChannelProgress(effect, potencies));
+                    if (effect.isLingeringEffect() && !lingerEffectList.contains(effect)) {
+                        lingerEffectList.add(effect);
+                    }
+                }
+                activeChanneledEffects.put(caster.getUniqueID(), channelProgressList);
+            }
         }
     }
 
