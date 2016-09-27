@@ -1,9 +1,9 @@
 package com.teaminfinity.elementalinvocations.entity;
 
-import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntityMagicProjectile;
+import com.teaminfinity.elementalinvocations.utility.ColorHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -86,19 +86,10 @@ public class EntityMagicProjectile extends EntityThrowableMagic {
     }
 
     private void compileColors() {
-        int total = 0;
-        this.red = 0;
-        this.green = 0;
-        this.blue = 0;
-        for(Element element : Element.values()) {
-            total = total + potencies[element.ordinal()];
-            this.red = this.red + element.getRed()*potencies[element.ordinal()];
-            this.green = this.green + element.getGreen()*potencies[element.ordinal()];
-            this.blue = this.blue + element.getBlue()*potencies[element.ordinal()];
-        }
-        this.red = this.red / total;
-        this.green = this.green / total;
-        this.blue = this.blue / total;
+        int[] colors = ColorHelper.compileColors(this.potencies);
+        this.red = colors[0];
+        this.green = colors[1];
+        this.blue = colors[2];
     }
 
     @Override
