@@ -12,6 +12,10 @@ buildscript {
     }
 }
 
+dependencies {
+    compile project(':lib/InfinityLib')
+}
+
 // Plugins
 plugins {
 	id 'com.rlonryan.quikmod' version '1.0.17'
