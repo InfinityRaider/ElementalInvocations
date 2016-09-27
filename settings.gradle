@@ -1,0 +1,2 @@
+rootProject.name = 'ElementalInvocations'
+include 'lib/InfinityLib'
