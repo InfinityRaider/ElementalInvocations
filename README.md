@@ -14,9 +14,7 @@ If you report a bug and I request more feedback, the label 'Awaiting reply' will
 
 
 ## Mod description
-#Elemental Invocations
-
-Magic mod, there are six elements:
+Elemental Invocations is an elemental magic mod, there are six elements:
  - FIRE [F]:		focuses on dealing raw, area of effect damage
  - WATER [W]:	focuses on adapting itself
  - AIR [A]:		focuses on confusing and incapacitating enemies
@@ -50,7 +48,7 @@ When magic fizzles, the effect of the magic orb which would be cast is applied t
 
 ###LIST OF SPECIAL SPELL COMBINATIONS
 
- ####FIRE SPELLS
+FIRE SPELLS		
 	- FIREBEAM (FIRE) [ F - F - F - F - F ]: 
 		a laser of sheer heat which is channeled for a duration.
 		This beam is also able to evaporate water
