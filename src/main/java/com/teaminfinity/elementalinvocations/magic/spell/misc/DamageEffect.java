@@ -2,10 +2,10 @@
  */
 package com.teaminfinity.elementalinvocations.magic.spell.misc;
 
+import com.infinityraider.infinitylib.utility.LogHelper;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
 import com.teaminfinity.elementalinvocations.utility.AreaHelper;
-import com.teaminfinity.elementalinvocations.utility.LogHelper;
 import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

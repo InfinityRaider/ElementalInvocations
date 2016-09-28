@@ -1,6 +1,6 @@
 package com.teaminfinity.elementalinvocations.render.particle;
 
-import com.teaminfinity.elementalinvocations.utility.LogHelper;
+import com.infinityraider.infinitylib.utility.LogHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;

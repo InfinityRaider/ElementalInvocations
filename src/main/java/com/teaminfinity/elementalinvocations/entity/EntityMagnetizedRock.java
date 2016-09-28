@@ -27,7 +27,6 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.io.IOException;
 import java.util.List;
 
 public class EntityMagnetizedRock extends EntityThrowableMagic {
@@ -354,7 +353,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
             }
 
             @Override
-            public EnumStage read(PacketBuffer buf) throws IOException {
+            public EnumStage read(PacketBuffer buf) {
                 return values()[buf.readInt()];
             }
 
