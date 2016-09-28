@@ -1,7 +1,7 @@
 # Elemental Invocations [![build]][build-link]
 The Modding Trials 2016 mod
 
-## Contact [![slack]][slack-link]
+## Contact [![dicord]][discord-link]
 I have a Slack channel where you can contact me for support/suggestions which you don't think fit on this issue tracker. Also if you want to discuss something with me, this is the place to be!
 
 
@@ -200,7 +200,7 @@ LIFE SPELLS
 
 [build-link]:https://travis-ci.org/InfinityRaider/ElementalInvocations
 [build]:https://travis-ci.org/InfinityRaider/ElementalInvocations.svg?branch=master "Travis-CI Build Status"
-[slack-link]:https://join-infinityraider-slack.herokuapp.com/ "InfinityRaider Slack"
-[slack]:https://img.shields.io/badge/slack-InfinityRaider-ff69b4.svg "InfinityRaider Slack"
+[discord-link]:https://discord.gg/9qfhaWc "InfinityRaider Discord"
+[discord]:https://img.shields.io/badge/discord-InfinityRaider-ff69b4.svg "InfinityRaider Slack"
 [bug-link]:https://www.github.com/InfinityRaider/ElementalInvocations/issues
 [bug]:https://img.shields.io/badge/issue-bug-aa1111.svg
