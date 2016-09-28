@@ -72,8 +72,8 @@ FIRE SPELLS
 	
 	- PURIFYING FLAME (FIRE + LIFE) [F - F - F - L - L ]
 		Damages target entity for a huge amount of damage, after which the amount of damage is healed back over time.
-		
-		
+
+
 WATER SPELLS	
 
 	- WAVEFORM (WATER) [ W - W - W -W - W ]
@@ -95,9 +95,9 @@ WATER SPELLS
 		The player generates a venomous aura, which withers plants and poisons enemies which are close to the player.
 		
 	- PHOTOFORM(WATER + LIFE) [ W - W - W - L - L ]
-		Converts the player to a more vegetative form, the brighter it is, the faster the player moves and restores hunger.			
-		
-		
+		Converts the player to a more vegetative form, the brighter it is, the faster the player moves and restores hunger.	
+
+
 AIR SPELLS
 
 	- CHAIN LIGHTNING (AIR) [ A - A - A - A - A ]
@@ -119,7 +119,8 @@ AIR SPELLS
 	
 	- STATIC REMNANT (AIR + LIFE) [ A - A - A - L - L ]
 		Leaves an image of static charge behind on the player's location. Entities coming close to this remnant get shocked for decent damage.
-			
+
+
 EARTH SPELLS	
 
 	- MAGNETIZE (EARTH) [ E - E - E - E - E ]
@@ -147,8 +148,8 @@ EARTH SPELLS
 	- LIVING ARMOR (EARTH + LIFE) [ E - E - E - L - L ]
 		Cloaks the player in living armor, healing the player over time and preventing incoming damage up to a threshold. The effect ends prematurely if the 
 		damage threshold is reached
-		
-		
+
+
 DEATH SPELLS
 
 	- WRAITH FORM (DEATH) [ D - D - D - D - D ]
@@ -173,7 +174,8 @@ DEATH SPELLS
 	
 	- CONSUME SOUL (DEATH + LIFE) [ D - D - D - L - L ]
 		Consumes one harvested soul to restore health
-		
+
+
 LIFE SPELLS
 
 	- CLEANSING BURST (LIFE) [ L  - L - L - L - L ]
