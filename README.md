@@ -1,7 +1,7 @@
 # Elemental Invocations [![build]][build-link]
 The Modding Trials 2016 mod
 
-## Contact [![dicord]][discord-link]
+## Contact [![discord]][discord-link]
 I have a Slack channel where you can contact me for support/suggestions which you don't think fit on this issue tracker. Also if you want to discuss something with me, this is the place to be!
 
 
