@@ -13,6 +13,9 @@ public class EffectUpRootsAndRun extends SpellEffectBeamAbstract {
     }
 
     @Override
+    protected void afterPlayerStoppedChanneling(EntityPlayer caster, int[] potencies, int channelTick) {}
+
+    @Override
     protected double getBeamRange(EntityPlayer caster, int[] potencies, int channelTick) {
         return 0;
     }

@@ -13,21 +13,31 @@ public class MagicBeam {
     private final EntityPlayer player;
     private final int[] potencies;
 
+    private double range;
     private boolean frustrumIgnore;
 
     private int red;
     private int green;
     private int blue;
 
-    public MagicBeam(EntityPlayer player, int[] potencies) {
+    public MagicBeam(EntityPlayer player, int[] potencies, double range) {
         this.player = player;
         this.potencies = potencies;
+        this.range = range;
         this.frustrumIgnore = player.ignoreFrustumCheck;
         player.ignoreFrustumCheck = true;
     }
 
     public EntityPlayer getPlayer() {
         return this.player;
+    }
+
+    public double getRange() {
+        return this.range;
+    }
+
+    public void setRange(double range) {
+        this.range = range;
     }
 
     public void onBeamEnd(int channelTicks) {

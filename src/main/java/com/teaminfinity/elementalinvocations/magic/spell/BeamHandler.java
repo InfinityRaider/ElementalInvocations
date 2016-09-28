@@ -25,8 +25,8 @@ public class BeamHandler {
         this.beams = new HashMap<>();
     }
 
-    public void startBeam(EntityPlayer player, int[] potencies) {
-        this.beams.put(player.getUniqueID(), new MagicBeam(player, potencies));
+    public void startBeam(EntityPlayer player, int[] potencies, double range) {
+        this.beams.put(player.getUniqueID(), new MagicBeam(player, potencies, range));
     }
 
     public void stopBeam(EntityPlayer player, int channelTick) {

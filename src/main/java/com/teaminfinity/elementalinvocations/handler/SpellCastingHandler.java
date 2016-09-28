@@ -58,6 +58,7 @@ public class SpellCastingHandler {
 
     public void stopChanneling(EntityPlayer player) {
         if(activeChanneledEffects.containsKey(player.getUniqueID())) {
+            activeChanneledEffects.get(player.getUniqueID()).forEach(x -> x.stopChannelling(player));
             activeChanneledEffects.remove(player.getUniqueID());
         }
     }
@@ -106,6 +107,10 @@ public class SpellCastingHandler {
             boolean flag = effect.apply(caster, potency, channelTicks);
             channelTicks++;
             return flag;
+        }
+
+        private void stopChannelling(EntityPlayer player) {
+            effect.onPlayerStopChanneling(player, potency, channelTicks);
         }
     }
 }

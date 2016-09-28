@@ -5,9 +5,7 @@ import com.infinityraider.infinitylib.network.INetworkWrapper;
 import com.teaminfinity.elementalinvocations.network.*;
 import com.teaminfinity.elementalinvocations.proxy.IProxy;
 import com.teaminfinity.elementalinvocations.reference.Reference;
-import com.teaminfinity.elementalinvocations.registry.BlockRegistry;
-import com.teaminfinity.elementalinvocations.registry.EntityRegistry;
-import com.teaminfinity.elementalinvocations.registry.ItemRegistry;
+import com.teaminfinity.elementalinvocations.registry.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
@@ -65,6 +63,7 @@ public class ElementalInvocations extends InfinityMod {
         wrapper.registerMessage(MessageSyncSouls.class);
         wrapper.registerMessage(MessageTrackPlayer.class);
         wrapper.registerMessage(MessageTrackPlayerUpdate.class);
+        wrapper.registerMessage(MessageUpdateBeamRange.class);
     }
 
     @Mod.EventHandler

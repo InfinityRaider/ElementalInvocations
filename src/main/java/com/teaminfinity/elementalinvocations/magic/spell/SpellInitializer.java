@@ -16,6 +16,12 @@ public class SpellInitializer {
 	public static void init() {
         //Fire spells
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Firebeam", "Feel the heat")
+                .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.FIRE, Element.FIRE)
+                .setSpellEffects(new EffectFireBeam())
+                .createSpell("firebeam", 0));
+
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Sunstrike", "The skies set you aflame")
                 .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.AIR, Element.AIR)
                 .setSpellEffects(new EffectSunstrike())

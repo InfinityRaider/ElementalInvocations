@@ -9,11 +9,14 @@ import javax.annotation.Nullable;
 public class EffectFireBeam extends SpellEffectBeamAbstract {
     @Override
     protected boolean apply(EntityPlayer caster, int[] potencies, int channelTick, @Nullable RayTraceResult target) {
-        return false;
+        return true;
     }
 
     @Override
+    protected void afterPlayerStoppedChanneling(EntityPlayer caster, int[] potencies, int channelTick) {}
+
+    @Override
     protected double getBeamRange(EntityPlayer caster, int[] potencies, int channelTick) {
-        return 0;
+        return 32;
     }
 }

@@ -4,35 +4,61 @@ import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
 import com.teaminfinity.elementalinvocations.network.MessageStartStopBeam;
+import com.teaminfinity.elementalinvocations.network.MessageUpdateBeamRange;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.RayTraceResult;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public abstract class SpellEffectBeamAbstract implements ISpellEffect {
+    private Map<UUID, Double> beamLengths = new HashMap<>();
+
     @Override
     public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
-        RayTraceResult target = RayTraceHelper.getTargetEntityOrBlock(caster, getBeamRange(caster, potencies, channelTick));
+        double range = this.getBeamRange(caster, potencies, channelTick);
+        RayTraceResult target = RayTraceHelper.getTargetEntityOrBlock(caster, range);
         boolean result = this.apply(caster, potencies, channelTick, target);
         if(channelTick <= 0) {
             if(result) {
-                this.sendStartMessage(caster, potencies);
+                this.beamLengths.put(caster.getUniqueID(), range);
+                this.sendStartMessage(caster, potencies, range);
             }
         } else if(!result) {
+            this.beamLengths.remove(caster.getUniqueID());
             this.sendStopMessage(caster, potencies, channelTick);
+        } else {
+            if(this.beamLengths.get(caster.getUniqueID()) != range) {
+                this.beamLengths.put(caster.getUniqueID(), range);
+                this.sendBeamRangeUpdateMessage(caster, range);
+            }
         }
         return result;
     }
 
+    @Override
+    public void onPlayerStopChanneling(EntityPlayer caster, int[] potencies, int channelTick) {
+        this.afterPlayerStoppedChanneling(caster, potencies, channelTick);
+        this.sendStopMessage(caster, potencies, channelTick);
+    }
+
     protected abstract boolean apply(EntityPlayer caster, int[] potencies, int channelTick, @Nullable RayTraceResult target);
+
+    protected abstract void afterPlayerStoppedChanneling(EntityPlayer caster, int[] potencies, int channelTick);
 
     protected abstract double getBeamRange(EntityPlayer caster, int[] potencies, int channelTick);
 
-    protected void sendStartMessage(EntityPlayer caster, int[] potencies) {
-        NetworkWrapper.getInstance().sendToAll(new MessageStartStopBeam(caster, potencies));
+    protected void sendStartMessage(EntityPlayer caster, int[] potencies, double range) {
+        NetworkWrapper.getInstance().sendToAll(new MessageStartStopBeam(caster, potencies, range));
     }
 
     protected void sendStopMessage(EntityPlayer caster, int[] potencies, int channelTick) {
         NetworkWrapper.getInstance().sendToAll(new MessageStartStopBeam(caster, potencies, channelTick));
+    }
+
+    protected void sendBeamRangeUpdateMessage(EntityPlayer caster, double range) {
+        NetworkWrapper.getInstance().sendToAll(new MessageUpdateBeamRange(caster, range));
     }
 }

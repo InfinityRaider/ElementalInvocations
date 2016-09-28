@@ -19,6 +19,14 @@ public interface ISpellEffect {
 	boolean apply(EntityPlayer caster, int[] potencies, int channelTick);
 
     /**
+     * Called when the player stops channelling, this method is not called when the channel effects naturally (by returning false from apply() )
+     * @param caster the player casting a spell with this effect
+     * @param potencies the potency array
+     * @param channelTick the number of ticks this effect has been channeled
+     */
+     default void onPlayerStopChanneling(EntityPlayer caster, int[] potencies, int channelTick) {}
+
+    /**
      * Some spell effects can linger for a while, even though the player  is not channeling.
      * Return true from this method to have this effect linger.
      * Lingering effects will have the lingerUpdate() method called every tick.

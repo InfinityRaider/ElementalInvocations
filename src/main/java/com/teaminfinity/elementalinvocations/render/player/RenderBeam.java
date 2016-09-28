@@ -51,7 +51,7 @@ public class RenderBeam extends RenderUtilBase {
         int blue = beam.getBlue();
         int alpha = 127;
 
-        double range = 32;
+        double range = beam.getRange();
         EntityPlayer player = event.getEntityPlayer();
         RayTraceResult hit = RayTraceHelper.getTargetEntityOrBlock(player, range);
         Vec3d target;
