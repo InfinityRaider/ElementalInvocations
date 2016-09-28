@@ -200,7 +200,7 @@ LIFE SPELLS
 
 [build-link]:https://travis-ci.org/InfinityRaider/ElementalInvocations
 [build]:https://travis-ci.org/InfinityRaider/ElementalInvocations.svg?branch=master "Travis-CI Build Status"
-[slack-link]:https://InfinityRaider.slack.com/ "InfinityRaider Slack"
+[slack-link]:https://join-infinityraider-slack.herokuapp.com/ "InfinityRaider Slack"
 [slack]:https://img.shields.io/badge/slack-InfinityRaider-ff69b4.svg "InfinityRaider Slack"
 [bug-link]:https://www.github.com/InfinityRaider/ElementalInvocations/issues
 [bug]:https://img.shields.io/badge/issue-bug-aa1111.svg
