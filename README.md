@@ -48,7 +48,8 @@ When magic fizzles, the effect of the magic orb which would be cast is applied t
 
 ###LIST OF SPECIAL SPELL COMBINATIONS
 
-FIRE SPELLS		
+FIRE SPELLS	
+
 	- FIREBEAM (FIRE) [ F - F - F - F - F ]: 
 		a laser of sheer heat which is channeled for a duration.
 		This beam is also able to evaporate water
@@ -73,7 +74,8 @@ FIRE SPELLS
 		Damages target entity for a huge amount of damage, after which the amount of damage is healed back over time.
 		
 		
- #### WATER SPELLS		
+WATER SPELLS	
+
 	- WAVEFORM (WATER) [ W - W - W -W - W ]
 		The player conjures a wave off water at its feet. The wave travels with the player in the direction the player is looking and damages everything it passes.	
 		
@@ -96,7 +98,8 @@ FIRE SPELLS
 		Converts the player to a more vegetative form, the brighter it is, the faster the player moves and restores hunger.			
 		
 		
-	#### AIR SPELLS
+AIR SPELLS
+
 	- CHAIN LIGHTNING (AIR) [ A - A - A - A - A ]
 		Channeled spell which invokes lightning from the player's fingertips and jumps between targets	
 		
@@ -117,7 +120,8 @@ FIRE SPELLS
 	- STATIC REMNANT (AIR + LIFE) [ A - A - A - L - L ]
 		Leaves an image of static charge behind on the player's location. Entities coming close to this remnant get shocked for decent damage.
 			
-	#### EARTH SPELLS	
+EARTH SPELLS	
+
 	- MAGNETIZE (EARTH) [ E - E - E - E - E ]
 		A number of stones is lifted into the air and orbits the player. The stones hurt entities which are hit and are destroyed after a number of hits.
 		The stones also serve as a shield against incoming projectiles. While casting this spell, the player must focus and can not perform other actions.
@@ -145,7 +149,8 @@ FIRE SPELLS
 		damage threshold is reached
 		
 		
-	#### DEATH SPELLS
+DEATH SPELLS
+
 	- WRAITH FORM (DEATH) [ D - D - D - D - D ]
 		Kills the caster and the caster becomes a wraith, invisible to other players and entities. While in wraith form, 
 		the player has to consume souls over time to stay alive. The wraith can also not interact with the world (chests, beds, entities...).
@@ -169,8 +174,8 @@ FIRE SPELLS
 	- CONSUME SOUL (DEATH + LIFE) [ D - D - D - L - L ]
 		Consumes one harvested soul to restore health
 		
-	
-	#### LIFE SPELLS
+LIFE SPELLS
+
 	- CLEANSING BURST (LIFE) [ L  - L - L - L - L ]
 		Removes debuffs from target entity (or yourself)
 		
