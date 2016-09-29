@@ -16,9 +16,9 @@ public class MagicBeam {
     private double range;
     private boolean frustrumIgnore;
 
-    private int red;
-    private int green;
-    private int blue;
+    private int red = -1;
+    private int green = -1;
+    private int blue = -1;
 
     public MagicBeam(EntityPlayer player, int[] potencies, double range) {
         this.player = player;
