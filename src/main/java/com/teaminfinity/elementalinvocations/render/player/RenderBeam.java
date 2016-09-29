@@ -2,6 +2,8 @@ package com.teaminfinity.elementalinvocations.render.player;
 
 import com.infinityraider.infinitylib.render.RenderUtilBase;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
+import com.infinityraider.infinitylib.utility.math.TransformationMatrix;
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.magic.spell.BeamHandler;
 import com.teaminfinity.elementalinvocations.magic.spell.MagicBeam;
 import com.teaminfinity.elementalinvocations.reference.Reference;
@@ -14,7 +16,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,10 +39,11 @@ public class RenderBeam extends RenderUtilBase {
 
     private RenderBeam() {}
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     @SuppressWarnings("unused")
-    public void renderPlayerCharges(RenderPlayerEvent.Post event) {
-        Optional<MagicBeam> optional = BeamHandler.getInstance().getMagicBeam(event.getEntityPlayer());
+    public void onRenderPlayer(RenderPlayerEvent.Post event) {
+        EntityPlayer player = event.getEntityPlayer();
+        Optional<MagicBeam> optional = BeamHandler.getInstance().getMagicBeam(player);
         if(!optional.isPresent()) {
             return;
         }
@@ -53,7 +58,6 @@ public class RenderBeam extends RenderUtilBase {
         int alpha = 127;
 
         double range = beam.getRange();
-        EntityPlayer player = event.getEntityPlayer();
         RayTraceResult hit = RayTraceHelper.getTargetEntityOrBlock(player, range);
         Vec3d target;
         if(hit == null) {
@@ -100,6 +104,85 @@ public class RenderBeam extends RenderUtilBase {
         GlStateManager.translate(dx, y1, dz);
         this.renderOrb(red, green, blue, alpha);
         GlStateManager.popMatrix();
+
+        GlStateManager.popAttrib();
+        GlStateManager.popMatrix();
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SuppressWarnings("unused")
+    public void onRenderHand(RenderHandEvent event) {
+        EntityPlayer player = ElementalInvocations.proxy.getClientPlayer();
+        Optional<MagicBeam> optional = BeamHandler.getInstance().getMagicBeam(player);
+        if (!optional.isPresent()) {
+            return;
+        }
+
+        MagicBeam beam = optional.get();
+
+        double thickness = 2.0 / 16;
+
+        int red = beam.getRed();
+        int green = beam.getGreen();
+        int blue = beam.getBlue();
+        int alpha = 127;
+
+        double range = beam.getRange();
+        RayTraceResult hit = RayTraceHelper.getTargetEntityOrBlock(player, range);
+        Vec3d target;
+        if (hit == null) {
+            target = player.getPositionEyes(event.getPartialTicks()).add(player.getLook(event.getPartialTicks()).scale(range));
+        } else {
+            target = hit.hitVec;
+        }
+
+        double pX = player.prevPosX + event.getPartialTicks()*(player.posX - player.prevPosX);
+        double pY = player.prevPosY + event.getPartialTicks()*(player.posY - player.prevPosY);
+        double pZ = player.prevPosZ + event.getPartialTicks()*(player.posZ - player.prevPosZ);
+
+        Vec3d eyes = player.getPositionEyes(event.getPartialTicks());
+
+        double pitch = player.prevRotationPitch + event.getPartialTicks()*(player.rotationPitch - player.prevRotationPitch);
+        double cosPitch = Math.cos(Math.toRadians(pitch));
+        double sinPitch = Math.sin(Math.toRadians(pitch));
+
+        double yaw = player.prevRotationYaw + event.getPartialTicks()*(player.rotationYaw - player.prevRotationYaw);
+        double cosYaw = Math.cos(Math.toRadians(yaw));
+        double sinYaw = Math.sin(Math.toRadians(yaw));
+
+        //parallel with screen width
+        double dx = -0.25;
+        //parallel with screen height
+        double dy = 0.95*player.height;
+        //parallel with screen normal
+        double dz = -0.25;
+
+        TransformationMatrix matrix = new TransformationMatrix(-yaw, 0, 1, 0)
+                .multiplyRightWith(new TransformationMatrix(-pitch, 1, 0, 0));
+
+        double[] transformed = matrix.transform(dx, dy, dz);
+
+        double x1 = pX + transformed[0];
+        double y1 = pY + transformed[1];
+        double z1 = pZ + transformed[2];
+
+        double x2 = target.xCoord;
+        double y2 = target.yCoord;
+        double z2 = target.zCoord;
+
+        GlStateManager.pushMatrix();
+        GlStateManager.pushAttrib();
+
+        GlStateManager.enableBlend();
+        GlStateManager.disableLighting();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
+
+        GlStateManager.rotate((float) pitch, 1, 0, 0);
+        GlStateManager.rotate((float) yaw + 180, 0, 1, 0);
+        GlStateManager.translate(-eyes.xCoord, -eyes.yCoord, -eyes.zCoord);
+
+        this.renderBeam(x1, y1, z1, x2, y2, z2, thickness, red, green, blue, alpha);
 
         GlStateManager.popAttrib();
         GlStateManager.popMatrix();
