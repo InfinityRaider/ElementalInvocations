@@ -44,6 +44,14 @@ public class MagicBeam {
         this.getPlayer().ignoreFrustumCheck = this.frustrumIgnore;
     }
 
+    public double getThickness() {
+        int sum = 0;
+        for(int potency : this.potencies) {
+            sum += potency;
+        }
+        return ((double) sum)/ ( 16.0 * this.potencies.length);
+    }
+
     public int getRed() {
         if(red < 0) {
             compileColors();

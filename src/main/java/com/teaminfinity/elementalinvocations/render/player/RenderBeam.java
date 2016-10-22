@@ -50,7 +50,7 @@ public class RenderBeam extends RenderUtilBase {
 
         MagicBeam beam = optional.get();
 
-        double thickness = 1.0/16;
+        double thickness = beam.getThickness();
 
         int red = beam.getRed();
         int green = beam.getGreen();
@@ -189,27 +189,34 @@ public class RenderBeam extends RenderUtilBase {
     }
 
     protected void renderBeam(double x1, double y1, double z1, double x2, double y2, double z2, double thickness, int red, int green, int blue, int alpha) {
+        float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
+        angle = (3 * angle) % 360;
+        double dt = 1.0 - 0.5*Math.cos(Math.toRadians(angle));
+
         Minecraft.getMinecraft().renderEngine.bindTexture(BEAM_TEXTURE);
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 
-        buffer.pos(x2, y2 + thickness/2, z2).tex(1, 0).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x1, y1 + thickness/2, z1).tex(1, 1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x1, y1 - thickness/2, z1).tex(0, 1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x2, y2 - thickness/2, z2).tex(0, 0).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x2, y2 + dt*thickness/2, z2).tex(1, 0).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x1, y1 + dt*thickness/2, z1).tex(1, 1).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x1, y1 - dt*thickness/2, z1).tex(0, 1).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x2, y2 - dt*thickness/2, z2).tex(0, 0).color(red, green, blue, alpha).endVertex();
 
-        buffer.pos(x2, y2 + thickness/2, z2).tex(1, 0).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x2, y2 - thickness/2, z2).tex(0, 0).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x1, y1 - thickness/2, z1).tex(0, 1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x1, y1 + thickness/2, z1).tex(1, 1).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x2, y2 + dt*thickness/2, z2).tex(1, 0).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x2, y2 - dt*thickness/2, z2).tex(0, 0).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x1, y1 - dt*thickness/2, z1).tex(0, 1).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x1, y1 + dt*thickness/2, z1).tex(1, 1).color(red, green, blue, alpha).endVertex();
 
         tessellator.draw();
     }
 
     protected void renderOrb(int red, int green, int blue, int alpha) {
         float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
+        angle = (3 * angle) % 360;
         GlStateManager.rotate(angle, 0, 0, 1);
+        double scale = 0.75 - 0.25*Math.cos(Math.toRadians(angle));
+        GlStateManager.scale(scale, scale, scale);
 
         Minecraft.getMinecraft().renderEngine.bindTexture(ORB_TEXTURE);
         Tessellator tessellator = Tessellator.getInstance();
