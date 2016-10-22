@@ -1,6 +1,6 @@
 package com.teaminfinity.elementalinvocations.potion;
 
-import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +32,7 @@ public class PotionWraithForm extends PotionBase {
         }
         EntityPlayer player = (EntityPlayer) entity;
         if(player.getHealth() <= 1.0F) {
-            ISoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(player);
+            ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(player);
             if(collection != null && collection.getSoulCount() > 0) {
                 collection.removeSoul();
                 player.setHealth(amplification);

@@ -5,7 +5,7 @@ import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.souls.ISoul;
 import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.death.BasicSoul;
-import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -24,7 +24,7 @@ public class ElementEffectDeath extends ElementEffect {
         if(secondary && !target.isEntityAlive()) {
             ISoul soul = new BasicSoul(target.getName());
             LogHelper.debug("Reaped Soul: {0}!", soul.getName());
-			PlayerSoulCollectionProvider.getSoulCollection(caster).addSoul(soul);
+			CapabilityPlayerSoulCollection.getSoulCollection(caster).addSoul(soul);
         }
     }
 }

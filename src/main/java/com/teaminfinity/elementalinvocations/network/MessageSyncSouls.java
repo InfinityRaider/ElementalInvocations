@@ -1,10 +1,8 @@
 package com.teaminfinity.elementalinvocations.network;
 
 import com.infinityraider.infinitylib.network.MessageBase;
-import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
-import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
-import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,7 +33,7 @@ public class MessageSyncSouls extends MessageBase<IMessage> {
     @Override
     protected void processMessage(MessageContext ctx) {
         if (ctx.side == Side.CLIENT && this.player != null) {
-            ISoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(this.player);
+            ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(this.player);
             if (collection != null) {
                 collection.readFromNBT(this.tag);
             }

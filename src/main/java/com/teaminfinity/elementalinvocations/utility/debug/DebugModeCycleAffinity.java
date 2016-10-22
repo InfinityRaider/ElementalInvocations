@@ -3,7 +3,7 @@ package com.teaminfinity.elementalinvocations.utility.debug;
 import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
-import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +31,7 @@ public class DebugModeCycleAffinity extends DebugMode {
 
     @Override
     public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-        IPlayerMagicProperties magicProperties = PlayerMagicProvider.getMagicProperties(player);
+        IPlayerMagicProperties magicProperties = CapabilityPlayerMagicProperties.getMagicProperties(player);
         if(magicProperties != null && !world.isRemote) {
             if (magicProperties.getPlayerAffinity() == this.element) {
                 magicProperties.setPlayerAdeptness((magicProperties.getPlayerAdeptness() + 1) % (Constants.MAX_LEVEL + 1));

@@ -6,7 +6,7 @@ import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
-import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
 import com.teaminfinity.elementalinvocations.reference.Reference;
@@ -54,7 +54,7 @@ public class ItemElementalCore extends ItemWithModelBase implements IItemWithRec
         boolean consume = false;
         if(entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
-            IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
+            IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
             if(properties != null) {
                 Element current = properties.getPlayerAffinity();
                 Element orb = this.getElement(stack);
@@ -118,7 +118,7 @@ public class ItemElementalCore extends ItemWithModelBase implements IItemWithRec
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
         tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L1"));
-        IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
+        IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
         Element orb = this.getElement(stack);
         if(properties == null) {
             tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));

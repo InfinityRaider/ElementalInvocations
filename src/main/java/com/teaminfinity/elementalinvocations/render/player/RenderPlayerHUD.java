@@ -2,7 +2,7 @@ package com.teaminfinity.elementalinvocations.render.player;
 
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
-import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import net.minecraft.client.Minecraft;
@@ -35,7 +35,7 @@ public class RenderPlayerHUD {
     @SuppressWarnings("unused")
     public void onRenderScreen(RenderGameOverlayEvent.Pre event) {
         if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
-            ISoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(ElementalInvocations.proxy.getClientPlayer());
+            ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(ElementalInvocations.proxy.getClientPlayer());
             if(collection != null && collection.getSoulCount() > 0) {
                 Minecraft.getMinecraft().renderEngine.bindTexture(SOUL_TEXTURE);
                 Tessellator tessellator = Tessellator.getInstance();

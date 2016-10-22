@@ -5,7 +5,7 @@ import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
 import com.teaminfinity.elementalinvocations.magic.spell.death.BasicSoul;
-import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.RayTraceResult;
@@ -25,7 +25,7 @@ public class EffectDeathNova implements ISpellEffect {
                 target.setDead();
                 //tnt = 4, creeper = 3, this goes from 1 to 5
                 target.getEntityWorld().newExplosion(target, position.xCoord, position.yCoord, position.zCoord, potencyFire/3, true, potencyFire >= 12);
-                ISoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(caster);
+                ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(caster);
                 if(collection != null) {
                     collection.addSoul(new BasicSoul(target.getName()));
                 }

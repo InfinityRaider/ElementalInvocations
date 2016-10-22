@@ -1,7 +1,7 @@
 package com.teaminfinity.elementalinvocations.handler;
 
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
-import com.teaminfinity.elementalinvocations.magic.CapabilityPlayerMagicProperties;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;

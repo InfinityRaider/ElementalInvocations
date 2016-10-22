@@ -6,8 +6,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.util.List;
 
 public interface IPlayerMagicProperties {
-    IPlayerMagicProperties setPlayer(EntityPlayer player);
-
     EntityPlayer getPlayer();
 
     void updateTick();

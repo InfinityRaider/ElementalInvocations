@@ -8,7 +8,7 @@ import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
-import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.InventoryTabs;
 import com.teaminfinity.elementalinvocations.reference.Reference;
@@ -111,7 +111,7 @@ public class ItemWand extends ItemWithModelBase implements IItemWithRecipe, IDua
 
     @Override
     public void onItemUsed(ItemStack stack, EntityPlayer player, boolean shift, boolean ctrl, EnumHand hand) {
-        IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
+        IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
         if (properties == null) {
             return;
         }

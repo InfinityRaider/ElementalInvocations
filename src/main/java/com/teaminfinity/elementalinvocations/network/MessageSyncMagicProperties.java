@@ -2,7 +2,7 @@ package com.teaminfinity.elementalinvocations.network;
 
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
-import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,7 +33,7 @@ public class MessageSyncMagicProperties extends MessageBase<IMessage> {
     @Override
     protected void processMessage(MessageContext ctx) {
         if (ctx.side == Side.CLIENT && this.player != null) {
-            IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(this.player);
+            IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(this.player);
             if (properties != null) {
                 properties.readFromNBT(this.tag);
             }

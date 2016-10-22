@@ -1,12 +1,13 @@
 package com.teaminfinity.elementalinvocations.potion;
 
+import com.infinityraider.infinitylib.modules.specialpotioneffect.ISpecialPotion;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 
-public class PotionLivingArmor extends PotionBase implements IDamageReductor {
+public class PotionLivingArmor extends PotionBase implements IDamageReductor, ISpecialPotion {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potion_living_armor.png");
 
     public PotionLivingArmor() {

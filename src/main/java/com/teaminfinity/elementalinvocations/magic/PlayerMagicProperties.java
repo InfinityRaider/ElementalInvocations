@@ -1,6 +1,7 @@
 package com.teaminfinity.elementalinvocations.magic;
 
 import com.infinityraider.infinitylib.network.NetworkWrapper;
+import com.infinityraider.infinitylib.utility.ISerializable;
 import com.infinityraider.infinitylib.utility.LogHelper;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
@@ -24,7 +25,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PlayerMagicProperties implements IPlayerMagicProperties {
+public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializable {
     /* player instance */
     private EntityPlayer player;
 
@@ -47,7 +48,6 @@ public class PlayerMagicProperties implements IPlayerMagicProperties {
         this.charges = new ArrayList<>();
     }
 
-    @Override
     public PlayerMagicProperties setPlayer(EntityPlayer player) {
         this.player = player;
         return this;

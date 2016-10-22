@@ -3,7 +3,7 @@ package com.teaminfinity.elementalinvocations.render.player;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
-import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Reference;
 import com.teaminfinity.elementalinvocations.render.RenderUtil;
@@ -57,7 +57,7 @@ public final class RenderPlayerCharges extends RenderUtil {
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void renderPlayerCharges(RenderPlayerEvent.Post event) {
-        IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(event.getEntityPlayer());
+        IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(event.getEntityPlayer());
         if(properties == null) {
             return;
         }
@@ -170,7 +170,7 @@ public final class RenderPlayerCharges extends RenderUtil {
     @SuppressWarnings("unused")
     public void onRenderScreen(RenderGameOverlayEvent.Pre event) {
         if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
-            IPlayerMagicProperties props = PlayerMagicProvider.getMagicProperties(ElementalInvocations.proxy.getClientPlayer());
+            IPlayerMagicProperties props = CapabilityPlayerMagicProperties.getMagicProperties(ElementalInvocations.proxy.getClientPlayer());
             if(props != null && !props.getCharges().isEmpty()) {
                 Tessellator tessellator = Tessellator.getInstance();
                 VertexBuffer buffer = tessellator.getBuffer();

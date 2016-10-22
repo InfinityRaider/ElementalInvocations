@@ -3,7 +3,7 @@ package com.teaminfinity.elementalinvocations.network;
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.handler.SpellCastingHandler;
-import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.utility.KeyBindings;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +35,7 @@ public class MessageKeyPressed extends MessageBase<IMessage> {
             if(player != null) {
                 switch(this.buttonId) {
                     case KeyBindings.KEY_INVOKE:
-                        IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
+                        IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
                         if(properties != null) {
                             properties.invoke();
                         }

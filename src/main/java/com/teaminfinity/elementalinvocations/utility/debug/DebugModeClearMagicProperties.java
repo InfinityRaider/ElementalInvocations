@@ -3,8 +3,8 @@ package com.teaminfinity.elementalinvocations.utility.debug;
 import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
-import com.teaminfinity.elementalinvocations.magic.PlayerMagicProvider;
-import com.teaminfinity.elementalinvocations.magic.spell.death.PlayerSoulCollectionProvider;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerMagicProperties;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -25,8 +25,8 @@ public class DebugModeClearMagicProperties extends DebugMode {
 
     @Override
     public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-        IPlayerMagicProperties properties = PlayerMagicProvider.getMagicProperties(player);
-        ISoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(player);
+        IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
+        ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(player);
         if(!world.isRemote) {
             if(properties != null) {
                 properties.reset();

@@ -4,6 +4,7 @@ import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
+import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import com.teaminfinity.elementalinvocations.entity.EntityReplicate;
 import com.teaminfinity.elementalinvocations.utility.PlayerHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,7 +22,7 @@ public class EffectReplicate implements ISpellEffect {
     public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
         int potencyDeath = potencies[Element.DEATH.ordinal()];
         int potencyAir = potencies[Element.AIR.ordinal()];
-        ISoulCollection collection = PlayerSoulCollectionProvider.getSoulCollection(caster);
+        ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(caster);
         int amount = Math.min(potencyDeath/3, collection.getSoulCount());
         if(amount <= 0) {
             return false;

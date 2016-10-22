@@ -1,6 +1,7 @@
 package com.teaminfinity.elementalinvocations.magic.spell.death;
 
 import com.infinityraider.infinitylib.network.NetworkWrapper;
+import com.infinityraider.infinitylib.utility.ISerializable;
 import com.teaminfinity.elementalinvocations.api.souls.ISoul;
 import com.teaminfinity.elementalinvocations.network.MessageSyncSouls;
 import com.teaminfinity.elementalinvocations.reference.Names;
@@ -10,16 +11,22 @@ import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 
 import java.util.*;
 
-public class PlayerSoulCollection implements ISoulCollection {
+public class PlayerSoulCollection implements ISoulCollection, ISerializable {
     /* player instance */
-    private final EntityPlayer player;
+    private EntityPlayer player;
 
     /* number of souls */
     private final Deque<ISoul> souls;
 
-    public PlayerSoulCollection(EntityPlayer player) {
-        this.player = player;
+    public PlayerSoulCollection() {
         this.souls = new ArrayDeque<>();
+    }
+
+    public PlayerSoulCollection setPlayer(EntityPlayer player) {
+        if(this.player == null) {
+            this.player = player;
+        }
+        return this;
     }
 
     @Override
