@@ -38,7 +38,7 @@ public class ItemElementalCore extends ItemWithModelBase implements IItemWithRec
     public ItemElementalCore() {
         super("elemental_core");
         this.CORES = ElementalCore.getCores();
-        this.setCreativeTab(InventoryTabs.ELEMNTAL_INVOCATIONS);
+        this.setCreativeTab(InventoryTabs.ELEMENTAL_INVOCATIONS);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
     }

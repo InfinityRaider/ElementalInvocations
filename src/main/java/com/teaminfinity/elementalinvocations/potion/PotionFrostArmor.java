@@ -13,8 +13,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 
-public class PotionFrostArmor extends PotionBase implements IDamageReductor {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/potion_frost_armor.png");
+public class PotionFrostArmor extends PotionBase implements IDamageReductor, IPotionWithRenderOverlay {
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/gui/potion_frost_armor.png");
+    public static final ResourceLocation OVERLAY = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/frost_armor.png");
 
     public PotionFrostArmor() {
         super(false, "frost_armor", 0x49EFF1);
@@ -60,5 +61,10 @@ public class PotionFrostArmor extends PotionBase implements IDamageReductor {
             ((EntityLivingBase) attacker).addPotionEffect(new PotionEffect(Potion.getPotionById(2), 60));
         }
         return ((float) potency)/(3 * 10.0F);
+    }
+
+    @Override
+    public ResourceLocation getOverlayTexture() {
+        return OVERLAY;
     }
 }

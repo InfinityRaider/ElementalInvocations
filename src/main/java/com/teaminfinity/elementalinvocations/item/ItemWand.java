@@ -40,7 +40,7 @@ public class ItemWand extends ItemWithModelBase implements IItemWithRecipe, IDua
         super("wand");
         this.CORES = WandCore.getCores();
         this.setHasSubtypes(true);
-        this.setCreativeTab(InventoryTabs.ELEMNTAL_INVOCATIONS);
+        this.setCreativeTab(InventoryTabs.ELEMENTAL_INVOCATIONS);
         this.setMaxStackSize(1);
     }
 

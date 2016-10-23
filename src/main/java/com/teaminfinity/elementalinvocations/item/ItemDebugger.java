@@ -17,7 +17,7 @@ import java.util.List;
 public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel {
     public ItemDebugger() {
         super(false);
-        this.setCreativeTab(InventoryTabs.ELEMNTAL_INVOCATIONS);
+        this.setCreativeTab(InventoryTabs.ELEMENTAL_INVOCATIONS);
     }
 
     @Override

@@ -215,7 +215,7 @@ public class RenderBeam extends RenderUtilBase {
         float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
         angle = (3 * angle) % 360;
         GlStateManager.rotate(angle, 0, 0, 1);
-        double scale = 0.75 - 0.25*Math.cos(Math.toRadians(angle));
+        double scale = 0.75 - 0.25*(Math.cos(Math.toRadians(angle)) + 1)/2;
         GlStateManager.scale(scale, scale, scale);
 
         Minecraft.getMinecraft().renderEngine.bindTexture(ORB_TEXTURE);

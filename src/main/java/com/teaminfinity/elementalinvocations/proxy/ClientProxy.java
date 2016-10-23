@@ -6,10 +6,12 @@ import com.teaminfinity.elementalinvocations.handler.KeyInputHandler;
 import com.teaminfinity.elementalinvocations.handler.PlayerMovementTrackingHandler;
 import com.teaminfinity.elementalinvocations.potion.PotionConfusion;
 import com.teaminfinity.elementalinvocations.render.player.RenderBeam;
+import com.teaminfinity.elementalinvocations.render.player.RenderLayerPotionEffect;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerCharges;
 import com.teaminfinity.elementalinvocations.render.player.RenderPlayerHUD;
 import com.teaminfinity.elementalinvocations.utility.KeyBindings;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -18,6 +20,11 @@ import org.lwjgl.input.Keyboard;
 @SideOnly(Side.CLIENT)
 @SuppressWarnings("unused")
 public class ClientProxy implements IProxy, IClientProxyBase {
+    @Override
+    public void initEnd(FMLInitializationEvent event) {
+        RenderLayerPotionEffect.init();
+    }
+
     @Override
     public void initConfiguration(FMLPreInitializationEvent event) {
         IProxy.super.initConfiguration(event);
