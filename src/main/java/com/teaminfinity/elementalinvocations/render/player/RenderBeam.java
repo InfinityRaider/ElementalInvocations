@@ -112,6 +112,9 @@ public class RenderBeam extends RenderUtilBase {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     @SuppressWarnings("unused")
     public void onRenderHand(RenderHandEvent event) {
+        if(Minecraft.getMinecraft().gameSettings.thirdPersonView != 0) {
+            return;
+        }
         EntityPlayer player = ElementalInvocations.proxy.getClientPlayer();
         Optional<MagicBeam> optional = BeamHandler.getInstance().getMagicBeam(player);
         if (!optional.isPresent()) {

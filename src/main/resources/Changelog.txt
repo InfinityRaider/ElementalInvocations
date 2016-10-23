@@ -8,3 +8,5 @@ CHANGELOG
  - FIXED: Tweaked meteor spawning rules (InfinityRaider)
  - ADDED: new textures for top tier wands (Arrrrik)
  - ADDED: Replicate spell (InfinityRaider)
+ - ADDED: Firebeam spell (InfinityRaider)
+ - ADDED: Render effect for Frost Armor & Living Armor (InfinityRaider, Arrrrik)
