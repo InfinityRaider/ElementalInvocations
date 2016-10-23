@@ -63,10 +63,8 @@ public class RenderLayerPotionEffect implements LayerRenderer<EntityPlayer> {
         for(IPotionWithRenderOverlay effect : effects) {
             Minecraft.getMinecraft().renderEngine.bindTexture(effect.getOverlayTexture());
 
-            double alpha = 0.2 + 0.6 * (Math.cos(Math.toRadians(angle + index*360/effects.size())) + 1)/2;
+            double alpha = 0.3 + 0.5 * (Math.cos(Math.toRadians(angle + index*360/effects.size())) + 1)/2;
             GlStateManager.color(1, 1, 1, (float) alpha);
-
-            LogHelper.debug("angle: " + angle +", alpha: " + alpha);
 
             model.render(player, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch, scale);
 

@@ -1,7 +1,7 @@
 package com.teaminfinity.elementalinvocations.magic.spell;
 
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.spells.ISpellEffect;
 import com.teaminfinity.elementalinvocations.network.MessageStartStopBeam;
 import com.teaminfinity.elementalinvocations.network.MessageUpdateBeamRange;
@@ -51,14 +51,14 @@ public abstract class SpellEffectBeamAbstract implements ISpellEffect {
     protected abstract double getBeamRange(EntityPlayer caster, int[] potencies, int channelTick);
 
     protected void sendStartMessage(EntityPlayer caster, int[] potencies, double range) {
-        NetworkWrapper.getInstance().sendToAll(new MessageStartStopBeam(caster, potencies, range));
+        ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageStartStopBeam(caster, potencies, range));
     }
 
     protected void sendStopMessage(EntityPlayer caster, int[] potencies, int channelTick) {
-        NetworkWrapper.getInstance().sendToAll(new MessageStartStopBeam(caster, potencies, channelTick));
+        ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageStartStopBeam(caster, potencies, channelTick));
     }
 
     protected void sendBeamRangeUpdateMessage(EntityPlayer caster, double range) {
-        NetworkWrapper.getInstance().sendToAll(new MessageUpdateBeamRange(caster, range));
+        ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageUpdateBeamRange(caster, range));
     }
 }

@@ -1,8 +1,8 @@
 package com.teaminfinity.elementalinvocations.magic;
 
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.infinityraider.infinitylib.utility.ISerializable;
 import com.infinityraider.infinitylib.utility.LogHelper;
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
@@ -16,7 +16,7 @@ import com.teaminfinity.elementalinvocations.network.MessageInvoke;
 import com.teaminfinity.elementalinvocations.network.MessageSyncMagicProperties;
 import com.teaminfinity.elementalinvocations.reference.Constants;
 import com.teaminfinity.elementalinvocations.reference.Names;
-import com.teaminfinity.elementalinvocations.reference.UniqueIds;
+import com.infinityraider.infinitylib.reference.UniqueIds;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.Vec3d;
@@ -61,7 +61,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     @Override
     public void updateTick() {
         if(this.needsSync && !this.player.getEntityWorld().isRemote) {
-            NetworkWrapper.getInstance().sendToAll(new MessageSyncMagicProperties(player, this.writeToNBT()));
+            ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageSyncMagicProperties(player, this.writeToNBT()));
             this.needsSync = false;
         }
         if(this.getCharges().isEmpty()) {
@@ -148,7 +148,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
                 EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getPotencyArray(false));
                 getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
             }
-            NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), false));
+            ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageInvoke(getPlayer(), false));
         }
         this.getCharges().clear();
         this.currentInstability = 0;
@@ -159,7 +159,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
         if(!getPlayer().getEntityWorld().isRemote) {
             Vec3d vec3d = getPlayer().getLookVec();
             new MagicEffect(getPlayer(), getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), getPotencyArray(true)).apply();
-            NetworkWrapper.getInstance().sendToAll(new MessageInvoke(getPlayer(), true));
+            ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageInvoke(getPlayer(), true));
         }
         this.getCharges().clear();
     }
@@ -191,7 +191,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
             this.chargeMap.get(charge.element()).add(charge);
             this.charges.add(charge);
             if(!getPlayer().getEntityWorld().isRemote) {
-                NetworkWrapper.getInstance().sendToAll(new MessageAddCharge(this.getPlayer(), charge));
+                ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageAddCharge(this.getPlayer(), charge));
                 recalculateInstability(charge);
                 if(fizzleCheck()) {
                     fizzle();

@@ -1,6 +1,5 @@
 package com.teaminfinity.elementalinvocations.handler;
 
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.network.MessageTrackPlayerUpdate;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,7 +39,7 @@ public class PlayerMovementTrackingHandler {
             if(deltaX == 0 && deltaY == 0 && deltaZ == 0) {
                 return;
             }
-            NetworkWrapper.getInstance().sendToServer(new MessageTrackPlayerUpdate(deltaX, deltaY, deltaZ));
+            ElementalInvocations.instance.getNetworkWrapper().sendToServer(new MessageTrackPlayerUpdate(deltaX, deltaY, deltaZ));
         }
     }
 }

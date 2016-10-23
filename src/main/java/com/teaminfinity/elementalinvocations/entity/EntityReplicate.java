@@ -1,6 +1,5 @@
 package com.teaminfinity.elementalinvocations.entity;
 
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.magic.spell.death.EffectReplicate;
 import com.teaminfinity.elementalinvocations.network.MessageSwapPlayerPosition;
@@ -76,7 +75,7 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
             }
             List<EntityReplicate> replicas = replicaMap.get(this.getPlayer().getUniqueID());
             if (replicas.isEmpty()) {
-                NetworkWrapper.getInstance().sendTo(new MessageTrackPlayer(true), (EntityPlayerMP) this.getPlayer());
+                ElementalInvocations.instance.getNetworkWrapper().sendTo(new MessageTrackPlayer(true), (EntityPlayerMP) this.getPlayer());
             }
             replicas.add(this);
         }
@@ -91,7 +90,7 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
             List<EntityReplicate> replicas = replicaMap.get(this.getPlayer().getUniqueID());
             replicas.remove(this);
             if (replicas.isEmpty()) {
-                NetworkWrapper.getInstance().sendTo(new MessageTrackPlayer(false), (EntityPlayerMP) this.getPlayer());
+                ElementalInvocations.instance.getNetworkWrapper().sendTo(new MessageTrackPlayer(false), (EntityPlayerMP) this.getPlayer());
             }
         }
     }
@@ -114,7 +113,7 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
     public void swapWithPlayer() {
         if(this.isEntityAlive() && this.getPlayer() != null) {
             if(!this.getEntityWorld().isRemote) {
-                NetworkWrapper.getInstance().sendToAll(new MessageSwapPlayerPosition(this));
+                ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageSwapPlayerPosition(this));
             }
             //get current player position
             double playerX = this.getPlayer().posX;

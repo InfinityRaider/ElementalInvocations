@@ -1,6 +1,6 @@
 package com.teaminfinity.elementalinvocations.entity;
 
-import com.infinityraider.infinitylib.network.NetworkWrapper;
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.network.MessageRenderSunstrike;
 import com.teaminfinity.elementalinvocations.reference.Names;
 import com.teaminfinity.elementalinvocations.render.entity.RenderEntitySunstrike;
@@ -71,7 +71,7 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
         timer = timer - 1;
         if (!worldObj.isRemote) {
             if (timer == 0) {
-                NetworkWrapper.getInstance().sendToAll(new MessageRenderSunstrike(this));
+                ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageRenderSunstrike(this));
                 AxisAlignedBB area = AreaHelper.getArea(this.getPositionVector(), Math.max(1, getPotencyAir() / 3));
                 List<EntityLivingBase> entities = getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, area);
                 entities.forEach(e -> e.attackEntityFrom(new DamageSourceSunstrike(), getPotencyFire() * 2));
