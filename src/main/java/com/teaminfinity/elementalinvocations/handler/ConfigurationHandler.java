@@ -1,6 +1,6 @@
 package com.teaminfinity.elementalinvocations.handler;
 
-import com.infinityraider.infinitylib.utility.LogHelper;
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.spells.ISpell;
 import net.minecraft.util.Tuple;
@@ -43,7 +43,7 @@ public class ConfigurationHandler {
         if(config.hasChanged()) {
             config.save();
         }
-        LogHelper.debug("Configuration Loaded");
+        ElementalInvocations.instance.getLogger().debug("Configuration Loaded");
     }
 
     @SideOnly(Side.CLIENT)
@@ -55,7 +55,7 @@ public class ConfigurationHandler {
         if(config.hasChanged()) {
             config.save();
         }
-        LogHelper.debug("Client configuration Loaded");
+        ElementalInvocations.instance.getLogger().debug("Client configuration Loaded");
     }
 
     private void loadConfiguration() {

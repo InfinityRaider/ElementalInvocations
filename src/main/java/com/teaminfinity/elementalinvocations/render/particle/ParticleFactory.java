@@ -1,6 +1,6 @@
 package com.teaminfinity.elementalinvocations.render.particle;
 
-import com.infinityraider.infinitylib.utility.LogHelper;
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
@@ -62,7 +62,7 @@ public final class ParticleFactory implements IParticleFactory {
                 try {
                     return (Map<Integer, IParticleFactory>) field.get(manager);
                 } catch (IllegalAccessException e) {
-                    LogHelper.printStackTrace(e);
+                    ElementalInvocations.instance.getLogger().printStackTrace(e);
                     break;
                 }
             }

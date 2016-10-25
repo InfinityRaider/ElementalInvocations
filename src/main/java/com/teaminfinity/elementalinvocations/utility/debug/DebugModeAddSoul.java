@@ -1,7 +1,7 @@
 package com.teaminfinity.elementalinvocations.utility.debug;
 
-import com.infinityraider.infinitylib.utility.LogHelper;
 import com.infinityraider.infinitylib.utility.debug.DebugMode;
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 import com.teaminfinity.elementalinvocations.magic.spell.death.BasicSoul;
 import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerSoulCollection;
@@ -28,7 +28,7 @@ public class DebugModeAddSoul extends DebugMode {
         if(collection != null) {
             collection.addSoul(new BasicSoul("debug"));
             if(world.isRemote) {
-                LogHelper.debug(player.getDisplayNameString() + " now has " + collection.getSoulCount() + " collected souls");
+                ElementalInvocations.instance.getLogger().debug(player.getDisplayNameString() + " now has " + collection.getSoulCount() + " collected souls");
             }
         }
     }

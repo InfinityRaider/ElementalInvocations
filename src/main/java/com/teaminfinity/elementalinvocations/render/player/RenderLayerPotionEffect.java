@@ -2,7 +2,7 @@ package com.teaminfinity.elementalinvocations.render.player;
 
 import com.infinityraider.infinitylib.modules.specialpotioneffect.CapabilityPotionTracker;
 import com.infinityraider.infinitylib.modules.specialpotioneffect.PotionTracker;
-import com.infinityraider.infinitylib.utility.LogHelper;
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.potion.IPotionWithRenderOverlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -92,7 +92,7 @@ public class RenderLayerPotionEffect implements LayerRenderer<EntityPlayer> {
             try {
                 mapObject = field.get(renderManager);
             } catch (IllegalAccessException e) {
-                LogHelper.printStackTrace(e);
+                ElementalInvocations.instance.getLogger().printStackTrace(e);
             }
             if(mapObject == null || mapObject == renderManager.entityRenderMap) {
                 continue;

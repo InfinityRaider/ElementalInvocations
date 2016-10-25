@@ -1,6 +1,6 @@
 package com.teaminfinity.elementalinvocations.magic.generic.effect;
 
-import com.infinityraider.infinitylib.utility.LogHelper;
+import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.souls.ISoul;
 import com.teaminfinity.elementalinvocations.magic.generic.MagicEffect;
@@ -23,7 +23,7 @@ public class ElementEffectDeath extends ElementEffect {
     public void applyEffectPost(MagicEffect effect, EntityPlayer caster, EntityLivingBase target, int potency, boolean secondary) {
         if(secondary && !target.isEntityAlive()) {
             ISoul soul = new BasicSoul(target.getName());
-            LogHelper.debug("Reaped Soul: {0}!", soul.getName());
+            ElementalInvocations.instance.getLogger().debug("Reaped Soul: {0}!", soul.getName());
 			CapabilityPlayerSoulCollection.getSoulCollection(caster).addSoul(soul);
         }
     }

@@ -1,7 +1,6 @@
 package com.teaminfinity.elementalinvocations.magic;
 
 import com.infinityraider.infinitylib.utility.ISerializable;
-import com.infinityraider.infinitylib.utility.LogHelper;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
@@ -76,7 +75,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
             this.getCharges().clear();
         }
         this.needsSync = true;
-        LogHelper.debug("Set player affinity to " + element == null ? "NULL" : (element.getTextFormat() + element.name()));
+        ElementalInvocations.instance.getLogger().debug("Set player affinity to " + element == null ? "NULL" : (element.getTextFormat() + element.name()));
     }
 
     @Override
