@@ -8,7 +8,6 @@ import com.teaminfinity.elementalinvocations.reference.Reference;
 import com.teaminfinity.elementalinvocations.registry.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
 
 @Mod(
         modid = Reference.MOD_ID,
@@ -64,29 +63,5 @@ public class ElementalInvocations extends InfinityMod {
         wrapper.registerMessage(MessageTrackPlayer.class);
         wrapper.registerMessage(MessageTrackPlayerUpdate.class);
         wrapper.registerMessage(MessageUpdateBeamRange.class);
-    }
-
-    @Mod.EventHandler
-    @SuppressWarnings("unused")
-    public void preInitMod(FMLPreInitializationEvent event) {
-        super.preInit(event);
-    }
-
-    @Mod.EventHandler
-    @SuppressWarnings("unused")
-    public void initMod(FMLInitializationEvent event) {
-        super.init(event);
-    }
-
-    @Mod.EventHandler
-    @SuppressWarnings("unused")
-    public void postInitMod(FMLPostInitializationEvent event) {
-        super.postInit(event);
-    }
-
-    @Mod.EventHandler
-    @SuppressWarnings("unused")
-    public void serverAboutToStart(FMLServerAboutToStartEvent event) {
-        super.onServerAboutToStart(event);
     }
 }
