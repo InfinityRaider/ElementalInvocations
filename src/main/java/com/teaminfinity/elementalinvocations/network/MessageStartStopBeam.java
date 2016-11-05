@@ -2,7 +2,6 @@ package com.teaminfinity.elementalinvocations.network;
 
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.magic.spell.BeamHandler;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -43,7 +42,7 @@ public class MessageStartStopBeam extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if(ctx.side == Side.CLIENT && this.player != null) {
+        if(this.player != null) {
             if(this.start) {
                 BeamHandler.getInstance().startBeam(this.player, this.potencies, this.range);
             } else {
@@ -55,23 +54,5 @@ public class MessageStartStopBeam extends MessageBase<IMessage> {
     @Override
     protected IMessage getReply(MessageContext ctx) {
         return null;
-    }
-
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        this.player = this.readPlayerFromByteBuf(buf);
-        this.potencies = this.readIntArrayFromByteBuf(buf);
-        this.channelTick = buf.readInt();
-        this.range = buf.readDouble();
-        this.start = buf.readBoolean();
-    }
-
-    @Override
-    public void toBytes(ByteBuf buf) {
-        this.writePlayerToByteBuf(buf, this.player);
-        this.writeIntArrayToByteBuf(buf, this.potencies);
-        buf.writeInt(this.channelTick);
-        buf.writeDouble(this.range);
-        buf.writeBoolean(this.start);
     }
 }

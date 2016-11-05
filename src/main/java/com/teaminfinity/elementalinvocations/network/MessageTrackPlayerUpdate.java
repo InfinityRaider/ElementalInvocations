@@ -30,7 +30,7 @@ public class MessageTrackPlayerUpdate extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if(ctx.side == Side.SERVER && ctx.getServerHandler().playerEntity != null) {
+        if(ctx.getServerHandler().playerEntity != null) {
             EntityReplicate.updatePlayerMovement(ctx.getServerHandler().playerEntity, this.deltaX, this.deltaY, this.deltaZ);
         }
     }
@@ -38,19 +38,5 @@ public class MessageTrackPlayerUpdate extends MessageBase<IMessage> {
     @Override
     protected IMessage getReply(MessageContext ctx) {
         return null;
-    }
-
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        this.deltaX = buf.readDouble();
-        this.deltaY = buf.readDouble();
-        this.deltaZ = buf.readDouble();
-    }
-
-    @Override
-    public void toBytes(ByteBuf buf) {
-        buf.writeDouble(this.deltaX);
-        buf.writeDouble(this.deltaY);
-        buf.writeDouble(this.deltaZ);
     }
 }

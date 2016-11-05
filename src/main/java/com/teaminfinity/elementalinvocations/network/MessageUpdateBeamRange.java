@@ -3,7 +3,6 @@ package com.teaminfinity.elementalinvocations.network;
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.magic.spell.BeamHandler;
 import com.teaminfinity.elementalinvocations.magic.spell.MagicBeam;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -32,7 +31,7 @@ public class MessageUpdateBeamRange extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if(ctx.side == Side.CLIENT && this.player != null) {
+        if(this.player != null) {
             Optional<MagicBeam> beam = BeamHandler.getInstance().getMagicBeam(this.player);
             if(beam.isPresent()) {
                 beam.get().setRange(this.range);
@@ -43,17 +42,5 @@ public class MessageUpdateBeamRange extends MessageBase<IMessage> {
     @Override
     protected IMessage getReply(MessageContext ctx) {
         return null;
-    }
-
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        this.player = this.readPlayerFromByteBuf(buf);
-        this.range = buf.readDouble();
-    }
-
-    @Override
-    public void toBytes(ByteBuf buf) {
-        this.writePlayerToByteBuf(buf, this.player);
-        buf.writeDouble(this.range);
     }
 }

@@ -3,7 +3,6 @@ package com.teaminfinity.elementalinvocations.network;
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.utility.PlayerHelper;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -33,7 +32,7 @@ public class MessageSetPlayerPosition extends MessageBase<IMessage> {
     @Override
     protected void processMessage(MessageContext ctx) {
         EntityPlayer player = ElementalInvocations.proxy.getClientPlayer();
-        if (ctx.side == Side.CLIENT && player != null) {
+        if (player != null) {
             PlayerHelper.setPlayerPosition(player, this.x, this.y, this.z);
         }
     }
@@ -41,19 +40,5 @@ public class MessageSetPlayerPosition extends MessageBase<IMessage> {
     @Override
     protected IMessage getReply(MessageContext ctx) {
         return null;
-    }
-
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        this.x = buf.readDouble();
-        this.y = buf.readDouble();
-        this.z = buf.readDouble();
-    }
-
-    @Override
-    public void toBytes(ByteBuf buf) {
-        buf.writeDouble(this.x);
-        buf.writeDouble(this.y);
-        buf.writeDouble(this.z);
     }
 }

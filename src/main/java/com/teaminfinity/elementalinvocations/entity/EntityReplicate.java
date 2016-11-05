@@ -75,7 +75,7 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
             }
             List<EntityReplicate> replicas = replicaMap.get(this.getPlayer().getUniqueID());
             if (replicas.isEmpty()) {
-                ElementalInvocations.instance.getNetworkWrapper().sendTo(new MessageTrackPlayer(true), (EntityPlayerMP) this.getPlayer());
+                new MessageTrackPlayer(true).sendTo((EntityPlayerMP) this.getPlayer());
             }
             replicas.add(this);
         }
@@ -90,7 +90,7 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
             List<EntityReplicate> replicas = replicaMap.get(this.getPlayer().getUniqueID());
             replicas.remove(this);
             if (replicas.isEmpty()) {
-                ElementalInvocations.instance.getNetworkWrapper().sendTo(new MessageTrackPlayer(false), (EntityPlayerMP) this.getPlayer());
+                new MessageTrackPlayer(false).sendTo((EntityPlayerMP) this.getPlayer());
             }
         }
     }
@@ -113,7 +113,7 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
     public void swapWithPlayer() {
         if(this.isEntityAlive() && this.getPlayer() != null) {
             if(!this.getEntityWorld().isRemote) {
-                ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageSwapPlayerPosition(this));
+                new MessageSwapPlayerPosition(this).sendToAll();
             }
             //get current player position
             double playerX = this.getPlayer().posX;

@@ -2,7 +2,6 @@ package com.teaminfinity.elementalinvocations.network;
 
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.handler.SpellCastingHandler;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -20,11 +19,9 @@ public class MessageStopChanneling extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if(ctx.side == Side.SERVER) {
-            EntityPlayer player = ctx.getServerHandler().playerEntity;
-            if(player != null) {
-                SpellCastingHandler.getInstance().stopChanneling(player);
-            }
+        EntityPlayer player = ctx.getServerHandler().playerEntity;
+        if (player != null) {
+            SpellCastingHandler.getInstance().stopChanneling(player);
         }
     }
 
@@ -32,10 +29,4 @@ public class MessageStopChanneling extends MessageBase<IMessage> {
     protected IMessage getReply(MessageContext ctx) {
         return null;
     }
-
-    @Override
-    public void fromBytes(ByteBuf buf) {}
-
-    @Override
-    public void toBytes(ByteBuf buf) { }
 }

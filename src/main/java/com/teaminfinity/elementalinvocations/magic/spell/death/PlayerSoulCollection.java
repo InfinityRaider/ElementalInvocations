@@ -1,7 +1,6 @@
 package com.teaminfinity.elementalinvocations.magic.spell.death;
 
 import com.infinityraider.infinitylib.utility.ISerializable;
-import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.souls.ISoul;
 import com.teaminfinity.elementalinvocations.network.MessageSyncSouls;
 import com.teaminfinity.elementalinvocations.reference.Names;
@@ -70,7 +69,7 @@ public class PlayerSoulCollection implements ISoulCollection, ISerializable {
     }
 
     private void syncToClient() {
-        ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageSyncSouls(player, this.writeToNBT()));
+        new MessageSyncSouls(player, this.writeToNBT()).sendToAll();
     }
 
     @Override

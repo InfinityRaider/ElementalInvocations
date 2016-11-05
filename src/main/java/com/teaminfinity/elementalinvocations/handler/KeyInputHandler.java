@@ -1,6 +1,5 @@
 package com.teaminfinity.elementalinvocations.handler;
 
-import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.network.MessageKeyPressed;
 import com.teaminfinity.elementalinvocations.network.MessageStopChanneling;
 import com.teaminfinity.elementalinvocations.utility.KeyBindings;
@@ -28,14 +27,14 @@ public class KeyInputHandler {
         if(invoke != invoking) {
             invoking = invoke;
             if(invoking) {
-                ElementalInvocations.instance.getNetworkWrapper().sendToServer(new MessageKeyPressed(KeyBindings.KEY_INVOKE));
+                new MessageKeyPressed(KeyBindings.KEY_INVOKE).sendToServer();
             } else {
-                ElementalInvocations.instance.getNetworkWrapper().sendToServer(new MessageStopChanneling());
+                new MessageStopChanneling().sendToServer();
             }
         }
 
         if(KeyBindings.spellAction.isPressed()) {
-            ElementalInvocations.instance.getNetworkWrapper().sendToServer(new MessageKeyPressed(KeyBindings.KEY_SPELL_ACTION));
+            new MessageKeyPressed(KeyBindings.KEY_SPELL_ACTION).sendToServer();
         }
     }
 }

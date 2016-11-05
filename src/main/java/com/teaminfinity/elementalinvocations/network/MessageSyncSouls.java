@@ -3,10 +3,8 @@ package com.teaminfinity.elementalinvocations.network;
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.api.souls.ISoulCollection;
 import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerSoulCollection;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
@@ -43,17 +41,5 @@ public class MessageSyncSouls extends MessageBase<IMessage> {
     @Override
     protected IMessage getReply(MessageContext ctx) {
         return null;
-    }
-
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        this.player = this.readPlayerFromByteBuf(buf);
-        this.tag = ByteBufUtils.readTag(buf);
-    }
-
-    @Override
-    public void toBytes(ByteBuf buf) {
-        this.writePlayerToByteBuf(buf, this.player);
-        ByteBufUtils.writeTag(buf, this.tag);
     }
 }

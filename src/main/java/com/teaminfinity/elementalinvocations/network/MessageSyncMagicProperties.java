@@ -3,7 +3,6 @@ package com.teaminfinity.elementalinvocations.network;
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.capability.CapabilityPlayerMagicProperties;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -31,7 +30,7 @@ public class MessageSyncMagicProperties extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if (ctx.side == Side.CLIENT && this.player != null) {
+        if (this.player != null) {
             IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(this.player);
             if (properties != null) {
                 properties.readFromNBT(this.tag);
@@ -42,17 +41,5 @@ public class MessageSyncMagicProperties extends MessageBase<IMessage> {
     @Override
     protected IMessage getReply(MessageContext ctx) {
         return null;
-    }
-
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        this.player = this.readPlayerFromByteBuf(buf);
-        this.tag = this.readNBTFromByteBuf(buf);
-    }
-
-    @Override
-    public void toBytes(ByteBuf buf) {
-        this.writePlayerToByteBuf(buf, this.player);
-        this.writeNBTToByteBuf(buf, this.tag);
     }
 }

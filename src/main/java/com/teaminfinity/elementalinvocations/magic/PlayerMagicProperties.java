@@ -60,7 +60,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     @Override
     public void updateTick() {
         if(this.needsSync && !this.player.getEntityWorld().isRemote) {
-            ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageSyncMagicProperties(player, this.writeToNBT()));
+            new MessageSyncMagicProperties(player, this.writeToNBT()).sendToAll();
             this.needsSync = false;
         }
         if(this.getCharges().isEmpty()) {
@@ -147,7 +147,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
                 EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getPotencyArray(false));
                 getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
             }
-            ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageInvoke(getPlayer(), false));
+            new MessageInvoke(getPlayer(), false).sendToAll();
         }
         this.getCharges().clear();
         this.currentInstability = 0;
@@ -158,7 +158,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
         if(!getPlayer().getEntityWorld().isRemote) {
             Vec3d vec3d = getPlayer().getLookVec();
             new MagicEffect(getPlayer(), getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), getPotencyArray(true)).apply();
-            ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageInvoke(getPlayer(), true));
+            new MessageInvoke(getPlayer(), true).sendToAll();
         }
         this.getCharges().clear();
     }
@@ -190,7 +190,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
             this.chargeMap.get(charge.element()).add(charge);
             this.charges.add(charge);
             if(!getPlayer().getEntityWorld().isRemote) {
-                ElementalInvocations.instance.getNetworkWrapper().sendToAll(new MessageAddCharge(this.getPlayer(), charge));
+                new MessageAddCharge(this.getPlayer(), charge).sendToAll();
                 recalculateInstability(charge);
                 if(fizzleCheck()) {
                     fizzle();

@@ -2,8 +2,6 @@ package com.teaminfinity.elementalinvocations.network;
 
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.teaminfinity.elementalinvocations.entity.EntityReplicate;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,7 +25,7 @@ public class MessageSwapPlayerPosition extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if(ctx.side == Side.CLIENT && this.replica != null) {
+        if(this.replica != null) {
             this.replica.swapWithPlayer();
         }
     }
@@ -35,18 +33,5 @@ public class MessageSwapPlayerPosition extends MessageBase<IMessage> {
     @Override
     protected IMessage getReply(MessageContext ctx) {
         return null;
-    }
-
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        Entity entity = this.readEntityFromByteBuf(buf);
-        if(entity instanceof EntityReplicate) {
-            this.replica = (EntityReplicate) entity;
-        }
-    }
-
-    @Override
-    public void toBytes(ByteBuf buf) {
-        this.writeEntityToByteBuf(buf, this.replica);
     }
 }

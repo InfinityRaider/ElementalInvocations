@@ -39,7 +39,7 @@ public class PlayerMovementTrackingHandler {
             if(deltaX == 0 && deltaY == 0 && deltaZ == 0) {
                 return;
             }
-            ElementalInvocations.instance.getNetworkWrapper().sendToServer(new MessageTrackPlayerUpdate(deltaX, deltaY, deltaZ));
+            new MessageTrackPlayerUpdate(deltaX, deltaY, deltaZ).sendToServer();
         }
     }
 }
