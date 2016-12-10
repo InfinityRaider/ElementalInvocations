@@ -1,5 +1,11 @@
 CHANGELOG
 ---------
+0.3.0
+ - ADDED: Firebeam spell (FIRE - FIRE - FIRE - FIRE - FIRE): burn your foes and the world
+ - ADDED: Replicate spell (DEATH - DEATH - DEATH - AIR - AIR): consume souls to create replicates of yourself, replicates act as decoys and mimic your movement. You can freely swap between replicas
+ - ADDED: Mangetize spell (EARTH - EARTH - EARTH - EARTH - EARTH): lift up rocks around you which start orbiting you. Acts as a shield. Rocks can be thrown as well
+ - CHANGE: Frost Armor and Living Armor now render an overlay over the player texture while active
+ - CHANGE: ported to InfinityLib
 
 0.0.1
  - Initial pre-release
