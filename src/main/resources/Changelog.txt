@@ -1,5 +1,8 @@
 CHANGELOG
 ---------
+0.4.0
+ - CHANGE: updated InfinityLib
+
 0.3.0
  - ADDED: Firebeam spell (FIRE - FIRE - FIRE - FIRE - FIRE): burn your foes and the world
  - ADDED: Replicate spell (DEATH - DEATH - DEATH - AIR - AIR): consume souls to create replicates of yourself, replicates act as decoys and mimic your movement. You can freely swap between replicas
