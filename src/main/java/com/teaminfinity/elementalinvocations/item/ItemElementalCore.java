@@ -1,8 +1,8 @@
 package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
-import com.infinityraider.infinitylib.item.IItemWithRecipe;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
+import com.infinityraider.infinitylib.utility.IRecipeRegister;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
@@ -23,6 +23,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.*;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -32,7 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ItemElementalCore extends ItemWithModelBase implements IItemWithRecipe {
+public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegister {
     public final List<ElementalCore> CORES;
 
     public ItemElementalCore() {
@@ -159,7 +160,6 @@ public class ItemElementalCore extends ItemWithModelBase implements IItemWithRec
         return getElementalCore(stack).element();
     }
 
-    @Override
     public List<IRecipe> getRecipes() {
         if(ConfigurationHandler.getInstance().orbRecipes) {
             return ImmutableList.of(
@@ -203,6 +203,11 @@ public class ItemElementalCore extends ItemWithModelBase implements IItemWithRec
         } else {
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public void registerRecipes() {
+        this.getRecipes().forEach(GameRegistry::addRecipe);
     }
 
     public static class ElementalCore {

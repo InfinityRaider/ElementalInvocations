@@ -1,9 +1,9 @@
 package com.teaminfinity.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
-import com.infinityraider.infinitylib.item.IItemWithRecipe;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import com.infinityraider.infinitylib.modules.dualwield.IDualWieldedWeapon;
+import com.infinityraider.infinitylib.utility.IRecipeRegister;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
@@ -23,6 +23,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -33,7 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ItemWand extends ItemWithModelBase implements IItemWithRecipe, IDualWieldedWeapon {
+public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDualWieldedWeapon {
     public final List<WandCore> CORES;
 
     public ItemWand() {
@@ -102,11 +103,15 @@ public class ItemWand extends ItemWithModelBase implements IItemWithRecipe, IDua
         return CORES.get(stack.getItemDamage() - 1);
     }
 
-    @Override
     public List<IRecipe> getRecipes() {
         return ImmutableList.of(
                 new ShapedOreRecipe(this, "idi", " i ", " i ", 'i', "ingotIron", 'd', "gemDiamond")
         );
+    }
+
+    @Override
+    public void registerRecipes() {
+        this.getRecipes().forEach(GameRegistry::addRecipe);
     }
 
     @Override
