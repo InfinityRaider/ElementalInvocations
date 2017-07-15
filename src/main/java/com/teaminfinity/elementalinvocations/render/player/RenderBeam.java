@@ -2,7 +2,6 @@ package com.teaminfinity.elementalinvocations.render.player;
 
 import com.infinityraider.infinitylib.render.RenderUtilBase;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
-import com.infinityraider.infinitylib.utility.math.TransformationMatrix;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.magic.spell.BeamHandler;
 import com.teaminfinity.elementalinvocations.magic.spell.MagicBeam;
@@ -22,6 +21,8 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.joml.Matrix4d;
+import org.joml.Vector4d;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Optional;
@@ -160,14 +161,12 @@ public class RenderBeam extends RenderUtilBase {
         //parallel with screen normal
         double dz = -0.25;
 
-        TransformationMatrix matrix = new TransformationMatrix(-yaw, 0, 1, 0)
-                .multiplyRightWith(new TransformationMatrix(-pitch, 1, 0, 0));
+        Matrix4d matrix = new Matrix4d().identity().rotate(-yaw, 0, 1, 0).rotate(-pitch, 1, 0, 0);
+        Vector4d transformed = matrix.transform(new Vector4d(dx, dy, dz, 0));
 
-        double[] transformed = matrix.transform(dx, dy, dz);
-
-        double x1 = pX + transformed[0];
-        double y1 = pY + transformed[1];
-        double z1 = pZ + transformed[2];
+        double x1 = pX + transformed.x();
+        double y1 = pY + transformed.y();
+        double z1 = pZ + transformed.z();
 
         double x2 = target.xCoord;
         double y2 = target.yCoord;
