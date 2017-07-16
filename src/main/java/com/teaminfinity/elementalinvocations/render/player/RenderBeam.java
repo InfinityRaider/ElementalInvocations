@@ -161,7 +161,7 @@ public class RenderBeam extends RenderUtilBase {
         //parallel with screen normal
         double dz = -0.25;
 
-        Matrix4d matrix = new Matrix4d().identity().rotate(-yaw, 0, 1, 0).rotate(-pitch, 1, 0, 0);
+        Matrix4d matrix = new Matrix4d().identity().rotate(Math.toRadians(-yaw), 0, 1, 0).rotate(Math.toRadians(-pitch), 1, 0, 0);
         Vector4d transformed = matrix.transform(new Vector4d(dx, dy, dz, 0));
 
         double x1 = pX + transformed.x();
