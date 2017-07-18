@@ -3,6 +3,7 @@ package com.teaminfinity.elementalinvocations.item;
 import com.google.common.collect.ImmutableList;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import com.infinityraider.infinitylib.utility.IRecipeRegister;
+import com.infinityraider.infinitylib.utility.TranslationHelper;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IPlayerMagicProperties;
 import com.teaminfinity.elementalinvocations.handler.ConfigurationHandler;
@@ -21,7 +22,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.*;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -112,34 +112,34 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
     @Override
     public String getItemStackDisplayName(ItemStack stack) {
         ElementalCore core = getElementalCore(stack);
-        return (core.element().getTextFormat() + "" + I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + '_' + core.element().name().toLowerCase() + ".name")).trim();
+        return (core.element().getTextFormat() + "" + TranslationHelper.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + '_' + core.element().name().toLowerCase() + ".name")).trim();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
-        tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L1"));
+        tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L1"));
         IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
         Element orb = this.getElement(stack);
         if(properties == null) {
-            tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));
+            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));
         } else {
             if(orb == properties.getPlayerAffinity()) {
-                tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.positive"));
+                tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.positive"));
             } else if(orb.getOpposite() == properties.getPlayerAffinity()) {
-                tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.negative"));
+                tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.negative"));
             } else {
-                tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));
+                tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));
             }
         }
-        tooltip.add(I18n.translateToLocal(" "));
-        tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L2"));
+        tooltip.add(TranslationHelper.translateToLocal(" "));
+        tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L2"));
         if(properties != null && properties.getPlayerAffinity() == orb) {
             if(ConfigurationHandler.getInstance().allowOrbLevelling) {
-                tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L3"));
+                tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L3"));
             }
         } else {
-            tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L4") + " " + orb.getTextFormat() + orb.name());
+            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L4") + " " + orb.getTextFormat() + orb.name());
         }
     }
 

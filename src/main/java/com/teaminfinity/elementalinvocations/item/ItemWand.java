@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import com.infinityraider.infinitylib.modules.dualwield.IDualWieldedWeapon;
 import com.infinityraider.infinitylib.utility.IRecipeRegister;
+import com.infinityraider.infinitylib.utility.TranslationHelper;
 import com.teaminfinity.elementalinvocations.ElementalInvocations;
 import com.teaminfinity.elementalinvocations.api.Element;
 import com.teaminfinity.elementalinvocations.api.IMagicCharge;
@@ -22,7 +23,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -66,23 +66,23 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
         WandCore core = getWandCore(stack);
         if(core == null) {
-            tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.noCore"));
+            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.noCore"));
         } else {
-            tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.coreType") + ": " + core.element().getTextFormat() + core.element().name());
-            tooltip.add(I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.coreLevel") + ": " + (core.tier() + 1));
+            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.coreType") + ": " + core.element().getTextFormat() + core.element().name());
+            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.coreLevel") + ": " + (core.tier() + 1));
         }
         tooltip.add(" ");
         if(ElementalInvocations.proxy.isShiftKeyPressed()) {
-            tooltip.add(TextFormatting.ITALIC + I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L1"));
-            tooltip.add(TextFormatting.ITALIC + I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L2"));
-            tooltip.add(TextFormatting.ITALIC + I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L3"));
-            tooltip.add(TextFormatting.ITALIC + I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L4"));
+            tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L1"));
+            tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L2"));
+            tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L3"));
+            tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L4"));
             tooltip.add(" ");
-            tooltip.add(TextFormatting.ITALIC + I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L5"));
-            tooltip.add(TextFormatting.ITALIC + I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L6"));
-            tooltip.add(TextFormatting.ITALIC + I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L7"));
+            tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L5"));
+            tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L6"));
+            tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L7"));
         } else {
-            tooltip.add(TextFormatting.ITALIC + I18n.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info"));
+            tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info"));
         }
     }
 
