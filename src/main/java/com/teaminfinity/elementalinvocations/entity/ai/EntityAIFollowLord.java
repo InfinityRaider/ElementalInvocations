@@ -26,7 +26,7 @@ public class EntityAIFollowLord  extends EntityAIBase {
     public EntityAIFollowLord(EntityPlayer boss, EntityCreature entity, double followSpeedIn, float minDistIn, float maxDistIn) {
         this.boss = boss;
         this.entity = entity;
-        this.theWorld = entity.worldObj;
+        this.theWorld = entity.getEntityWorld();
         this.followSpeed = followSpeedIn;
         this.petPathfinder = entity.getNavigator();
         this.minDist = minDistIn;
@@ -93,9 +93,9 @@ public class EntityAIFollowLord  extends EntityAIBase {
             if (!this.petPathfinder.tryMoveToEntityLiving(this.boss, this.followSpeed)) {
                 if (!this.entity.getLeashed()) {
                     if (this.entity.getDistanceSqToEntity(this.boss) >= 144.0D) {
-                        int i = MathHelper.floor_double(this.boss.posX) - 2;
-                        int j = MathHelper.floor_double(this.boss.posZ) - 2;
-                        int k = MathHelper.floor_double(this.boss.getEntityBoundingBox().minY);
+                        int i = MathHelper.floor(this.boss.posX) - 2;
+                        int j = MathHelper.floor(this.boss.posZ) - 2;
+                        int k = MathHelper.floor(this.boss.getEntityBoundingBox().minY);
                         for (int l = 0; l <= 4; ++l) {
                             for (int i1 = 0; i1 <= 4; ++i1) {
                                 if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.theWorld.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isEmptyBlock(new BlockPos(i + l, k, j + i1)) && this.isEmptyBlock(new BlockPos(i + l, k + 1, j + i1))) {

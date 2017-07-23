@@ -68,7 +68,7 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
     public void onEntityUpdate() {
         super.onEntityUpdate();
         timer = timer - 1;
-        if (!worldObj.isRemote) {
+        if (!this.getEntityWorld().isRemote) {
             if (timer == 0) {
                 new MessageRenderSunstrike(this).sendToAll();
                 AxisAlignedBB area = AreaHelper.getArea(this.getPositionVector(), Math.max(1, getPotencyAir() / 3));

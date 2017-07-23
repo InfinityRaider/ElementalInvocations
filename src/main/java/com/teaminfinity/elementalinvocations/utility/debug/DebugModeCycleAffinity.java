@@ -39,7 +39,7 @@ public class DebugModeCycleAffinity extends DebugMode {
                 magicProperties.setPlayerAffinity(this.element);
                 magicProperties.setPlayerAdeptness(0);
             }
-            player.addChatComponentMessage(new TextComponentString(
+            player.sendMessage(new TextComponentString(
                     "Set player magic properties to: " + magicProperties.getPlayerAffinity().name() + " level " + magicProperties.getPlayerAdeptness()));
         }
     }

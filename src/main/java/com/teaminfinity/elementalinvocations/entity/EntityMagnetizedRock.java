@@ -82,7 +82,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
 
     @Override
     public void onUpdate() {
-        if(!this.worldObj.isRemote && this.effect == null) {
+        if(!this.getEntityWorld().isRemote && this.effect == null) {
             this.setDead();
         } else {
             switch (this.getStage()) {
@@ -148,7 +148,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
         Vec3d oldPosition = new Vec3d(this.posX, this.posY, this.posZ);
         Vec3d nextPosition = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         if(canCollide) {
-            RayTraceResult hit = this.worldObj.rayTraceBlocks(oldPosition, nextPosition);
+            RayTraceResult hit = this.getEntityWorld().rayTraceBlocks(oldPosition, nextPosition);
             oldPosition = new Vec3d(this.posX, this.posY, this.posZ);
             if (hit != null) {
                 nextPosition = new Vec3d(hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord);
@@ -156,7 +156,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
                 nextPosition = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
             }
             Entity entity = null;
-            List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expandXyz(1.0D));
+            List<Entity> list = this.getEntityWorld().getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expandXyz(1.0D));
             double d0 = 0.0D;
             for (Entity entityAt : list) {
                 if (entityAt.canBeCollidedWith()) {
@@ -179,7 +179,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
                 hit = new RayTraceResult(entity);
             }
             if (hit != null) {
-                if (hit.typeOfHit == RayTraceResult.Type.BLOCK && this.worldObj.getBlockState(hit.getBlockPos()).getBlock() == Blocks.PORTAL) {
+                if (hit.typeOfHit == RayTraceResult.Type.BLOCK && this.getEntityWorld().getBlockState(hit.getBlockPos()).getBlock() == Blocks.PORTAL) {
                     this.setPortal(hit.getBlockPos());
                 } else {
                     if (!ForgeHooks.onThrowableImpact(this, hit)) {
@@ -191,7 +191,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
         this.posX += this.motionX;
         this.posY += this.motionY;
         this.posZ += this.motionZ;
-        float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float)(MathHelper.atan2(this.motionX, this.motionZ) * (180D / Math.PI));
         for(this.rotationPitch = (float)(MathHelper.atan2(this.motionY, (double)f) * (180D / Math.PI)); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {}
         while(this.rotationPitch - this.prevRotationPitch >= 180.0F) {
@@ -266,7 +266,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
                         shouldStop = true;
                     }
                 } else {
-                    if (!worldObj.isRemote) {
+                    if (!getEntityWorld().isRemote) {
                         this.increaseHitCounter();
                     }
                     result.entityHit.setDead();
@@ -310,7 +310,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
         if(!this.getEntityWorld().isRemote) {
             EntityFallingBlock fallingBlock = new EntityFallingBlock(this.getEntityWorld(), this.posX, this.posY, this.posZ, this.getBlockState());
             fallingBlock.fallTime = 1;
-            this.getEntityWorld().spawnEntityInWorld(fallingBlock);
+            this.getEntityWorld().spawnEntity(fallingBlock);
             if(this.effect != null) {
                 this.effect.onEntityMagnetizedRockRemoved(this);
             }

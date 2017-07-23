@@ -45,7 +45,7 @@ public class EffectReplicate implements ISpellEffect {
                 replicas.add(new EntityReplicate(caster, this, potencyAir *20 * REPLICA_LIFETIME_PER_LEVEL / 2));
                 entity = replicas.get(i - 1);
                 collection.removeSoul();
-                caster.getEntityWorld().spawnEntityInWorld(entity);
+                caster.getEntityWorld().spawnEntity(entity);
             }
             entity.setPosition(newX, y, newZ);
         }

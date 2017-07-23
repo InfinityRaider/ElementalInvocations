@@ -126,7 +126,7 @@ public class EffectFireBeam extends SpellEffectBeamAbstract {
 
         public void apply(World world, BlockPos pos) {
             world.setBlockState(pos, this.getMoltenState(), 3);
-            this.getMoltenState().neighborChanged(world, pos, this.getMoltenState().getBlock());
+            this.getMoltenState().neighborChanged(world, pos, this.getMoltenState().getBlock(), pos);
             for(EnumFacing facing : EnumFacing.values()) {
             }
         }

@@ -37,7 +37,7 @@ public class PotionConfusion extends PotionBase {
             if(!(player.movementInput instanceof MovementInputConfusion)) {
                 player.movementInput = new MovementInputConfusion(player, Minecraft.getMinecraft().gameSettings);
             }
-        } else if(!entity.worldObj.isRemote && !(entity instanceof EntityPlayer)) {
+        } else if(!entity.getEntityWorld().isRemote && !(entity instanceof EntityPlayer)) {
             entity.moveForward = -entity.moveForward;
             entity.moveStrafing = -entity.moveStrafing;
         }

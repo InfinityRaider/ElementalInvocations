@@ -59,7 +59,7 @@ public class EffectMagnetize implements ISpellEffect {
             EffectMagnetize.rocks.get(caster.getUniqueID()).addAll(rocks);
         }
         for(EntityMagnetizedRock rock : rocks) {
-            caster.getEntityWorld().spawnEntityInWorld(rock);
+            caster.getEntityWorld().spawnEntity(rock);
         }
         return false;
     }

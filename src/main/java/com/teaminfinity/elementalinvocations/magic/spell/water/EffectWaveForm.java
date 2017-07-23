@@ -21,7 +21,7 @@ public class EffectWaveForm implements ISpellEffect {
         int potency = potencies[Element.WATER.ordinal()];
         if(channelTick == 0) {
             EntityWaveForm waveForm = new EntityWaveForm(caster, potency);
-            caster.getEntityWorld().spawnEntityInWorld(waveForm);
+            caster.getEntityWorld().spawnEntity(waveForm);
             caster.startRiding(waveForm);
             waveForms.put(caster, waveForm);
         }

@@ -145,7 +145,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
         if (!getPlayer().getEntityWorld().isRemote) {
             if (spell == null) {
                 EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getPotencyArray(false));
-                getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
+                getPlayer().getEntityWorld().spawnEntity(projectile);
             }
             new MessageInvoke(getPlayer(), false).sendToAll();
         }

@@ -18,7 +18,7 @@ public class DamageEffect implements ISpellEffect {
 		ElementalInvocations.instance.getLogger().debug("Applying Damage Effect!\n\tTarget: ({0})\n\tPower: {1}", caster.getPositionVector(), potencies);
 		AxisAlignedBB area = AreaHelper.getArea(caster.getPositionVector(), potencies[Element.DEATH.ordinal()]);
 		List<Entity> ents = caster.getEntityWorld().getEntitiesWithinAABB(Entity.class, area);
-		ents.forEach(e -> e.attackEntityFrom(DamageSource.magic, potencies[Element.DEATH.ordinal()]));
+		ents.forEach(e -> e.attackEntityFrom(DamageSource.MAGIC, potencies[Element.DEATH.ordinal()]));
 		return false;
 	}
 	

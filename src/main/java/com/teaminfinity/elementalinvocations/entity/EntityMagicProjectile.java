@@ -51,7 +51,7 @@ public class EntityMagicProjectile extends EntityThrowableMagic {
 
     @Override
     protected void onImpact(RayTraceResult result) {
-        if(!worldObj.isRemote) {
+        if(!this.getEntityWorld().isRemote) {
             if(result.entityHit != null && (result.entityHit instanceof EntityLivingBase)) {
                 new MagicEffect(getThrower(), (EntityLivingBase) result.entityHit, getDirection(), potencies).apply();
             }

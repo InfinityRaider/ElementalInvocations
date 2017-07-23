@@ -35,7 +35,7 @@ public final class ParticleFactory implements IParticleFactory {
     }
 
     @Override
-    public Particle getEntityFX(int id, World world, double x, double y, double z, double vX, double vY, double vZ, int... args) {
+    public Particle createParticle(int id, World world, double x, double y, double z, double vX, double vY, double vZ, int... args) {
         return particleCreators.containsKey(id) ? particleCreators.get(id).createParticle(world, x, y, z, vX, vY, vZ, args) : null;
     }
 

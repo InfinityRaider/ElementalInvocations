@@ -21,7 +21,7 @@ public class DamageReductorHandler {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     @SuppressWarnings("unused")
     public void onEntityHurtEvent(LivingHurtEvent event) {
-        if(!event.getEntity().worldObj.isRemote) {
+        if(!event.getEntity().getEntityWorld().isRemote) {
             for(PotionEffect effect : event.getEntityLiving().getActivePotionEffects()) {
                 if(effect.getPotion() instanceof IDamageReductor) {
                     float reduction = ((IDamageReductor) effect.getPotion()).getDamageReduction(event.getEntityLiving(), event.getSource(), event.getAmount(), effect);
