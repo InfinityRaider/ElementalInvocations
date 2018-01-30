@@ -3,27 +3,29 @@ package com.infinityraider.elementalinvocations.api;
 import net.minecraft.util.text.TextFormatting;
 
 public enum Element {
-    FIRE("fire", (255 << 16) | (93 << 8), TextFormatting.RED),
-    WATER("cold", (159 << 8) | 255, TextFormatting.BLUE, FIRE),
-    AIR("lightning", (255 << 16) | (255 << 8), TextFormatting.YELLOW),
-    EARTH("physical", (116 << 16) | (62 << 8), TextFormatting.GREEN, AIR),
-    DEATH("dark", (80 << 16) | 114, TextFormatting.DARK_PURPLE),
-    LIFE("rejuvinating", (29 << 16) | (132 << 8), TextFormatting.WHITE, DEATH);
+    FIRE("fire", (255 << 16) | (93 << 8), 150, TextFormatting.RED),
+    WATER("cold", (159 << 8) | 255, 330, TextFormatting.BLUE, FIRE),
+    AIR("lightning", (255 << 16) | (255 << 8), 90, TextFormatting.YELLOW),
+    EARTH("physical", (116 << 16) | (62 << 8), 270, TextFormatting.GREEN, AIR),
+    DEATH("dark", (80 << 16) | 114, 210, TextFormatting.DARK_PURPLE),
+    LIFE("rejuvinating", (29 << 16) | (132 << 8), 30, TextFormatting.WHITE, DEATH);
 
     private String damageType;
-    private TextFormatting formatting;
+    private int polarAngle;
     private Element opposite;
+    private TextFormatting formatting;
 
     private int color;
 
-    Element(String damageType, int color, TextFormatting formatting) {
+    Element(String damageType, int color, int angle, TextFormatting formatting) {
         this.damageType = damageType;
+        this.polarAngle = angle;
         this.color = color;
         this.formatting = formatting;
     }
 
-    Element(String damageType, int color, TextFormatting formatting, Element opposite) {
-        this(damageType, color, formatting);
+    Element(String damageType, int color, int angle, TextFormatting formatting, Element opposite) {
+        this(damageType, color, angle, formatting);
         this.opposite = opposite;
         opposite.opposite = this;
     }

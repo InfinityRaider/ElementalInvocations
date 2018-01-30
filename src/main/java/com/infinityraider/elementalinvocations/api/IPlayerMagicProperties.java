@@ -14,11 +14,11 @@ public interface IPlayerMagicProperties {
 
     Element getPlayerAffinity();
 
-    void setPlayerAdeptness(int level);
+    void setPlayerAdeptness(Element element, int level);
 
-    int getPlayerAdeptness();
+    int getPlayerAdeptness(Element element);
 
-    void addExperience(int amount);
+    void addExperience(Element element, int amount);
 
     void reset();
 

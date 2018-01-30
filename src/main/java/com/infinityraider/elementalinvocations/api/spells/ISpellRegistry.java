@@ -18,5 +18,4 @@ public interface ISpellRegistry {
 	Optional<ISpell> getSpell(List<Element> elements);
 
 	Set<ISpell> getSpells();
-	
 }
