@@ -18,11 +18,11 @@ public interface IPlayerMagicProperties {
 
     int getPlayerAdeptness(Element element);
 
-    void addExperience(Element element, int amount);
-
     void reset();
 
     void invoke();
+
+    void fade();
 
     void fizzle();
 
@@ -31,8 +31,6 @@ public interface IPlayerMagicProperties {
     List<IMagicCharge> getCharges();
 
     List<IMagicCharge> getCharges(Element element);
-
-    int currentInstability();
 
     NBTTagCompound writeToNBT();
 

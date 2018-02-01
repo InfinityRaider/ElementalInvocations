@@ -62,19 +62,16 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
                 if(current == null) {
                     properties.setPlayerAffinity(orb);
                     consume = true;
-                } else if(current == orb && properties.getPlayerAdeptness() < Constants.MAX_LEVEL) {
-                    if(ConfigurationHandler.getInstance().allowOrbLevelling) {
-                        properties.setPlayerAdeptness(properties.getPlayerAdeptness() + 1);
-                        consume = true;
-                    }
                 } else {
                     if(orb == current.getOpposite() && !world.isRemote) {
-                        player.attackEntityFrom(new DamageSourceChangeAffinity(), properties.getPlayerAdeptness() * player.getMaxHealth() / Constants.MAX_LEVEL);
+                        player.attackEntityFrom(new DamageSourceChangeAffinity(), properties.getPlayerAdeptness(orb) * player.getMaxHealth() / Constants.MAX_LEVEL);
                     }
-                    int lvl = properties.getPlayerAdeptness() - ConfigurationHandler.getInstance().levelLossOnElementChange;
+                    int lvlNew = properties.getPlayerAdeptness(orb) - ConfigurationHandler.getInstance().levelLossOnAffinityChange;
+                    int lvlOld = properties.getPlayerAdeptness(current) - ConfigurationHandler.getInstance().levelLossOnAffinityChange;
                     properties.reset();
                     properties.setPlayerAffinity(orb);
-                    properties.setPlayerAdeptness(lvl);
+                    properties.setPlayerAdeptness(orb, lvlNew);
+                    properties.setPlayerAdeptness(current, lvlOld);
                     consume = true;
                 }
             }
@@ -133,13 +130,6 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
         }
         tooltip.add(TranslationHelper.translateToLocal(" "));
         tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L2"));
-        if(properties != null && properties.getPlayerAffinity() == orb) {
-            if(ConfigurationHandler.getInstance().allowOrbLevelling) {
-                tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L3"));
-            }
-        } else {
-            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L4") + " " + orb.getTextFormat() + orb.name());
-        }
     }
 
     @Override

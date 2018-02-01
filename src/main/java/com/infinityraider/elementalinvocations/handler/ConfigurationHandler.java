@@ -22,11 +22,15 @@ public class ConfigurationHandler {
 
     //general
     public boolean orbRecipes;
-    public int levelingSpeed;
-    public int experienceMultiplier;
-    public boolean allowOrbLevelling;
-    public int levelLossOnElementChange;
-    public float affinityBonus;
+
+    //balance
+    public double damageMultiplier;
+    public int fizzleConstant;
+    public int experienceConstant;
+    public double experienceMultiplier;
+    public int levelLossOnAffinityChange;
+    public double affinityBonus;
+
 
     //client
     @SideOnly(Side.CLIENT)
@@ -62,16 +66,22 @@ public class ConfigurationHandler {
         //general
         orbRecipes = config.getBoolean("enable orb recipes", Categories.GENERAL.getName(), true,
                 "set to false to disable recipes for the elemental orbs");
-        levelingSpeed = config.getInt("magic level growth rate", Categories.GENERAL.getName(), 3, 2, 5,
-                "This number determines the speed at which players grow in magic level, the lower, the faster players will level (scales exponentially)");
-        experienceMultiplier = config.getInt("magic experience multiplier", Categories.GENERAL.getName(), 1, 0, 50,
+
+        //balance
+        damageMultiplier = config.getFloat("damage multiplier", Categories.BALANCE.getName(), 1.0F, 0.1F, 100.0F,
+                "The global damage multiplier applied to all damage done by spells, tweak to balance the mod in your modpack");
+        fizzleConstant = config.getInt("Fizzle growth factor", Categories.BALANCE.getName(), 1000, 1, 100000,
+                "The fizzle chance growth factor, used to calculate the fizzle chance as function of instability (larger factor = lower fizzle chance), " +
+                "this is used in an exponent, and is thus a very sensitive value, use the Excel file on the GitHub repo when tweaking this factor");
+        experienceConstant = config.getInt("Experience growth factor", Categories.BALANCE.getName(), 1000, 1, 100000,
+                "The fizzle chance growth factor, used to calculate the gained experience as function of instability (larger factor = less experience), " +
+                "this is used in an exponent, and is thus a very sensitive value, use the Excel file on the GitHub repo when tweaking this factor");
+        experienceMultiplier = config.getFloat("magic experience multiplier", Categories.BALANCE.getName(), 1F, 0.0F, 100.0F,
                 "Whenever the player gains magic experience, the amount is multiplied by this number");
-        allowOrbLevelling = config.getBoolean("orb levelling", Categories.GENERAL.getName(), true,
-                "Set to false to disable players increasing their magic level by consuming orbs");
-        levelLossOnElementChange = config.getInt("level loss on element change", Categories.GENERAL.getName(), 10, 0, 10,
-                "The amount of magic levels the player loses when changing its magic affinity to another element");
-        affinityBonus = config.getFloat("affinity bonus", Categories.GENERAL.getName(), 0.2F, 0.0F, 1.0F,
+        affinityBonus = config.getFloat("affinity bonus", Categories.BALANCE.getName(), 0.2F, 0.0F, 1.0F,
                 "The potency of spells is increased/decreased proportionality if the spell's element matches the player's element/opposite element");
+        levelLossOnAffinityChange = config.getInt("level loss on affinity change", Categories.BALANCE.getName(), 1, 0, 10,
+                "The amount of magic levels the player loses when changing its magic affinity to another element (both for the old and new affinity)");
 
         //debug
         debug = config.getBoolean("debug", Categories.DEBUG.getName(), false, "Set to true if you wish to enable debug mode");
@@ -119,6 +129,7 @@ public class ConfigurationHandler {
     public enum Categories {
         GENERAL("general"),
         SPELLS("spells"),
+        BALANCE("balance"),
         POTION("potion"),
         LOOT("loot"),
         CLIENT("client"),
