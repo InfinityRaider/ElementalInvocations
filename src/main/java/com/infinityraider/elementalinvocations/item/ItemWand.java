@@ -2,6 +2,7 @@ package com.infinityraider.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
+import com.infinityraider.elementalinvocations.magic.ElementalCore;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import com.infinityraider.infinitylib.modules.dualwield.IDualWieldedWeapon;
 import com.infinityraider.infinitylib.utility.IRecipeRegister;
@@ -137,7 +138,7 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
         return core == null ? null : core.getCharge();
     }
 
-    public ItemStack applyElementalCore(ItemStack stack, ItemElementalCore.ElementalCore core) {
+    public ItemStack applyElementalCore(ItemStack stack, ElementalCore core) {
         WandCore wandCore = this.getWandCore(stack);
         if(wandCore == null) {
             return new ItemStack(this, 1, core.element().ordinal() * Constants.CORE_TIERS + 1);

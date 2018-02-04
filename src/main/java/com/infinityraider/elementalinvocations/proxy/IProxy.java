@@ -44,6 +44,11 @@ public interface IProxy extends IProxyBase {
     }
 
     @Override
+    default void registerSounds() {
+
+    }
+
+    @Override
     default void registerEventHandlers() {
         this.registerEventHandler(AnvilRecipeHandler.getInstance());
         this.registerEventHandler(PlayerTickHandler.getInstance());
