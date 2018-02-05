@@ -9,12 +9,13 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
-        classpath 'gradle.plugin.com.rlonryan:QuikMod:1.0.21'
     }
 }
 
-// Apply QuikMod
-apply plugin: 'com.rlonryan.quikmod'
+// Plugins
+plugins {
+	id 'com.rlonryan.quikmod' version '1.0.17'
+}
 
 repositories {
     maven {

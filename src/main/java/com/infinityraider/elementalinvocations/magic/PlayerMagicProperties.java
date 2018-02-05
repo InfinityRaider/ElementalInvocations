@@ -58,6 +58,8 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
 
     public PlayerMagicProperties() {
         this.chargeMap = new HashMap<>();
+        this.levels = new HashMap<>();
+        this.experience = new HashMap<>();
         for(Element element : Element.values()) {
             this.chargeMap.put(element, new ArrayList<>());
         }

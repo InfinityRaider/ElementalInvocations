@@ -33,14 +33,9 @@ public class DebugModeCycleAffinity extends DebugMode {
     public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
         IPlayerMagicProperties magicProperties = CapabilityPlayerMagicProperties.getMagicProperties(player);
         if(magicProperties != null && !world.isRemote) {
-            if (magicProperties.getPlayerAffinity() == this.element) {
-                magicProperties.setPlayerAdeptness((magicProperties.getPlayerAdeptness() + 1) % (Constants.MAX_LEVEL + 1));
-            } else {
-                magicProperties.setPlayerAffinity(this.element);
-                magicProperties.setPlayerAdeptness(0);
-            }
+            magicProperties.setPlayerAdeptness(this.element, (magicProperties.getPlayerAdeptness(this.element) + 1) % (Constants.MAX_LEVEL + 1));
             player.addChatComponentMessage(new TextComponentString(
-                    "Set player magic properties to: " + magicProperties.getPlayerAffinity().name() + " level " + magicProperties.getPlayerAdeptness()));
+                    "Set player magic properties to: " + magicProperties.getPlayerAffinity().name() + " level " + magicProperties.getPlayerAdeptness(this.element)));
         }
     }
 
