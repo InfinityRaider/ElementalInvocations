@@ -43,7 +43,7 @@ public final class RenderPlayerCharges extends RenderUtil {
     private static final ResourceLocation TEXTURE_DEATH = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/charge_death.png");
     private static final ResourceLocation TEXTURE_LIFE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/charge_life.png");
 
-    private static final ResourceLocation[] CHARGE_TEXTURES = new ResourceLocation[] {
+    public static final ResourceLocation[] CHARGE_TEXTURES = new ResourceLocation[] {
             TEXTURE_LIFE,
             TEXTURE_AIR,
             TEXTURE_FIRE,
@@ -166,79 +166,74 @@ public final class RenderPlayerCharges extends RenderUtil {
         GlStateManager.popMatrix();
     }
 
-    @SubscribeEvent
-    @SuppressWarnings("unused")
-    public void onRenderScreen(RenderGameOverlayEvent.Pre event) {
-        if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
-            IPlayerMagicProperties props = CapabilityPlayerMagicProperties.getMagicProperties(ElementalInvocations.proxy.getClientPlayer());
-            if(props != null && !props.getCharges().isEmpty()) {
-                Tessellator tessellator = Tessellator.getInstance();
-                VertexBuffer buffer = tessellator.getBuffer();
-                ScaledResolution resolution = event.getResolution();
+    public void renderChargesHUD(ScaledResolution resolution) {
+        IPlayerMagicProperties props = CapabilityPlayerMagicProperties.getMagicProperties(ElementalInvocations.proxy.getClientPlayer());
+        if (props != null && !props.getCharges().isEmpty()) {
+            Tessellator tessellator = Tessellator.getInstance();
+            VertexBuffer buffer = tessellator.getBuffer();
+
+            GlStateManager.pushMatrix();
+            GlStateManager.pushAttrib();
+
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+            List<IMagicCharge> charges = props.getCharges();
+            int index = 0;
+            int row = 0;
+            int perRow = (resolution.getScaledWidth() / (4 * 18));
+            int total = charges.size();
+
+            int x0 = resolution.getScaledWidth() / 2 + 103;
+            int y0 = resolution.getScaledHeight() - 11;
+
+            GlStateManager.enableBlend();
+            GlStateManager.disableLighting();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
+
+            for (IMagicCharge charge : charges) {
+                Minecraft.getMinecraft().renderEngine.bindTexture(RenderPlayerCharges.CHARGE_TEXTURES[charge.element().ordinal()]);
 
                 GlStateManager.pushMatrix();
-                GlStateManager.pushAttrib();
 
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-                List<IMagicCharge> charges = props.getCharges();
-                int index = 0;
-                int row = 0;
-                int perRow = (resolution.getScaledWidth() / (4 * 18));
-                int total = charges.size();
+                float scale = (0.6F + (0.5F * charge.level()) / Constants.CORE_TIERS);
+                float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
 
-                int x0 = resolution.getScaledWidth()/2 + 103;
-                int y0 = resolution.getScaledHeight() - 11;
+                int xC = x0 + index * 18;
+                int yC = y0 - row * 18;
 
-                GlStateManager.enableBlend();
-                GlStateManager.disableLighting();
-                GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
+                GlStateManager.translate(xC, yC, 0);
+                GlStateManager.rotate(angle, 0, 0, 1);
 
-                for(IMagicCharge charge : charges) {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(CHARGE_TEXTURES[charge.element().ordinal()]);
+                double xMin = -8 * scale;
+                double xMax = 8 * scale;
+                double yMin = -8 * scale;
+                double yMax = 8 * scale;
 
-                    GlStateManager.pushMatrix();
+                buffer.pos(xMin, yMin, 0).tex(0, 0).endVertex();
+                buffer.pos(xMin, yMax, 0).tex(0, 1).endVertex();
+                buffer.pos(xMax, yMax, 0).tex(1, 1).endVertex();
+                buffer.pos(xMax, yMin, 0).tex(1, 0).endVertex();
 
-                    buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+                tessellator.draw();
 
-                    float scale = (0.6F + (0.5F * charge.level()) / Constants.CORE_TIERS);
-                    float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
-
-                    int xC = x0 + index * 18;
-                    int yC = y0 - row * 18;
-
-                    GlStateManager.translate(xC, yC, 0);
-                    GlStateManager.rotate(angle, 0, 0, 1);
-
-                    double xMin = -8 * scale;
-                    double xMax = 8 * scale;
-                    double yMin = -8 * scale;
-                    double yMax = 8 * scale;
-
-                    buffer.pos(xMin, yMin, 0).tex(0, 0).endVertex();
-                    buffer.pos(xMin, yMax, 0).tex(0, 1).endVertex();
-                    buffer.pos(xMax, yMax, 0).tex(1, 1).endVertex();
-                    buffer.pos(xMax, yMin, 0).tex(1, 0).endVertex();
-
-                    tessellator.draw();
-
-                    GlStateManager.popMatrix();
-
-                    index = index + 1;
-                    if(index > perRow) {
-                        index = 0;
-                        row = row + 1;
-                    }
-                }
-
-                GlStateManager.popAttrib();
                 GlStateManager.popMatrix();
 
-                Minecraft.getMinecraft().renderEngine.bindTexture(Gui.ICONS);
+                index = index + 1;
+                if (index > perRow) {
+                    index = 0;
+                    row = row + 1;
+                }
             }
+
+            GlStateManager.popAttrib();
+            GlStateManager.popMatrix();
+
+            Minecraft.getMinecraft().renderEngine.bindTexture(Gui.ICONS);
         }
     }
 }

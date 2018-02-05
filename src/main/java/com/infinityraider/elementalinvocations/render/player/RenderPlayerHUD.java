@@ -3,8 +3,8 @@ package com.infinityraider.elementalinvocations.render.player;
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.api.souls.ISoulCollection;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
-import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.reference.Reference;
+import com.infinityraider.elementalinvocations.utility.debug.DebugModeRenderInstability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -29,60 +29,92 @@ public class RenderPlayerHUD {
 
     private static final ResourceLocation SOUL_TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/gui/counter_soul.png");
 
+
+
     private RenderPlayerHUD() {}
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onRenderScreen(RenderGameOverlayEvent.Pre event) {
         if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
-            ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(ElementalInvocations.proxy.getClientPlayer());
-            if(collection != null && collection.getSoulCount() > 0) {
-                Minecraft.getMinecraft().renderEngine.bindTexture(SOUL_TEXTURE);
-                Tessellator tessellator = Tessellator.getInstance();
-                VertexBuffer buffer = tessellator.getBuffer();
-                ScaledResolution resolution = event.getResolution();
-
-                GlStateManager.pushMatrix();
-                GlStateManager.pushAttrib();
-
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-
-                int x0 = resolution.getScaledWidth()/2 + 10;
-                int y0 = resolution.getScaledHeight() - 50;
-                float u = Constants.UNIT;
-                int total = collection.getSoulCount();
-                int index = 0;
-
-                buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-
-                while(total > 0) {
-                    int amount = Math.min(total, 10);
-                    for(int i = 0; i < amount; i ++) {
-
-                        int xMin = x0 + i*8;
-                        int xMax = xMin + 9;
-                        int yMin = y0 - index*8;
-                        int yMax = yMin + 9;
-
-                        buffer.pos(xMin, yMin, 0).tex(0, 0).endVertex();
-                        buffer.pos(xMin, yMax, 0).tex(0, 1).endVertex();
-                        buffer.pos(xMax, yMax, 0).tex(1, 1).endVertex();
-                        buffer.pos(xMax, yMin, 0).tex(1, 0).endVertex();
-                    }
-                    index = index + 1;
-                    total = total - amount;
-                }
-                tessellator.draw();
-
-                GlStateManager.popAttrib();
-                GlStateManager.popMatrix();
-
-                Minecraft.getMinecraft().renderEngine.bindTexture(Gui.ICONS);
+            ScaledResolution resolution = event.getResolution();
+            this.renderCharges(resolution);
+            this.renderSouls(resolution);
+            if(DebugModeRenderInstability.doRender()) {
+                this.renderInstability(resolution);
             }
         }
-
     }
 
+    private void renderCharges(ScaledResolution resolution) {
+        RenderPlayerCharges.getInstance().renderChargesHUD(resolution);
+    }
+
+    private void renderSouls(ScaledResolution resolution) {
+        ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(ElementalInvocations.proxy.getClientPlayer());
+        if(collection != null && collection.getSoulCount() > 0) {
+            Minecraft.getMinecraft().renderEngine.bindTexture(SOUL_TEXTURE);
+            Tessellator tessellator = Tessellator.getInstance();
+            VertexBuffer buffer = tessellator.getBuffer();
+
+            GlStateManager.pushMatrix();
+            GlStateManager.pushAttrib();
+
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+            int x0 = resolution.getScaledWidth()/2 + 10;
+            int y0 = resolution.getScaledHeight() - 50;
+            int total = collection.getSoulCount();
+            int index = 0;
+
+            buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+
+            while(total > 0) {
+                int amount = Math.min(total, 10);
+                for(int i = 0; i < amount; i ++) {
+
+                    int xMin = x0 + i*8;
+                    int xMax = xMin + 9;
+                    int yMin = y0 - index*8;
+                    int yMax = yMin + 9;
+
+                    buffer.pos(xMin, yMin, 0).tex(0, 0).endVertex();
+                    buffer.pos(xMin, yMax, 0).tex(0, 1).endVertex();
+                    buffer.pos(xMax, yMax, 0).tex(1, 1).endVertex();
+                    buffer.pos(xMax, yMin, 0).tex(1, 0).endVertex();
+                }
+                index = index + 1;
+                total = total - amount;
+            }
+            tessellator.draw();
+
+            GlStateManager.popAttrib();
+            GlStateManager.popMatrix();
+
+            Minecraft.getMinecraft().renderEngine.bindTexture(Gui.ICONS);
+        }
+    }
+
+    private void renderInstability(ScaledResolution resolution) {
+        int x1 = resolution.getScaledWidth();
+        int y1 = resolution.getScaledHeight();
+
+        GlStateManager.pushAttrib();
+        GlStateManager.pushMatrix();
+
+        double scale = 3;
+
+        GlStateManager.translate(((double) x1)/2, ((double) y1)/2, 0);
+        GlStateManager.rotate((float) Math.PI, 1, 0, 0);
+        GlStateManager.scale(scale, scale, scale);
+
+        RenderInstability.getInstance().renderInstability(1/scale);
+
+        GlStateManager.popMatrix();
+        GlStateManager.popAttrib();
+
+        Minecraft.getMinecraft().renderEngine.bindTexture(Gui.ICONS);
+    }
 }

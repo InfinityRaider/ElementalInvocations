@@ -1,10 +1,7 @@
 package com.infinityraider.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
-import com.infinityraider.elementalinvocations.utility.debug.DebugModeAddSoul;
-import com.infinityraider.elementalinvocations.utility.debug.DebugModeClearMagicProperties;
-import com.infinityraider.elementalinvocations.utility.debug.DebugModeConfusion;
-import com.infinityraider.elementalinvocations.utility.debug.DebugModeConfigureAdeptness;
+import com.infinityraider.elementalinvocations.utility.debug.*;
 import com.infinityraider.infinitylib.item.IItemWithModel;
 import com.infinityraider.infinitylib.item.ItemDebuggerBase;
 import com.infinityraider.infinitylib.utility.debug.DebugMode;
@@ -18,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel {
+    private static final List<DebugMode> MODES = ImmutableList.copyOf(createNewList());
+
     public ItemDebugger() {
         super(false);
         this.setCreativeTab(InventoryTabs.ELEMENTAL_INVOCATIONS);
@@ -25,6 +24,15 @@ public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel {
 
     @Override
     protected List<DebugMode> getDebugModes() {
+        return MODES;
+    }
+
+    @Override
+    public List<Tuple<Integer, ModelResourceLocation>> getModelDefinitions() {
+        return ImmutableList.of(new Tuple<>(0, new ModelResourceLocation(Reference.MOD_ID.toLowerCase() + ":debugger", "inventory")));
+    }
+
+    private static final List<DebugMode> createNewList() {
         List<DebugMode> list = new ArrayList<>();
         list.add(new DebugModeClearMagicProperties());
         for(Element element : Element.values()) {
@@ -32,11 +40,7 @@ public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel {
         }
         list.add(new DebugModeAddSoul());
         list.add(new DebugModeConfusion());
+        list.add(new DebugModeRenderInstability());
         return list;
-    }
-
-    @Override
-    public List<Tuple<Integer, ModelResourceLocation>> getModelDefinitions() {
-        return ImmutableList.of(new Tuple<>(0, new ModelResourceLocation(Reference.MOD_ID.toLowerCase() + ":debugger", "inventory")));
     }
 }
