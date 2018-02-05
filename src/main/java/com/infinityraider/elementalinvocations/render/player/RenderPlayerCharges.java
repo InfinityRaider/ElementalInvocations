@@ -44,12 +44,12 @@ public final class RenderPlayerCharges extends RenderUtil {
     private static final ResourceLocation TEXTURE_LIFE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/charge_life.png");
 
     private static final ResourceLocation[] CHARGE_TEXTURES = new ResourceLocation[] {
-            TEXTURE_FIRE,
-            TEXTURE_WATER,
+            TEXTURE_LIFE,
             TEXTURE_AIR,
-            TEXTURE_EARTH,
+            TEXTURE_FIRE,
             TEXTURE_DEATH,
-            TEXTURE_LIFE
+            TEXTURE_EARTH,
+            TEXTURE_WATER
     };
 
     private RenderPlayerCharges() {}

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.infinityraider.elementalinvocations.utility.debug.DebugModeAddSoul;
 import com.infinityraider.elementalinvocations.utility.debug.DebugModeClearMagicProperties;
 import com.infinityraider.elementalinvocations.utility.debug.DebugModeConfusion;
-import com.infinityraider.elementalinvocations.utility.debug.DebugModeCycleAffinity;
+import com.infinityraider.elementalinvocations.utility.debug.DebugModeConfigureAdeptness;
 import com.infinityraider.infinitylib.item.IItemWithModel;
 import com.infinityraider.infinitylib.item.ItemDebuggerBase;
 import com.infinityraider.infinitylib.utility.debug.DebugMode;
@@ -28,7 +28,7 @@ public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel {
         List<DebugMode> list = new ArrayList<>();
         list.add(new DebugModeClearMagicProperties());
         for(Element element : Element.values()) {
-            list.add(new DebugModeCycleAffinity(element));
+            list.add(new DebugModeConfigureAdeptness(element));
         }
         list.add(new DebugModeAddSoul());
         list.add(new DebugModeConfusion());

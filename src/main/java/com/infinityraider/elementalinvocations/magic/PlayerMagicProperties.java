@@ -80,12 +80,14 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
 
     @Override
     public void updateTick() {
-        if(this.needsSync && !this.player.getEntityWorld().isRemote) {
-            new MessageSyncMagicProperties(player, this.writeToNBT()).sendToAll();
-            this.needsSync = false;
-        }
-        if(!this.getCharges().isEmpty() && this.fizzleCheck()) {
-            this.fizzle();
+        if(!this.player.getEntityWorld().isRemote) {
+            if (this.needsSync) {
+                new MessageSyncMagicProperties(player, this.writeToNBT()).sendToAll();
+                this.needsSync = false;
+            }
+            if (!this.getCharges().isEmpty() && this.fizzleCheck()) {
+                this.fizzle();
+            }
         }
     }
 
@@ -106,7 +108,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
 
     @Override
     public void setPlayerAdeptness(Element element, int level) {
-        this.levels.put(element, Math.max(0, Math.min(level, Constants.MAX_LEVEL)));
+        this.levels.put(element, Math.max(Constants.MIN_LEVEL, Math.min(level, Constants.MAX_LEVEL)));
         this.experience.put(element, 0);
         this.needsSync = true;
     }
@@ -128,7 +130,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
         this.affinity = null;
         this.clearCharges();
         for(Element element : Element.values()) {
-            this.levels.put(element, 1);
+            this.levels.put(element, Constants.MIN_LEVEL);
             this.experience.put(element, 0);
         }
         this.needsSync = true;
@@ -271,11 +273,11 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     }
 
     private double calculateElementX(Element element) {
-        return element.calculateX(this.levels.get(element));
+        return element.calculateX(((double) this.levels.get(element)*Constants.CORE_TIERS*Constants.NOMINAL_ORBS)/Constants.MAX_LEVEL);
     }
 
     private double calculateElementY(Element element) {
-        return element.calculateY(this.levels.get(element));
+        return element.calculateY(((double) this.levels.get(element)*Constants.CORE_TIERS*Constants.NOMINAL_ORBS)/Constants.MAX_LEVEL);
     }
 
     private boolean fizzleCheck() {

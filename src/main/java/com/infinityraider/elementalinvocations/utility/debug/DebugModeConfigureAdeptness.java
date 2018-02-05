@@ -14,16 +14,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-public class DebugModeCycleAffinity extends DebugMode {
+public class DebugModeConfigureAdeptness extends DebugMode {
     private final Element element;
 
-    public DebugModeCycleAffinity(Element element) {
+    public DebugModeConfigureAdeptness(Element element) {
         this.element = element;
     }
 
     @Override
     public String debugName() {
-        return "cycle affinity: " + element.getTextFormat() + element.name();
+        return "configure addeptness: " + element.getTextFormat() + element.name();
     }
 
     @Override
@@ -33,9 +33,9 @@ public class DebugModeCycleAffinity extends DebugMode {
     public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
         IPlayerMagicProperties magicProperties = CapabilityPlayerMagicProperties.getMagicProperties(player);
         if(magicProperties != null && !world.isRemote) {
-            magicProperties.setPlayerAdeptness(this.element, (magicProperties.getPlayerAdeptness(this.element) + 1) % (Constants.MAX_LEVEL + 1));
+            magicProperties.setPlayerAdeptness(this.element, (magicProperties.getPlayerAdeptness(this.element) % Constants.MAX_LEVEL ) + 1);
             player.addChatComponentMessage(new TextComponentString(
-                    "Set player magic properties to: " + magicProperties.getPlayerAffinity().name() + " level " + magicProperties.getPlayerAdeptness(this.element)));
+                    "Set player magic properties to: " + this.element.name() + " level " + magicProperties.getPlayerAdeptness(this.element)));
         }
     }
 
