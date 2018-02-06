@@ -35,13 +35,15 @@ public class RenderPlayerHUD {
 
     @SubscribeEvent
     @SuppressWarnings("unused")
-    public void onRenderScreen(RenderGameOverlayEvent.Pre event) {
-        if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
+    public void onRenderScreen(RenderGameOverlayEvent.Post event) {
+        if(Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
             ScaledResolution resolution = event.getResolution();
-            this.renderCharges(resolution);
-            this.renderSouls(resolution);
-            if(DebugModeRenderInstability.doRender()) {
+            if(event.getType() == RenderGameOverlayEvent.ElementType.CROSSHAIRS && DebugModeRenderInstability.doRender()) {
                 this.renderInstability(resolution);
+            }
+            if(event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
+                this.renderCharges(resolution);
+                this.renderSouls(resolution);
             }
         }
     }
@@ -59,10 +61,6 @@ public class RenderPlayerHUD {
 
             GlStateManager.pushMatrix();
             GlStateManager.pushAttrib();
-
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
             int x0 = resolution.getScaledWidth()/2 + 10;
             int y0 = resolution.getScaledHeight() - 50;
@@ -104,13 +102,10 @@ public class RenderPlayerHUD {
         GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
 
-        double scale = 3;
-
         GlStateManager.translate(((double) x1)/2, ((double) y1)/2, 0);
-        GlStateManager.rotate((float) Math.PI, 1, 0, 0);
-        GlStateManager.scale(scale, scale, scale);
+        GlStateManager.rotate(180, 1, 0, 0);
 
-        RenderInstability.getInstance().renderInstability(1/scale);
+        RenderInstability.getInstance().renderInstability(x1/2, y1/2, 0, 0.8F);
 
         GlStateManager.popMatrix();
         GlStateManager.popAttrib();
