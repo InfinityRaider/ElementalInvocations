@@ -105,7 +105,7 @@ public class RenderPlayerHUD {
         GlStateManager.translate(((double) x1)/2, ((double) y1)/2, 0);
         GlStateManager.rotate(180, 1, 0, 0);
 
-        RenderInstability.getInstance().renderInstability(x1/2, y1/2, 0, 0.8F);
+        RenderInstability.getInstance().renderInstability(x1/3, y1/3, 0, 0.8F);
 
         GlStateManager.popMatrix();
         GlStateManager.popAttrib();

@@ -183,7 +183,6 @@ public final class RenderPlayerCharges extends RenderUtil {
             int index = 0;
             int row = 0;
             int perRow = (resolution.getScaledWidth() / (4 * 18));
-            int total = charges.size();
 
             int x0 = resolution.getScaledWidth() / 2 + 103;
             int y0 = resolution.getScaledHeight() - 11;

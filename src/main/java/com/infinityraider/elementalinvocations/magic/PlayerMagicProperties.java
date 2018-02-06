@@ -138,14 +138,14 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
 
     @Override
     public void invoke() {
-        if (getCharges().size() <= 0 || this.getPlayerAffinity() == null) {
+        if (getCharges().size() <= 0) {
             return;
         }
-        Optional<ISpell> spell = getSpell();
-        if(spell.isPresent()) {
-            spell.get().invoke(getPlayer(), getPotencyArray(false));
-        }
         if (!getPlayer().getEntityWorld().isRemote) {
+            Optional<ISpell> spell = getSpell();
+            if(spell.isPresent()) {
+                spell.get().invoke(getPlayer(), getPotencyArray(false));
+            }
             //TODO: add experience
             if (!spell.isPresent()) {
                 EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), getPotencyArray(false));
@@ -192,7 +192,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
 
     @Override
     public void addCharge(IMagicCharge charge) {
-        if(charge != null && getPlayerAffinity() != null) {
+        if(charge != null) {
             this.chargeMap.get(charge.element()).add(charge);
             this.charges.add(charge);
             if(!getPlayer().getEntityWorld().isRemote) {
@@ -234,7 +234,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
         this.instX = this.instX + charge.element().calculateX(charge.level());
         this.instY = this.instY + charge.element().calculateY(charge.level());
         this.instR = Math.sqrt(this.instX*this.instX + this.instY*this.instY);
-        if(instX < 1 && instY < 1) {
+        if(this.instR < 1) {
             //configuration of charges is too stable and fades
             this.fade();
         } else {
