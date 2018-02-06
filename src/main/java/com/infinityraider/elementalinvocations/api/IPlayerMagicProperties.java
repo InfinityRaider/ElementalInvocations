@@ -18,6 +18,18 @@ public interface IPlayerMagicProperties {
 
     int getPlayerAdeptness(Element element);
 
+    double getInstabilityX();
+
+    double getInstabilityY();
+
+    double getFizzleChance();
+
+    float getRed();
+
+    float getBlue();
+
+    float getGreen();
+
     void reset();
 
     void invoke();

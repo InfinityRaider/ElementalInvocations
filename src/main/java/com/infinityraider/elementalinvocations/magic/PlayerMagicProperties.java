@@ -43,11 +43,16 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     private double instY;   //y-coordinate
     private double instA;   //polar angle
     private double instR;   //polar radius
-    /** Coordiantes of the level limit point in the polar field */
+    /** Coordinates of the level limit point in the polar field */
     private double limX;    //x-coordinate
     private double limY;    //y-coordinate
     private double limA;    //polar angle
     private double limR;    //polar radius
+    /** Color values */
+    private float red;
+    private float green;
+    private float blue;
+    private int count;
     /** Current fizzle chance */
     private double pFizzle;
     /** Currently invoked charges */
@@ -118,11 +123,41 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
         return this.levels.get(element);
     }
 
-    private int calculatePowerRecursively(int base, int exponent) {
-        if(base == 1 || exponent <= 0) {
-            return 1;
+    @Override
+    public double getInstabilityX() {
+        return this.instX;
+    }
+
+    @Override
+    public double getInstabilityY() {
+        return this.instY;
+    }
+
+    private boolean fizzleCheck() {
+        if(player.getUniqueID().equals(UniqueIds.INFINITYRAIDER)) {
+            return false;
         }
-        return base * calculatePowerRecursively(base, exponent - 1);
+        return player.getRNG().nextDouble() <= getFizzleChance();
+    }
+
+    @Override
+    public double getFizzleChance() {
+        return this.pFizzle;
+    }
+
+    @Override
+    public float getRed() {
+        return this.count == 0 ? 1.0F : this.red;
+    }
+
+    @Override
+    public float getBlue() {
+        return this.count == 0 ? 1.0F : this.blue;
+    }
+
+    @Override
+    public float getGreen() {
+        return this.count == 0 ? 1.0F : this.green;
     }
 
     @Override
@@ -197,8 +232,13 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
             this.charges.add(charge);
             if(!getPlayer().getEntityWorld().isRemote) {
                 new MessageAddCharge(this.getPlayer(), charge).sendToAll();
-                recalculateInstability(charge);
             }
+            recalculateInstability(charge);
+            int n = this.count + charge.level();
+            this.red = (this.red*255*this.count + charge.element().getRed()*charge.level())/(255*n);
+            this.green = (this.green*255*this.count + charge.element().getGreen()*charge.level())/(255*n);
+            this.blue = (this.blue*255*this.count + charge.element().getBlue()*charge.level())/(255*n);
+            this.count = n;
         }
     }
 
@@ -228,6 +268,10 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
         this.charges.clear();
         this.chargeMap.values().forEach(List::clear);
         this.resetInstability();
+        this.red = 0;
+        this.green = 0;
+        this.blue = 0;
+        this.count = 0;
     }
 
     private void recalculateInstability(IMagicCharge charge) {
@@ -278,17 +322,6 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
 
     private double calculateElementY(Element element) {
         return element.calculateY(((double) this.levels.get(element)*Constants.CORE_TIERS*Constants.NOMINAL_ORBS)/Constants.MAX_LEVEL);
-    }
-
-    private boolean fizzleCheck() {
-        if(player.getUniqueID().equals(UniqueIds.INFINITYRAIDER)) {
-            return false;
-        }
-        return player.getRNG().nextDouble() <= getFizzleChance();
-    }
-
-    private double getFizzleChance() {
-        return this.pFizzle;
     }
 
     @Override

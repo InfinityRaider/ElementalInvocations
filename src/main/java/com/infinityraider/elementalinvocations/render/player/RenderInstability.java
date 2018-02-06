@@ -46,9 +46,11 @@ public class RenderInstability {
         this.prepareRender(props, width, height);
 
         //render stability circle
-        this.renderStabilityCircle(CIRCLE_VERTICES, z, alpha);
+        this.renderCircle(CIRCLE_VERTICES, 1.0, 0, 0, z, 1.0F, 1.0F, 1.0F, alpha);
         //render element lines
         this.renderElementLines(props, RADIAL_VERTICES, z, alpha);
+        //render instability dot
+        this.renderInstabilityDot(props, z, alpha);
 
         //pop matrix and attributes
         GlStateManager.popAttrib();
@@ -81,12 +83,12 @@ public class RenderInstability {
         GlStateManager.scale(scale, scale, scale);
     }
 
-    private void renderStabilityCircle(int vertices, double z, float alpha) {
+    private void renderCircle(int vertices, double radius, double x, double y, double z, float r, float g, float b, float alpha) {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
         for(int j = 0; j <= vertices; j++) {
-            buffer.pos(Math.cos(2*j*Math.PI/vertices), Math.sin(2*j*Math.PI/vertices), z).color(1.0F, 1.0F, 1.0F, alpha).endVertex();
+            buffer.pos(x + radius*Math.cos(2*j*Math.PI/vertices), y + radius*Math.sin(2*j*Math.PI/vertices), z).color(r, g, b, alpha).endVertex();
         }
         tessellator.draw();
     }
@@ -137,6 +139,15 @@ public class RenderInstability {
             }
             tessellator.draw();
         }
+    }
+
+    private void renderInstabilityDot(IPlayerMagicProperties props, double z, float alpha) {
+        double x = props.getInstabilityX();
+        double y = props.getInstabilityY();
+        float r = props.getRed();
+        float g = props.getBlue();
+        float b = props.getBlue();
+        renderCircle(CIRCLE_VERTICES, 0.5, x, y, z, r, g, b, alpha);
     }
 
     private void addVertex(VertexBuffer buffer, int index, int total,
