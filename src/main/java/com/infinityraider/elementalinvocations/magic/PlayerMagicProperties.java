@@ -35,9 +35,9 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     public PlayerMagicProperties() {
         this.levels = new HashMap<>();
         this.experience = new HashMap<>();
+        this.chargeConfiguration = new MagicChargeConfiguration(this);
         this.reset();
         this.needsSync = false;
-        this.chargeConfiguration = new MagicChargeConfiguration(this);
     }
 
     public PlayerMagicProperties setPlayer(EntityPlayer player) {

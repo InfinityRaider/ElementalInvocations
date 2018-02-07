@@ -8,11 +8,13 @@ import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
 import com.infinityraider.elementalinvocations.magic.generic.MagicEffect;
 import com.infinityraider.elementalinvocations.magic.spell.SpellRegistry;
 import com.infinityraider.elementalinvocations.network.MessageAddCharge;
-import com.infinityraider.elementalinvocations.network.MessageInvoke;
+import com.infinityraider.elementalinvocations.network.MessageChargeAction;
 import com.infinityraider.elementalinvocations.reference.Constants;
+import com.infinityraider.elementalinvocations.reference.Names;
 import javafx.util.Pair;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
@@ -69,30 +71,32 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
         if (getCharges().size() <= 0) {
             return;
         }
-        if (!getPlayer().getEntityWorld().isRemote) {
+        if (!this.getPlayer().getEntityWorld().isRemote) {
             Optional<ISpell> spell = getSpell();
             spell.ifPresent(iSpell -> iSpell.invoke(getPlayer(), this.getPotencyMap()));
             //TODO: add experience
             if (!spell.isPresent()) {
-                EntityMagicProjectile projectile = new EntityMagicProjectile(getPlayer(), this.getPotencyMap());
-                getPlayer().getEntityWorld().spawnEntityInWorld(projectile);
+                this.getPlayer().getEntityWorld().spawnEntityInWorld( new EntityMagicProjectile(this.getPlayer(), this.getPotencyMap()));
             }
-            new MessageInvoke(getPlayer(), false).sendToAll();
+            new MessageChargeAction(getPlayer(), EnumMagicChargeAction.INVOKE).sendToAll();
         }
         this.clearCharges();
     }
 
     @Override
     public void fade() {
+        if(!this.getPlayer().getEntityWorld().isRemote) {
+            new MessageChargeAction(this.getPlayer(), EnumMagicChargeAction.FADE).sendToAll();
+        }
         this.clearCharges();
     }
 
     @Override
     public void fizzle() {
-        if(!getPlayer().getEntityWorld().isRemote) {
-            Vec3d vec3d = getPlayer().getLookVec();
-            new MagicEffect(getPlayer(), getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), this.getPotencyMap()).apply();
-            new MessageInvoke(getPlayer(), true).sendToAll();
+        if(!this.getPlayer().getEntityWorld().isRemote) {
+            Vec3d vec3d = this.getPlayer().getLookVec();
+            new MagicEffect(this.getPlayer(), this.getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), this.getPotencyMap()).apply();
+            new MessageChargeAction(this.getPlayer(), EnumMagicChargeAction.FIZZLE).sendToAll();
         }
         this.clearCharges();
     }
@@ -150,12 +154,42 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
 
     @Override
     public NBTTagCompound writeToNBT() {
-        return null;
+        NBTTagCompound tag = new NBTTagCompound();
+        NBTTagList list = new NBTTagList();
+        this.getCharges().stream().forEach((charge) -> {
+            NBTTagCompound chargeTag = new NBTTagCompound();
+            chargeTag.setInteger(Names.NBT.ELEMENT, charge.element().ordinal());
+            chargeTag.setInteger(Names.NBT.LEVEL, charge.potency());
+            list.appendTag(chargeTag);
+        });
+        tag.setTag(Names.NBT.CHARGE, list);
+        return tag;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
+        this.clearCharges();
+        if(tag.hasKey(Names.NBT.CHARGE)) {
+            NBTTagList list = tag.getTagList(Names.NBT.CHARGE, 10);
+            for(int i = 0; i < list.tagCount(); i++) {
+                NBTTagCompound chargeTag = list.getCompoundTagAt(i);
+                if(chargeTag.hasKey(Names.NBT.ELEMENT) && chargeTag.hasKey(Names.NBT.LEVEL)) {
+                    Element element = Element.values()[chargeTag.getInteger(Names.NBT.ELEMENT)];
+                    int level = chargeTag.getInteger(Names.NBT.LEVEL);
+                    this.addCharge(new IMagicCharge() {
+                        @Override
+                        public Element element() {
+                            return element;
+                        }
 
+                        @Override
+                        public int potency() {
+                            return level;
+                        }
+                    });
+                }
+            }
+        }
     }
 
     private boolean fizzleCheck() {

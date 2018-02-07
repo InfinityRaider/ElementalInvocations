@@ -35,7 +35,7 @@ public class MessageKeyPressed extends MessageBase<IMessage> {
                 case KeyBindings.KEY_INVOKE:
                     IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
                     if (properties != null) {
-                        properties.invoke();
+                        properties.getChargeConfiguration().invoke();
                     }
                     break;
                 case KeyBindings.KEY_SPELL_ACTION:

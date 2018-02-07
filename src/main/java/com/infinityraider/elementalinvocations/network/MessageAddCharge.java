@@ -34,7 +34,7 @@ public class MessageAddCharge extends MessageBase<IMessage> {
         if(this.player != null) {
             IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(this.player);
             if(properties != null) {
-                properties.addCharge(new IMagicCharge() {
+                properties.getChargeConfiguration().addCharge(new IMagicCharge() {
                     @Override
                     public Element element() {
                         return element;

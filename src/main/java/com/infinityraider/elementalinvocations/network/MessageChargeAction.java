@@ -1,5 +1,6 @@
 package com.infinityraider.elementalinvocations.network;
 
+import com.infinityraider.elementalinvocations.api.EnumMagicChargeAction;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.infinityraider.infinitylib.network.MessageBase;
 import com.infinityraider.elementalinvocations.api.IPlayerMagicProperties;
@@ -8,18 +9,18 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageInvoke extends MessageBase<IMessage> {
+public class MessageChargeAction extends MessageBase<IMessage> {
     private EntityPlayer player;
-    private boolean fizzle;
+    private EnumMagicChargeAction action;
 
-    public MessageInvoke() {
+    public MessageChargeAction() {
         super();
     }
 
-    public MessageInvoke(EntityPlayer player, boolean fizzle) {
+    public MessageChargeAction(EntityPlayer player, EnumMagicChargeAction action) {
         this();
         this.player = player;
-        this.fizzle = fizzle;
+        this.action = action;
     }
 
     @Override
@@ -29,14 +30,10 @@ public class MessageInvoke extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if(this.player != null) {
+        if(this.player != null && this.action != null) {
             IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(this.player);
             if(properties != null) {
-                if(this.fizzle) {
-                    properties.fizzle();
-                } else {
-                    properties.invoke();
-                }
+                this.action.execute(properties.getChargeConfiguration());
             }
         }
     }
@@ -45,4 +42,5 @@ public class MessageInvoke extends MessageBase<IMessage> {
     protected IMessage getReply(MessageContext ctx) {
         return null;
     }
+
 }

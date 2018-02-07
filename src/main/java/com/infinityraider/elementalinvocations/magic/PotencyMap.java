@@ -2,6 +2,7 @@ package com.infinityraider.elementalinvocations.magic;
 
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,5 +60,35 @@ public class PotencyMap implements IPotencyMap {
     @Override
     public float getGreen() {
         return this.count == 0 ? 1.0F : this.green;
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT() {
+        NBTTagCompound tag = new NBTTagCompound();
+        for(Element element : Element.values()) {
+            tag.setInteger(element.name(), this.getPotency(element));
+        }
+        return tag;
+    }
+
+    @Override
+    public IPotencyMap readFromNBT(NBTTagCompound tag) {
+        int n = 0;
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        for(Element element : Element.values()) {
+            int potency = tag.hasKey(element.name()) ? tag.getInteger(element.name()) : 0;
+            this.potencies.put(element, potency);
+            n = n + potency;
+            r = r + potency*element.getRed();
+            g = g + potency*element.getGreen();
+            b = b + potency*element.getBlue();
+        }
+        this.count = n;
+        this.red = ((float) r)/(255.0F*n);
+        this.green = ((float) g)/(255.0F*n);
+        this.blue = ((float) b)/(255.0F*n);
+        return this;
     }
 }

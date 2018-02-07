@@ -53,7 +53,7 @@ public class ElementalInvocations extends InfinityMod {
     @Override
     public void registerMessages(INetworkWrapper wrapper) {
         wrapper.registerMessage(MessageAddCharge.class);
-        wrapper.registerMessage(MessageInvoke.class);
+        wrapper.registerMessage(MessageChargeAction.class);
         wrapper.registerMessage(MessageKeyPressed.class);
         wrapper.registerMessage(MessageRenderSunstrike.class);
         wrapper.registerMessage(MessageSetPlayerPosition.class);
