@@ -1,5 +1,6 @@
 package com.infinityraider.elementalinvocations.magic.spell;
 
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,7 +26,7 @@ public class BeamHandler {
         this.beams = new HashMap<>();
     }
 
-    public void startBeam(EntityPlayer player, int[] potencies, double range) {
+    public void startBeam(EntityPlayer player, IPotencyMap potencies, double range) {
         this.beams.put(player.getUniqueID(), new MagicBeam(player, potencies, range));
     }
 

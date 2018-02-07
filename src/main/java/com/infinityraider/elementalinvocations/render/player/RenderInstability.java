@@ -2,6 +2,7 @@ package com.infinityraider.elementalinvocations.render.player;
 
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IChargeConfiguration;
 import com.infinityraider.elementalinvocations.api.IPlayerMagicProperties;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.infinityraider.elementalinvocations.reference.Constants;
@@ -50,7 +51,7 @@ public class RenderInstability {
         //render element lines
         this.renderElementLines(props, RADIAL_VERTICES, z, alpha);
         //render instability dot
-        this.renderInstabilityDot(props, z, alpha);
+        this.renderInstabilityDot(props.getChargeConfiguration(), z, alpha);
 
         //pop matrix and attributes
         GlStateManager.popAttrib();
@@ -141,12 +142,12 @@ public class RenderInstability {
         }
     }
 
-    private void renderInstabilityDot(IPlayerMagicProperties props, double z, float alpha) {
-        double x = props.getInstabilityX();
-        double y = props.getInstabilityY();
-        float r = props.getRed();
-        float g = props.getBlue();
-        float b = props.getBlue();
+    private void renderInstabilityDot(IChargeConfiguration charges, double z, float alpha) {
+        double x = charges.getInstabilityX();
+        double y = charges.getInstabilityY();
+        float r = charges.getRed();
+        float g = charges.getBlue();
+        float b = charges.getBlue();
         renderCircle(CIRCLE_VERTICES, 0.5, x, y, z, r, g, b, alpha);
     }
 

@@ -61,7 +61,7 @@ public final class RenderPlayerCharges extends RenderUtil {
             return;
         }
 
-        List<IMagicCharge> chargeList = properties.getCharges();
+        List<IMagicCharge> chargeList = properties.getChargeConfiguration().getCharges();
         if(chargeList == null ||chargeList.size() <= 0) {
             return;
         }
@@ -167,7 +167,11 @@ public final class RenderPlayerCharges extends RenderUtil {
 
     public void renderChargesHUD(ScaledResolution resolution) {
         IPlayerMagicProperties props = CapabilityPlayerMagicProperties.getMagicProperties(ElementalInvocations.proxy.getClientPlayer());
-        if (props != null && !props.getCharges().isEmpty()) {
+        if(props == null) {
+            return;
+        }
+        List<IMagicCharge> charges = props.getChargeConfiguration().getCharges();
+        if (!charges.isEmpty()) {
             Tessellator tessellator = Tessellator.getInstance();
             VertexBuffer buffer = tessellator.getBuffer();
 
@@ -178,7 +182,6 @@ public final class RenderPlayerCharges extends RenderUtil {
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-            List<IMagicCharge> charges = props.getCharges();
             int index = 0;
             int row = 0;
             int perRow = (resolution.getScaledWidth() / (4 * 18));

@@ -53,10 +53,10 @@ public class RenderBeam extends RenderUtilBase {
 
         double thickness = beam.getThickness();
 
-        int red = beam.getRed();
-        int green = beam.getGreen();
-        int blue = beam.getBlue();
-        int alpha = 127;
+        float red = beam.getRed();
+        float green = beam.getGreen();
+        float blue = beam.getBlue();
+        float alpha = 0.5F;
 
         double range = beam.getRange();
         RayTraceResult hit = RayTraceHelper.getTargetEntityOrBlock(player, range);
@@ -126,9 +126,9 @@ public class RenderBeam extends RenderUtilBase {
 
         double thickness = 2.0 / 16;
 
-        int red = beam.getRed();
-        int green = beam.getGreen();
-        int blue = beam.getBlue();
+        float red = beam.getRed();
+        float green = beam.getGreen();
+        float blue = beam.getBlue();
         int alpha = 127;
 
         double range = beam.getRange();
@@ -190,7 +190,7 @@ public class RenderBeam extends RenderUtilBase {
         GlStateManager.popMatrix();
     }
 
-    protected void renderBeam(double x1, double y1, double z1, double x2, double y2, double z2, double thickness, int red, int green, int blue, int alpha) {
+    protected void renderBeam(double x1, double y1, double z1, double x2, double y2, double z2, double thickness, float red, float green, float blue, float alpha) {
         float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
         angle = (3 * angle) % 360;
         double dt = 1.0 - 0.5*Math.cos(Math.toRadians(angle));
@@ -213,7 +213,7 @@ public class RenderBeam extends RenderUtilBase {
         tessellator.draw();
     }
 
-    protected void renderOrb(int red, int green, int blue, int alpha) {
+    protected void renderOrb(float red, float green, float blue, float alpha) {
         float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
         angle = (3 * angle) % 360;
         GlStateManager.rotate(angle, 0, 0, 1);

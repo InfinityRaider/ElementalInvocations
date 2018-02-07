@@ -1,6 +1,7 @@
 package com.infinityraider.elementalinvocations.magic.spell.fire;
 
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.entity.EntityMeteor;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +17,7 @@ public class EffectConjureMeteor implements ISpellEffect {
     }
 
     @Override
-    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
+    public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         int potencyFire = potencies[Element.FIRE.ordinal()];
         int potencyEarth = potencies[Element.EARTH.ordinal()];
         if(channelTick == 0) {

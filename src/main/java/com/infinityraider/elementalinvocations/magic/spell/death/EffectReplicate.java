@@ -1,5 +1,6 @@
 package com.infinityraider.elementalinvocations.magic.spell.death;
 
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.infinityraider.elementalinvocations.api.Element;
@@ -19,7 +20,7 @@ public class EffectReplicate implements ISpellEffect {
     private static final Map<UUID, List<EntityReplicate>> replicas = new HashMap<>();
 
     @Override
-    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
+    public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         int potencyDeath = potencies[Element.DEATH.ordinal()];
         int potencyAir = potencies[Element.AIR.ordinal()];
         ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(caster);

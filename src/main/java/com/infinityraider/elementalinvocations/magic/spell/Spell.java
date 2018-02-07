@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpell;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.api.spells.ISpellRequirement;
@@ -63,7 +64,7 @@ public class Spell implements ISpell {
 	}
 
 	@Override
-	public boolean invoke(EntityPlayer caster, int[] power) {
+	public boolean invoke(EntityPlayer caster, IPotencyMap power) {
 		if (this.requirements.stream().allMatch(r -> r.isMet(caster))) {
             SpellCastingHandler.getInstance().castSpell(caster, this, power);
 			return true;

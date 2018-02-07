@@ -1,6 +1,7 @@
 package com.infinityraider.elementalinvocations.magic.spell.water;
 
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.entity.EntityWaveForm;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +17,7 @@ public class EffectWaveForm implements ISpellEffect {
     }
 
     @Override
-    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
+    public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         int potency = potencies[Element.WATER.ordinal()];
         if(channelTick == 0) {
             EntityWaveForm waveForm = new EntityWaveForm(caster, potency);

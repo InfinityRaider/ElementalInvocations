@@ -1,5 +1,6 @@
 package com.infinityraider.elementalinvocations.magic.spell;
 
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.network.MessageUpdateBeamRange;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
@@ -16,7 +17,7 @@ public abstract class SpellEffectBeamAbstract implements ISpellEffect {
     private Map<UUID, Double> beamLengths = new HashMap<>();
 
     @Override
-    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
+    public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         double range = this.getBeamRange(caster, potencies, channelTick);
         RayTraceResult target = RayTraceHelper.getTargetEntityOrBlock(caster, range);
         boolean result = this.apply(caster, potencies, channelTick, target);
@@ -38,22 +39,22 @@ public abstract class SpellEffectBeamAbstract implements ISpellEffect {
     }
 
     @Override
-    public void onPlayerStopChanneling(EntityPlayer caster, int[] potencies, int channelTick) {
+    public void onPlayerStopChanneling(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         this.afterPlayerStoppedChanneling(caster, potencies, channelTick);
         this.sendStopMessage(caster, potencies, channelTick);
     }
 
-    protected abstract boolean apply(EntityPlayer caster, int[] potencies, int channelTick, @Nullable RayTraceResult target);
+    protected abstract boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick, @Nullable RayTraceResult target);
 
-    protected abstract void afterPlayerStoppedChanneling(EntityPlayer caster, int[] potencies, int channelTick);
+    protected abstract void afterPlayerStoppedChanneling(EntityPlayer caster, IPotencyMap potencies, int channelTick);
 
-    protected abstract double getBeamRange(EntityPlayer caster, int[] potencies, int channelTick);
+    protected abstract double getBeamRange(EntityPlayer caster, IPotencyMap potencies, int channelTick);
 
-    protected void sendStartMessage(EntityPlayer caster, int[] potencies, double range) {
+    protected void sendStartMessage(EntityPlayer caster, IPotencyMap potencies, double range) {
         new MessageStartStopBeam(caster, potencies, range).sendToAll();
     }
 
-    protected void sendStopMessage(EntityPlayer caster, int[] potencies, int channelTick) {
+    protected void sendStopMessage(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         new MessageStartStopBeam(caster, potencies, channelTick).sendToAll();
     }
 

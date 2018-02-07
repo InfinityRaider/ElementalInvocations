@@ -1,6 +1,7 @@
 package com.infinityraider.elementalinvocations.magic.spell.fire;
 
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.souls.ISoulCollection;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
@@ -13,7 +14,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class EffectDeathNova implements ISpellEffect {
     @Override
-    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
+    public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         int potencyFire = potencies[Element.FIRE.ordinal()];
         int potencyDeath = potencies[Element.DEATH.ordinal()];
         RayTraceResult hit = RayTraceHelper.getTargetEntityOrBlock(caster, 64);

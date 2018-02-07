@@ -1,6 +1,7 @@
 package com.infinityraider.elementalinvocations.magic.spell.fire;
 
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.magic.spell.SpellEffectBeamAbstract;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import net.minecraft.block.state.IBlockState;
@@ -23,7 +24,7 @@ public class EffectFireBeam extends SpellEffectBeamAbstract {
     private Map<UUID, MutableTriple<BlockPos, MeltableBlockState, Integer>> meltProgress = new HashMap<>();
 
     @Override
-    protected boolean apply(EntityPlayer caster, int[] potencies, int channelTick, @Nullable RayTraceResult target) {
+    protected boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick, @Nullable RayTraceResult target) {
         if(!caster.getEntityWorld().isRemote && target != null) {
             //damage and set entities on fire
             int potency = potencies[Element.FIRE.ordinal()] / 5;
@@ -78,10 +79,10 @@ public class EffectFireBeam extends SpellEffectBeamAbstract {
     }
 
     @Override
-    protected void afterPlayerStoppedChanneling(EntityPlayer caster, int[] potencies, int channelTick) {}
+    protected void afterPlayerStoppedChanneling(EntityPlayer caster, IPotencyMap potencies, int channelTick) {}
 
     @Override
-    protected double getBeamRange(EntityPlayer caster, int[] potencies, int channelTick) {
+    protected double getBeamRange(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         return 32;
     }
 

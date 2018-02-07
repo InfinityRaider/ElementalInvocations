@@ -1,6 +1,7 @@
 package com.infinityraider.elementalinvocations.magic.generic;
 
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.magic.generic.effect.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +22,7 @@ public class MagicEffect {
     private final EntityPlayer caster;
     private final EntityLivingBase target;
     private final Vec3d direction;
-    private final int[] potencies;
+    private final IPotencyMap potencies;
 
     private Map<Element, Boolean> secondaryMask;
 
@@ -29,7 +30,7 @@ public class MagicEffect {
 
     private List<MagicDamage> damageList;
 
-    public MagicEffect(EntityPlayer caster, EntityLivingBase target, Vec3d direction, int[] potencies) {
+    public MagicEffect(EntityPlayer caster, EntityLivingBase target, Vec3d direction, IPotencyMap potencies) {
         this.caster = caster;
         this.target = target;
         this.direction = direction;
@@ -42,16 +43,20 @@ public class MagicEffect {
 
     private void determineSecondaryEffects() {
         for(Element element : Element.values()) {
-            if(potencies[element.ordinal()] > 0) {
+            if(this.getPotency(element) > 0) {
                 secondaryEffects.add(getSecondaryFromElement(element));
             }
         }
     }
 
+    public int getPotency(Element element) {
+        return this.potencies.getPotency(element);
+    }
+
     public void apply() {
         //calculate base damage
         for(Element element : Element.values()) {
-            int potency = potencies[element.ordinal()];
+            int potency = this.getPotency(element);
             if(potency > 0) {
                 damageList.add(new MagicDamage(new DamageSourceMagic(element, caster), potency));
                 secondaryMask.put(element, caster.getRNG().nextInt(MAX_WEIGHT) <= potency);
@@ -59,7 +64,7 @@ public class MagicEffect {
         }
         //apply secondary effects before applying damage
         for(ElementEffect effect : secondaryEffects) {
-            effect.applyEffectPre(this, caster, target, potencies[effect.element().ordinal()], secondaryMask.get(effect.element()));
+            effect.applyEffectPre(this, caster, target, this.getPotency(effect.element()), secondaryMask.get(effect.element()));
         }
         //apply damage
         for(MagicDamage dmg : damageList) {
@@ -67,7 +72,7 @@ public class MagicEffect {
         }
         //apply secondary effects after applying damage
         for(ElementEffect effect : secondaryEffects) {
-            effect.applyEffectPost(this, caster, target, potencies[effect.element().ordinal()], secondaryMask.get(effect.element()));
+            effect.applyEffectPost(this, caster, target, this.getPotency(effect.element()), secondaryMask.get(effect.element()));
         }
     }
 

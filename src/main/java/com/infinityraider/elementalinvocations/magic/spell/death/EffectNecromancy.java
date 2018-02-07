@@ -1,5 +1,6 @@
 package com.infinityraider.elementalinvocations.magic.spell.death;
 
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.souls.ISoulCollection;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class EffectNecromancy implements ISpellEffect {
     @Override
-    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
+    public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(caster);
         if(collection != null) {
             int amount = Math.min(collection.getSoulCount(), potencies[Element.DEATH.ordinal()]/3);

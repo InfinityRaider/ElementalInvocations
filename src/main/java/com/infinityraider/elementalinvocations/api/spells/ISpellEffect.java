@@ -2,6 +2,7 @@
  */
 package com.infinityraider.elementalinvocations.api.spells;
 
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import net.minecraft.entity.player.EntityPlayer;
 
 @FunctionalInterface
@@ -12,11 +13,11 @@ public interface ISpellEffect {
      * this array contains the potency of an element corresponding to the Element ordinal
      * channel tick is the amount of ticks this effect has been applied before
 	 * @param caster the player casting a spell with this effect
-	 * @param potencies the potency array
+	 * @param potencies the potency map
 	 * @param channelTick the number of ticks this effect has been channeled
      * @return false to stop channeling this spell
      */
-	boolean apply(EntityPlayer caster, int[] potencies, int channelTick);
+	boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick);
 
     /**
      * Called when the player stops channelling, this method is not called when the channel effects naturally (by returning false from apply() )
@@ -24,7 +25,7 @@ public interface ISpellEffect {
      * @param potencies the potency array
      * @param channelTick the number of ticks this effect has been channeled
      */
-     default void onPlayerStopChanneling(EntityPlayer caster, int[] potencies, int channelTick) {}
+     default void onPlayerStopChanneling(EntityPlayer caster, IPotencyMap potencies, int channelTick) {}
 
     /**
      * Some spell effects can linger for a while, even though the player  is not channeling.

@@ -1,16 +1,15 @@
 package com.infinityraider.elementalinvocations.api;
 
+import jline.internal.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-
-import java.util.List;
 
 public interface IPlayerMagicProperties {
     EntityPlayer getPlayer();
 
     void updateTick();
 
-    void setPlayerAffinity(Element element);
+    void setPlayerAffinity(@Nullable Element element);
 
     Element getPlayerAffinity();
 
@@ -18,31 +17,9 @@ public interface IPlayerMagicProperties {
 
     int getPlayerAdeptness(Element element);
 
-    double getInstabilityX();
-
-    double getInstabilityY();
-
-    double getFizzleChance();
-
-    float getRed();
-
-    float getBlue();
-
-    float getGreen();
+    IChargeConfiguration getChargeConfiguration();
 
     void reset();
-
-    void invoke();
-
-    void fade();
-
-    void fizzle();
-
-    void addCharge(IMagicCharge charge);
-
-    List<IMagicCharge> getCharges();
-
-    List<IMagicCharge> getCharges(Element element);
 
     NBTTagCompound writeToNBT();
 

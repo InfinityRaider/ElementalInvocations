@@ -1,6 +1,7 @@
 package com.infinityraider.elementalinvocations.magic.spell.earth;
 
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.entity.EntityMagnetizedRock;
 import net.minecraft.block.BlockStone;
@@ -34,7 +35,7 @@ public class EffectMagnetize implements ISpellEffect {
     private static Map<UUID, List<EntityMagnetizedRock>> rocks = new HashMap<>();
 
     @Override
-    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
+    public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         int potency = potencies[Element.EARTH.ordinal()]/5;
         Map<BlockPos, IBlockState> blocks = this.buildPossibleRocksMap(caster);
         List<BlockPos> positions = new ArrayList<>(blocks.keySet());

@@ -1,5 +1,6 @@
 package com.infinityraider.elementalinvocations.handler;
 
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpell;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +26,7 @@ public class SpellCastingHandler {
         this.lingeringEffects = new HashMap<>();
     }
 
-    public void castSpell(EntityPlayer caster, ISpell spell, int[] potencies) {
+    public void castSpell(EntityPlayer caster, ISpell spell, IPotencyMap potencies) {
         if(!caster.getEntityWorld().isRemote) {
             if (!lingeringEffects.containsKey(caster.getUniqueID())) {
                 lingeringEffects.put(caster.getUniqueID(), new ArrayList<>());
@@ -94,10 +95,10 @@ public class SpellCastingHandler {
 
     private static class ChannelProgress {
         private final ISpellEffect effect;
-        private final int[] potency;
+        private final IPotencyMap potency;
         private int channelTicks;
 
-        private ChannelProgress(ISpellEffect spellEffect, int[] potency) {
+        private ChannelProgress(ISpellEffect spellEffect, IPotencyMap potency) {
             this.effect = spellEffect;
             this.potency = potency;
             this.channelTicks = 0;

@@ -1,5 +1,6 @@
 package com.infinityraider.elementalinvocations.magic.spell.fire;
 
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
@@ -9,7 +10,7 @@ import net.minecraft.util.math.RayTraceResult;
 
 public class EffectSunstrike implements ISpellEffect {
     @Override
-    public boolean apply(EntityPlayer caster, int[] potencies, int channelTick) {
+    public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         RayTraceResult result = RayTraceHelper.getTargetBlock(caster, 128);
         if(result == null) {
             return false;

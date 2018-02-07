@@ -4,6 +4,7 @@ package com.infinityraider.elementalinvocations.api.spells;
 
 import com.google.common.collect.ImmutableList;
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import net.minecraft.entity.player.EntityPlayer;
 
 public interface ISpell {
@@ -20,7 +21,7 @@ public interface ISpell {
 	
 	ImmutableList<ISpellEffect> getEffects();
 
-	boolean invoke(EntityPlayer caster, int[] power);
+	boolean invoke(EntityPlayer caster, IPotencyMap power);
 	
 	default boolean equals(ISpell spell) {
 		return this.getId().equals(spell.getId()) || this.getElements().equals(spell.getElements());
