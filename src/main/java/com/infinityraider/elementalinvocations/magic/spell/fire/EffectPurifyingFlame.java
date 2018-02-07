@@ -17,8 +17,8 @@ public class EffectPurifyingFlame implements ISpellEffect {
         RayTraceResult target = RayTraceHelper.getTargetEntityOrBlock(caster, 64);
         if(target != null && target.entityHit != null && (target.entityHit instanceof EntityLivingBase)) {
             EntityLivingBase entity = (EntityLivingBase) target.entityHit;
-            entity.attackEntityFrom(new DamageSourcePurifyingFlame(), potencies[Element.FIRE.ordinal()]);
-            entity.addPotionEffect(new PotionEffect(Potion.getPotionById(10), (15 - potencies[Element.LIFE.ordinal()])*20));
+            entity.attackEntityFrom(new DamageSourcePurifyingFlame(), potencies.getPotency(Element.FIRE));
+            entity.addPotionEffect(new PotionEffect(Potion.getPotionById(10), (15 - potencies.getPotency(Element.LIFE))*20));
         }
         return false;
     }

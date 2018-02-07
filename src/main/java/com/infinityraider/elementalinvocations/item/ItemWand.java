@@ -123,7 +123,7 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
         }
         if (!player.worldObj.isRemote) {
             //conjure charge
-            properties.addCharge(this.getCharge(stack));
+            properties.getChargeConfiguration().addCharge(this.getCharge(stack));
         }
     }
 
@@ -178,7 +178,7 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
                 }
 
                 @Override
-                public int level() {
+                public int potency() {
                     return tier + 1;
                 }
             };

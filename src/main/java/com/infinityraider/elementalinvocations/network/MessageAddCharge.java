@@ -20,7 +20,7 @@ public class MessageAddCharge extends MessageBase<IMessage> {
     public MessageAddCharge(EntityPlayer player, IMagicCharge charge) {
         this();
         this.element = charge.element();
-        this.level = charge.level();
+        this.level = charge.potency();
         this.player = player;
     }
 
@@ -41,7 +41,7 @@ public class MessageAddCharge extends MessageBase<IMessage> {
                     }
 
                     @Override
-                    public int level() {
+                    public int potency() {
                         return level;
                     }
                 });

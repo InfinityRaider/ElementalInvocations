@@ -28,7 +28,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
     private double instY;   //y-coordinate
     private double instA;   //polar angle
     private double instR;   //polar radius
-    /** Coordinates of the level limit point in the polar field */
+    /** Coordinates of the potency limit point in the polar field */
     private double limX;    //x-coordinate
     private double limY;    //y-coordinate
     private double limA;    //polar angle
@@ -106,7 +106,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
                 new MessageAddCharge(this.getPlayer(), charge).sendToAll();
             }
             recalculateInstability(charge);
-            this.getPotencyMap().addPotency(charge.element(), charge.level());
+            this.getPotencyMap().addPotency(charge.element(), charge.potency());
         }
     }
 
@@ -167,8 +167,8 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
     }
 
     private void recalculateInstability(IMagicCharge charge) {
-        this.instX = this.instX + charge.element().calculateX(charge.level());
-        this.instY = this.instY + charge.element().calculateY(charge.level());
+        this.instX = this.instX + charge.element().calculateX(charge.potency());
+        this.instY = this.instY + charge.element().calculateY(charge.potency());
         this.instR = Math.sqrt(this.instX*this.instX + this.instY*this.instY);
         if(this.instR < 1) {
             //configuration of charges is too stable and fades

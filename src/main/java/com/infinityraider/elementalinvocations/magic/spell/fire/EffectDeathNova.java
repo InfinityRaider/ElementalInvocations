@@ -15,8 +15,8 @@ import net.minecraft.util.math.Vec3d;
 public class EffectDeathNova implements ISpellEffect {
     @Override
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
-        int potencyFire = potencies[Element.FIRE.ordinal()];
-        int potencyDeath = potencies[Element.DEATH.ordinal()];
+        int potencyFire = potencies.getPotency(Element.FIRE);
+        int potencyDeath = potencies.getPotency(Element.DEATH);
         RayTraceResult hit = RayTraceHelper.getTargetEntityOrBlock(caster, 64);
         if(hit != null && hit.entityHit != null && (hit.entityHit instanceof EntityLivingBase)) {
             EntityLivingBase target = (EntityLivingBase) hit.entityHit;

@@ -111,6 +111,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
             tag.setInteger(Names.NBT.EXPERIENCE + "_" + element.ordinal(), this.experience.get(element));
             tag.setInteger(Names.NBT.LEVEL + "_" + element.ordinal(), this.levels.get(element));
         }
+        tag.setTag(Names.NBT.CHARGE, this.getChargeConfiguration().writeToNBT());
         return tag;
     }
 
@@ -120,6 +121,9 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
         for (Element element : Element.values()) {
             this.experience.put(element, tag.hasKey(Names.NBT.EXPERIENCE + "_" + element.ordinal()) ? tag.getInteger(Names.NBT.EXPERIENCE + "_" + element.ordinal()) : 0);
             this.levels.put(element, tag.hasKey(Names.NBT.LEVEL + "_" + element.ordinal()) ? tag.getInteger(Names.NBT.LEVEL + "_" + element.ordinal()) : 1);
+        }
+        if(tag.hasKey(Names.NBT.CHARGE)) {
+            this.getChargeConfiguration().readFromNBT(tag.getCompoundTag(Names.NBT.CHARGE));
         }
         this.needsSync = true;
     }

@@ -27,7 +27,7 @@ public class EffectFireBeam extends SpellEffectBeamAbstract {
     protected boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick, @Nullable RayTraceResult target) {
         if(!caster.getEntityWorld().isRemote && target != null) {
             //damage and set entities on fire
-            int potency = potencies[Element.FIRE.ordinal()] / 5;
+            int potency = potencies.getPotency(Element.FIRE) / 5;
             if (target.entityHit != null) {
                 if (potency >= 5 || channelTick % (6 - potency) == 0) {
                     int hurtResistTime = target.entityHit.hurtResistantTime;

@@ -16,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class EffectNecromancy implements ISpellEffect {
@@ -24,7 +23,7 @@ public class EffectNecromancy implements ISpellEffect {
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(caster);
         if(collection != null) {
-            int amount = Math.min(collection.getSoulCount(), potencies[Element.DEATH.ordinal()]/3);
+            int amount = Math.min(collection.getSoulCount(), potencies.getPotency(Element.DEATH)/3);
             List<EntityMob> summons = new ArrayList<>();
             for(int i = 0; i < amount; i++) {
                 collection.removeSoul();
@@ -35,13 +34,7 @@ public class EffectNecromancy implements ISpellEffect {
                     mob = new EntityZombie(caster.getEntityWorld());
                     mob.tasks.addTask(2, new EntityAIRestrictSun(mob));
                     mob.tasks.addTask(3, new EntityAIFleeSun(mob, 1.0D));
-                    Iterator<EntityAITasks.EntityAITaskEntry> iterator = mob.tasks.taskEntries.iterator();
-                    while(iterator.hasNext()) {
-                        EntityAITasks.EntityAITaskEntry entry = iterator.next();
-                        if(entry.action instanceof EntityAIMoveThroughVillage) {
-                            iterator.remove();
-                        }
-                    }
+                    mob.tasks.taskEntries.removeIf(entry -> entry.action instanceof EntityAIMoveThroughVillage);
                 }
                 //override targeting ai
                 mob.tasks.addTask(6, new EntityAIFollowLord(caster, mob, 2.0D, 10.0F, 2.0F));
@@ -57,7 +50,7 @@ public class EffectNecromancy implements ISpellEffect {
                 mob.setPositionAndRotation(x, y ,z, caster.rotationYaw, caster.rotationPitch);
                 mob.enablePersistence();
                 //increase mob damage
-                float modifier = ((float) potencies[Element.EARTH.ordinal()])/20.0F;
+                float modifier = ((float) potencies.getPotency(Element.EARTH))/20.0F;
                 IAttributeInstance health = mob.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
                 health.setBaseValue(health.getBaseValue() * (1 + modifier));
                 IAttributeInstance dmg = mob.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);

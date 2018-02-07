@@ -21,8 +21,8 @@ public class EffectReplicate implements ISpellEffect {
 
     @Override
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
-        int potencyDeath = potencies[Element.DEATH.ordinal()];
-        int potencyAir = potencies[Element.AIR.ordinal()];
+        int potencyDeath = potencies.getPotency(Element.DEATH);
+        int potencyAir = potencies.getPotency(Element.AIR);
         ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(caster);
         int amount = Math.min(potencyDeath/3, collection.getSoulCount());
         if(amount <= 0) {

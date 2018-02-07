@@ -13,7 +13,7 @@ public class EffectConsumeSoul implements ISpellEffect {
         ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(caster);
         if(collection != null && collection.getSoulCount() > 0) {
             collection.removeSoul();
-            float potency = (float) (potencies[Element.DEATH.ordinal()] + potencies[Element.LIFE.ordinal()]);
+            float potency = (float) (potencies.getPotency(Element.DEATH) + potencies.getPotency(Element.LIFE));
             caster.heal(potency / 5);
         }
         return false;

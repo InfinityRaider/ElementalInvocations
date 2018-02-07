@@ -18,8 +18,8 @@ public class EffectConjureMeteor implements ISpellEffect {
 
     @Override
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
-        int potencyFire = potencies[Element.FIRE.ordinal()];
-        int potencyEarth = potencies[Element.EARTH.ordinal()];
+        int potencyFire = potencies.getPotency(Element.FIRE);
+        int potencyEarth = potencies.getPotency(Element.EARTH);
         if(channelTick == 0) {
             EntityMeteor meteor = new EntityMeteor(caster, potencyFire, potencyEarth);
             caster.worldObj.spawnEntityInWorld(meteor);

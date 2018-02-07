@@ -17,7 +17,7 @@ public class FireEffect implements ISpellEffect {
 	@Override
 	public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
 		ElementalInvocations.instance.getLogger().debug("Applying Fire Effect!\n\tTarget: ({0})\n\tPower: {1}", caster.getPositionVector(), potencies);
-		AxisAlignedBB area = AreaHelper.getArea(caster.getPositionVector(), potencies[Element.FIRE.ordinal()]);
+		AxisAlignedBB area = AreaHelper.getArea(caster.getPositionVector(), potencies.getPotency(Element.FIRE));
 		List<Entity> entities = caster.getEntityWorld().getEntitiesWithinAABB(Entity.class, area);
 		entities.forEach(e -> e.setFire(1));
 		return false;

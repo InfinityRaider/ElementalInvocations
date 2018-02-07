@@ -13,7 +13,7 @@ public class EffectVacuum implements ISpellEffect {
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         RayTraceResult target = RayTraceHelper.getTargetBlock(caster, 64);
         if(target != null && target.hitVec != null) {
-            EntityVacuum vacuum = new EntityVacuum(caster.getEntityWorld(), target.hitVec, potencies[Element.AIR.ordinal()], potencies[Element.DEATH.ordinal()]);
+            EntityVacuum vacuum = new EntityVacuum(caster.getEntityWorld(), target.hitVec, potencies.getPotency(Element.AIR), potencies.getPotency(Element.DEATH));
             caster.getEntityWorld().spawnEntityInWorld(vacuum);
         }
         return false;

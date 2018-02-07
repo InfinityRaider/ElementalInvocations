@@ -151,7 +151,7 @@ public final class RenderPlayerCharges extends RenderUtil {
         GlStateManager.rotate((invert ? -1 : 1) * renderManager.playerViewX, 1, 0, 0);
 
         float u = Constants.UNIT;
-        float scale = 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.level())/Constants.CORE_TIERS);
+        float scale = 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.potency())/Constants.CORE_TIERS);
 
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
@@ -201,7 +201,7 @@ public final class RenderPlayerCharges extends RenderUtil {
 
                 buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-                float scale = (0.6F + (0.5F * charge.level()) / Constants.CORE_TIERS);
+                float scale = (0.6F + (0.5F * charge.potency()) / Constants.CORE_TIERS);
                 float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
 
                 int xC = x0 + index * 18;
