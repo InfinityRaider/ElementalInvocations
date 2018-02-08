@@ -40,36 +40,27 @@ public class MagicChargeRenderer {
     private MagicChargeRenderer() {}
 
     public void renderChargesThirdPerson(List<IMagicCharge> charges) {
-        if(charges == null ||charges.size() <= 0) {
-            return;
-        }
-        GlStateManager.pushMatrix();
-        GlStateManager.pushAttrib();
-        double newAngle = getCurrentAngle();
-        for(int orb = 0; orb < charges.size(); orb++) {
-            GlStateManager.enableBlend();
-            GlStateManager.disableLighting();
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
-            for(int blur = 0; blur < MAX_BLURS; blur++) {
-                double[] position = calculateOrbPosition(RADIUS, newAngle, orb, charges.size(), blur);
-                renderCharge(charges.get(orb), position[0], position[1], position[2], blur);
-            }
-        }
-        GlStateManager.popAttrib();
-        GlStateManager.popMatrix();
+        renderCharges(charges, RADIUS, getCurrentAngle(), 1.0F);
     }
 
     public void renderInvokeThirdPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick) {
-        if(charges == null ||charges.size() <= 0) {
+        if(frame <= 0) {
             return;
         }
+        GlStateManager.pushMatrix();
+        double deltaY = (0.5*(frame + partialTick))/total;
+        GlStateManager.translate(0, deltaY, 0);
+        double radius = RADIUS*((double) total - frame + partialTick) / total;
+        renderCharges(charges, radius, getCurrentAngle(), 1.0F);
+        GlStateManager.popMatrix();
     }
 
     public void renderFadeThirdPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick) {
-        if(charges == null ||charges.size() <= 0) {
+        if(frame <= 0) {
             return;
         }
+        float scale = (total - frame + partialTick) / total;
+        renderCharges(charges, RADIUS, getCurrentAngle(), scale);
     }
 
     public void renderFizzleThirdPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick) {
@@ -216,7 +207,30 @@ public class MagicChargeRenderer {
         return 0;
     }
 
-    private void renderCharge(IMagicCharge charge, double x, double y, double z, int blurIndex) {
+    private void renderCharges(List<IMagicCharge> charges, double radius, double angle, float scale) {
+        if(charges == null ||charges.size() <= 0) {
+            return;
+        }
+
+        GlStateManager.pushMatrix();
+        GlStateManager.pushAttrib();
+
+        for(int orb = 0; orb < charges.size(); orb++) {
+            GlStateManager.enableBlend();
+            GlStateManager.disableLighting();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
+            for(int blur = 0; blur < MAX_BLURS; blur++) {
+                double[] position = calculateOrbPosition(radius, angle, orb, charges.size(), blur);
+                renderCharge(charges.get(orb), position[0], position[1], position[2], blur, scale);
+            }
+        }
+
+        GlStateManager.popAttrib();
+        GlStateManager.popMatrix();
+    }
+
+    private void renderCharge(IMagicCharge charge, double x, double y, double z, int blurIndex, float scale) {
         Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(charge.element()));
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buffer = tessellator.getBuffer();
@@ -236,14 +250,14 @@ public class MagicChargeRenderer {
         GlStateManager.rotate((invert ? -1 : 1) * renderManager.playerViewX, 1, 0, 0);
 
         float u = Constants.UNIT;
-        float scale = 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.potency())/Constants.CORE_TIERS);
+        float f = scale * 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.potency())/Constants.CORE_TIERS);
 
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-        buffer.pos(-8 * scale * u, 0, 0).tex(1, 1).endVertex();
-        buffer.pos(-8 * scale * u, 16 * scale * u, 0).tex(1, 0).endVertex();
-        buffer.pos(8 * scale * u, 16 * scale * u, 0).tex(0, 0).endVertex();
-        buffer.pos(8 * scale * u, 0, 0).tex(0, 1).endVertex();
+        buffer.pos(-8 * f * u, 0, 0).tex(1, 1).endVertex();
+        buffer.pos(-8 * f * u, 16 * f * u, 0).tex(1, 0).endVertex();
+        buffer.pos(8 * f * u, 16 * f * u, 0).tex(0, 0).endVertex();
+        buffer.pos(8 * f * u, 0, 0).tex(0, 1).endVertex();
 
         tessellator.draw();
 
