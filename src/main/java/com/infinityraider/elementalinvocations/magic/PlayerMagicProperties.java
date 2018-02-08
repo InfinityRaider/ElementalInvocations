@@ -57,8 +57,8 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
                 new MessageSyncMagicProperties(player, this.writeToNBT()).sendToAll();
                 this.needsSync = false;
             }
-            this.getChargeConfiguration().updateTick();
         }
+        this.getChargeConfiguration().updateTick();
     }
 
     @Override

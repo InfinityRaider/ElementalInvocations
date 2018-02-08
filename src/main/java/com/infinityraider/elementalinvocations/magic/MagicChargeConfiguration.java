@@ -68,7 +68,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
 
     @Override
     public void updateTick() {
-        if (!this.getCharges().isEmpty() && this.fizzleCheck()) {
+        if (!this.getPlayer().getEntityWorld().isRemote && !this.getCharges().isEmpty() && this.fizzleCheck()) {
             this.fizzle();
         }
         this.effectTimers.removeIf(MagicEffectTimer::decrement);
@@ -204,7 +204,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
     }
 
     private boolean fizzleCheck() {
-        return this.getPlayer().getRNG().nextDouble() <= getFizzleChance();
+        return this.getFizzleChance() > 0 && this.getPlayer().getRNG().nextDouble() <= getFizzleChance();
     }
 
     private Optional<ISpell> getSpell() {
@@ -247,7 +247,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
             }
             this.limA = Math.atan2(this.limY, limX);
             this.limA = this.limA + (this.limA < 0 ? 2*Math.PI : 0);
-            this.limR = Math.sqrt(this.limX*this.limX + this.limX*this.limY);
+            this.limR = Math.sqrt(this.limX*this.limX + this.limY*this.limY);
             //determine fizzle chance
             this.pFizzle = instR > limR ? 1 - Math.exp((limR - instR)/ConfigurationHandler.getInstance().fizzleConstant) : 0;
         }
