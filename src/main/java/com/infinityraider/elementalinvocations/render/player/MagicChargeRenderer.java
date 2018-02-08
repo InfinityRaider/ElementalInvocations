@@ -50,7 +50,7 @@ public class MagicChargeRenderer {
         GlStateManager.pushMatrix();
         double deltaY = (1.0*(frame + partialTick))/total;
         GlStateManager.translate(0, deltaY, 0);
-        double radius = RADIUS*((double) total - frame - partialTick) / total;
+        double radius = RADIUS*Math.sqrt(2)*((double) total - frame - partialTick);
         renderCharges(charges, radius, getCurrentAngle(), 1.0F);
         GlStateManager.popMatrix();
     }
@@ -64,10 +64,12 @@ public class MagicChargeRenderer {
     }
 
     public void renderFizzleThirdPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick) {
-        if(charges == null ||charges.size() <= 0) {
+        if(frame <= 0) {
             return;
         }
-
+        float scale = 1 + 0.5F*(frame + partialTick)/total;
+        double radius = RADIUS * Math.sin((1 + 3*(frame + partialTick)/total)*Math.PI/4);
+        renderCharges(charges, radius, getCurrentAngle(), scale);
     }
 
     public void renderChargesFirstPerson(List<IMagicCharge> charges, ScaledResolution resolution) {
