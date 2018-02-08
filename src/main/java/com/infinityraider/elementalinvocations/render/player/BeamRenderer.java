@@ -13,8 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.joml.Matrix4d;
@@ -94,8 +92,6 @@ public class BeamRenderer extends RenderUtilBase {
         GlStateManager.popMatrix();
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    @SuppressWarnings("unused")
     public void renderBeamFirstPerson(MagicBeam beam, float partialTicks) {
         EntityPlayer player = beam.getPlayer();
         double thickness = 2.0 / 16;
@@ -121,12 +117,7 @@ public class BeamRenderer extends RenderUtilBase {
         Vec3d eyes = player.getPositionEyes(partialTicks);
 
         double pitch = player.prevRotationPitch + partialTicks*(player.rotationPitch - player.prevRotationPitch);
-        double cosPitch = Math.cos(Math.toRadians(pitch));
-        double sinPitch = Math.sin(Math.toRadians(pitch));
-
         double yaw = player.prevRotationYaw + partialTicks*(player.rotationYaw - player.prevRotationYaw);
-        double cosYaw = Math.cos(Math.toRadians(yaw));
-        double sinYaw = Math.sin(Math.toRadians(yaw));
 
         //parallel with screen width
         double dx = -0.25;

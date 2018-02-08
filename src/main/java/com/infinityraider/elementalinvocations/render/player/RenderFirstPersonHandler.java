@@ -68,7 +68,7 @@ public class RenderFirstPersonHandler {
         if(player == null) {
             return;
         }
-        BeamHandler.getInstance().getMagicBeam(player).ifPresent(beam -> BeamRenderer.getInstance().renderBeamThirdPerson(beam, event.getPartialTicks()));
+        BeamHandler.getInstance().getMagicBeam(player).ifPresent(beam -> BeamRenderer.getInstance().renderBeamFirstPerson(beam, event.getPartialTicks()));
     }
 
     private void renderCharges(RenderGameOverlayEvent event) {
