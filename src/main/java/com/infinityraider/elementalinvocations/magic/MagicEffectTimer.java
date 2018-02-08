@@ -14,8 +14,10 @@ public class MagicEffectTimer {
     private final IPotencyMap potencies;
     private final EnumMagicChargeAction type;
     private final int initial;
+    private final long startTime;
 
     private int timer;
+    private long lastCheck;
 
     public MagicEffectTimer(List<IMagicCharge> charges, IPotencyMap map, EnumMagicChargeAction type, int ticks) {
         this.charges = charges;
@@ -23,6 +25,7 @@ public class MagicEffectTimer {
         this.type = type;
         this.initial = Math.max(0, ticks);
         this.timer = this.initial;
+        this.startTime = System.currentTimeMillis();
     }
 
     public List<IMagicCharge> getCharges() {
@@ -39,6 +42,7 @@ public class MagicEffectTimer {
 
     public boolean decrement() {
         this.timer -= timer > 0 ? 1 : 0;
+        this.lastCheck = System.currentTimeMillis();
         return this.timer <= 0;
     }
 
@@ -52,6 +56,10 @@ public class MagicEffectTimer {
 
     public int getFrame() {
         return this.getTotal() - this.getRemainingTicks();
+    }
+
+    public long getStartTime() {
+        return this.startTime;
     }
 
     public static MagicEffectTimer Invoke(IChargeConfiguration charges) {
@@ -73,7 +81,6 @@ public class MagicEffectTimer {
     public static MagicEffectTimer Fade(IChargeConfiguration charges, int ticks) {
         return new MagicEffectTimer(charges.getCharges(), charges.getPotencyMap(), EnumMagicChargeAction.FADE, ticks);
     }
-
 
     public static MagicEffectTimer Fizzle(IChargeConfiguration charges, int ticks) {
         return new MagicEffectTimer(charges.getCharges(), charges.getPotencyMap(), EnumMagicChargeAction.FIZZLE, ticks);

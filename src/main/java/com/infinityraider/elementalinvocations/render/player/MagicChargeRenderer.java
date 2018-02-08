@@ -48,9 +48,9 @@ public class MagicChargeRenderer {
             return;
         }
         GlStateManager.pushMatrix();
-        double deltaY = (0.5*(frame + partialTick))/total;
+        double deltaY = (1.0*(frame + partialTick))/total;
         GlStateManager.translate(0, deltaY, 0);
-        double radius = RADIUS*((double) total - frame + partialTick) / total;
+        double radius = RADIUS*((double) total - frame - partialTick) / total;
         renderCharges(charges, radius, getCurrentAngle(), 1.0F);
         GlStateManager.popMatrix();
     }
@@ -59,7 +59,7 @@ public class MagicChargeRenderer {
         if(frame <= 0) {
             return;
         }
-        float scale = (total - frame + partialTick) / total;
+        float scale = (total - frame - partialTick) / total;
         renderCharges(charges, RADIUS, getCurrentAngle(), scale);
     }
 
