@@ -52,7 +52,7 @@ public class MessageStartStopBeam extends MessageBase<IMessage> {
     @Override
     protected void processMessage(MessageContext ctx) {
         if(this.player != null) {
-            if(this.start) {
+            if(this.start && this.potencies != null) {
                 BeamHandler.getInstance().startBeam(this.player, this.potencies, this.range);
             } else {
                 BeamHandler.getInstance().stopBeam(this.player, this.channelTick);
@@ -70,8 +70,8 @@ public class MessageStartStopBeam extends MessageBase<IMessage> {
         return ImmutableList.of(
                 new IMessageSerializer<IPotencyMap>() {
                     @Override
-                    public boolean accepts(Class clazz) {
-                        return false;
+                    public boolean accepts(Class<IPotencyMap> clazz) {
+                        return clazz.isAssignableFrom(IPotencyMap.class);
                     }
 
                     @Override
