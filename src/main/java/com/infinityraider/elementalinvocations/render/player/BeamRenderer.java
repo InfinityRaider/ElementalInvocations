@@ -1,7 +1,5 @@
 package com.infinityraider.elementalinvocations.render.player;
 
-import com.infinityraider.elementalinvocations.ElementalInvocations;
-import com.infinityraider.elementalinvocations.magic.spell.BeamHandler;
 import com.infinityraider.elementalinvocations.magic.spell.MagicBeam;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import com.infinityraider.infinitylib.render.RenderUtilBase;
@@ -15,8 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,31 +21,21 @@ import org.joml.Matrix4d;
 import org.joml.Vector4d;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Optional;
-
 @SideOnly(Side.CLIENT)
-public class RenderBeam extends RenderUtilBase {
-    private static final RenderBeam INSTANCE = new RenderBeam();
+public class BeamRenderer extends RenderUtilBase {
+    private static final BeamRenderer INSTANCE = new BeamRenderer();
 
     public static final ResourceLocation BEAM_TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/beam.png");
     public static final ResourceLocation ORB_TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/beam_orb.png");
 
-    public static RenderBeam getInstance() {
+    public static BeamRenderer getInstance() {
         return INSTANCE;
     }
 
-    private RenderBeam() {}
+    private BeamRenderer() {}
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    @SuppressWarnings("unused")
-    public void onRenderPlayer(RenderPlayerEvent.Post event) {
-        EntityPlayer player = event.getEntityPlayer();
-        Optional<MagicBeam> optional = BeamHandler.getInstance().getMagicBeam(player);
-        if(!optional.isPresent()) {
-            return;
-        }
-
-        MagicBeam beam = optional.get();
+    public void renderBeamThirdPerson(MagicBeam beam, float partialTick) {
+        EntityPlayer player = beam.getPlayer();
 
         double thickness = beam.getThickness();
 
@@ -62,16 +48,16 @@ public class RenderBeam extends RenderUtilBase {
         RayTraceResult hit = RayTraceHelper.getTargetEntityOrBlock(player, range);
         Vec3d target;
         if(hit == null) {
-            target = player.getPositionEyes(event.getPartialRenderTick()).add(player.getLook(event.getPartialRenderTick()).scale(range));
+            target = player.getPositionEyes(partialTick).add(player.getLook(partialTick).scale(range));
         } else {
             target = hit.hitVec;
         }
 
-        double pX = player.prevPosX + event.getPartialRenderTick()*(player.posX - player.prevPosX);
-        double pY = player.prevPosY + event.getPartialRenderTick()*(player.posY - player.prevPosY);
-        double pZ = player.prevPosZ + event.getPartialRenderTick()*(player.posZ - player.prevPosZ);
+        double pX = player.prevPosX + partialTick*(player.posX - player.prevPosX);
+        double pY = player.prevPosY + partialTick*(player.posY - player.prevPosY);
+        double pZ = player.prevPosZ + partialTick*(player.posZ - player.prevPosZ);
 
-        double yaw = player.prevRenderYawOffset + event.getPartialRenderTick()*(player.renderYawOffset - player.prevRenderYawOffset);
+        double yaw = player.prevRenderYawOffset + partialTick*(player.renderYawOffset - player.prevRenderYawOffset);
         double cos = Math.cos(Math.toRadians(yaw));
         double sin = Math.sin(Math.toRadians(yaw));
 
@@ -94,8 +80,6 @@ public class RenderBeam extends RenderUtilBase {
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
 
-        GlStateManager.translate(event.getX(), event.getY(), event.getZ());
-
         //render the beam
         this.renderBeam(x1, y1, z1, x2, y2, z2, thickness, red, green, blue, alpha);
 
@@ -112,18 +96,8 @@ public class RenderBeam extends RenderUtilBase {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     @SuppressWarnings("unused")
-    public void onRenderHand(RenderHandEvent event) {
-        if(Minecraft.getMinecraft().gameSettings.thirdPersonView != 0) {
-            return;
-        }
-        EntityPlayer player = ElementalInvocations.proxy.getClientPlayer();
-        Optional<MagicBeam> optional = BeamHandler.getInstance().getMagicBeam(player);
-        if (!optional.isPresent()) {
-            return;
-        }
-
-        MagicBeam beam = optional.get();
-
+    public void renderBeamFirstPerson(MagicBeam beam, float partialTicks) {
+        EntityPlayer player = beam.getPlayer();
         double thickness = 2.0 / 16;
 
         float red = beam.getRed();
@@ -135,22 +109,22 @@ public class RenderBeam extends RenderUtilBase {
         RayTraceResult hit = RayTraceHelper.getTargetEntityOrBlock(player, range);
         Vec3d target;
         if (hit == null) {
-            target = player.getPositionEyes(event.getPartialTicks()).add(player.getLook(event.getPartialTicks()).scale(range));
+            target = player.getPositionEyes(partialTicks).add(player.getLook(partialTicks).scale(range));
         } else {
             target = hit.hitVec;
         }
 
-        double pX = player.prevPosX + event.getPartialTicks()*(player.posX - player.prevPosX);
-        double pY = player.prevPosY + event.getPartialTicks()*(player.posY - player.prevPosY);
-        double pZ = player.prevPosZ + event.getPartialTicks()*(player.posZ - player.prevPosZ);
+        double pX = player.prevPosX + partialTicks*(player.posX - player.prevPosX);
+        double pY = player.prevPosY + partialTicks*(player.posY - player.prevPosY);
+        double pZ = player.prevPosZ + partialTicks*(player.posZ - player.prevPosZ);
 
-        Vec3d eyes = player.getPositionEyes(event.getPartialTicks());
+        Vec3d eyes = player.getPositionEyes(partialTicks);
 
-        double pitch = player.prevRotationPitch + event.getPartialTicks()*(player.rotationPitch - player.prevRotationPitch);
+        double pitch = player.prevRotationPitch + partialTicks*(player.rotationPitch - player.prevRotationPitch);
         double cosPitch = Math.cos(Math.toRadians(pitch));
         double sinPitch = Math.sin(Math.toRadians(pitch));
 
-        double yaw = player.prevRotationYaw + event.getPartialTicks()*(player.rotationYaw - player.prevRotationYaw);
+        double yaw = player.prevRotationYaw + partialTicks*(player.rotationYaw - player.prevRotationYaw);
         double cosYaw = Math.cos(Math.toRadians(yaw));
         double sinYaw = Math.sin(Math.toRadians(yaw));
 

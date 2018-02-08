@@ -5,10 +5,9 @@ import com.infinityraider.elementalinvocations.handler.KeyInputHandler;
 import com.infinityraider.elementalinvocations.handler.PlayerMovementTrackingHandler;
 import com.infinityraider.elementalinvocations.potion.PotionConfusion;
 import com.infinityraider.elementalinvocations.render.player.RenderLayerPotionEffect;
-import com.infinityraider.elementalinvocations.render.player.RenderPlayerCharges;
-import com.infinityraider.elementalinvocations.render.player.RenderPlayerHUD;
+import com.infinityraider.elementalinvocations.render.player.RenderThirdPersonHandler;
+import com.infinityraider.elementalinvocations.render.player.RenderFirstPersonHandler;
 import com.infinityraider.infinitylib.proxy.base.IClientProxyBase;
-import com.infinityraider.elementalinvocations.render.player.RenderBeam;
 import com.infinityraider.elementalinvocations.utility.KeyBindings;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -39,10 +38,9 @@ public class ClientProxy implements IProxy, IClientProxyBase {
     @Override
     public void registerEventHandlers() {
         IProxy.super.registerEventHandlers();
-        this.registerEventHandler(RenderPlayerCharges.getInstance());
+        this.registerEventHandler(RenderThirdPersonHandler.getInstance());
         this.registerEventHandler(KeyInputHandler.getInstance());
-        this.registerEventHandler(RenderBeam.getInstance());
-        this.registerEventHandler(RenderPlayerHUD.getInstance());
+        this.registerEventHandler(RenderFirstPersonHandler.getInstance());
         this.registerEventHandler(PlayerMovementTrackingHandler.getInstance());
     }
 

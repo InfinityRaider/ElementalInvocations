@@ -88,6 +88,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
             }
             new MessageChargeAction(getPlayer(), EnumMagicChargeAction.INVOKE).sendToAll();
         }
+        this.effectTimers.add(MagicEffectTimer.Invoke(this));
         this.clearCharges();
     }
 

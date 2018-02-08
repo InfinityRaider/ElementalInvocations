@@ -1,40 +1,31 @@
 package com.infinityraider.elementalinvocations.render.player;
 
-import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IChargeConfiguration;
 import com.infinityraider.elementalinvocations.api.IPlayerMagicProperties;
-import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.infinityraider.elementalinvocations.reference.Constants;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class RenderInstability {
-    private static final RenderInstability INSTANCE = new RenderInstability();
+public class InstabilityRenderer {
+    private static final InstabilityRenderer INSTANCE = new InstabilityRenderer();
 
-    public static RenderInstability getInstance() {
+    public static InstabilityRenderer getInstance() {
         return INSTANCE;
     }
 
     private static final int RADIAL_VERTICES = 10;
     private static final int CIRCLE_VERTICES = 24;
 
-    private RenderInstability() {}
+    private InstabilityRenderer() {}
 
-    public void renderInstability(int width, int height, double z, float alpha) {
-        //fetch player properties
-        EntityPlayer player = ElementalInvocations.proxy.getClientPlayer();
-        if(player == null) {
-            return;
-        }
-        IPlayerMagicProperties props = CapabilityPlayerMagicProperties.getMagicProperties(player);
+    public void renderInstability(IPlayerMagicProperties props, int width, int height, double z, float alpha) {
         if(props == null) {
             return;
         }
