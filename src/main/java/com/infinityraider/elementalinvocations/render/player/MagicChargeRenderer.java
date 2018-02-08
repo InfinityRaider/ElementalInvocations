@@ -2,7 +2,6 @@ package com.infinityraider.elementalinvocations.render.player;
 
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IMagicCharge;
-import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import net.minecraft.client.Minecraft;
@@ -43,7 +42,7 @@ public class MagicChargeRenderer {
         renderCharges(charges, RADIUS, getCurrentAngle(), 1.0F);
     }
 
-    public void renderInvokeThirdPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick) {
+    public void renderInvokeThirdPerson(List<IMagicCharge> charges, int frame, int total, float partialTick) {
         if(frame <= 0) {
             return;
         }
@@ -55,7 +54,7 @@ public class MagicChargeRenderer {
         GlStateManager.popMatrix();
     }
 
-    public void renderFadeThirdPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick) {
+    public void renderFadeThirdPerson(List<IMagicCharge> charges, int frame, int total, float partialTick) {
         if(frame <= 0) {
             return;
         }
@@ -63,7 +62,7 @@ public class MagicChargeRenderer {
         renderCharges(charges, RADIUS, getCurrentAngle(), scale);
     }
 
-    public void renderFizzleThirdPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick) {
+    public void renderFizzleThirdPerson(List<IMagicCharge> charges, int frame, int total, float partialTick) {
         if(frame <= 0) {
             return;
         }
@@ -140,21 +139,21 @@ public class MagicChargeRenderer {
         }
     }
 
-    public void renderInvokeFirstPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick, ScaledResolution resolution) {
+    public void renderInvokeFirstPerson(List<IMagicCharge> charges, int frame, int total, float partialTick, ScaledResolution resolution) {
         if(charges == null ||charges.size() <= 0) {
             return;
         }
 
     }
 
-    public void renderFadeFirstPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick, ScaledResolution resolution) {
+    public void renderFadeFirstPerson(List<IMagicCharge> charges, int frame, int total, float partialTick, ScaledResolution resolution) {
         if(charges == null ||charges.size() <= 0) {
             return;
         }
 
     }
 
-    public void renderFizzleFirstPerson(List<IMagicCharge> charges, IPotencyMap potencies, int frame, int total, float partialTick, ScaledResolution resolution) {
+    public void renderFizzleFirstPerson(List<IMagicCharge> charges, int frame, int total, float partialTick, ScaledResolution resolution) {
         if(charges == null ||charges.size() <= 0) {
             return;
         }

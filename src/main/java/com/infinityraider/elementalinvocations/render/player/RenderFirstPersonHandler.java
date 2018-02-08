@@ -82,13 +82,13 @@ public class RenderFirstPersonHandler {
             ((MagicChargeConfiguration) charges).getEffectTimers().forEach(timer -> {
                 switch(timer.getType()) {
                     case INVOKE:
-                        this.renderer.renderInvokeFirstPerson(timer.getCharges(), timer.getPotencies(), timer.getFrame(), timer.getTotal(), event.getPartialTicks(), event.getResolution());
+                        this.renderer.renderInvokeFirstPerson(timer.getCharges(), timer.getFrame(), timer.getTotal(), event.getPartialTicks(), event.getResolution());
                         return;
                     case FADE:
-                        this.renderer.renderFadeFirstPerson(timer.getCharges(), timer.getPotencies(), timer.getFrame(), timer.getTotal(), event.getPartialTicks(), event.getResolution());
+                        this.renderer.renderFadeFirstPerson(timer.getCharges(), timer.getFrame(), timer.getTotal(), event.getPartialTicks(), event.getResolution());
                         return;
                     case FIZZLE:
-                        this.renderer.renderFizzleFirstPerson(timer.getCharges(), timer.getPotencies(), timer.getFrame(), timer.getTotal(), event.getPartialTicks(), event.getResolution());
+                        this.renderer.renderFizzleFirstPerson(timer.getCharges(), timer.getFrame(), timer.getTotal(), event.getPartialTicks(), event.getResolution());
                 }
             });
         }

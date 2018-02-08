@@ -45,13 +45,13 @@ public final class RenderThirdPersonHandler extends RenderUtil {
             ((MagicChargeConfiguration) charges).getEffectTimers().forEach(timer -> {
                 switch(timer.getType()) {
                     case INVOKE:
-                        this.renderer.renderInvokeThirdPerson(timer.getCharges(), timer.getPotencies(), timer.getFrame(), timer.getTotal(), event.getPartialRenderTick());
+                        this.renderer.renderInvokeThirdPerson(timer.getCharges(), timer.getFrame(), timer.getTotal(), event.getPartialRenderTick());
                         return;
                     case FADE:
-                        this.renderer.renderFadeThirdPerson(timer.getCharges(), timer.getPotencies(), timer.getFrame(), timer.getTotal(), event.getPartialRenderTick());
+                        this.renderer.renderFadeThirdPerson(timer.getCharges(), timer.getFrame(), timer.getTotal(), event.getPartialRenderTick());
                         return;
                     case FIZZLE:
-                        this.renderer.renderFizzleThirdPerson(timer.getCharges(), timer.getPotencies(), timer.getFrame(), timer.getTotal(), event.getPartialRenderTick());
+                        this.renderer.renderFizzleThirdPerson(timer.getCharges(), timer.getFrame(), timer.getTotal(), event.getPartialRenderTick());
                 }
             });
         }
