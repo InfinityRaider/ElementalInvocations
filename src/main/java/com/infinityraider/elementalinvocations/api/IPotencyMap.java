@@ -49,4 +49,10 @@ public interface IPotencyMap {
      * @return this
      */
     IPotencyMap readFromNBT(NBTTagCompound tag);
+
+    /**
+     * Copies the potency map
+     * @return a copy of this potency map
+     */
+    IPotencyMap copy();
 }

@@ -91,4 +91,17 @@ public class PotencyMap implements IPotencyMap {
         this.blue = ((float) b)/(255.0F*n);
         return this;
     }
+
+    @Override
+    public PotencyMap copy() {
+        PotencyMap copy = new PotencyMap();
+        for(Element element : Element.values()) {
+            copy.potencies.put(element, this.potencies.get(element));
+            copy.count = this.count;
+            copy.red = this.red;
+            copy.green = this.green;
+            copy.blue = this.blue;
+        }
+        return copy;
+    }
 }

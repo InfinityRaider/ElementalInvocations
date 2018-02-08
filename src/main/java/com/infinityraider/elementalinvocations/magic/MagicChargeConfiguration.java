@@ -40,6 +40,8 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
     /** Currently invoked charges */
     private Map<Element, List<IMagicCharge>> chargeMap;
     private List<IMagicCharge> charges;
+    /** Fade and fizzle timers */
+    private final Set<MagicEffectTimer> effectTimers;
 
     protected MagicChargeConfiguration(IPlayerMagicProperties properties) {
         this.props = properties;
@@ -49,6 +51,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
         }
         this.charges = new ArrayList<>();
         this.clearCharges();
+        this.effectTimers = new HashSet<>();
     }
 
     public IPlayerMagicProperties getProperties() {
@@ -59,11 +62,16 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
         return this.getProperties().getPlayer();
     }
 
+    public Set<MagicEffectTimer> getEffectTimers() {
+        return this.effectTimers;
+    }
+
     @Override
     public void updateTick() {
         if (!this.getCharges().isEmpty() && this.fizzleCheck()) {
             this.fizzle();
         }
+        this.effectTimers.removeIf(MagicEffectTimer::decrement);
     }
 
     @Override
@@ -88,6 +96,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
         if(!this.getPlayer().getEntityWorld().isRemote) {
             new MessageChargeAction(this.getPlayer(), EnumMagicChargeAction.FADE).sendToAll();
         }
+        this.effectTimers.add(MagicEffectTimer.Fade(this));
         this.clearCharges();
     }
 
@@ -98,6 +107,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
             new MagicEffect(this.getPlayer(), this.getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), this.getPotencyMap()).apply();
             new MessageChargeAction(this.getPlayer(), EnumMagicChargeAction.FIZZLE).sendToAll();
         }
+        this.effectTimers.add(MagicEffectTimer.Fizzle(this));
         this.clearCharges();
     }
 

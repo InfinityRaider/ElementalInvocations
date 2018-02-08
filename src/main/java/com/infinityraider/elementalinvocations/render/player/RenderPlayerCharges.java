@@ -1,9 +1,13 @@
 package com.infinityraider.elementalinvocations.render.player;
 
+import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IChargeConfiguration;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.api.IMagicCharge;
 import com.infinityraider.elementalinvocations.api.IPlayerMagicProperties;
+import com.infinityraider.elementalinvocations.magic.MagicChargeConfiguration;
+import com.infinityraider.elementalinvocations.magic.MagicEffectTimer;
 import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import com.infinityraider.elementalinvocations.render.RenderUtil;
@@ -23,6 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
+import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public final class RenderPlayerCharges extends RenderUtil {
@@ -35,21 +40,11 @@ public final class RenderPlayerCharges extends RenderUtil {
     private static final int MAX_BLURS = 5;
     private static final double RADIUS = 1.0;
 
-    private static final ResourceLocation TEXTURE_FIRE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/charge_fire.png");
-    private static final ResourceLocation TEXTURE_WATER = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/charge_water.png");
-    private static final ResourceLocation TEXTURE_AIR = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/charge_air.png");
-    private static final ResourceLocation TEXTURE_EARTH = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/charge_earth.png");
-    private static final ResourceLocation TEXTURE_DEATH = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/charge_death.png");
-    private static final ResourceLocation TEXTURE_LIFE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/entities/player/charge_life.png");
+    private static final ResourceLocation[] CHARGE_TEXTURES;
 
-    public static final ResourceLocation[] CHARGE_TEXTURES = new ResourceLocation[] {
-            TEXTURE_LIFE,
-            TEXTURE_AIR,
-            TEXTURE_FIRE,
-            TEXTURE_DEATH,
-            TEXTURE_EARTH,
-            TEXTURE_WATER
-    };
+    public static ResourceLocation getTexture(Element element) {
+        return CHARGE_TEXTURES[element.ordinal()];
+    }
 
     private RenderPlayerCharges() {}
 
@@ -61,8 +56,16 @@ public final class RenderPlayerCharges extends RenderUtil {
             return;
         }
 
-        List<IMagicCharge> chargeList = properties.getChargeConfiguration().getCharges();
-        if(chargeList == null ||chargeList.size() <= 0) {
+        IChargeConfiguration charges = properties.getChargeConfiguration();
+        this.renderPlayerChargesNormal(charges.getCharges(), event);
+        if(charges instanceof MagicChargeConfiguration) {
+            Set<MagicEffectTimer> effectTimers = ((MagicChargeConfiguration) charges).getEffectTimers();
+            //TODO: render effects
+        }
+    }
+
+    private void renderPlayerChargesNormal(List<IMagicCharge> charges, RenderPlayerEvent event) {
+        if(charges == null ||charges.size() <= 0) {
             return;
         }
 
@@ -72,19 +75,20 @@ public final class RenderPlayerCharges extends RenderUtil {
 
         GlStateManager.translate(event.getX(), event.getY(), event.getZ());
 
-        for(int orb = 0; orb < chargeList.size(); orb++) {
+        for(int orb = 0; orb < charges.size(); orb++) {
             GlStateManager.enableBlend();
             GlStateManager.disableLighting();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
 
             for(int blur = 0; blur < MAX_BLURS; blur++) {
-                float[] position = calculateOrbPosition(newAngle, orb, chargeList.size(), blur);
-                renderCharge(chargeList.get(orb), position[0], position[1], position[2], blur);
+                float[] position = calculateOrbPosition(newAngle, orb, charges.size(), blur);
+                renderCharge(charges.get(orb), position[0], position[1], position[2], blur);
             }
         }
 
         GlStateManager.popMatrix();
+
     }
 
     private float[] calculateOrbPosition(float newAngle, int orbNumber, int totalOrbs, int blurIndex) {
@@ -132,7 +136,7 @@ public final class RenderPlayerCharges extends RenderUtil {
     }
 
     private void renderCharge(IMagicCharge charge, float x, float y, float z, int blurIndex) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(CHARGE_TEXTURES[charge.element().ordinal()]);
+        Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(charge.element()));
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buffer = tessellator.getBuffer();
 
@@ -195,7 +199,7 @@ public final class RenderPlayerCharges extends RenderUtil {
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
 
             for (IMagicCharge charge : charges) {
-                Minecraft.getMinecraft().renderEngine.bindTexture(RenderPlayerCharges.CHARGE_TEXTURES[charge.element().ordinal()]);
+                Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(charge.element()));
 
                 GlStateManager.pushMatrix();
 
@@ -236,5 +240,14 @@ public final class RenderPlayerCharges extends RenderUtil {
 
             Minecraft.getMinecraft().renderEngine.bindTexture(Gui.ICONS);
         }
+    }
+
+    static {
+        ResourceLocation[] textures = new ResourceLocation[Element.values().length];
+        for(Element element : Element.values()) {
+            textures[element.ordinal()] = new ResourceLocation(Reference.MOD_ID.toLowerCase(),
+                    "textures/entities/player/charge_" + element.name().toLowerCase() + ".png");
+        }
+        CHARGE_TEXTURES = textures;
     }
 }
