@@ -137,7 +137,7 @@ public class InstabilityRenderer {
         double x = charges.getInstabilityX();
         double y = charges.getInstabilityY();
         float r = charges.getPotencyMap().getRed();
-        float g = charges.getPotencyMap().getBlue();
+        float g = charges.getPotencyMap().getGreen();
         float b = charges.getPotencyMap().getBlue();
         renderCircle(CIRCLE_VERTICES, 0.5, x, y, z, r, g, b, alpha);
     }
