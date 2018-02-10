@@ -77,7 +77,7 @@ public class RenderFirstPersonHandler {
             return;
         }
         IChargeConfiguration charges = props.getChargeConfiguration();
-        MagicChargeRenderer.getInstance().renderChargesFirstPerson(charges.getCharges(),  event.getResolution());
+        MagicChargeRenderer.getInstance().renderChargesFirstPerson(charges.getCharges(),  0, 0, 1, event.getResolution());
         if(charges instanceof MagicChargeConfiguration) {
             ((MagicChargeConfiguration) charges).getEffectTimers().forEach(timer -> {
                 switch(timer.getType()) {
