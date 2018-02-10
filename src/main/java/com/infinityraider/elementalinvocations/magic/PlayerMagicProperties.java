@@ -79,7 +79,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
 
     @Override
     public void setPlayerAdeptness(Element element, int level) {
-        this.levels.put(element, Math.max(Constants.MIN_LEVEL, Math.min(level, Constants.MAX_LEVEL)));
+        this.levels.put(element, Integer.max(Constants.MIN_LEVEL, Integer.min(level, Constants.MAX_LEVEL)));
         this.experience.put(element, 0);
         this.reqExp.put(element, this.calculateRequiredExperience(level));
         this.needsSync = true;
@@ -98,8 +98,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     @Override
     public void addExperience(Element element, int amount) {
         if(amount > 0) {
-            int lvl = this.getPlayerAdeptness(element);
-            if(lvl >= Constants.MAX_LEVEL) {
+            if(this.getPlayerAdeptness(element) >= Constants.MAX_LEVEL) {
                 this.setPlayerAdeptness(element, Constants.MAX_LEVEL);
                 return;
             }
@@ -129,12 +128,16 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
 
     protected int calculateRequiredExperience(int level) {
         if(level >= Constants.MAX_LEVEL) {
-            return Integer.MAX_VALUE;
+            return 0;
         }
-        if(level <= 0) {
+        if(level < Constants.MIN_LEVEL) {
             return Constants.EXP_BASE;
         }
-        return Constants.EXP_BASE*this.calculateRequiredExperience(level - 1);
+        if(level % 2 == 0) {
+            return Constants.EXP_GROWTH*this.calculateRequiredExperience(level - 1);
+        } else {
+            return Constants.EXP_BASE*this.calculateRequiredExperience(level - 2);
+        }
     }
 
     @Override
