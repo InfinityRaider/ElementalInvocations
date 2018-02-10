@@ -9,9 +9,6 @@ import com.infinityraider.elementalinvocations.magic.spell.death.EffectNecromanc
 import com.infinityraider.elementalinvocations.magic.spell.death.EffectReplicate;
 import com.infinityraider.elementalinvocations.magic.spell.earth.EffectLivingArmor;
 import com.infinityraider.elementalinvocations.magic.spell.fire.*;
-import com.infinityraider.elementalinvocations.magic.spell.misc.DamageEffect;
-import com.infinityraider.elementalinvocations.magic.spell.misc.ExtinguishEffect;
-import com.infinityraider.elementalinvocations.magic.spell.misc.FireEffect;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectBallLightning;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectFrostArmor;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectWaveForm;
@@ -44,12 +41,6 @@ public class SpellInitializer {
                 .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.DEATH, Element.DEATH)
                 .setSpellEffects(new EffectDeathNova())
                 .createSpell("death_nova", 0));
-
-        SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("Purifying Flame", "Cleansing fire!")
-                .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.LIFE, Element.LIFE)
-                .setSpellEffects(new EffectPurifyingFlame())
-                .createSpell("purifying_flame", 0));
 
 
         //Water spells
@@ -116,28 +107,6 @@ public class SpellInitializer {
 
         //Life spells
 
-
-        //Misc spells
-		SpellRegistry.getInstance().addSpell(new SpellBuilder()
-				.setSpellDescription("A fiery nova!", "Does something smell burnt to you?")
-				.setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE)
-				.setSpellEffects(new FireEffect())
-				.createSpell("Fire Nova", 0)
-		);
-		
-		SpellRegistry.getInstance().addSpell(new SpellBuilder()
-				.setSpellDescription("Damage all the entities!", "Ouch! That hurt!")
-				.setSpellElements(Element.DEATH, Element.DEATH, Element.DEATH)
-				.setSpellEffects(new DamageEffect())
-				.createSpell("Hit", 0)
-		);
-		
-		SpellRegistry.getInstance().addSpell(new SpellBuilder()
-				.setSpellDescription("Drown all the entities!", "You awake now?")
-				.setSpellElements(Element.WATER, Element.WATER, Element.WATER)
-				.setSpellEffects(new ExtinguishEffect())
-				.createSpell("Vortex", 0)
-		);
 
 	}
 

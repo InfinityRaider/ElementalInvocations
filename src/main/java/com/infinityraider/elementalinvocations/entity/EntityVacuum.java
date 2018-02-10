@@ -1,8 +1,11 @@
 package com.infinityraider.elementalinvocations.entity;
 
+import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.handler.DamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityVacuum;
 import com.infinityraider.elementalinvocations.utility.AreaHelper;
+import com.infinityraider.infinitylib.utility.DamageDealer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -10,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
+    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.DEATH);
     private static final int TIME = 5;
 
     private int potencyAir;
@@ -75,7 +78,7 @@ public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
     @Override
     public void setDead() {
         this.entities.stream().filter(entity -> entity instanceof EntityLivingBase).forEach(entity ->
-            entity.attackEntityFrom(new DamageSourceVacuum(), this.getPotencyDeath())
+                DMG.applyDamage((EntityLivingBase) entity, this, this.getPotencyDeath())
         );
         super.setDead();
     }
@@ -145,14 +148,6 @@ public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
     public void readSpawnData(ByteBuf buffer) {
         this.potencyDeath = buffer.readInt();
         this.potencyAir = buffer.readInt();
-    }
-
-    public static class DamageSourceVacuum extends DamageSource {
-        public DamageSourceVacuum() {
-            super("choke");
-            this.setMagicDamage();
-            this.setDamageBypassesArmor();
-        }
     }
 
 

@@ -1,7 +1,10 @@
 package com.infinityraider.elementalinvocations.entity;
 
+import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.handler.DamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityMeteor;
+import com.infinityraider.infinitylib.utility.DamageDealer;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.infinityraider.elementalinvocations.utility.AreaHelper;
 import net.minecraft.client.Minecraft;
@@ -10,7 +13,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -24,6 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 public class EntityMeteor extends EntityThrowableMagic {
+    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.FIRE);
+
     private int potencyFire;
     private int potencyEarth;
 
@@ -76,7 +80,7 @@ public class EntityMeteor extends EntityThrowableMagic {
         }
         AxisAlignedBB area = AreaHelper.getArea(result.hitVec, 3 + getPotencyEarth() /3);
         List<EntityLivingBase> entities = getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, area);
-        entities.forEach(e -> e.attackEntityFrom(new DamageSourceMeteor(), 2 * getPotencyFire()));
+        entities.forEach(e -> DMG.applyDamage(e, this, 2 * getPotencyFire()));
         this.setDead();
     }
 
@@ -148,12 +152,6 @@ public class EntityMeteor extends EntityThrowableMagic {
         @SideOnly(Side.CLIENT)
         public Render<? super EntityMeteor> createRenderFor(RenderManager manager) {
             return new RenderEntityMeteor(manager);
-        }
-    }
-
-    public static class DamageSourceMeteor extends DamageSource {
-        public DamageSourceMeteor() {
-            super("cold");
         }
     }
 

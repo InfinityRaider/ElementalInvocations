@@ -1,14 +1,15 @@
 package com.infinityraider.elementalinvocations.magic.spell.fire;
 
+import akka.japi.pf.FI;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
+import com.infinityraider.elementalinvocations.handler.DamageHandler;
 import com.infinityraider.elementalinvocations.magic.spell.SpellEffectBeamAbstract;
-import com.infinityraider.elementalinvocations.reference.Reference;
+import com.infinityraider.infinitylib.utility.DamageDealer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -21,6 +22,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class EffectFireBeam extends SpellEffectBeamAbstract {
+    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.FIRE);
+
     private Map<UUID, MutableTriple<BlockPos, MeltableBlockState, Integer>> meltProgress = new HashMap<>();
 
     @Override
@@ -32,7 +35,7 @@ public class EffectFireBeam extends SpellEffectBeamAbstract {
                 if (potency >= 5 || channelTick % (6 - potency) == 0) {
                     int hurtResistTime = target.entityHit.hurtResistantTime;
                     target.entityHit.hurtResistantTime = 0;
-                    target.entityHit.attackEntityFrom(new DamageSourceFireBeam(), 2);
+                    DMG.applyDamage(target.entityHit, caster, 2);
                     target.entityHit.hurtResistantTime = hurtResistTime;
                 }
                 if (target.entityHit instanceof EntityLivingBase && !target.entityHit.isBurning()) {
@@ -84,12 +87,6 @@ public class EffectFireBeam extends SpellEffectBeamAbstract {
     @Override
     protected double getBeamRange(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         return 32;
-    }
-
-    public static class DamageSourceFireBeam extends DamageSource {
-        public DamageSourceFireBeam() {
-            super(Reference.MOD_ID.toLowerCase() + ".damage.firebeam");
-        }
     }
 
     public static class MeltableBlockState {

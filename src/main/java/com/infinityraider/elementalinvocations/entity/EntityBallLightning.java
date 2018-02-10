@@ -1,15 +1,17 @@
 package com.infinityraider.elementalinvocations.entity;
 
+import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.handler.DamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityBallLightning;
 import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
+import com.infinityraider.infinitylib.utility.DamageDealer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -20,6 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityBallLightning extends EntityThrowableMagic {
     private static final AxisAlignedBB BOX = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
+    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.AIR);
 
     private int potencyAir;
     private int potencyWater;
@@ -44,7 +47,7 @@ public class EntityBallLightning extends EntityThrowableMagic {
         if(result.entityHit != null && result.entityHit != this.getThrower()) {
             if(result.entityHit instanceof EntityLivingBase) {
                 EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                entity.attackEntityFrom(new DamageSourceBallLightning(), this.potencyAir);
+                DMG.applyDamage(entity, this, this.potencyAir);
             }
         }
         BlockPos pos = result.getBlockPos();
@@ -103,14 +106,6 @@ public class EntityBallLightning extends EntityThrowableMagic {
         @SideOnly(Side.CLIENT)
         public Render<? super EntityBallLightning> createRenderFor(RenderManager manager) {
             return new RenderEntityBallLightning(manager);
-        }
-    }
-
-    public static class DamageSourceBallLightning extends DamageSource {
-        public DamageSourceBallLightning() {
-            super("lightning");
-            this.setMagicDamage();
-            this.setDamageBypassesArmor();
         }
     }
 }

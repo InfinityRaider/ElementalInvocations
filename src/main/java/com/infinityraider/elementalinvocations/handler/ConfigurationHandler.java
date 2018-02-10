@@ -24,7 +24,7 @@ public class ConfigurationHandler {
     public boolean orbRecipes;
 
     //balance
-    public double damageMultiplier;
+    public float damageMultiplier;
     public int fizzleConstant;
     public int expConstant;
     public int expMultiplier;

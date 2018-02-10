@@ -1,6 +1,5 @@
 package com.infinityraider.elementalinvocations.magic.generic.effect;
 
-import com.infinityraider.elementalinvocations.magic.generic.MagicDamage;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.magic.generic.MagicEffect;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,9 +12,7 @@ public class ElementEffectFire extends ElementEffect {
 
     @Override
     public void applyEffectPre(MagicEffect effect, EntityPlayer caster, EntityLivingBase target, int potency, boolean secondary) {
-        for(MagicDamage dmg : effect.getAppliedDamage()) {
-            dmg.setAmount(dmg.getAmount() * 3);
-        }
+        //TODO: set target on fire
     }
 
     @Override

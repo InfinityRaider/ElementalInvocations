@@ -2,12 +2,11 @@ package com.infinityraider.elementalinvocations.magic.generic;
 
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
+import com.infinityraider.elementalinvocations.handler.DamageHandler;
 import com.infinityraider.elementalinvocations.magic.generic.effect.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
-
-import java.util.*;
 
 public class MagicEffect {
     protected static final int MAX_WEIGHT = 25;
@@ -24,29 +23,11 @@ public class MagicEffect {
     private final Vec3d direction;
     private final IPotencyMap potencies;
 
-    private Map<Element, Boolean> secondaryMask;
-
-    private Set<ElementEffect> secondaryEffects;
-
-    private List<MagicDamage> damageList;
-
     public MagicEffect(EntityPlayer caster, EntityLivingBase target, Vec3d direction, IPotencyMap potencies) {
         this.caster = caster;
         this.target = target;
         this.direction = direction;
         this.potencies = potencies;
-        this.secondaryEffects = new TreeSet<>();
-        this.secondaryMask = new HashMap<>();
-        this.damageList = new ArrayList<>();
-        this.determineSecondaryEffects();
-    }
-
-    private void determineSecondaryEffects() {
-        for(Element element : Element.values()) {
-            if(this.getPotency(element) > 0) {
-                secondaryEffects.add(getSecondaryFromElement(element));
-            }
-        }
     }
 
     public int getPotency(Element element) {
@@ -58,30 +39,20 @@ public class MagicEffect {
         for(Element element : Element.values()) {
             int potency = this.getPotency(element);
             if(potency > 0) {
-                damageList.add(new MagicDamage(new DamageSourceMagic(element, caster), potency));
-                secondaryMask.put(element, caster.getRNG().nextInt(MAX_WEIGHT) <= potency);
+                ElementEffect secondary = getSecondaryFromElement(element);
+                boolean applySecondary = caster.getRNG().nextInt(MAX_WEIGHT) <= potency;
+                //apply secondary effect before applying damage
+                secondary.applyEffectPre(this, caster, target, potency, applySecondary);
+                //apply damage
+                DamageHandler.getInstance().getDamageDealer(element).applyDamage(target, caster, potency);
+                //apply secondary effect after applying damage
+                secondary.applyEffectPost(this, caster, target, potency, applySecondary);
             }
-        }
-        //apply secondary effects before applying damage
-        for(ElementEffect effect : secondaryEffects) {
-            effect.applyEffectPre(this, caster, target, this.getPotency(effect.element()), secondaryMask.get(effect.element()));
-        }
-        //apply damage
-        for(MagicDamage dmg : damageList) {
-            dmg.applyToEntity(target);
-        }
-        //apply secondary effects after applying damage
-        for(ElementEffect effect : secondaryEffects) {
-            effect.applyEffectPost(this, caster, target, this.getPotency(effect.element()), secondaryMask.get(effect.element()));
         }
     }
 
     public Vec3d getDirection() {
         return direction;
-    }
-
-    public List<MagicDamage> getAppliedDamage() {
-        return damageList;
     }
 
     public  static ElementEffect getSecondaryFromElement(Element element) {

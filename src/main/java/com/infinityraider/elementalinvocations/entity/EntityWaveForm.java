@@ -1,14 +1,16 @@
 package com.infinityraider.elementalinvocations.entity;
 
+import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.handler.DamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityWaveForm;
 import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
+import com.infinityraider.infinitylib.utility.DamageDealer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -19,6 +21,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityWaveForm extends EntityThrowableMagic {
+    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.WATER);
     private static final AxisAlignedBB BOX = new AxisAlignedBB(-0.5F, -0.5F, -0.5F, 1.5F, 1.5F, 1.5F);
 
     private int potencyWater;
@@ -73,7 +76,7 @@ public class EntityWaveForm extends EntityThrowableMagic {
         if(result.entityHit != null && result.entityHit != this.getThrower()) {
             if(result.entityHit instanceof EntityLivingBase) {
                 EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                entity.attackEntityFrom(new DamageSourceWaveForm(), ((float) this.potencyWater)/2.5F);
+                DMG.applyDamage(entity, this, ((float) this.potencyWater)/2.5F);
             }
         }
         BlockPos pos = result.getBlockPos();
@@ -126,12 +129,6 @@ public class EntityWaveForm extends EntityThrowableMagic {
         @SideOnly(Side.CLIENT)
         public Render<? super EntityWaveForm> createRenderFor(RenderManager manager) {
             return new RenderEntityWaveForm(manager);
-        }
-    }
-
-    public static class DamageSourceWaveForm extends DamageSource {
-        public DamageSourceWaveForm() {
-            super("cold");
         }
     }
 }

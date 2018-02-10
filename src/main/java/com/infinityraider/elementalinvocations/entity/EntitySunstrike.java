@@ -1,9 +1,12 @@
 package com.infinityraider.elementalinvocations.entity;
 
+import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.handler.DamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.utility.AreaHelper;
 import com.infinityraider.elementalinvocations.network.MessageRenderSunstrike;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntitySunstrike;
+import com.infinityraider.infinitylib.utility.DamageDealer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.Render;
@@ -11,7 +14,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -23,6 +25,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnData {
+    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.FIRE);
+
     private int timer;
     private int potencyFire;
     private int potencyAir;
@@ -73,7 +77,7 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
                 new MessageRenderSunstrike(this).sendToAll();
                 AxisAlignedBB area = AreaHelper.getArea(this.getPositionVector(), Math.max(1, getPotencyAir() / 3));
                 List<EntityLivingBase> entities = getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, area);
-                entities.forEach(e -> e.attackEntityFrom(new DamageSourceSunstrike(), getPotencyFire() * 2));
+                entities.forEach(e -> DMG.applyDamage(e, this, getPotencyFire() * 2));
             }
             if (timer <= -10) {
                 this.setDead();
@@ -123,15 +127,6 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
     public void readSpawnData(ByteBuf buffer) {
         this.potencyFire = buffer.readInt();
         this.potencyAir = buffer.readInt();
-    }
-
-    public static class DamageSourceSunstrike extends DamageSource {
-        public DamageSourceSunstrike() {
-            super("fire");
-            this.setMagicDamage();
-            this.setFireDamage();
-            this.setDamageBypassesArmor();
-        }
     }
 
 
