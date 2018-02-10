@@ -4,9 +4,6 @@ import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpell;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.*;
 
@@ -63,31 +60,27 @@ public class SpellCastingHandler {
             activeChanneledEffects.remove(player.getUniqueID());
         }
     }
-
-    @SubscribeEvent
-    @SuppressWarnings("unused")
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if(event.side == Side.SERVER && event.phase == TickEvent.Phase.END) {
-            if(activeChanneledEffects.containsKey(event.player.getUniqueID())) {
-                List<ChannelProgress> list = activeChanneledEffects.get(event.player.getUniqueID());
-                Iterator<ChannelProgress> iterator = list.iterator();
-                while(iterator.hasNext()) {
-                    ChannelProgress progress = iterator.next();
-                    if(!progress.update(event.player)) {
-                        iterator.remove();
-                    }
-                }
-                if(list.isEmpty()) {
-                    activeChanneledEffects.remove(event.player.getUniqueID());
+    
+    public void onPlayerTick(EntityPlayer player) {
+        if (activeChanneledEffects.containsKey(player.getUniqueID())) {
+            List<ChannelProgress> list = activeChanneledEffects.get(player.getUniqueID());
+            Iterator<ChannelProgress> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                ChannelProgress progress = iterator.next();
+                if (!progress.update(player)) {
+                    iterator.remove();
                 }
             }
-            if(lingeringEffects.containsKey(event.player.getUniqueID())) {
-                Iterator<ISpellEffect> iterator = lingeringEffects.get(event.player.getUniqueID()).iterator();
-                while(iterator.hasNext()) {
-                    ISpellEffect effect = iterator.next();
-                    if(effect.lingerUpdate(event.player)) {
-                        iterator.remove();
-                    }
+            if (list.isEmpty()) {
+                activeChanneledEffects.remove(player.getUniqueID());
+            }
+        }
+        if (lingeringEffects.containsKey(player.getUniqueID())) {
+            Iterator<ISpellEffect> iterator = lingeringEffects.get(player.getUniqueID()).iterator();
+            while (iterator.hasNext()) {
+                ISpellEffect effect = iterator.next();
+                if (effect.lingerUpdate(player)) {
+                    iterator.remove();
                 }
             }
         }

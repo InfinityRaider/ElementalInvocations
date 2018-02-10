@@ -38,9 +38,9 @@ public class ClientProxy implements IProxy, IClientProxyBase {
     @Override
     public void registerEventHandlers() {
         IProxy.super.registerEventHandlers();
-        this.registerEventHandler(RenderThirdPersonHandler.getInstance());
         this.registerEventHandler(KeyInputHandler.getInstance());
         this.registerEventHandler(RenderFirstPersonHandler.getInstance());
+        this.registerEventHandler(RenderThirdPersonHandler.getInstance());
         this.registerEventHandler(PlayerMovementTrackingHandler.getInstance());
     }
 

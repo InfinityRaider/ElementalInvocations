@@ -52,7 +52,6 @@ public interface IProxy extends IProxyBase {
     default void registerEventHandlers() {
         this.registerEventHandler(AnvilRecipeHandler.getInstance());
         this.registerEventHandler(PlayerTickHandler.getInstance());
-        this.registerEventHandler(SpellCastingHandler.getInstance());
         this.registerEventHandler(DamageReductorHandler.getInstance());
     }
 

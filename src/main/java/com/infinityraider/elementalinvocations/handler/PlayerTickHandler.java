@@ -5,6 +5,7 @@ import com.infinityraider.elementalinvocations.api.IPlayerMagicProperties;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class PlayerTickHandler {
     private static final PlayerTickHandler INSTANCE = new PlayerTickHandler();
@@ -26,6 +27,10 @@ public class PlayerTickHandler {
             IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
             if(properties != null) {
                 properties.updateTick();
+            }
+        } else {
+            if(event.side == Side.SERVER ) {
+                SpellCastingHandler.getInstance().onPlayerTick(event.player);
             }
         }
     }
