@@ -35,12 +35,13 @@ public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel {
     private static final List<DebugMode> createNewList() {
         List<DebugMode> list = new ArrayList<>();
         list.add(new DebugModeClearMagicProperties());
+        list.add(new DebugModeAddSoul());
+        list.add(new DebugModeConfusion());
+        list.add(new DebugModeDisplayMagicProperties());
+        list.add(new DebugModeRenderInstability());
         for(Element element : Element.values()) {
             list.add(new DebugModeConfigureAdeptness(element));
         }
-        list.add(new DebugModeAddSoul());
-        list.add(new DebugModeConfusion());
-        list.add(new DebugModeRenderInstability());
         return list;
     }
 }

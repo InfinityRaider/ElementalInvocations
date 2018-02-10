@@ -81,13 +81,14 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
         }
         if (!this.getPlayer().getEntityWorld().isRemote) {
             Optional<ISpell> spell = getSpell();
-            spell.ifPresent(iSpell -> iSpell.invoke(getPlayer(), this.getPotencyMap()));
-            //TODO: add experience
-            if (!spell.isPresent()) {
-                this.getPlayer().getEntityWorld().spawnEntityInWorld( new EntityMagicProjectile(this.getPlayer(), this.getPotencyMap()));
+            if (spell.isPresent()) {
+                spell.get().invoke(getPlayer(), this.getPotencyMap());
+            } else {
+                this.getPlayer().getEntityWorld().spawnEntityInWorld(new EntityMagicProjectile(this.getPlayer(), this.getPotencyMap()));
             }
             new MessageChargeAction(getPlayer(), EnumMagicChargeAction.INVOKE).sendToAll();
         }
+        this.addExperienceOnCast();
         this.effectTimers.add(MagicEffectTimer.Invoke(this));
         this.clearCharges();
     }
@@ -259,6 +260,28 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
 
     private double calculateElementY(Element element) {
         return element.calculateY(((double) this.getProperties().getPlayerAdeptness(element)*Constants.CORE_TIERS*Constants.NOMINAL_ORBS)/Constants.MAX_LEVEL);
+    }
+
+    private void addExperienceOnCast() {
+        if(this.instR > this.limR) {
+            double amount = Constants.EXP_BASE*Constants.EXP_BASE*(1-Math.exp((limR - instR)/ConfigurationHandler.getInstance().experienceConstant));
+            Pair<Element, Element> elements = Element.getElementsForAngle(this.instA);
+            double angle1 = elements.getKey().getPolarAngle();
+            double angle2 = elements.getValue().getPolarAngle();
+            double da =  clampDeltaAngle(angle1 - this.instA);
+            double delta = clampDeltaAngle(angle1 - angle2);
+            this.getProperties().addExperience(elements.getKey(), (int) ((1 - da/delta)*amount));
+            this.getProperties().addExperience(elements.getValue(), (int) ((da/delta)*amount));
+        }
+    }
+
+    private double clampDeltaAngle(double angle) {
+        if(angle > Math.PI) {
+            angle = angle - 2*Math.PI;
+        } else if(angle <= -Math.PI) {
+            angle = angle + 2*Math.PI;
+        }
+        return angle;
     }
 
     private void resetInstability() {

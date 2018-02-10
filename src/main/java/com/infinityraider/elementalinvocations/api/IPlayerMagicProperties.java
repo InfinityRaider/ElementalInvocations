@@ -45,6 +45,29 @@ public interface IPlayerMagicProperties {
     int getPlayerAdeptness(Element element);
 
     /**
+     * Gets the amount of experience required to gain a level
+     * When the player's experience for an element reaches this amount,
+     * the player's adeptness for that element increases by one level.
+     * @param element the element
+     * @return the amount required to level up
+     */
+    int getExperienceToLevelUp(Element element);
+
+    /**
+     * Adds an amount of experience for a certain element
+     * @param element the element
+     * @param amount the amount
+     */
+    void addExperience(Element element, int amount);
+
+    /**
+     * Gets the experience a player has for a certain element
+     * @param element the element
+     * @return the experience
+     */
+    int getExperience(Element element);
+
+    /**
      * Gets the configuration of the currently conjured charges
      * @return IChargeConfiguration object
      */

@@ -1,6 +1,7 @@
 package com.infinityraider.elementalinvocations.magic;
 
 import com.infinityraider.elementalinvocations.api.IChargeConfiguration;
+import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
 import com.infinityraider.infinitylib.utility.ISerializable;
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.api.Element;
@@ -27,6 +28,8 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     private Map<Element, Integer> levels;
     /** The current experience for each of the elements */
     private Map<Element, Integer> experience;
+    /** The current experience required to level up for each of the elements */
+    private Map<Element, Integer> reqExp;
 
     /* Non-persistent fields */
     /** Flag to check if the server needs to sync to the clients */
@@ -35,6 +38,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     public PlayerMagicProperties() {
         this.levels = new HashMap<>();
         this.experience = new HashMap<>();
+        this.reqExp = new HashMap<>();
         this.chargeConfiguration = new MagicChargeConfiguration(this);
         this.reset();
         this.needsSync = false;
@@ -77,12 +81,60 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     public void setPlayerAdeptness(Element element, int level) {
         this.levels.put(element, Math.max(Constants.MIN_LEVEL, Math.min(level, Constants.MAX_LEVEL)));
         this.experience.put(element, 0);
+        this.reqExp.put(element, this.calculateRequiredExperience(level));
         this.needsSync = true;
     }
 
     @Override
     public int getPlayerAdeptness(Element element) {
         return this.levels.get(element);
+    }
+
+    @Override
+    public int getExperienceToLevelUp(Element element) {
+        return this.reqExp.get(element);
+    }
+
+    @Override
+    public void addExperience(Element element, int amount) {
+        if(amount > 0) {
+            int lvl = this.getPlayerAdeptness(element);
+            if(lvl >= Constants.MAX_LEVEL) {
+                this.setPlayerAdeptness(element, Constants.MAX_LEVEL);
+                return;
+            }
+            this.addExperienceRecursive(element, amount*ConfigurationHandler.getInstance().experienceMultiplier);
+        }
+    }
+
+    protected void addExperienceRecursive(Element element, int amount) {
+        if(amount <= 0) {
+            return;
+        }
+        int newXp = amount + this.getExperience(element);
+        int reqXp = this.getExperienceToLevelUp(element);
+        if(newXp >= reqXp) {
+            int lvl = this.getPlayerAdeptness(element);
+            this.setPlayerAdeptness(element, lvl + 1);
+            this.addExperienceRecursive(element, (lvl + 1) >= Constants.MAX_LEVEL ? 0 : newXp - reqXp);
+        }
+        this.experience.put(element, newXp);
+
+    }
+
+    @Override
+    public int getExperience(Element element) {
+        return this.experience.get(element);
+    }
+
+    protected int calculateRequiredExperience(int level) {
+        if(level >= Constants.MAX_LEVEL) {
+            return Integer.MAX_VALUE;
+        }
+        if(level <= 0) {
+            return Constants.EXP_BASE;
+        }
+        return Constants.EXP_BASE*this.calculateRequiredExperience(level - 1);
     }
 
     @Override
@@ -119,8 +171,8 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     public void readFromNBT(NBTTagCompound tag) {
         this.affinity = tag.hasKey(Names.NBT.ELEMENT) ? Element.values()[tag.getInteger(Names.NBT.ELEMENT)] : null;
         for (Element element : Element.values()) {
+            this.setPlayerAdeptness(element, tag.hasKey(Names.NBT.LEVEL + "_" + element.ordinal()) ? tag.getInteger(Names.NBT.LEVEL + "_" + element.ordinal()) : 1);
             this.experience.put(element, tag.hasKey(Names.NBT.EXPERIENCE + "_" + element.ordinal()) ? tag.getInteger(Names.NBT.EXPERIENCE + "_" + element.ordinal()) : 0);
-            this.levels.put(element, tag.hasKey(Names.NBT.LEVEL + "_" + element.ordinal()) ? tag.getInteger(Names.NBT.LEVEL + "_" + element.ordinal()) : 1);
         }
         if(tag.hasKey(Names.NBT.CHARGE)) {
             this.getChargeConfiguration().readFromNBT(tag.getCompoundTag(Names.NBT.CHARGE));
