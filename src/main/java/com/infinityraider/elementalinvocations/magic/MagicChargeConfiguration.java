@@ -79,8 +79,8 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
         if (getCharges().size() <= 0) {
             return;
         }
+        Optional<ISpell> spell = getSpell();
         if (!this.getPlayer().getEntityWorld().isRemote) {
-            Optional<ISpell> spell = getSpell();
             if (spell.isPresent()) {
                 spell.get().invoke(getPlayer(), this.getPotencyMap());
             } else {
@@ -88,7 +88,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
             }
             new MessageChargeAction(getPlayer(), EnumMagicChargeAction.INVOKE).sendToAll();
         }
-        this.addExperienceOnCast();
+        this.addExperienceOnCast(spell.isPresent());
         this.effectTimers.add(MagicEffectTimer.Invoke(this));
         this.clearCharges();
     }
@@ -262,9 +262,12 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
         return element.calculateY(((double) this.getProperties().getPlayerAdeptness(element)*Constants.CORE_TIERS*Constants.NOMINAL_ORBS)/Constants.MAX_LEVEL);
     }
 
-    private void addExperienceOnCast() {
+    private void addExperienceOnCast(boolean invoke) {
         if(this.instR > this.limR) {
-            double amount = Constants.EXP_BASE*Constants.EXP_BASE*(1-Math.exp((limR - instR)/ConfigurationHandler.getInstance().experienceConstant));
+            double amount = Constants.EXP_BASE*Constants.EXP_BASE*(1-Math.exp((limR - instR)/ConfigurationHandler.getInstance().expConstant));
+            if(invoke) {
+                amount = amount * ConfigurationHandler.getInstance().expComboMultiplier;
+            }
             Pair<Element, Element> elements = Element.getElementsForAngle(this.instA);
             double angle1 = elements.getKey().getPolarAngle();
             double angle2 = elements.getValue().getPolarAngle();

@@ -26,8 +26,9 @@ public class ConfigurationHandler {
     //balance
     public double damageMultiplier;
     public int fizzleConstant;
-    public int experienceConstant;
-    public int experienceMultiplier;
+    public int expConstant;
+    public int expMultiplier;
+    public int expComboMultiplier;
     public int levelLossOnAffinityChange;
     public double affinityBonus;
 
@@ -73,11 +74,13 @@ public class ConfigurationHandler {
         fizzleConstant = config.getInt("Fizzle growth factor", Categories.BALANCE.getName(), 500, 1, 100000,
                 "The fizzle chance growth factor, used to calculate the fizzle chance as function of instability (larger factor = lower fizzle chance), " +
                 "this is used in an exponent, and is thus a very sensitive value, use the Excel file on the GitHub repo when tweaking this factor");
-        experienceConstant = config.getInt("Experience growth factor", Categories.BALANCE.getName(), 10, 1, 1000,
+        expConstant = config.getInt("Experience growth factor", Categories.BALANCE.getName(), 10, 1, 1000,
                 "The fizzle chance growth factor, used to calculate the gained experience as function of instability (larger factor = less experience), " +
                 "this is used in an exponent, and is thus a very sensitive value, use the Excel file on the GitHub repo when tweaking this factor");
-        experienceMultiplier = config.getInt("magic experience multiplier", Categories.BALANCE.getName(), 10, 0, 100,
+        expMultiplier = config.getInt("magic experience multiplier", Categories.BALANCE.getName(), 10, 0, 100,
                 "Whenever the player gains magic experience, the amount is multiplied by this number");
+        expComboMultiplier = config.getInt("magic experience  combo multiplier", Categories.BALANCE.getName(), 5, 1, 10,
+                "The multiplier added to the experience gain when a player makes a combo for an invoked spell");
         affinityBonus = config.getFloat("affinity bonus", Categories.BALANCE.getName(), 0.2F, 0.0F, 1.0F,
                 "The potency of spells is increased/decreased proportionality if the spell's element matches the player's element/opposite element");
         levelLossOnAffinityChange = config.getInt("level loss on affinity change", Categories.BALANCE.getName(), 1, 0, 10,

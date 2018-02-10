@@ -103,7 +103,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
                 this.setPlayerAdeptness(element, Constants.MAX_LEVEL);
                 return;
             }
-            this.addExperienceRecursive(element, amount*ConfigurationHandler.getInstance().experienceMultiplier);
+            this.addExperienceRecursive(element, amount*ConfigurationHandler.getInstance().expMultiplier);
         }
     }
 
