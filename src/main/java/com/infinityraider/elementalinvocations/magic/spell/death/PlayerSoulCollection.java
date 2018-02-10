@@ -12,20 +12,14 @@ import java.util.*;
 
 public class PlayerSoulCollection implements ISoulCollection, ISerializable {
     /* player instance */
-    private EntityPlayer player;
+    private final EntityPlayer player;
 
     /* number of souls */
     private final Deque<ISoul> souls;
 
-    public PlayerSoulCollection() {
+    public PlayerSoulCollection(EntityPlayer player) {
+        this.player = player;
         this.souls = new ArrayDeque<>();
-    }
-
-    public PlayerSoulCollection setPlayer(EntityPlayer player) {
-        if(this.player == null) {
-            this.player = player;
-        }
-        return this;
     }
 
     @Override

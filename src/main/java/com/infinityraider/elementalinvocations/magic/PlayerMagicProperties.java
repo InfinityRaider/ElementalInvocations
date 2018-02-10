@@ -17,7 +17,7 @@ import java.util.*;
 
 public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializable {
     /* player instance */
-    private EntityPlayer player;
+    private final EntityPlayer player;
     /* Charge configuration */
     private final IChargeConfiguration chargeConfiguration;
 
@@ -35,18 +35,14 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
     /** Flag to check if the server needs to sync to the clients */
     private boolean needsSync;
 
-    public PlayerMagicProperties() {
+    public PlayerMagicProperties(EntityPlayer player) {
+        this.player = player;
         this.levels = new HashMap<>();
         this.experience = new HashMap<>();
         this.reqExp = new HashMap<>();
         this.chargeConfiguration = new MagicChargeConfiguration(this);
         this.reset();
         this.needsSync = false;
-    }
-
-    public PlayerMagicProperties setPlayer(EntityPlayer player) {
-        this.player = player;
-        return this;
     }
 
     @Override

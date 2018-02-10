@@ -60,7 +60,7 @@ public class SpellCastingHandler {
             activeChanneledEffects.remove(player.getUniqueID());
         }
     }
-    
+
     public void onPlayerTick(EntityPlayer player) {
         if (activeChanneledEffects.containsKey(player.getUniqueID())) {
             List<ChannelProgress> list = activeChanneledEffects.get(player.getUniqueID());

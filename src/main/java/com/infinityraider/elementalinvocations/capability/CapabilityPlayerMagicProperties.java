@@ -34,8 +34,8 @@ public class CapabilityPlayerMagicProperties implements ICapabilityImplementatio
     }
 
     @Override
-    public PlayerMagicProperties onValueAddedToCarrier(PlayerMagicProperties value, EntityPlayer carrier) {
-        return value.setPlayer(carrier);
+    public PlayerMagicProperties createNewValue(EntityPlayer carrier) {
+        return new PlayerMagicProperties(carrier);
     }
 
     @Override
@@ -51,11 +51,6 @@ public class CapabilityPlayerMagicProperties implements ICapabilityImplementatio
     @Override
     public Class<PlayerMagicProperties> getCapabilityClass() {
         return PlayerMagicProperties.class;
-    }
-
-    @Override
-    public PlayerMagicProperties call() {
-        return new PlayerMagicProperties();
     }
 
     public static IPlayerMagicProperties getMagicProperties(EntityPlayer player) {

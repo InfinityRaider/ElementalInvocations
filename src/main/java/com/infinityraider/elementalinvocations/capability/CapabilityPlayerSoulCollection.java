@@ -34,8 +34,8 @@ public class CapabilityPlayerSoulCollection implements ICapabilityImplementation
     }
 
     @Override
-    public PlayerSoulCollection onValueAddedToCarrier(PlayerSoulCollection value, EntityPlayer carrier) {
-        return value.setPlayer(carrier);
+    public PlayerSoulCollection createNewValue(EntityPlayer carrier) {
+        return new PlayerSoulCollection(carrier);
     }
 
     @Override
@@ -51,11 +51,6 @@ public class CapabilityPlayerSoulCollection implements ICapabilityImplementation
     @Override
     public Class<PlayerSoulCollection> getCapabilityClass() {
         return PlayerSoulCollection.class;
-    }
-
-    @Override
-    public PlayerSoulCollection call() {
-        return new PlayerSoulCollection();
     }
 
     public static ISoulCollection getSoulCollection(EntityPlayer player) {
