@@ -1,11 +1,10 @@
 package com.infinityraider.elementalinvocations.entity;
 
 import com.infinityraider.elementalinvocations.api.Element;
-import com.infinityraider.elementalinvocations.handler.DamageHandler;
+import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityWaveForm;
 import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
-import com.infinityraider.infinitylib.utility.DamageDealer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,7 +20,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityWaveForm extends EntityThrowableMagic {
-    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.WATER);
     private static final AxisAlignedBB BOX = new AxisAlignedBB(-0.5F, -0.5F, -0.5F, 1.5F, 1.5F, 1.5F);
 
     private int potencyWater;
@@ -76,7 +74,7 @@ public class EntityWaveForm extends EntityThrowableMagic {
         if(result.entityHit != null && result.entityHit != this.getThrower()) {
             if(result.entityHit instanceof EntityLivingBase) {
                 EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                DMG.apply(entity, this, ((float) this.potencyWater)/2.5F);
+                MagicDamageHandler.getInstance().dealDamage(entity, ((float) this.potencyWater)/2.5F, this, Element.WATER, this.potencyWater, this.getDirection());
             }
         }
         BlockPos pos = result.getBlockPos();

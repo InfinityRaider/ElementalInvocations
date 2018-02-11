@@ -2,7 +2,7 @@ package com.infinityraider.elementalinvocations.magic.spell.fire;
 
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
-import com.infinityraider.elementalinvocations.handler.DamageHandler;
+import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.magic.spell.SpellEffectBeamAbstract;
 import com.infinityraider.infinitylib.utility.DamageDealer;
 import net.minecraft.block.state.IBlockState;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class EffectFireBeam extends SpellEffectBeamAbstract {
-    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.FIRE);
+    private static final DamageDealer DMG = MagicDamageHandler.getInstance().getDamageDealer(Element.FIRE);
 
     private Map<UUID, MutableTriple<BlockPos, MeltableBlockState, Integer>> meltProgress = new HashMap<>();
 

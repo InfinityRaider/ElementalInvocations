@@ -1,13 +1,13 @@
 package com.infinityraider.elementalinvocations.entity;
 
+import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
+import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.magic.PotencyMap;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityMagicProjectile;
-import com.infinityraider.elementalinvocations.magic.generic.MagicEffect;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -51,8 +51,13 @@ public class EntityMagicProjectile extends EntityThrowableMagic {
     @Override
     protected void onImpact(RayTraceResult result) {
         if(!worldObj.isRemote) {
-            if(result.entityHit != null && (result.entityHit instanceof EntityLivingBase)) {
-                new MagicEffect(getThrower(), (EntityLivingBase) result.entityHit, getDirection(), potencies).apply();
+            if(result.entityHit != null) {
+                for(Element element : Element.values()) {
+                    int potency = this.potencies.getPotency(element);
+                    if(potency > 0) {
+                        MagicDamageHandler.getInstance().dealDamage(result.entityHit, potency, this, element, potency, this.getDirection());
+                    }
+                }
             }
         }
         this.setDead();

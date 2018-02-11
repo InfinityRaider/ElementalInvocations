@@ -1,11 +1,10 @@
 package com.infinityraider.elementalinvocations.entity;
 
 import com.infinityraider.elementalinvocations.api.Element;
-import com.infinityraider.elementalinvocations.handler.DamageHandler;
+import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.magic.spell.earth.EffectMagnetize;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityMagnetizedRock;
-import com.infinityraider.infinitylib.utility.DamageDealer;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.Render;
@@ -39,8 +38,6 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
 
     private static final DataParameter<EnumStage> DATA_STAGE = EntityDataManager.createKey(EntityMagnetizedRock.class, EnumStage.dataSerializer);
     private static final DataParameter<Integer> DATA_HITS = EntityDataManager.createKey(EntityMagnetizedRock.class, DataSerializers.VARINT);
-
-    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.EARTH);
 
     private EffectMagnetize effect;
     private IBlockState block;
@@ -279,7 +276,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
             } else if(result.entityHit instanceof EntityLivingBase) {
                 if(!this.getEntityWorld().isRemote && result.entityHit != this.getThrower()) {
                     EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                    DMG.apply(entity, this, this.getPotency()*2);
+                    MagicDamageHandler.getInstance().dealDamage(entity, this.getPotency()*2, this, Element.EARTH, this.getPotency(), this.getDirection());
                 }
                 shouldStop = true;
             }

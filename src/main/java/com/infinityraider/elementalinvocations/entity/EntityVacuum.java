@@ -1,11 +1,10 @@
 package com.infinityraider.elementalinvocations.entity;
 
 import com.infinityraider.elementalinvocations.api.Element;
-import com.infinityraider.elementalinvocations.handler.DamageHandler;
+import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityVacuum;
 import com.infinityraider.elementalinvocations.utility.AreaHelper;
-import com.infinityraider.infinitylib.utility.DamageDealer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
-    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.DEATH);
     private static final int TIME = 5;
 
     private int potencyAir;
@@ -78,7 +76,7 @@ public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
     @Override
     public void setDead() {
         this.entities.stream().filter(entity -> entity instanceof EntityLivingBase).forEach(entity ->
-                DMG.apply((EntityLivingBase) entity, this, this.getPotencyDeath())
+                MagicDamageHandler.getInstance().dealDamage(entity, this.getPotencyDeath(), Element.DEATH, this.getPotencyDeath())
         );
         super.setDead();
     }

@@ -1,11 +1,10 @@
 package com.infinityraider.elementalinvocations.entity;
 
 import com.infinityraider.elementalinvocations.api.Element;
-import com.infinityraider.elementalinvocations.handler.DamageHandler;
+import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityBallLightning;
 import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
-import com.infinityraider.infinitylib.utility.DamageDealer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -22,7 +21,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityBallLightning extends EntityThrowableMagic {
     private static final AxisAlignedBB BOX = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
-    private static final DamageDealer DMG = DamageHandler.getInstance().getDamageDealer(Element.AIR);
 
     private int potencyAir;
     private int potencyWater;
@@ -47,7 +45,7 @@ public class EntityBallLightning extends EntityThrowableMagic {
         if(result.entityHit != null && result.entityHit != this.getThrower()) {
             if(result.entityHit instanceof EntityLivingBase) {
                 EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                DMG.apply(entity, this, this.potencyAir);
+                MagicDamageHandler.getInstance().dealDamage(entity, this.potencyAir, this, Element.AIR, this.potencyAir, this.getDirection());
             }
         }
         BlockPos pos = result.getBlockPos();

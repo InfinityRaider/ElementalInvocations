@@ -5,7 +5,6 @@ import com.infinityraider.elementalinvocations.api.*;
 import com.infinityraider.elementalinvocations.api.spells.ISpell;
 import com.infinityraider.elementalinvocations.entity.EntityMagicProjectile;
 import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
-import com.infinityraider.elementalinvocations.magic.generic.MagicEffect;
 import com.infinityraider.elementalinvocations.magic.spell.SpellRegistry;
 import com.infinityraider.elementalinvocations.network.MessageAddCharge;
 import com.infinityraider.elementalinvocations.network.MessageChargeAction;
@@ -106,7 +105,13 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
     public void fizzle() {
         if(!this.getPlayer().getEntityWorld().isRemote) {
             Vec3d vec3d = this.getPlayer().getLookVec();
-            new MagicEffect(this.getPlayer(), this.getPlayer(), new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord), this.getPotencyMap()).apply();
+            Vec3d dir = new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord);
+            for(Element element : Element.values()) {
+                int potency = this.getPotencyMap().getPotency(element);
+                if(potency > 0) {
+                    MagicDamageHandler.getInstance().dealDamage(this.getPlayer(), potency, this.getPlayer(), element, potency, dir);
+                }
+            }
             new MessageChargeAction(this.getPlayer(), EnumMagicChargeAction.FIZZLE).sendToAll();
         }
         this.effectTimers.add(MagicEffectTimer.Fizzle(this));
