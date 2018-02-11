@@ -9,6 +9,7 @@ import com.infinityraider.elementalinvocations.api.spells.ISpellBuilder;
 import com.infinityraider.elementalinvocations.api.spells.ISpellRegistry;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.magic.spell.SpellBuilder;
 import com.infinityraider.elementalinvocations.magic.spell.SpellRegistry;
@@ -18,6 +19,7 @@ import com.infinityraider.elementalinvocations.registry.BlockRegistry;
 import com.infinityraider.elementalinvocations.registry.EntityRegistry;
 import com.infinityraider.elementalinvocations.registry.ItemRegistry;
 import com.infinityraider.infinitylib.InfinityMod;
+import com.infinityraider.infinitylib.config.IModConfiguration;
 import com.infinityraider.infinitylib.network.INetworkWrapper;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import net.minecraftforge.common.capabilities.Capability;
@@ -31,6 +33,7 @@ import java.lang.reflect.Modifier;
         modid = Reference.MOD_ID,
         name = Reference.MOD_NAME,
         version = Reference.MOD_VERSION,
+        guiFactory = Reference.GUI_FACTORY_CLASS,
         dependencies = "required-after:infinitylib"
 )
 public class ElementalInvocations extends InfinityMod implements IElementalInvocationsAPI {
@@ -49,6 +52,11 @@ public class ElementalInvocations extends InfinityMod implements IElementalInvoc
     @Override
     public String getModId() {
         return Reference.MOD_ID;
+    }
+
+    @Override
+    public IModConfiguration getConfiguration() {
+        return ModConfiguration.getInstance();
     }
 
     @Override

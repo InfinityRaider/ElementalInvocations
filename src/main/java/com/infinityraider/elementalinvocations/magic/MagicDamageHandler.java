@@ -7,7 +7,7 @@ import com.infinityraider.elementalinvocations.api.IMagicDamageHandler;
 import com.infinityraider.elementalinvocations.api.souls.ISoul;
 import com.infinityraider.elementalinvocations.api.souls.ISoulCollection;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
-import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.magic.spell.death.BasicSoul;
 import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.registry.PotionRegistry;
@@ -202,7 +202,7 @@ public class MagicDamageHandler implements IMagicDamageHandler {
 
     private static class DamageDealerElemental extends DamageDealer {
         public DamageDealerElemental(Element element) {
-            super("dmg.ei." + element.name().toLowerCase(), ConfigurationHandler.getInstance().damageMultiplier);
+            super("dmg.ei." + element.name().toLowerCase(), ModConfiguration.getInstance().getDamageMultiplier());
             this.setMagicDamage(true);
         }
 

@@ -2,6 +2,7 @@ package com.infinityraider.elementalinvocations.handler;
 
 import com.google.common.collect.ImmutableList;
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.registry.ItemRegistry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
@@ -58,7 +59,7 @@ public class LootHandler {
         for(int i = 0; i < LOOT_TABLES.length; i++) {
             List<LootPool> list = new ArrayList<>();
             for(Element element : Element.values()) {
-                Tuple<Float, Integer> data = ConfigurationHandler.getInstance().getElementChargeLootProperties(element, LOOT_TABLE_NAMES[i], shouldGenerate(element, LOOT_TABLES[i]));
+                Tuple<Float, Integer> data = ModConfiguration.getInstance().getElementChargeLootProperties(element, LOOT_TABLE_NAMES[i], shouldGenerate(element, LOOT_TABLES[i]));
                 if(data.getFirst() <= 0) {
                     continue;
                 }

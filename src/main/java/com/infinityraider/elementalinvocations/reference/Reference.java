@@ -22,6 +22,6 @@ public interface Reference {
 	
 	String CLIENT_PROXY_CLASS = "com.infinityraider.elementalinvocations.proxy.ClientProxy";
     String SERVER_PROXY_CLASS = "com.infinityraider.elementalinvocations.proxy.ServerProxy";
-    String GUI_FACTORY_CLASS = "com.infinityraider.elementalinvocations.gui.GuiFactory";
+    String GUI_FACTORY_CLASS = "com.infinityraider.elementalinvocations.config.ModConfigGuiFactory";
 
 }

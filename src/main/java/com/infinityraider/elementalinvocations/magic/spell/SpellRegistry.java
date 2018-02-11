@@ -3,7 +3,7 @@
 package com.infinityraider.elementalinvocations.magic.spell;
 
 import com.infinityraider.elementalinvocations.api.spells.ISpell;
-import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.api.spells.ISpellRegistry;
 import com.infinityraider.elementalinvocations.api.Element;
 
@@ -29,7 +29,7 @@ public final class SpellRegistry implements ISpellRegistry {
 	
 	@Override
 	public boolean addSpell(ISpell spell) {
-        return (!ConfigurationHandler.getInstance().isSpellDisabled(spell)) && spells.add(spell);
+        return (!ModConfiguration.getInstance().isSpellDisabled(spell)) && spells.add(spell);
     }
 	
 	@Override

@@ -1,6 +1,6 @@
 package com.infinityraider.elementalinvocations.render;
 
-import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -16,7 +16,7 @@ public class RenderUtil {
      */
     @SuppressWarnings("unused")
     public void renderCoordinateSystemDebug() {
-        if(ConfigurationHandler.getInstance().debug) {
+        if(ModConfiguration.getInstance().debug()) {
             Tessellator tessellator = Tessellator.getInstance();
             VertexBuffer buffer = tessellator.getBuffer();
 

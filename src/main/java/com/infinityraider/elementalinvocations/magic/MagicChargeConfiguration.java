@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.infinityraider.elementalinvocations.api.*;
 import com.infinityraider.elementalinvocations.api.spells.ISpell;
 import com.infinityraider.elementalinvocations.entity.EntityMagicProjectile;
-import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.magic.spell.SpellRegistry;
 import com.infinityraider.elementalinvocations.network.MessageAddCharge;
 import com.infinityraider.elementalinvocations.network.MessageChargeAction;
@@ -255,7 +255,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
             this.limA = this.limA + (this.limA < 0 ? 2*Math.PI : 0);
             this.limR = Math.sqrt(this.limX*this.limX + this.limY*this.limY);
             //determine fizzle chance
-            this.pFizzle = instR > limR ? 1 - Math.exp((limR - instR)/ConfigurationHandler.getInstance().fizzleConstant) : 0;
+            this.pFizzle = instR > limR ? 1 - Math.exp((limR - instR)/ ModConfiguration.getInstance().getFizzleConstant()) : 0;
         }
     }
 
@@ -269,9 +269,9 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
 
     private void addExperienceOnCast(boolean invoke) {
         if(this.instR > this.limR) {
-            double amount = Constants.EXP_BASE*Constants.EXP_BASE*(1-Math.exp((limR - instR)/ConfigurationHandler.getInstance().expConstant));
+            double amount = Constants.EXP_BASE*Constants.EXP_BASE*(1-Math.exp((limR - instR)/ ModConfiguration.getInstance().getExpConstant()));
             if(invoke) {
-                amount = amount * ConfigurationHandler.getInstance().expComboMultiplier;
+                amount = amount * ModConfiguration.getInstance().getExpComboMultiplier();
             }
             Pair<Element, Element> elements = Element.getElementsForAngle(this.instA);
             double angle1 = elements.getKey().getPolarAngle();

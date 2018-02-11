@@ -1,6 +1,6 @@
 package com.infinityraider.elementalinvocations.registry;
 
-import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.potion.PotionLivingArmor;
 import com.infinityraider.elementalinvocations.potion.PotionConfusion;
 import com.infinityraider.elementalinvocations.potion.PotionFrostArmor;
@@ -35,7 +35,7 @@ public class PotionRegistry {
 
     private Potion registerPotion(Potion potion) {
         String name = potion.getName();
-        int id = ConfigurationHandler.getInstance().getPotionEffectId(name, getNextId());
+        int id = ModConfiguration.getInstance().getPotionEffectId(name, getNextId());
         this.potionRegistry.register(id, new ResourceLocation(Reference.MOD_ID, name), potion);
         return potion;
     }

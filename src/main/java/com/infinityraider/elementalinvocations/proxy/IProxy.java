@@ -30,12 +30,6 @@ public interface IProxy extends IProxyBase {
         this.registerEventHandler(LootHandler.getInstance());
     }
 
-
-    @Override
-    default void initConfiguration(FMLPreInitializationEvent event) {
-        ConfigurationHandler.getInstance().init(event);
-    }
-
     @Override
     default void activateRequiredModules() {
         ModuleDualWield.getInstance().activate();

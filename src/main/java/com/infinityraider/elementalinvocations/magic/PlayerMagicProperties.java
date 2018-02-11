@@ -1,7 +1,7 @@
 package com.infinityraider.elementalinvocations.magic;
 
 import com.infinityraider.elementalinvocations.api.IChargeConfiguration;
-import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.infinitylib.utility.ISerializable;
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.api.Element;
@@ -98,7 +98,7 @@ public class PlayerMagicProperties implements IPlayerMagicProperties, ISerializa
                 this.setPlayerAdeptness(element, Constants.MAX_LEVEL);
                 return;
             }
-            this.addExperienceRecursive(element, amount*ConfigurationHandler.getInstance().expMultiplier);
+            this.addExperienceRecursive(element, amount* ModConfiguration.getInstance().getExpMultiplier());
         }
     }
 

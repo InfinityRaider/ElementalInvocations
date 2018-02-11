@@ -2,7 +2,7 @@ package com.infinityraider.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
-import com.infinityraider.elementalinvocations.handler.ConfigurationHandler;
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.magic.ElementalCore;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import com.infinityraider.infinitylib.utility.IRecipeRegister;
@@ -66,8 +66,8 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
                     if(orb == current.getOpposite() && !world.isRemote) {
                         player.attackEntityFrom(new DamageSourceChangeAffinity(), properties.getPlayerAdeptness(orb) * player.getMaxHealth() / Constants.MAX_LEVEL);
                     }
-                    int lvlNew = properties.getPlayerAdeptness(orb) - ConfigurationHandler.getInstance().levelLossOnAffinityChange;
-                    int lvlOld = properties.getPlayerAdeptness(current) - ConfigurationHandler.getInstance().levelLossOnAffinityChange;
+                    int lvlNew = properties.getPlayerAdeptness(orb) - ModConfiguration.getInstance().getLevelLossOnAffinityChange();
+                    int lvlOld = properties.getPlayerAdeptness(current) - ModConfiguration.getInstance().getLevelLossOnAffinityChange();
                     properties.reset();
                     properties.setPlayerAffinity(orb);
                     properties.setPlayerAdeptness(orb, lvlNew);
@@ -150,7 +150,7 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
     }
 
     public List<IRecipe> getRecipes() {
-        if(ConfigurationHandler.getInstance().orbRecipes) {
+        if(ModConfiguration.getInstance().enableOrbRecipes()) {
             return ImmutableList.of(
                     //fire
                     new ShapedOreRecipe(new ItemStack(this, 1, 0),
