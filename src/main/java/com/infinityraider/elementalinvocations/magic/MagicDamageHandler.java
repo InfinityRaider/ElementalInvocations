@@ -169,7 +169,7 @@ public class MagicDamageHandler {
             Vec3d dir = damage.getDirection();
             if(dir != null && target instanceof EntityLivingBase && damage instanceof DamageSourceElemental) {
                 int potency = ((DamageSourceElemental) damage).getPotency();
-                ((EntityLivingBase) target).knockBack(damage.getEntity(), ((float) potency) / 3,dir.xCoord, dir.zCoord);
+                ((EntityLivingBase) target).knockBack(damage.getEntity(), ((float) potency)/Constants.CORE_TIERS, -dir.xCoord, -dir.zCoord);
             }
         });
         return dmg;
