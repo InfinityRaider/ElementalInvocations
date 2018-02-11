@@ -77,7 +77,7 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
                 new MessageRenderSunstrike(this).sendToAll();
                 AxisAlignedBB area = AreaHelper.getArea(this.getPositionVector(), Math.max(1, getPotencyAir() / 3));
                 List<EntityLivingBase> entities = getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, area);
-                entities.forEach(e -> DMG.applyDamage(e, this, getPotencyFire() * 2));
+                entities.forEach(e -> DMG.apply(e, this, getPotencyFire() * 2));
             }
             if (timer <= -10) {
                 this.setDead();

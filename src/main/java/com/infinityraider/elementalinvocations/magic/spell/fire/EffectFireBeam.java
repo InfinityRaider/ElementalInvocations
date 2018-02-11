@@ -1,6 +1,5 @@
 package com.infinityraider.elementalinvocations.magic.spell.fire;
 
-import akka.japi.pf.FI;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.handler.DamageHandler;
@@ -35,7 +34,7 @@ public class EffectFireBeam extends SpellEffectBeamAbstract {
                 if (potency >= 5 || channelTick % (6 - potency) == 0) {
                     int hurtResistTime = target.entityHit.hurtResistantTime;
                     target.entityHit.hurtResistantTime = 0;
-                    DMG.applyDamage(target.entityHit, caster, 2);
+                    DMG.apply(target.entityHit, caster, 2);
                     target.entityHit.hurtResistantTime = hurtResistTime;
                 }
                 if (target.entityHit instanceof EntityLivingBase && !target.entityHit.isBurning()) {

@@ -279,7 +279,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
             } else if(result.entityHit instanceof EntityLivingBase) {
                 if(!this.getEntityWorld().isRemote && result.entityHit != this.getThrower()) {
                     EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                    DMG.applyDamage(entity, this, this.getPotency()*2);
+                    DMG.apply(entity, this, this.getPotency()*2);
                 }
                 shouldStop = true;
             }

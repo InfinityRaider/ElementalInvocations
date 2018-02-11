@@ -44,7 +44,7 @@ public class MagicEffect {
                 //apply secondary effect before applying damage
                 secondary.applyEffectPre(this, caster, target, potency, applySecondary);
                 //apply damage
-                DamageHandler.getInstance().getDamageDealer(element).applyDamage(target, caster, potency);
+                DamageHandler.getInstance().getDamageDealer(element).apply(target, caster, potency);
                 //apply secondary effect after applying damage
                 secondary.applyEffectPost(this, caster, target, potency, applySecondary);
             }

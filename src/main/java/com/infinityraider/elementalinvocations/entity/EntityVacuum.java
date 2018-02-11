@@ -78,7 +78,7 @@ public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
     @Override
     public void setDead() {
         this.entities.stream().filter(entity -> entity instanceof EntityLivingBase).forEach(entity ->
-                DMG.applyDamage((EntityLivingBase) entity, this, this.getPotencyDeath())
+                DMG.apply((EntityLivingBase) entity, this, this.getPotencyDeath())
         );
         super.setDead();
     }

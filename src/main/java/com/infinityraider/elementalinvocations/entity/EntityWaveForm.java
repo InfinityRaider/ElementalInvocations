@@ -76,7 +76,7 @@ public class EntityWaveForm extends EntityThrowableMagic {
         if(result.entityHit != null && result.entityHit != this.getThrower()) {
             if(result.entityHit instanceof EntityLivingBase) {
                 EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                DMG.applyDamage(entity, this, ((float) this.potencyWater)/2.5F);
+                DMG.apply(entity, this, ((float) this.potencyWater)/2.5F);
             }
         }
         BlockPos pos = result.getBlockPos();

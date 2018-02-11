@@ -80,7 +80,7 @@ public class EntityMeteor extends EntityThrowableMagic {
         }
         AxisAlignedBB area = AreaHelper.getArea(result.hitVec, 3 + getPotencyEarth() /3);
         List<EntityLivingBase> entities = getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, area);
-        entities.forEach(e -> DMG.applyDamage(e, this, 2 * getPotencyFire()));
+        entities.forEach(e -> DMG.apply(e, this, 2 * getPotencyFire()));
         this.setDead();
     }
 

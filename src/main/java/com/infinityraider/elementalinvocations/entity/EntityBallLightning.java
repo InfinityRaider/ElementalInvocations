@@ -47,7 +47,7 @@ public class EntityBallLightning extends EntityThrowableMagic {
         if(result.entityHit != null && result.entityHit != this.getThrower()) {
             if(result.entityHit instanceof EntityLivingBase) {
                 EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                DMG.applyDamage(entity, this, this.potencyAir);
+                DMG.apply(entity, this, this.potencyAir);
             }
         }
         BlockPos pos = result.getBlockPos();
