@@ -8,6 +8,7 @@ import com.infinityraider.elementalinvocations.magic.spell.death.EffectConsumeSo
 import com.infinityraider.elementalinvocations.magic.spell.death.EffectNecromancy;
 import com.infinityraider.elementalinvocations.magic.spell.death.EffectReplicate;
 import com.infinityraider.elementalinvocations.magic.spell.earth.EffectLivingArmor;
+import com.infinityraider.elementalinvocations.magic.spell.earth.EffectSolidAir;
 import com.infinityraider.elementalinvocations.magic.spell.fire.*;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectBallLightning;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectFrostArmor;
@@ -83,6 +84,12 @@ public class SpellInitializer {
                 .setSpellElements(Element.EARTH, Element.EARTH, Element.EARTH, Element.LIFE, Element.LIFE)
                 .setSpellEffects(new EffectLivingArmor())
                 .createSpell("living_armor", 0));
+
+        SpellRegistry.getInstance().addSpell(new SpellBuilder()
+                .setSpellDescription("Solid Air", "Mr. Mime could learn a thing or two from this")
+                .setSpellElements(Element.EARTH, Element.EARTH, Element.EARTH, Element.AIR, Element.AIR)
+                .setSpellEffects(new EffectSolidAir())
+                .createSpell("solid_air", 0));
 
 
         //Death spells

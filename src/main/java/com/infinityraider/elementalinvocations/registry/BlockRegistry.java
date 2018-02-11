@@ -1,5 +1,8 @@
 package com.infinityraider.elementalinvocations.registry;
 
+import com.infinityraider.elementalinvocations.block.BlockSolidAir;
+import net.minecraft.block.Block;
+
 public class BlockRegistry {
     private static final BlockRegistry INSTANCE = new BlockRegistry();
 
@@ -7,7 +10,9 @@ public class BlockRegistry {
         return INSTANCE;
     }
 
-    private BlockRegistry() {
+    public final Block blockSolidAir;
 
+    private BlockRegistry() {
+        this.blockSolidAir = new BlockSolidAir();
     }
 }
