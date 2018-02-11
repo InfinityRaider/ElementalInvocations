@@ -3,6 +3,7 @@ package com.infinityraider.elementalinvocations.magic;
 
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.api.Element;
+import com.infinityraider.elementalinvocations.api.IMagicDamageHandler;
 import com.infinityraider.elementalinvocations.api.souls.ISoul;
 import com.infinityraider.elementalinvocations.api.souls.ISoulCollection;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
@@ -22,7 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MagicDamageHandler {
+public class MagicDamageHandler implements IMagicDamageHandler {
     private static final MagicDamageHandler INSTANCE = new MagicDamageHandler();
 
     public static MagicDamageHandler getInstance() {
@@ -42,14 +43,17 @@ public class MagicDamageHandler {
         return this.damageDealers.get(element);
     }
 
+    @Override
     public void dealDamage(Entity target, float amount, Element element, int potency) {
         this.getDamageDealer(element).apply(target, amount, potency);
     }
 
+    @Override
     public void dealDamage(Entity target, float amount, Element element, int potency, Vec3d dir) {
         this.getDamageDealer(element).apply(target, amount, dir, potency);
     }
 
+    @Override
     public void dealDamage(Entity target, float amount, Entity source, Element element, int potency) {
         Entity cause;
         if(source instanceof EntityThrowable) {
@@ -60,6 +64,7 @@ public class MagicDamageHandler {
         this.dealDamage(target, amount, source, cause, element, potency);
     }
 
+    @Override
     public void dealDamage(Entity target, float amount, Entity source, Element element, int potency, Vec3d dir) {
         Entity cause;
         if(source instanceof EntityThrowable) {
@@ -70,10 +75,12 @@ public class MagicDamageHandler {
         this.dealDamage(target, amount, source, cause, element, potency, dir);
     }
 
+    @Override
     public void dealDamage(Entity target, float amount, Entity source, Entity cause, Element element, int potency) {
         this.getDamageDealer(element).apply(target, source, cause, amount, potency);
     }
 
+    @Override
     public void dealDamage(Entity target, float amount, Entity source, Entity cause, Element element, int potency, Vec3d dir) {
         this.getDamageDealer(element).apply(target, source, cause, amount, dir, potency);
     }
