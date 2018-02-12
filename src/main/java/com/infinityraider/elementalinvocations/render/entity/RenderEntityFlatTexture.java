@@ -1,9 +1,9 @@
 package com.infinityraider.elementalinvocations.render.entity;
 
+import com.infinityraider.infinitylib.render.tessellation.ITessellator;
+import com.infinityraider.infinitylib.render.tessellation.TessellatorVertexBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.relauncher.Side;
@@ -18,9 +18,7 @@ public abstract class RenderEntityFlatTexture<E extends Entity> extends RenderEn
 
     @Override
     public void doRender(E e, double x, double y, double z, float entityYaw, float partialTicks) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(getEntityTexture(e));
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        ITessellator tessellator = TessellatorVertexBuffer.getInstance();
 
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();
@@ -42,7 +40,8 @@ public abstract class RenderEntityFlatTexture<E extends Entity> extends RenderEn
             GlStateManager.enableOutlineMode(this.getTeamColor(e));
         }
 
-        this.renderTexture(e, buffer, tessellator);
+        tessellator.bindTexture(this.getEntityTexture(e));
+        this.renderTexture(e, tessellator);
 
         if (this.renderOutlines) {
             GlStateManager.disableOutlineMode();
@@ -53,7 +52,7 @@ public abstract class RenderEntityFlatTexture<E extends Entity> extends RenderEn
         GlStateManager.popMatrix();
     }
 
-    protected abstract void renderTexture(E entity, VertexBuffer buffer, Tessellator tessellator);
+    protected abstract void renderTexture(E entity, ITessellator tessellator);
 
     protected boolean rotateY() {
         return true;

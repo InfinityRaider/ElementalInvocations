@@ -2,10 +2,8 @@ package com.infinityraider.elementalinvocations.render.entity;
 
 import com.infinityraider.elementalinvocations.entity.EntitySunstrike;
 import com.infinityraider.elementalinvocations.reference.Reference;
-import com.infinityraider.infinitylib.render.tessellation.TessellatorVertexBuffer;
+import com.infinityraider.infinitylib.render.tessellation.ITessellator;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -21,21 +19,17 @@ public class RenderEntitySunstrike extends RenderEntityFlatTexture<EntitySunstri
     }
 
     @Override
-    protected void renderTexture(EntitySunstrike entity, VertexBuffer buffer, Tessellator tessellator) {
+    protected void renderTexture(EntitySunstrike entity, ITessellator tessellator) {
         if(entity.shouldRender()) {
-
-            TessellatorVertexBuffer tess = TessellatorVertexBuffer.getInstance(tessellator);
-
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.disableLighting();
             GlStateManager.color(255, 255, 255, 127);
 
-            tess.startDrawingQuads(DefaultVertexFormats.POSITION_TEX_COLOR);
-            tess.bindTexture(this.getEntityTexture(entity));
-            tess.setColorRGBA(1, 1, 1, 0.5F);
-            tess.drawScaledCylinder(0, 0, 0, 24, 500, 16);
-            tess.draw();
+            tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX_COLOR);
+            tessellator.setColorRGBA(1, 1, 1, 0.5F);
+            tessellator.drawScaledCylinder(0, 0, 0, 24, 500, 16);
+            tessellator.draw();
         }
     }
 

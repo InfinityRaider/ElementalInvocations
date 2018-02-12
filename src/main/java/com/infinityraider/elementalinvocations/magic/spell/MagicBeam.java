@@ -41,8 +41,8 @@ public class MagicBeam {
         this.getPlayer().ignoreFrustumCheck = this.frustrumIgnore;
     }
 
-    public double getThickness() {
-        return ((double) this.potencies.getTotalPotency())/ ( 16.0 * Element.values().length);
+    public float getThickness() {
+        return ((float) this.potencies.getTotalPotency())/ ( 16.0F * Element.values().length);
     }
 
     public float getRed() {

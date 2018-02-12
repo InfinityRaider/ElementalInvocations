@@ -2,16 +2,13 @@ package com.infinityraider.elementalinvocations.render.entity;
 
 import com.infinityraider.elementalinvocations.entity.EntityMagicProjectile;
 import com.infinityraider.elementalinvocations.reference.Reference;
-import com.infinityraider.infinitylib.reference.Constants;
+import com.infinityraider.infinitylib.render.tessellation.ITessellator;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderEntityMagicProjectile extends RenderEntityFlatTexture<EntityMagicProjectile> {
@@ -30,20 +27,20 @@ public class RenderEntityMagicProjectile extends RenderEntityFlatTexture<EntityM
     }
 
     @Override
-    protected void renderTexture(EntityMagicProjectile e, VertexBuffer buffer, Tessellator tessellator) {
-        float u = Constants.UNIT;
+    protected void renderTexture(EntityMagicProjectile e, ITessellator tessellator) {
+        GlStateManager.color(e.getRed(), e.getGreen(), e.getBlue(), 0.5F);
 
-        GlStateManager.color(e.getRed(), e.getGreen(), e.getBlue(), 127);
+        float minV = 16*(getFrame()) * (1.0F/FRAMES);
+        float maxV = 16*(getFrame() + 1) * (1.0F/FRAMES);
 
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+        tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX);
 
-        double minV = (getFrame()) * (1.0/FRAMES);
-        double maxV = (getFrame() + 1) * (1.0/FRAMES);
+        tessellator.setColorRGBA(e.getRed(), e.getGreen(), e.getBlue(), 0.5F);
 
-        buffer.pos(-12 * u, 0, 0).tex(1, maxV).color(e.getRed(), e.getGreen(), e.getBlue(), 255).endVertex();
-        buffer.pos(-12 * u, 24 * u, 0).tex(1, minV).color(e.getRed(), e.getGreen(), e.getBlue(), 255).endVertex();
-        buffer.pos(12 * u, 24 * u, 0).tex(0, minV).color(e.getRed(), e.getGreen(), e.getBlue(), 255).endVertex();
-        buffer.pos(12 * u, 0, 0).tex(0, maxV).color(e.getRed(), e.getGreen(), e.getBlue(), 255).endVertex();
+        tessellator.addScaledVertexWithUV(-12, 0, 0, 16, maxV);
+        tessellator.addScaledVertexWithUV(-12, 24, 0, 16, minV);
+        tessellator.addScaledVertexWithUV(12, 24, 0, 0, minV);
+        tessellator.addScaledVertexWithUV(12, 0, 0, 0, maxV);
 
         tessellator.draw();
     }

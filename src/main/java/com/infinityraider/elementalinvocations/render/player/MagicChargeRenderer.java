@@ -4,12 +4,11 @@ import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IMagicCharge;
 import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.reference.Reference;
+import com.infinityraider.infinitylib.render.tessellation.TessellatorVertexBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -39,7 +38,7 @@ public class MagicChargeRenderer {
     private MagicChargeRenderer() {}
 
     public void renderChargesThirdPerson(List<IMagicCharge> charges) {
-        renderCharges(charges, RADIUS, getCurrentAngle(), 1.0);
+        renderCharges(charges, RADIUS, getCurrentAngle(), 1.0F);
     }
 
     public void renderInvokeThirdPerson(List<IMagicCharge> charges, int frame, int total, float partialTick) {
@@ -49,8 +48,8 @@ public class MagicChargeRenderer {
         GlStateManager.pushMatrix();
         double deltaY = (1.0*(frame + partialTick))/total;
         GlStateManager.translate(0, deltaY, 0);
-        double radius = RADIUS*Math.sqrt(2)*((double) total - frame - partialTick);
-        renderCharges(charges, radius, getCurrentAngle(), 1.0);
+        double radius = RADIUS*Math.sqrt(2)*((double) total - frame - partialTick)/total;
+        renderCharges(charges, radius, getCurrentAngle(), 1.0F);
         GlStateManager.popMatrix();
     }
 
@@ -58,7 +57,7 @@ public class MagicChargeRenderer {
         if(frame <= 0) {
             return;
         }
-        double scale = (total - frame - partialTick) / total;
+        float scale = (total - frame - partialTick) / total;
         renderCharges(charges, RADIUS, getCurrentAngle(), scale);
     }
 
@@ -71,7 +70,7 @@ public class MagicChargeRenderer {
         renderCharges(charges, radius, getCurrentAngle(), scale);
     }
 
-    public void renderChargesFirstPerson(List<IMagicCharge> charges, double dX, double dY, double scale, ScaledResolution resolution) {
+    public void renderChargesFirstPerson(List<IMagicCharge> charges, double dX, double dY, float scale, ScaledResolution resolution) {
         if (charges == null || charges.isEmpty()) {
             return;
         }
@@ -92,7 +91,7 @@ public class MagicChargeRenderer {
         int y0 = resolution.getScaledHeight() - 11;
 
         for (IMagicCharge charge : charges) {
-            double f = scale * (0.6 + (0.5 * charge.potency()) / Constants.CORE_TIERS);
+            float f = scale * (0.6F + (0.5F * charge.potency()) / Constants.CORE_TIERS);
             float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
             int x = x0 + index * 18;
             int y = y0 - row * 18;
@@ -136,7 +135,7 @@ public class MagicChargeRenderer {
         double y2 = resolution.getScaledHeight()/2.0;
 
         for (IMagicCharge charge : charges) {
-            double f = (0.6 + (0.5 * charge.potency()) / Constants.CORE_TIERS);
+            float f = (0.6F + (0.5F * charge.potency()) / Constants.CORE_TIERS);
             float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
             //calculate position for a trajectory which is parabolic between the center of the screen and the starting point (top is at 1/3rd of the distance)
             double x1 = x0 + index * 18;
@@ -165,7 +164,7 @@ public class MagicChargeRenderer {
     }
 
     public void renderFadeFirstPerson(List<IMagicCharge> charges, int frame, int total, float partialTick, ScaledResolution resolution) {
-        double scale = (total - frame - partialTick) / total;
+        float scale = (total - frame - partialTick) / total;
         this.renderChargesFirstPerson(charges, 0, 0, scale, resolution);
     }
 
@@ -190,8 +189,8 @@ public class MagicChargeRenderer {
         int y0 = resolution.getScaledHeight() - 11;
 
         for (IMagicCharge charge : charges) {
-            double scale = 0.8*(1 - ((double) frame + partialTick)/total);
-            double f = scale * (0.6 + (0.5 * charge.potency()) / Constants.CORE_TIERS);
+            float scale = 0.8F*(1 - ((float) frame + partialTick)/total);
+            float f = scale * (0.6F + (0.5F * charge.potency()) / Constants.CORE_TIERS);
             float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
             int x = x0 + index * 18;
             int y = y0 - row * 18;
@@ -263,7 +262,7 @@ public class MagicChargeRenderer {
         return 0;
     }
 
-    private void renderCharges(List<IMagicCharge> charges, double radius, double angle, double scale) {
+    private void renderCharges(List<IMagicCharge> charges, double radius, double angle, float scale) {
         if(charges == null ||charges.size() <= 0) {
             return;
         }
@@ -286,10 +285,8 @@ public class MagicChargeRenderer {
         GlStateManager.popMatrix();
     }
 
-    private void renderCharge(IMagicCharge charge, double x, double y, double z, int blurIndex, double scale) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(charge.element()));
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+    private void renderCharge(IMagicCharge charge, double x, double y, double z, int blurIndex, float scale) {
+        TessellatorVertexBuffer tessellator = TessellatorVertexBuffer.getInstance();
 
         GlStateManager.pushMatrix();
 
@@ -305,41 +302,40 @@ public class MagicChargeRenderer {
         GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
         GlStateManager.rotate((invert ? -1 : 1) * renderManager.playerViewX, 1, 0, 0);
 
-        float u = com.infinityraider.infinitylib.reference.Constants.UNIT;
-        double f = scale * 0.375*(1.0 - 0.25*(blurIndex+0.0F)/MAX_BLURS) * (0.6 + (0.5 * charge.potency())/Constants.CORE_TIERS);
+        float f = scale * 0.375F*(1.0F - 0.25F*(blurIndex+0.0F)/MAX_BLURS) * (0.6F + (0.5F * charge.potency())/Constants.CORE_TIERS);
 
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX);
+        tessellator.bindTexture(getTexture(charge.element()));
 
-        buffer.pos(-8 * f * u, 0, 0).tex(1, 1).endVertex();
-        buffer.pos(-8 * f * u, 16 * f * u, 0).tex(1, 0).endVertex();
-        buffer.pos(8 * f * u, 16 * f * u, 0).tex(0, 0).endVertex();
-        buffer.pos(8 * f * u, 0, 0).tex(0, 1).endVertex();
+        tessellator.addScaledVertexWithUV(-8 * f, 0, 0, 16, 16);
+        tessellator.addScaledVertexWithUV(-8 * f, 16 * f, 0, 16, 0);
+        tessellator.addScaledVertexWithUV(8 * f, 16 * f, 0, 0, 0);
+        tessellator.addScaledVertexWithUV(8 * f, 0, 0, 0, 16);
 
         tessellator.draw();
 
         GlStateManager.popMatrix();
     }
 
-    private void renderChargeGUI(IMagicCharge charge, double x, double y, float rotation, double scale) {
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
-        Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(charge.element()));
+    private void renderChargeGUI(IMagicCharge charge, double x, double y, float rotation, float scale) {
+        TessellatorVertexBuffer tessellator = TessellatorVertexBuffer.getInstance();
 
         GlStateManager.pushMatrix();
-
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         GlStateManager.translate(x, y, 0);
         GlStateManager.rotate(rotation, 0, 0, 1);
 
-        double xMin = -8 * scale;
-        double xMax = 8 * scale;
-        double yMin = -8 * scale;
-        double yMax = 8 * scale;
+        tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX);
+        Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(charge.element()));
 
-        buffer.pos(xMin, yMin, 0).tex(0, 0).endVertex();
-        buffer.pos(xMin, yMax, 0).tex(0, 1).endVertex();
-        buffer.pos(xMax, yMax, 0).tex(1, 1).endVertex();
-        buffer.pos(xMax, yMin, 0).tex(1, 0).endVertex();
+        float xMin = -8 * scale;
+        float xMax = 8 * scale;
+        float yMin = -8 * scale;
+        float yMax = 8 * scale;
+
+        tessellator.addVertexWithUV(xMin, yMin, 0, 0, 0);
+        tessellator.addVertexWithUV(xMin, yMax, 0, 0, 1);
+        tessellator.addVertexWithUV(xMax, yMax, 0, 1, 1);
+        tessellator.addVertexWithUV(xMax, yMin, 0, 1, 0);
 
         tessellator.draw();
 

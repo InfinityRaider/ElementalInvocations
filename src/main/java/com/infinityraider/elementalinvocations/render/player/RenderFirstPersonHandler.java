@@ -10,12 +10,11 @@ import com.infinityraider.elementalinvocations.magic.MagicChargeConfiguration;
 import com.infinityraider.elementalinvocations.magic.spell.BeamHandler;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import com.infinityraider.elementalinvocations.utility.debug.DebugModeRenderInstability;
+import com.infinityraider.infinitylib.render.tessellation.TessellatorVertexBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -97,9 +96,7 @@ public class RenderFirstPersonHandler {
     private void renderSouls(ScaledResolution resolution) {
         ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(ElementalInvocations.proxy.getClientPlayer());
         if(collection != null && collection.getSoulCount() > 0) {
-            Minecraft.getMinecraft().renderEngine.bindTexture(SOUL_TEXTURE);
-            Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer buffer = tessellator.getBuffer();
+            TessellatorVertexBuffer tessellator = TessellatorVertexBuffer.getInstance();
 
             GlStateManager.pushMatrix();
             GlStateManager.pushAttrib();
@@ -109,7 +106,8 @@ public class RenderFirstPersonHandler {
             int total = collection.getSoulCount();
             int index = 0;
 
-            buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+            tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX);
+            tessellator.bindTexture(SOUL_TEXTURE);
 
             while(total > 0) {
                 int amount = Math.min(total, 10);
@@ -120,10 +118,10 @@ public class RenderFirstPersonHandler {
                     int yMin = y0 - index*8;
                     int yMax = yMin + 9;
 
-                    buffer.pos(xMin, yMin, 0).tex(0, 0).endVertex();
-                    buffer.pos(xMin, yMax, 0).tex(0, 1).endVertex();
-                    buffer.pos(xMax, yMax, 0).tex(1, 1).endVertex();
-                    buffer.pos(xMax, yMin, 0).tex(1, 0).endVertex();
+                    tessellator.addVertexWithUV(xMin, yMin, 0, 0, 0);
+                    tessellator.addVertexWithUV(xMin, yMax, 0, 0, 1);
+                    tessellator.addVertexWithUV(xMax, yMax, 0, 1, 1);
+                    tessellator.addVertexWithUV(xMax, yMin, 0, 1, 0);
                 }
                 index = index + 1;
                 total = total - amount;

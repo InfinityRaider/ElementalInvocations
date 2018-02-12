@@ -3,11 +3,9 @@ package com.infinityraider.elementalinvocations.render.entity;
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.entity.EntityBallLightning;
 import com.infinityraider.elementalinvocations.reference.Reference;
-import com.infinityraider.infinitylib.reference.Constants;
+import com.infinityraider.infinitylib.render.tessellation.ITessellator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -41,9 +39,7 @@ public class RenderEntityBallLightning extends RenderEntityFlatTexture<EntityBal
     }
 
     @Override
-    protected void renderTexture(EntityBallLightning entity, VertexBuffer buffer, Tessellator tessellator) {
-        float u = Constants.UNIT;
-
+    protected void renderTexture(EntityBallLightning entity, ITessellator tessellator) {
         GlStateManager.disableLighting();
         GlStateManager.enableBlend();
         GlStateManager.enableAlpha();
@@ -52,15 +48,17 @@ public class RenderEntityBallLightning extends RenderEntityFlatTexture<EntityBal
 
         GlStateManager.color(255, 255, 255, 127);
 
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        float minV = 16*(getFrame()) * (1.0F/FRAMES);
+        float maxV = 16*(getFrame() + 1) * (1.0F/FRAMES);
 
-        double minV = (getFrame()) * (1.0/FRAMES);
-        double maxV = (getFrame() + 1) * (1.0/FRAMES);
+        tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX);
 
-        buffer.pos(-12 * u, 0, 0).tex(1, maxV).endVertex();
-        buffer.pos(-12 * u, 24 * u, 0).tex(1, minV).endVertex();
-        buffer.pos(12 * u, 24 * u, 0).tex(0, minV).endVertex();
-        buffer.pos(12 * u, 0, 0).tex(0, maxV).endVertex();
+        tessellator.setColorRGBA(1, 1, 1, 0.5F);
+
+        tessellator.addScaledVertexWithUV(-12, 0, 0, 16, maxV);
+        tessellator.addScaledVertexWithUV(-12, 24 , 0, 16, minV);
+        tessellator.addScaledVertexWithUV(12, 24, 0, 0, minV);
+        tessellator.addScaledVertexWithUV(12, 0, 0, 0, maxV);
 
         tessellator.draw();
     }

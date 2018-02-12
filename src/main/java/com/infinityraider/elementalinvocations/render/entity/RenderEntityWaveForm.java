@@ -2,11 +2,9 @@ package com.infinityraider.elementalinvocations.render.entity;
 
 import com.infinityraider.elementalinvocations.entity.EntityWaveForm;
 import com.infinityraider.elementalinvocations.reference.Reference;
-import com.infinityraider.infinitylib.reference.Constants;
-import net.minecraft.client.Minecraft;
+import com.infinityraider.infinitylib.render.tessellation.ITessellator;
+import com.infinityraider.infinitylib.render.tessellation.TessellatorVertexBuffer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,8 +32,7 @@ public class RenderEntityWaveForm extends RenderEntityAnimated<EntityWaveForm> {
     public void doRender(EntityWaveForm e, double x, double y, double z, float entityYaw, float partialTicks) {
         calculateFrame(partialTicks, FRAME_TIME, FRAMES);
 
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        ITessellator tessellator = TessellatorVertexBuffer.getInstance();
 
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();
@@ -61,11 +58,10 @@ public class RenderEntityWaveForm extends RenderEntityAnimated<EntityWaveForm> {
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
 
-        float u = Constants.UNIT;
         int width = 20;
 
-        double minV = (getFrame()) * (1.0/FRAMES);
-        double maxV = (getFrame() + 1) * (1.0/FRAMES);
+        float minV = 16*(getFrame()) * (1.0F/FRAMES);
+        float maxV = 16*(getFrame() + 1) * (1.0F/FRAMES);
 
 
         for(int blur = 0; blur < BLURS; blur++) {
@@ -74,42 +70,42 @@ public class RenderEntityWaveForm extends RenderEntityAnimated<EntityWaveForm> {
 
 
             //render front
-            Minecraft.getMinecraft().renderEngine.bindTexture(getEntityTexture(e));
-            buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+            tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX);
+            tessellator.bindTexture(getEntityTexture(e));
+            tessellator.setColorRGBA(1, 1, 1, 1 - ((3.0F*blur)/(5.0F*BLURS)));
 
             //left
-            buffer.pos(0, 0, 0).tex(1, maxV).endVertex();
-            buffer.pos(0, 16 * u * scale, 0).tex(1, minV).endVertex();
-            buffer.pos(-4 * u * scale, 16 * u * scale, width * u * scale).tex(0, minV).endVertex();
-            buffer.pos(-4 * u * scale, 0, width * u * scale).tex(0, maxV).endVertex();
+            tessellator.addScaledVertexWithUV(0, 0, 0, 16, maxV);
+            tessellator.addScaledVertexWithUV(0, 16*scale, 0, 16, minV);
+            tessellator.addScaledVertexWithUV(-4*scale, 16*scale, width*scale, 0, minV);
+            tessellator.addScaledVertexWithUV(-4*scale, 0, width*scale, 0, maxV);
 
             //right
-            buffer.pos(0, 0, 0).tex(1, maxV).endVertex();
-            buffer.pos(-4 * u * scale, 0, -width * u * scale).tex(0, maxV).endVertex();
-            buffer.pos(-4 * u * scale, 16 * u * scale, -width * u * scale).tex(0, minV).endVertex();
-            buffer.pos(0, 16 * u * scale, 0).tex(1, minV).endVertex();
+            tessellator.addScaledVertexWithUV(0, 0, 0, 16, maxV);
+            tessellator.addScaledVertexWithUV(-4*scale, 0, -width*scale, 0, maxV);
+            tessellator.addScaledVertexWithUV(-4*scale, 16*scale, -width*scale, 0, minV);
+            tessellator.addScaledVertexWithUV(0, 16*scale, 0, 16, minV);
 
             tessellator.draw();
 
 
             //render back
-            Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_BACK);
-            buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+            tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX);
+            tessellator.bindTexture(TEXTURE_BACK);
 
             //left
-            buffer.pos(0, 0, 0).tex(1, maxV).endVertex();
-            buffer.pos(-4 * u * scale, 0, width * u * scale).tex(0, maxV).endVertex();
-            buffer.pos(-4 * u * scale, 16 * u * scale, width * u * scale).tex(0, minV).endVertex();
-            buffer.pos(0, 16 * u * scale, 0).tex(1, minV).endVertex();
+            tessellator.addScaledVertexWithUV(0, 0, 0, 16, maxV);
+            tessellator.addScaledVertexWithUV(-4*scale, 0, width*scale, 0, maxV);
+            tessellator.addScaledVertexWithUV(-4*scale, 16*scale, width*scale, 0, minV);
+            tessellator.addScaledVertexWithUV(0, 16*scale, 0, 16, minV);
 
             //right
-            buffer.pos(0, 0, 0).tex(1, maxV).endVertex();
-            buffer.pos(0, 16 * u * scale, 0).tex(1, minV).endVertex();
-            buffer.pos(-4 * u * scale, 16 * u * scale, -width * u * scale).tex(0, minV).endVertex();
-            buffer.pos(-4 * u * scale, 0, -width * u * scale).tex(0, maxV).endVertex();
+            tessellator.addScaledVertexWithUV(0, 0, 0, 16, maxV);
+            tessellator.addScaledVertexWithUV(0, 16*scale, 0, 16, minV);
+            tessellator.addScaledVertexWithUV(-4*scale, 16*scale, -width*scale, 0, minV);
+            tessellator.addScaledVertexWithUV(-4*scale, 0, -width*scale, 0, maxV);
 
             tessellator.draw();
-
 
             GlStateManager.translate(0.2, 0, 0);
         }

@@ -3,11 +3,10 @@ package com.infinityraider.elementalinvocations.render.player;
 import com.infinityraider.elementalinvocations.magic.spell.MagicBeam;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import com.infinityraider.infinitylib.render.RenderUtilBase;
+import com.infinityraider.infinitylib.render.tessellation.ITessellator;
+import com.infinityraider.infinitylib.render.tessellation.TessellatorVertexBuffer;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -15,8 +14,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.joml.Matrix4d;
-import org.joml.Vector4d;
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
@@ -35,7 +34,7 @@ public class BeamRenderer extends RenderUtilBase {
     public void renderBeamThirdPerson(MagicBeam beam, float partialTick) {
         EntityPlayer player = beam.getPlayer();
 
-        double thickness = beam.getThickness();
+        float thickness = beam.getThickness();
 
         float red = beam.getRed();
         float green = beam.getGreen();
@@ -62,13 +61,13 @@ public class BeamRenderer extends RenderUtilBase {
         double dx = 0;
         double dz = 0.5;
 
-        double x1 = dx*cos - dz*sin;
-        double y1 = 0.65*player.height;
-        double z1 = dx*sin + dz*cos;
+        float x1 = (float) (dx*cos - dz*sin);
+        float y1 = (float) (0.65*player.height);
+        float z1 = (float) (dx*sin + dz*cos);
 
-        double x2 = target.xCoord - pX;
-        double y2 = target.yCoord - pY;
-        double z2 = target.zCoord - pZ;
+        float x2 = (float) (target.xCoord - pX);
+        float y2 = (float) (target.yCoord - pY);
+        float z2 = (float) (target.zCoord - pZ);
 
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();
@@ -94,7 +93,7 @@ public class BeamRenderer extends RenderUtilBase {
 
     public void renderBeamFirstPerson(MagicBeam beam, float partialTicks) {
         EntityPlayer player = beam.getPlayer();
-        double thickness = 2.0 / 16;
+        float thickness = 2.0F / 16;
 
         float red = beam.getRed();
         float green = beam.getGreen();
@@ -110,32 +109,32 @@ public class BeamRenderer extends RenderUtilBase {
             target = hit.hitVec;
         }
 
-        double pX = player.prevPosX + partialTicks*(player.posX - player.prevPosX);
-        double pY = player.prevPosY + partialTicks*(player.posY - player.prevPosY);
-        double pZ = player.prevPosZ + partialTicks*(player.posZ - player.prevPosZ);
+        float pX = (float) (player.prevPosX + partialTicks*(player.posX - player.prevPosX));
+        float pY = (float) (player.prevPosY + partialTicks*(player.posY - player.prevPosY));
+        float pZ = (float) (player.prevPosZ + partialTicks*(player.posZ - player.prevPosZ));
 
         Vec3d eyes = player.getPositionEyes(partialTicks);
 
-        double pitch = player.prevRotationPitch + partialTicks*(player.rotationPitch - player.prevRotationPitch);
-        double yaw = player.prevRotationYaw + partialTicks*(player.rotationYaw - player.prevRotationYaw);
+        float pitch = player.prevRotationPitch + partialTicks*(player.rotationPitch - player.prevRotationPitch);
+        float yaw = player.prevRotationYaw + partialTicks*(player.rotationYaw - player.prevRotationYaw);
 
         //parallel with screen width
-        double dx = -0.25;
+        float dx = -0.25F;
         //parallel with screen height
-        double dy = 0.95*player.height;
+        float dy = 0.95F*player.height;
         //parallel with screen normal
-        double dz = -0.25;
+        float dz = -0.25F;
 
-        Matrix4d matrix = new Matrix4d().identity().rotate(Math.toRadians(-yaw), 0, 1, 0).rotate(Math.toRadians(-pitch), 1, 0, 0);
-        Vector4d transformed = matrix.transform(new Vector4d(dx, dy, dz, 0));
+        Matrix4f matrix = new Matrix4f().identity().rotate((float) Math.toRadians(-yaw), 0, 1, 0).rotate((float) Math.toRadians(-pitch), 1, 0, 0);
+        Vector4f transformed = matrix.transform(new Vector4f(dx, dy, dz, 0));
 
-        double x1 = pX + transformed.x();
-        double y1 = pY + transformed.y();
-        double z1 = pZ + transformed.z();
+        float x1 = pX + transformed.x();
+        float y1 = pY + transformed.y();
+        float z1 = pZ + transformed.z();
 
-        double x2 = target.xCoord;
-        double y2 = target.yCoord;
-        double z2 = target.zCoord;
+        float x2 = (float) (target.xCoord);
+        float y2 = (float) (target.yCoord);
+        float z2 = (float) (target.zCoord);
 
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();
@@ -145,8 +144,8 @@ public class BeamRenderer extends RenderUtilBase {
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.05F);
 
-        GlStateManager.rotate((float) pitch, 1, 0, 0);
-        GlStateManager.rotate((float) yaw + 180, 0, 1, 0);
+        GlStateManager.rotate(pitch, 1, 0, 0);
+        GlStateManager.rotate(yaw + 180, 0, 1, 0);
         GlStateManager.translate(-eyes.xCoord, -eyes.yCoord, -eyes.zCoord);
 
         this.renderBeam(x1, y1, z1, x2, y2, z2, thickness, red, green, blue, alpha);
@@ -155,25 +154,26 @@ public class BeamRenderer extends RenderUtilBase {
         GlStateManager.popMatrix();
     }
 
-    protected void renderBeam(double x1, double y1, double z1, double x2, double y2, double z2, double thickness, float red, float green, float blue, float alpha) {
+    protected void renderBeam(float x1, float y1, float z1, float x2, float y2, float z2, float thickness, float red, float green, float blue, float alpha) {
         float angle = (float) (360 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
         angle = (3 * angle) % 360;
-        double dt = 1.0 - 0.5*Math.cos(Math.toRadians(angle));
+        float dt = 1.0F - 0.5F*((float) Math.cos(Math.toRadians(angle)));
 
-        Minecraft.getMinecraft().renderEngine.bindTexture(BEAM_TEXTURE);
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+        ITessellator tessellator = TessellatorVertexBuffer.getInstance();
 
-        buffer.pos(x2, y2 + dt*thickness/2, z2).tex(1, 0).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x1, y1 + dt*thickness/2, z1).tex(1, 1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x1, y1 - dt*thickness/2, z1).tex(0, 1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x2, y2 - dt*thickness/2, z2).tex(0, 0).color(red, green, blue, alpha).endVertex();
+        tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX_COLOR);
+        tessellator.bindTexture(BEAM_TEXTURE);
+        tessellator.setColorRGBA(red, green, blue, alpha);
 
-        buffer.pos(x2, y2 + dt*thickness/2, z2).tex(1, 0).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x2, y2 - dt*thickness/2, z2).tex(0, 0).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x1, y1 - dt*thickness/2, z1).tex(0, 1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(x1, y1 + dt*thickness/2, z1).tex(1, 1).color(red, green, blue, alpha).endVertex();
+        tessellator.addVertexWithUV(x2, y2 + dt*thickness/2, z2, 1, 0);
+        tessellator.addVertexWithUV(x1, y1 + dt*thickness/2, z1, 1, 1);
+        tessellator.addVertexWithUV(x1, y1 - dt*thickness/2, z1, 0, 1);
+        tessellator.addVertexWithUV(x2, y2 - dt*thickness/2, z2, 0, 0);
+
+        tessellator.addVertexWithUV(x2, y2 + dt*thickness/2, z2, 1, 0);
+        tessellator.addVertexWithUV(x2, y2 - dt*thickness/2, z2, 0, 0);
+        tessellator.addVertexWithUV(x1, y1 - dt*thickness/2, z1, 0, 1);
+        tessellator.addVertexWithUV(x1, y1 + dt*thickness/2, z1, 1, 1);
 
         tessellator.draw();
     }
@@ -185,20 +185,20 @@ public class BeamRenderer extends RenderUtilBase {
         double scale = 0.75 - 0.25*(Math.cos(Math.toRadians(angle)) + 1)/2;
         GlStateManager.scale(scale, scale, scale);
 
-        Minecraft.getMinecraft().renderEngine.bindTexture(ORB_TEXTURE);
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+        ITessellator tessellator = TessellatorVertexBuffer.getInstance();
+        tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX_COLOR);
+        tessellator.bindTexture(ORB_TEXTURE);
+        tessellator.setColorRGBA(red, green, blue, alpha);
 
-        buffer.pos(-0.5, 0.5, 0).tex(1, 0).color(red, green, blue, alpha).endVertex();
-        buffer.pos(0.5, 0.5, 0).tex(1, 1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(0.5, -0.5, 0).tex(0, 1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(-0.5, -0.5, 0).tex(0, 0).color(red, green, blue, alpha).endVertex();
+        tessellator.addVertexWithUV(-0.5F, 0.5F, 0, 1, 0);
+        tessellator.addVertexWithUV(0.5F, 0.5F, 0, 1, 1);
+        tessellator.addVertexWithUV(0.5F, -0.5F, 0, 0, 1);
+        tessellator.addVertexWithUV(-0.5F, -0.5F, 0, 0, 0);
 
-        buffer.pos(-0.5, 0.5, 0).tex(1, 0).color(red, green, blue, alpha).endVertex();
-        buffer.pos(-0.5, -0.5, 0).tex(0, 0).color(red, green, blue, alpha).endVertex();
-        buffer.pos(0.5, -0.5, 0).tex(0, 1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(0.5, 0.5, 0).tex(1, 1).color(red, green, blue, alpha).endVertex();
+        tessellator.addVertexWithUV(-0.5F, 0.5F, 0, 1, 0);
+        tessellator.addVertexWithUV(-0.5F, -0.5F, 0, 0, 0);
+        tessellator.addVertexWithUV(0.5F, -0.5F, 0, 0, 1);
+        tessellator.addVertexWithUV(0.5F, 0.5F, 0, 1, 1);
 
         tessellator.draw();
     }
