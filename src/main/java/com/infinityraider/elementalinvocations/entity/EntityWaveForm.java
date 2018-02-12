@@ -5,10 +5,12 @@ import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityWaveForm;
 import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -54,6 +56,7 @@ public class EntityWaveForm extends EntityThrowableMagic {
 
     public void channelUpdate(EntityPlayer caster) {
         Vec3d direction = caster.getLookVec();
+        caster.extinguish();
         this.setThrowableHeading(direction.xCoord, direction.yCoord, direction.zCoord, 0.95F, 0.1F);
         this.channeled = true;
     }
@@ -65,8 +68,34 @@ public class EntityWaveForm extends EntityThrowableMagic {
             if(getThrower() == null || !this.channeled) {
                 this.setDead();
             }
+            this.getThrower().extinguish();
+            this.extinguishBlock();
             this.channeled = false;
         }
+    }
+
+    protected void extinguishBlock() {
+        if(!this.extinguishBlock(this.getPosition())) {
+            this.extinguishBlock(this.getPosition().down());
+        }
+    }
+
+    protected boolean extinguishBlock(BlockPos pos) {
+        World world = this.getEntityWorld();
+        IBlockState state = world.getBlockState(pos);
+        if(state.getBlock() == Blocks.FLOWING_LAVA) {
+            world.setBlockState(pos, Blocks.STONE.getDefaultState());
+            return true;
+        }
+        if(state.getBlock() == Blocks.LAVA) {
+            world.setBlockState(pos, Blocks.OBSIDIAN.getDefaultState());
+            return true;
+        }
+        if(state.getBlock() == Blocks.FIRE) {
+            world.setBlockToAir(pos);
+            return true;
+        }
+        return false;
     }
 
     @Override
