@@ -21,24 +21,19 @@ public class EffectSolidAir implements ISpellEffect {
         int potencyAir = potencies.getPotency(Element.AIR);
         int potencyEarth = potencies.getPotency(Element.EARTH);
         World world = caster.getEntityWorld();
-        BlockPos pos = getStartPos(caster, 3);
+        BlockPos pos = getStartPos(caster, 5);
         EnumFacing dir = caster.getHorizontalFacing();
         Vec3d look = caster.getLookVec();
         boolean horizontal = Math.abs(look.yCoord) > Math.max(Math.abs(look.xCoord), Math.abs(look.zCoord));
         int time = potencyEarth*20;
-        this.placeBarrier(world, pos, caster, time);
-        for(int i = 1; i <= potencyAir/2; i++) {
-            if(!horizontal) {
-                this.placeBarrier(world, pos.down(i), caster, time);
-                this.placeBarrier(world, pos.up(i), caster, time);
-            }
-            if(horizontal || dir.getAxis() == EnumFacing.Axis.X) {
-                this.placeBarrier(world, pos.south(i), caster, time);
-                this.placeBarrier(world, pos.north(i), caster, time);
-            }
-            if(horizontal || dir.getAxis() == EnumFacing.Axis.Z) {
-                this.placeBarrier(world, pos.east(i), caster, time);
-                this.placeBarrier(world, pos.west(i), caster, time);
+        int limX = horizontal || dir.getAxis() == EnumFacing.Axis.Z ? potencyAir/2 : 0;
+        int limY = horizontal ? 0 : potencyAir/2;
+        int limZ = horizontal || dir.getAxis() == EnumFacing.Axis.X ? potencyAir/2 : 0;
+        for(int x = -limX; x <= limX; x++) {
+            for(int y = -limY; y <= limY; y++) {
+                for(int z = -limZ; z <= limZ; z++) {
+                    this.placeBarrier(world, pos.add(x, y, z), caster, time);
+                }
             }
         }
         return false;

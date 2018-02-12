@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -23,13 +24,17 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.Random;
 
 public class BlockSolidAir extends BlockTileCustomRenderedBase<TileSolidAir> {
     public static final PropertyVisible PROPERTY_VISIBLE = new PropertyVisible();
 
     public BlockSolidAir() {
         super("ei.block.solid_air", Material.BARRIER);
+        this.setBlockUnbreakable();
+        this.setResistance(6000000.0F);
     }
 
     @Override
@@ -50,6 +55,17 @@ public class BlockSolidAir extends BlockTileCustomRenderedBase<TileSolidAir> {
         } else {
             return state;
         }
+    }
+
+    @Override
+    public int quantityDropped(Random random) {
+        return 0;
+    }
+
+    @Override
+    @Nullable
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return null;
     }
 
     @Override
@@ -77,7 +93,7 @@ public class BlockSolidAir extends BlockTileCustomRenderedBase<TileSolidAir> {
     @Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT_MIPPED;
+        return BlockRenderLayer.CUTOUT;
     }
 
     @Override
@@ -94,7 +110,8 @@ public class BlockSolidAir extends BlockTileCustomRenderedBase<TileSolidAir> {
     @Override
     @SuppressWarnings("deprecation")
     public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-        return true || super.shouldSideBeRendered(state, world, pos, side);
+        IBlockState stateAt = world.getBlockState(pos.offset(side));
+        return stateAt.getBlock() != this && super.shouldSideBeRendered(state, world, pos, side);
     }
 
     @Override

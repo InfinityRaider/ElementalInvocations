@@ -41,11 +41,9 @@ public class RenderBlockSolidAir extends RenderBlockWithTileBase<BlockSolidAir, 
 
     @Override
     public void renderWorldBlockStatic(ITessellator tessellator, IBlockState state, BlockSolidAir block, EnumFacing side) {
-        if(side != null) {
-            if (state instanceof IExtendedBlockState) {
-                if (!((IExtendedBlockState) state).getValue(BlockSolidAir.PROPERTY_VISIBLE)) {
-                    tessellator.drawScaledFace(0, 0, 16, 16, side, getIcon(), side.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? 16 : 0);
-                }
+        if (state instanceof IExtendedBlockState) {
+            if (((IExtendedBlockState) state).getValue(BlockSolidAir.PROPERTY_VISIBLE)) {
+                tessellator.drawScaledPrism(0, 0, 0, 16, 16, 16, getIcon());
             }
         }
     }

@@ -5,12 +5,40 @@ import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.infinitylib.block.tile.TileEntityBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.UUID;
 
-public class TileSolidAir extends TileEntityBase {
+public class TileSolidAir extends TileEntityBase implements ITickable {
     private UUID ownerId;
     private int timer;
+
+    @Override
+    public void update() {
+        if(!this.isRemote()) {
+            if(this.timer <= 0) {
+                this.clearBarrier();
+            }
+            this.timer--;
+        }
+    }
+
+    public void clearBarrier() {
+        if(!this.isRemote()) {
+            BlockPos pos = this.getPos();
+            this.getWorld().setBlockToAir(pos);
+            this.getWorld().removeTileEntity(pos);
+            for(EnumFacing facing : EnumFacing.values()) {
+                TileEntity te = this.getWorld().getTileEntity(pos.offset(facing));
+                if(te instanceof TileSolidAir) {
+                    ((TileSolidAir) te).clearBarrier();
+                }
+            }
+        }
+    }
 
     public TileSolidAir setOwner(EntityPlayer player) {
         if(!this.isOwner(player)) {
