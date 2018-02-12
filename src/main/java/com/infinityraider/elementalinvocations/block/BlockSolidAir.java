@@ -94,7 +94,7 @@ public class BlockSolidAir extends BlockTileCustomRenderedBase<TileSolidAir> {
     @Override
     @SuppressWarnings("deprecation")
     public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-        return super.shouldSideBeRendered(state, world, pos, side);
+        return true || super.shouldSideBeRendered(state, world, pos, side);
     }
 
     @Override

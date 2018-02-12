@@ -104,6 +104,17 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
         return shouldRender;
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isInRangeToRender3d(double x, double y, double z) {
+        return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isInRangeToRenderDist(double distance) {
+        return true;
+    }
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound compound) {

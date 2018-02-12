@@ -2,8 +2,8 @@ package com.infinityraider.elementalinvocations.render.entity;
 
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.entity.EntityBallLightning;
-import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.reference.Reference;
+import com.infinityraider.infinitylib.reference.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;

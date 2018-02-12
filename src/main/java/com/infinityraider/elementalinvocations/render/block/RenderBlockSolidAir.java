@@ -20,7 +20,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import java.util.List;
 
 public class RenderBlockSolidAir extends RenderBlockWithTileBase<BlockSolidAir, TileSolidAir> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "blocks\\solid_air.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "blocks\\solid_air");
 
     public RenderBlockSolidAir(BlockSolidAir block) {
         super(block, new TileSolidAir(), false, true, false);
@@ -41,9 +41,11 @@ public class RenderBlockSolidAir extends RenderBlockWithTileBase<BlockSolidAir, 
 
     @Override
     public void renderWorldBlockStatic(ITessellator tessellator, IBlockState state, BlockSolidAir block, EnumFacing side) {
-        tessellator.drawScaledFace(0, 0, 16, 16, side, getIcon(), 0);
-        if(state instanceof IExtendedBlockState) {
-            if(!((IExtendedBlockState) state).getValue(BlockSolidAir.PROPERTY_VISIBLE)) {
+        if(side != null) {
+            if (state instanceof IExtendedBlockState) {
+                if (!((IExtendedBlockState) state).getValue(BlockSolidAir.PROPERTY_VISIBLE)) {
+                    tessellator.drawScaledFace(0, 0, 16, 16, side, getIcon(), side.getAxisDirection() == EnumFacing.AxisDirection.POSITIVE ? 16 : 0);
+                }
             }
         }
     }

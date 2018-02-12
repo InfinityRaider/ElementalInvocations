@@ -305,7 +305,7 @@ public class MagicChargeRenderer {
         GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
         GlStateManager.rotate((invert ? -1 : 1) * renderManager.playerViewX, 1, 0, 0);
 
-        float u = Constants.UNIT;
+        float u = com.infinityraider.infinitylib.reference.Constants.UNIT;
         double f = scale * 0.375*(1.0 - 0.25*(blurIndex+0.0F)/MAX_BLURS) * (0.6 + (0.5 * charge.potency())/Constants.CORE_TIERS);
 
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);

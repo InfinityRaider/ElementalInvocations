@@ -1,9 +1,9 @@
 package com.infinityraider.elementalinvocations.render.entity;
 
 import com.infinityraider.elementalinvocations.entity.EntityMeteor;
-import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import com.infinityraider.elementalinvocations.render.model.ModelMeteor;
+import com.infinityraider.infinitylib.reference.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
