@@ -62,7 +62,7 @@ public class EntityBallLightning extends EntityThrowableMagic {
         super.onUpdate();
         if(!this.getEntityWorld().isRemote) {
             timer = timer + 1;
-            if(timer > potencyWater * 4) {
+            if(timer > potencyWater * 5) {
                 this.setDead();
             }
         }

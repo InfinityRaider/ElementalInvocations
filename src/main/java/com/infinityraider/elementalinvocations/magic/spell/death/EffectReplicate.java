@@ -22,7 +22,7 @@ public class EffectReplicate implements ISpellEffect {
     @Override
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         int potencyDeath = potencies.getPotency(Element.DEATH);
-        int potencyAir = potencies.getPotency(Element.AIR);
+        int potencyLife = potencies.getPotency(Element.LIFE);
         ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(caster);
         int amount = Math.min(potencyDeath/3, collection.getSoulCount());
         if(amount <= 0) {
@@ -43,7 +43,7 @@ public class EffectReplicate implements ISpellEffect {
                 entity = caster;
                 PlayerHelper.setPlayerPosition(caster, newX, y, newZ);
             } else {
-                replicas.add(new EntityReplicate(caster, this, potencyAir *20 * REPLICA_LIFETIME_PER_LEVEL / 2));
+                replicas.add(new EntityReplicate(caster, this, potencyLife *20 * REPLICA_LIFETIME_PER_LEVEL / 2));
                 entity = replicas.get(i - 1);
                 collection.removeSoul();
                 caster.getEntityWorld().spawnEntityInWorld(entity);

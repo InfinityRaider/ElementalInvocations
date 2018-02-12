@@ -1,4 +1,4 @@
-package com.infinityraider.elementalinvocations.magic.spell.air;
+package com.infinityraider.elementalinvocations.magic.spell.death;
 
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;

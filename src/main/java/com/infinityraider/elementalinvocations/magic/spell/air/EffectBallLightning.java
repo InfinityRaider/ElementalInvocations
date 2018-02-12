@@ -1,4 +1,4 @@
-package com.infinityraider.elementalinvocations.magic.spell.water;
+package com.infinityraider.elementalinvocations.magic.spell.air;
 
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IPotencyMap;

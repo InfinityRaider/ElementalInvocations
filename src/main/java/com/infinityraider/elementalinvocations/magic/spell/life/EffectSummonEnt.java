@@ -7,7 +7,7 @@ import net.minecraft.util.math.RayTraceResult;
 
 import javax.annotation.Nullable;
 
-public class EffectUpRootsAndRun extends SpellEffectBeamAbstract {
+public class EffectSummonEnt extends SpellEffectBeamAbstract {
     @Override
     protected boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick, @Nullable RayTraceResult target) {
         return false;
