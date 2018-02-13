@@ -3,9 +3,7 @@
 package com.infinityraider.elementalinvocations.magic.spell;
 
 import com.infinityraider.elementalinvocations.api.Element;
-import com.infinityraider.elementalinvocations.magic.spell.air.EffectChainLightning;
-import com.infinityraider.elementalinvocations.magic.spell.air.EffectLightningStorm;
-import com.infinityraider.elementalinvocations.magic.spell.air.EffectStaticRemnant;
+import com.infinityraider.elementalinvocations.magic.spell.air.*;
 import com.infinityraider.elementalinvocations.magic.spell.death.EffectVacuum;
 import com.infinityraider.elementalinvocations.magic.spell.death.EffectNecromancy;
 import com.infinityraider.elementalinvocations.magic.spell.death.EffectReplicate;
@@ -13,7 +11,6 @@ import com.infinityraider.elementalinvocations.magic.spell.earth.EffectLivingArm
 import com.infinityraider.elementalinvocations.magic.spell.earth.EffectSolidAir;
 import com.infinityraider.elementalinvocations.magic.spell.fire.*;
 import com.infinityraider.elementalinvocations.magic.spell.life.EffectSummonEnt;
-import com.infinityraider.elementalinvocations.magic.spell.air.EffectBallLightning;
 import com.infinityraider.elementalinvocations.magic.spell.earth.EffectFrostArmor;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectMistForm;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectFrozenSoil;
@@ -91,7 +88,7 @@ public class SpellInitializer {
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Tornado", "My foes aloft!")
                 .setSpellElements(Element.AIR, Element.AIR, Element.AIR, Element.DEATH, Element.DEATH)
-                .setSpellEffects()
+                .setSpellEffects(new EffectTornado())
                 .createSpell("tornado", 0));
 
         /*

@@ -138,6 +138,7 @@ public class EntityMeteor extends EntityThrowableMagic {
         this.potencyFire = tag.getInteger(Names.NBT.LEVEL);
         this.potencyEarth = tag.getInteger(Names.NBT.COUNT);
     }
+
     public static class RenderFactory implements IRenderFactory<EntityMeteor> {
         private static final RenderFactory INSTANCE = new RenderFactory();
 
@@ -153,5 +154,4 @@ public class EntityMeteor extends EntityThrowableMagic {
             return new RenderEntityMeteor(manager);
         }
     }
-
 }

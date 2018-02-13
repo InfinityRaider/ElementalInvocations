@@ -28,7 +28,7 @@ public class RenderEntitySunstrike extends RenderEntityFlatTexture<EntitySunstri
 
             tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX_COLOR);
             tessellator.setColorRGBA(1, 1, 1, 0.5F);
-            tessellator.drawScaledCylinder(0, 0, 0, 24, 500, 16);
+            tessellator.drawScaledCylinder(0, 0, 0, 24, 500, 16, 16);
             tessellator.draw();
         }
     }

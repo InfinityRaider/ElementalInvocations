@@ -63,6 +63,11 @@ public class EntityRegistry {
                 .setRenderFactory(EntityMagnetizedRock.RenderFactory.getInstance())
                 .registerDataSerializers(EntityMagnetizedRock.EnumStage.dataSerializer);
 
+        entityTornado = new EntityRegistryEntry<>(EntityTornado.class, "entity.tornado")
+                .setTrackingDistance(32)
+                .setUpdateFrequency(1)
+                .setVelocityUpdates(true)
+                .setRenderFactory(EntityTornado.RenderFactory.getInstance());
     }
 
     public final EntityRegistryEntry<EntityMagicProjectile> entityMagicProjectile;
@@ -73,4 +78,5 @@ public class EntityRegistry {
     public final EntityRegistryEntry<EntityVacuum> entityVacuum;
     public final EntityRegistryEntry<EntityReplicate> entityReplicate;
     public final EntityRegistryEntry<EntityMagnetizedRock> entityMagnetizedRock;
+    public final EntityRegistryEntry<EntityTornado> entityTornado;
 }
