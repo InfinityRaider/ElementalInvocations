@@ -8,13 +8,14 @@ import com.infinityraider.infinitylib.block.*;
 import com.infinityraider.infinitylib.block.blockstate.InfinityProperty;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -30,6 +31,7 @@ import java.util.Random;
 
 public class BlockSolidAir extends BlockTileCustomRenderedBase<TileSolidAir> {
     public static final PropertyVisible PROPERTY_VISIBLE = new PropertyVisible();
+    public static final AxisAlignedBB EMPTY_BB = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 
     public BlockSolidAir() {
         super("ei.block.solid_air", Material.BARRIER);
@@ -55,6 +57,37 @@ public class BlockSolidAir extends BlockTileCustomRenderedBase<TileSolidAir> {
         } else {
             return state;
         }
+    }
+
+    @Override
+    public void onFallenUpon(World world, BlockPos pos, Entity entity, float fallDistance) {
+        entity.fall(fallDistance, 0.0F);
+    }
+
+    @Override
+    public void onLanded(World world, Entity entity) {
+        if (entity.motionY < 0.0D) {
+            entity.motionY = -0.3*entity.motionY;
+        }
+    }
+
+    @Override
+    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+        //TODO: render effect and play sound
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, net.minecraft.client.particle.ParticleManager manager) {
+        //TODO: render effect and play sound
+        return false;
+    }
+
+    @Override
+    @Deprecated
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) {
+        return BlockSolidAir.EMPTY_BB;
     }
 
     @Override
@@ -123,18 +156,6 @@ public class BlockSolidAir extends BlockTileCustomRenderedBase<TileSolidAir> {
     @SuppressWarnings("deprecation")
     public boolean isFullCube(IBlockState state) {
         return true;
-    }
-
-    @Override
-    @SideOnly(value = Side.CLIENT)
-    public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager) {
-        return false;
-    }
-
-    @Override
-    @SideOnly(value = Side.CLIENT)
-    public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager) {
-        return false;
     }
 
     public static class PropertyVisible implements IUnlistedProperty<Boolean> {

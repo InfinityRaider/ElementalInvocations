@@ -1,6 +1,7 @@
 package com.infinityraider.elementalinvocations.block.tile;
 
 import com.infinityraider.elementalinvocations.ElementalInvocations;
+import com.infinityraider.elementalinvocations.magic.spell.earth.EffectSolidAir;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.infinitylib.block.tile.TileEntityBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,23 +21,35 @@ public class TileSolidAir extends TileEntityBase implements ITickable {
     public void update() {
         if(!this.isRemote()) {
             if(this.timer <= 0) {
-                this.clearBarrier();
+                this.clearWholeBarrier();
             }
             this.timer--;
         }
     }
 
-    public void clearBarrier() {
+    public UUID getOwnerId() {
+        return this.ownerId;
+    }
+
+    public void clearWholeBarrier() {
+        if(!this.isRemote()) {
+            this.removeThisBarrier();
+            BlockPos pos = this.getPos();
+            for(EnumFacing facing : EnumFacing.values()) {
+                TileEntity te = this.getWorld().getTileEntity(pos.offset(facing));
+                if(te instanceof TileSolidAir) {
+                    ((TileSolidAir) te).clearWholeBarrier();
+                }
+            }
+        }
+    }
+
+    public void removeThisBarrier() {
         if(!this.isRemote()) {
             BlockPos pos = this.getPos();
             this.getWorld().setBlockToAir(pos);
             this.getWorld().removeTileEntity(pos);
-            for(EnumFacing facing : EnumFacing.values()) {
-                TileEntity te = this.getWorld().getTileEntity(pos.offset(facing));
-                if(te instanceof TileSolidAir) {
-                    ((TileSolidAir) te).clearBarrier();
-                }
-            }
+            EffectSolidAir.removeBarrier(this);
         }
     }
 
