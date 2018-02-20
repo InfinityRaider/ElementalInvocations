@@ -98,7 +98,7 @@ public class EntityTornado extends EntityThrowableMagic {
 
     protected void applyDamage(Entity e) {
         if(!this.getEntityWorld().isRemote && e instanceof EntityLivingBase) {
-            MagicDamageHandler.getInstance().dealDamage(e, this.getPotencyDeath()/2, Element.DEATH, this.getPotencyDeath());
+            MagicDamageHandler.getInstance().dealDamage(e, this.getPotencyDeath()/2, this.getThrower(), Element.DEATH, this.getPotencyDeath());
         }
     }
 

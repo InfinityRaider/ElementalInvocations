@@ -11,6 +11,17 @@ public class EntityRegistry {
         return INSTANCE;
     }
 
+    public final EntityRegistryEntry<EntityMagicProjectile> entityMagicProjectile;
+    public final EntityRegistryEntry<EntityBallLightning> entityBallLightning;
+    public final EntityRegistryEntry<EntitySunstrike> entitySunstrike;
+    public final EntityRegistryEntry<EntityWaveForm> entityWaveForm;
+    public final EntityRegistryEntry<EntityMeteor> entityMeteor;
+    public final EntityRegistryEntry<EntityVacuum> entityVacuum;
+    public final EntityRegistryEntry<EntityReplicate> entityReplicate;
+    public final EntityRegistryEntry<EntityMagnetizedRock> entityMagnetizedRock;
+    public final EntityRegistryEntry<EntityTornado> entityTornado;
+    public final EntityRegistryEntry<EntityChainLightning> entityChainLightning;
+
     @SuppressWarnings("unchecked")
     private EntityRegistry() {
         entityMagicProjectile = new EntityRegistryEntry<>(EntityMagicProjectile.class, "entity.magic_missile")
@@ -68,15 +79,11 @@ public class EntityRegistry {
                 .setUpdateFrequency(1)
                 .setVelocityUpdates(true)
                 .setRenderFactory(EntityTornado.RenderFactory.getInstance());
-    }
 
-    public final EntityRegistryEntry<EntityMagicProjectile> entityMagicProjectile;
-    public final EntityRegistryEntry<EntityBallLightning> entityBallLightning;
-    public final EntityRegistryEntry<EntitySunstrike> entitySunstrike;
-    public final EntityRegistryEntry<EntityWaveForm> entityWaveForm;
-    public final EntityRegistryEntry<EntityMeteor> entityMeteor;
-    public final EntityRegistryEntry<EntityVacuum> entityVacuum;
-    public final EntityRegistryEntry<EntityReplicate> entityReplicate;
-    public final EntityRegistryEntry<EntityMagnetizedRock> entityMagnetizedRock;
-    public final EntityRegistryEntry<EntityTornado> entityTornado;
+        entityChainLightning = new EntityRegistryEntry<>(EntityChainLightning.class, "entity.tornado")
+                .setTrackingDistance(64)
+                .setUpdateFrequency(2)
+                .setVelocityUpdates(true)
+                .setRenderFactory(EntityChainLightning.RenderFactory.getInstance());
+    }
 }
