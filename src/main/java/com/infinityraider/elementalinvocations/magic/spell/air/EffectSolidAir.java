@@ -1,4 +1,4 @@
-package com.infinityraider.elementalinvocations.magic.spell.earth;
+package com.infinityraider.elementalinvocations.magic.spell.air;
 
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.api.Element;
@@ -44,10 +44,10 @@ public class EffectSolidAir implements ISpellEffect {
         EnumFacing dir = caster.getHorizontalFacing();
         Vec3d look = caster.getLookVec();
         boolean horizontal = Math.abs(look.yCoord) > Math.max(Math.abs(look.xCoord), Math.abs(look.zCoord));
-        int time = potencyEarth*20;
-        int limX = horizontal || dir.getAxis() == EnumFacing.Axis.Z ? potencyAir/2 : 0;
-        int limY = horizontal ? 0 : potencyAir/2;
-        int limZ = horizontal || dir.getAxis() == EnumFacing.Axis.X ? potencyAir/2 : 0;
+        int time = potencyEarth*30;
+        int limX = horizontal || dir.getAxis() == EnumFacing.Axis.Z ? potencyAir/3 : 0;
+        int limY = horizontal ? 0 : potencyAir/3;
+        int limZ = horizontal || dir.getAxis() == EnumFacing.Axis.X ? potencyAir/3 : 0;
         for(int x = -limX; x <= limX; x++) {
             for(int y = -limY; y <= limY; y++) {
                 for(int z = -limZ; z <= limZ; z++) {

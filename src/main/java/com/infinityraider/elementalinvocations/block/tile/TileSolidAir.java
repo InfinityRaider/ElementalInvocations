@@ -1,7 +1,7 @@
 package com.infinityraider.elementalinvocations.block.tile;
 
 import com.infinityraider.elementalinvocations.ElementalInvocations;
-import com.infinityraider.elementalinvocations.magic.spell.earth.EffectSolidAir;
+import com.infinityraider.elementalinvocations.magic.spell.air.EffectSolidAir;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.infinitylib.block.tile.TileEntityBase;
 import net.minecraft.entity.player.EntityPlayer;

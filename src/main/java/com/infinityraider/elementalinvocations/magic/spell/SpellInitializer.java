@@ -7,15 +7,13 @@ import com.infinityraider.elementalinvocations.magic.spell.air.*;
 import com.infinityraider.elementalinvocations.magic.spell.death.EffectVacuum;
 import com.infinityraider.elementalinvocations.magic.spell.death.EffectNecromancy;
 import com.infinityraider.elementalinvocations.magic.spell.death.EffectReplicate;
-import com.infinityraider.elementalinvocations.magic.spell.earth.EffectLivingArmor;
-import com.infinityraider.elementalinvocations.magic.spell.earth.EffectSolidAir;
+import com.infinityraider.elementalinvocations.magic.spell.earth.*;
+import com.infinityraider.elementalinvocations.magic.spell.air.EffectSolidAir;
 import com.infinityraider.elementalinvocations.magic.spell.fire.*;
 import com.infinityraider.elementalinvocations.magic.spell.life.EffectSummonEnt;
-import com.infinityraider.elementalinvocations.magic.spell.earth.EffectFrostArmor;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectMistForm;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectFrozenSoil;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectWaveForm;
-import com.infinityraider.elementalinvocations.magic.spell.earth.EffectMagnetize;
 
 public class SpellInitializer {
 
@@ -91,14 +89,11 @@ public class SpellInitializer {
                 .setSpellEffects(new EffectTornado())
                 .createSpell("tornado", 0));
 
-        /*
-        //TODO: need idea
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("", "")
+                .setSpellDescription("Solid Air", "Mr. Mime could learn a thing or two from this")
                 .setSpellElements(Element.AIR, Element.AIR, Element.AIR, Element.EARTH, Element.EARTH)
-                .setSpellEffects()
-                .createSpell("", 0));
-        */
+                .setSpellEffects(new EffectSolidAir())
+                .createSpell("solid_air", 0));
 
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Ball Lighning", "Ziiiiiiiiiip!")
@@ -203,10 +198,10 @@ public class SpellInitializer {
                 .createSpell("living_armor", 0));
 
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("Solid Air", "Mr. Mime could learn a thing or two from this")
+                .setSpellDescription("Magnetize", "Magnets are cool")
                 .setSpellElements(Element.EARTH, Element.EARTH, Element.EARTH, Element.AIR, Element.AIR)
-                .setSpellEffects(new EffectSolidAir())
-                .createSpell("solid_air", 0));
+                .setSpellEffects(new EffectMagnetize())
+                .createSpell("magnetize", 0));
 
         /*
         //TODO: need idea
@@ -218,19 +213,16 @@ public class SpellInitializer {
         */
 
 		SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("Magnetize", "The earth moves me, and I move the earth")
+                .setSpellDescription("Earthquake", "The earth moves me, and I move the earth")
                 .setSpellElements(Element.EARTH, Element.EARTH, Element.EARTH, Element.EARTH, Element.EARTH)
-                .setSpellEffects(new EffectMagnetize())
-                .createSpell("magnetize", 0));
+                .setSpellEffects(new EffectEarthquake())
+                .createSpell("earthquake", 0));
 
-        /*
-        //TODO: need idea
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("", "")
+                .setSpellDescription("Impale", "Death from below")
                 .setSpellElements(Element.EARTH, Element.EARTH, Element.EARTH, Element.DEATH, Element.DEATH)
-                .setSpellEffects()
+                .setSpellEffects(new EffectImpale())
                 .createSpell("", 0));
-        */
 
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Frost Armor", "Stay frosty!")
