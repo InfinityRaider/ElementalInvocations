@@ -36,7 +36,7 @@ public class SpellInitializer {
         */
 
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("Rebirth!", "From the ashes I shall return")
+                .setSpellDescription("Solar Rebirth", "From the ashes I shall return")
                 .setSpellElements(Element.LIFE, Element.LIFE, Element.LIFE, Element.FIRE, Element.FIRE)
                 .setSpellEffects()
                 .createSpell("solar_rebirth", 0));
@@ -56,10 +56,10 @@ public class SpellInitializer {
         /*
         //TODO: need idea
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("Rebirth!", "From the ashes I shall return")
+                .setSpellDescription("", "")
                 .setSpellElements(Element.LIFE, Element.LIFE, Element.LIFE, Element.WATER, Element.WATER)
                 .setSpellEffects()
-                .createSpell("solar_rebirth", 0));
+                .createSpell("", 0));
         */
 
 
@@ -107,7 +107,7 @@ public class SpellInitializer {
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Fire Spirit", "Guardian of flame")
                 .setSpellElements(Element.FIRE, Element.FIRE, Element.FIRE, Element.LIFE, Element.LIFE)
-                .setSpellEffects(new EffectSunstrike())
+                .setSpellEffects(new EffectFireSpirit())
                 .createSpell("fire_spirit", 0));
 
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
