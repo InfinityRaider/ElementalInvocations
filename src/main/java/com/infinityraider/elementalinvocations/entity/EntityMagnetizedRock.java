@@ -41,23 +41,23 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
 
     private EffectMagnetize effect;
     private IBlockState block;
-    private int potency;
+    private int potencyEarth;
 
     @SuppressWarnings("unused")
     public EntityMagnetizedRock(World world) {
         super(world);
     }
 
-    public EntityMagnetizedRock(EntityPlayer caster, EffectMagnetize effect, IBlockState block, int potency) {
+    public EntityMagnetizedRock(EntityPlayer caster, EffectMagnetize effect, IBlockState block, int potencyEarth) {
         super(caster);
         this.effect = effect;
         this.block = block;
-        this.potency = potency;
+        this.potencyEarth = potencyEarth;
         this.setStage(EnumStage.PULLING);
     }
 
-    public int getPotency() {
-        return this.potency;
+    public int getPotencyEarth() {
+        return this.potencyEarth;
     }
 
     public IBlockState getBlockState() {
@@ -271,12 +271,12 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
                         this.increaseHitCounter();
                     }
                     result.entityHit.setDead();
-                    shouldStop = this.getHitsTaken() >= this.getPotency();
+                    shouldStop = this.getHitsTaken() >= this.getPotencyEarth();
                 }
             } else if(result.entityHit instanceof EntityLivingBase) {
                 if(!this.getEntityWorld().isRemote && result.entityHit != this.getThrower()) {
                     EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                    MagicDamageHandler.getInstance().dealDamage(entity, this.getPotency()*2, this, Element.EARTH, this.getPotency(), this.getDirection());
+                    MagicDamageHandler.getInstance().dealDamage(entity, this.getPotencyEarth()*2, this, Element.EARTH, this.getPotencyEarth(), this.getDirection());
                 }
                 shouldStop = true;
             }
@@ -325,6 +325,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
         tag.setInteger(Names.NBT.ELEMENT, this.block.getBlock().getMetaFromState(this.block));
         tag.setInteger(Names.NBT.EXPERIENCE, this.getStage().ordinal());
         tag.setInteger(Names.NBT.LEVEL, this.getHitsTaken());
+        tag.setInteger(Names.NBT.EARTH, this.getPotencyEarth());
         return tag;
     }
 
@@ -334,6 +335,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
         this.block = Block.getBlockFromName(tag.getString(Names.NBT.CHARGE)).getStateFromMeta(tag.getInteger(Names.NBT.ELEMENT));
         this.setStage(EnumStage.values()[tag.getInteger(Names.NBT.EXPERIENCE)]);
         this.getDataManager().set(DATA_HITS, tag.getInteger(Names.NBT.LEVEL));
+        this.potencyEarth = tag.hasKey(Names.NBT.EARTH) ? tag.getInteger(Names.NBT.EARTH) : 0;
     }
 
     public enum EnumStage {

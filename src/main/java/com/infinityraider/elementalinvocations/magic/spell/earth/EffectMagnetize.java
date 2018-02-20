@@ -36,17 +36,18 @@ public class EffectMagnetize implements ISpellEffect {
 
     @Override
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
-        int potency = potencies.getPotency(Element.EARTH)/5;
+        int potencyEarth = potencies.getPotency(Element.EARTH)/3;
+        int potencyAir = potencies.getPotency(Element.AIR)/2;
         Map<BlockPos, IBlockState> blocks = this.buildPossibleRocksMap(caster);
         List<BlockPos> positions = new ArrayList<>(blocks.keySet());
         List<EntityMagnetizedRock> rocks = new ArrayList<>();
-        for(int i = 0; i < potency; i++) {
+        for(int i = 0; i < potencyAir; i++) {
             if(positions.isEmpty()) {
                 break;
             }
             int index = caster.getRNG().nextInt(positions.size());
             BlockPos pos = positions.get(index);
-            EntityMagnetizedRock entity = new EntityMagnetizedRock(caster, this, blocks.get(pos), potency);
+            EntityMagnetizedRock entity = new EntityMagnetizedRock(caster, this, blocks.get(pos), potencyEarth);
             entity.posX = pos.getX();
             entity.posY = pos.getY();
             entity.posZ = pos.getZ();
