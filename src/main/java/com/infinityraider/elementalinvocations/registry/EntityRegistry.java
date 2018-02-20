@@ -44,7 +44,7 @@ public class EntityRegistry {
                 .setRenderFactory(EntityMeteor.RenderFactory.getInstance());
 
         entityVacuum = new EntityRegistryEntry<>(EntityVacuum.class, "entity.vacuum")
-                .setTrackingDistance(32)
+                .setTrackingDistance(64)
                 .setUpdateFrequency(1)
                 .setVelocityUpdates(false)
                 .setRenderFactory(EntityVacuum.RenderFactory.getInstance());
@@ -57,14 +57,14 @@ public class EntityRegistry {
                 .setEntityTargetedBy(EntityMob.class);
 
         entityMagnetizedRock = new EntityRegistryEntry<>(EntityMagnetizedRock.class, "entity.magnetized_rock")
-                .setTrackingDistance(32)
+                .setTrackingDistance(64)
                 .setUpdateFrequency(1)
                 .setVelocityUpdates(true)
                 .setRenderFactory(EntityMagnetizedRock.RenderFactory.getInstance())
                 .registerDataSerializers(EntityMagnetizedRock.EnumStage.dataSerializer);
 
         entityTornado = new EntityRegistryEntry<>(EntityTornado.class, "entity.tornado")
-                .setTrackingDistance(32)
+                .setTrackingDistance(64)
                 .setUpdateFrequency(1)
                 .setVelocityUpdates(true)
                 .setRenderFactory(EntityTornado.RenderFactory.getInstance());

@@ -54,9 +54,7 @@ public class RenderEntityTornado extends Render<EntityTornado> {
         int quads = 16;
 
         GlStateManager.rotate((even ? 1 : -1)*angle, 0, 1, 0);
-        GlStateManager.rotate(total - layer, (layer % 2 == 0 ? 1 : 0), 0, (layer % 2 == 0 ? 0 : 1));
-        double delta = (0.25*layer)/total;
-        GlStateManager.translate((even ? 0 : 1)*delta, 0, (even ? 1 : 0)*delta);
+        GlStateManager.rotate((total - layer)/2.0F, (layer % 2 == 0 ? 1 : -1), 0, 0);
 
         TessellatorVertexBuffer tessellator = TessellatorVertexBuffer.getInstance();
         tessellator.startDrawingQuads(DefaultVertexFormats.POSITION_TEX_COLOR);
