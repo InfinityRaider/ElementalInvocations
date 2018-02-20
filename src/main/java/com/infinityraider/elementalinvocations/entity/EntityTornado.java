@@ -7,6 +7,7 @@ import com.infinityraider.elementalinvocations.render.entity.RenderEntityTornado
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -81,9 +82,7 @@ public class EntityTornado extends EntityThrowableMagic {
         while(it.hasNext()) {
             Map.Entry<Entity, Boolean> entry = it.next();
             if(!entry.getValue()) {
-                if(!this.getEntityWorld().isRemote) {
-                    MagicDamageHandler.getInstance().dealDamage(entry.getKey(), this.getPotencyDeath()/2, Element.DEATH, this.getPotencyDeath());
-                }
+                this.applyDamage(entry.getKey());
                 it.remove();
             } else {
                 entry.setValue(false);
@@ -95,6 +94,21 @@ public class EntityTornado extends EntityThrowableMagic {
                 e.motionZ = -(p.zCoord - m.zCoord)/2;
             }
         }
+    }
+
+    protected void applyDamage(Entity e) {
+        if(!this.getEntityWorld().isRemote && e instanceof EntityLivingBase) {
+            MagicDamageHandler.getInstance().dealDamage(e, this.getPotencyDeath()/2, Element.DEATH, this.getPotencyDeath());
+        }
+    }
+
+    @Override
+    public void setDead() {
+        if(!this.getEntityWorld().isRemote) {
+            this.suckedEntities.forEach((e, b) -> this.applyDamage(e));
+        }
+        this.suckedEntities.clear();
+        super.setDead();
     }
 
     @Override
