@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class EffectFrozenSoil implements ISpellEffect {
     @Override
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
+        //TODO
         return false;
-
     }
 }

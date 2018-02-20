@@ -2,12 +2,27 @@ package com.infinityraider.elementalinvocations.magic.spell.life;
 
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
+import com.infinityraider.elementalinvocations.magic.spell.SpellEffectBeamAbstract;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.RayTraceResult;
 
-public class EffectDrainLife implements ISpellEffect {
+import javax.annotation.Nullable;
+
+public class EffectDrainLife extends SpellEffectBeamAbstract {
+
     @Override
-    public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
+    protected boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick, @Nullable RayTraceResult target) {
+        //TODO
         return false;
+    }
 
+    @Override
+    protected void afterPlayerStoppedChanneling(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
+
+    }
+
+    @Override
+    protected double getBeamRange(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
+        return 0;
     }
 }

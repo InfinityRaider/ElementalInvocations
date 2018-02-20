@@ -75,6 +75,12 @@ public class ElementalInvocations extends InfinityMod implements IElementalInvoc
     }
 
     @Override
+    public Object getModSoundRegistry() {
+        //TODO: Mod sounds
+        return null;
+    }
+
+    @Override
     public void registerMessages(INetworkWrapper wrapper) {
         wrapper.registerMessage(MessageAddCharge.class);
         wrapper.registerMessage(MessageChargeAction.class);

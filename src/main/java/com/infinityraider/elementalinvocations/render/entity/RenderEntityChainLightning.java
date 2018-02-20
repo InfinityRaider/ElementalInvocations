@@ -15,7 +15,7 @@ public class RenderEntityChainLightning  extends Render<EntityChainLightning> {
 
     @Override
     public void doRender(EntityChainLightning e, double x, double y, double z, float entityYaw, float partialTicks) {
-
+        //TODO
     }
 
     @Override
