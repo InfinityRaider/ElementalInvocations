@@ -80,7 +80,7 @@ public class EntityRegistry {
                 .setVelocityUpdates(true)
                 .setRenderFactory(EntityTornado.RenderFactory.getInstance());
 
-        entityChainLightning = new EntityRegistryEntry<>(EntityChainLightning.class, "entity.tornado")
+        entityChainLightning = new EntityRegistryEntry<>(EntityChainLightning.class, "entity.chain_lightning")
                 .setTrackingDistance(64)
                 .setUpdateFrequency(2)
                 .setVelocityUpdates(true)

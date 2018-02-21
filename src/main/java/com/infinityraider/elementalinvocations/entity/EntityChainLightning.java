@@ -127,7 +127,7 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
     }
 
     public boolean isTarget(EntityLivingBase other) {
-        return other != null && other != this.getCaster() && (this.getTarget() == other || this.isParentTarget(other) || this.isDaughterTarget(other));
+        return other != null && (this.getTarget() == other || this.isParentTarget(other) || this.isDaughterTarget(other));
     }
 
     protected boolean isParentTarget(EntityLivingBase target) {
@@ -142,7 +142,7 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
         if(this.index <= 0) {
             return;
         }
-        this.getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, this.getSearchBox(), e -> ! this.isTarget(e)).stream().findAny().ifPresent(target -> {
+        this.getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, this.getSearchBox(), e -> e != this.getCaster() && !this.isTarget(e)).stream().findAny().ifPresent(target -> {
             this.daughter = new EntityChainLightning(this, target, this.index - 1);
             this.getEntityWorld().spawnEntityInWorld(this.daughter);
             this.daughterId = this.daughter.getEntityId();
@@ -167,8 +167,10 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
         if(this.getTarget() == null) {
             return;
         }
-        if(this.getTarget() instanceof EntityCreeper && !((EntityCreeper) this.getTarget()).getPowered()) {
-            this.getTarget().onStruckByLightning(null); //OK for vanilla creepers, potentially dangerous with modded creepers, we'll see...
+        if(this.getTarget() instanceof EntityCreeper) {
+            if(!((EntityCreeper) this.getTarget()).getPowered()) {
+                this.getTarget().onStruckByLightning(null); //OK for vanilla creepers, potentially dangerous with modded creepers, we'll see...
+            }
         } else {
             MagicDamageHandler.getInstance().dealDamage(this.getTarget(), this.getPotency()/2.0F, this.getCaster(), Element.AIR, this.getPotency());
         }
@@ -178,14 +180,14 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
         if(this.getTarget() != null) {
             EntityLivingBase target = this.getTarget();
             this.posX = target.posX;
-            this.posY = target.posY + target.getEyeHeight()/2;
+            this.posY = target.posY;
             this.posZ = target.posZ;
         }
     }
 
     @Override
     public void onEntityUpdate() {
-        super.onEntityUpdate();
+        this.updatePosition();
         if(!this.getEntityWorld().isRemote) {
             if(this.getCaster() == null || !this.getCaster().isEntityAlive()) {
                 this.setDead();
@@ -225,22 +227,6 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
     @Override
     protected void readEntityFromNBT(NBTTagCompound tag) {
         //caster
-        tag.setString(Names.NBT.PLAYER, this.casterId.toString());
-        //target
-        tag.setInteger(Names.NBT.TARGET, this.targetId);
-        //parent
-        tag.setInteger(Names.NBT.PARENT, this.parentId);
-        //daughter
-        tag.setInteger(Names.NBT.DAUGHTER, this.daughterId);
-        //others
-        tag.setInteger(Names.NBT.AIR, this.potency);
-        tag.setInteger(Names.NBT.COUNT, this.index);
-        tag.setBoolean(Names.NBT.CHARGE, this.master);
-    }
-
-    @Override
-    protected void writeEntityToNBT(NBTTagCompound tag) {
-        //caster
         String uuid = tag.hasKey(Names.NBT.PLAYER) ? tag.getString(Names.NBT.PLAYER) : "null";
         if(uuid.equalsIgnoreCase("null")) {
             this.casterId = null;
@@ -253,10 +239,26 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
         this.parentId = tag.hasKey(Names.NBT.PARENT) ? tag.getInteger(Names.NBT.PARENT) : -1;
         //daughter
         this.daughterId = tag.hasKey(Names.NBT.DAUGHTER) ? tag.getInteger(Names.NBT.DAUGHTER) : -1;
-        //others;
+        //others
         this.potency = tag.hasKey(Names.NBT.AIR) ? tag.getInteger(Names.NBT.AIR) : 0;
         this.index = tag.hasKey(Names.NBT.COUNT) ? tag.getInteger(Names.NBT.COUNT) : 0;
         this.master = tag.hasKey(Names.NBT.CHARGE) && tag.getBoolean(Names.NBT.CHARGE);
+    }
+
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound tag) {
+        //caster
+        tag.setString(Names.NBT.PLAYER, this.casterId.toString());
+        //target
+        tag.setInteger(Names.NBT.TARGET, this.targetId);
+        //parent
+        tag.setInteger(Names.NBT.PARENT, this.parentId);
+        //daughter
+        tag.setInteger(Names.NBT.DAUGHTER, this.daughterId);
+        //others
+        tag.setInteger(Names.NBT.AIR, this.potency);
+        tag.setInteger(Names.NBT.COUNT, this.index);
+        tag.setBoolean(Names.NBT.CHARGE, this.master);
     }
 
     @Override
