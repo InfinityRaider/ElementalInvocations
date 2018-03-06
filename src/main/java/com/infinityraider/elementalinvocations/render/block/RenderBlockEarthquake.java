@@ -47,8 +47,8 @@ public class RenderBlockEarthquake extends RenderBlockWithTileBase<BlockEarthqua
         GlStateManager.pushAttrib();
 
         float frame = (tile.getFrame() + partialTick);
-        double dy = 0.25*Math.cos(2*Math.PI*frame/tile.getMaxFrames());
-        GlStateManager.scale(1, 1+dy, 1);
+        double dy = TileEarthquake.AMPLITUDE*Math.sin(2*Math.PI*frame/tile.getMaxFrames());
+        GlStateManager.scale(1, 1 + dy, 1);
 
         //ugly, need to fix this in InfinityLib
         tessellator.draw();

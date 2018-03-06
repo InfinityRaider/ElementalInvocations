@@ -23,55 +23,55 @@ public class EffectEarthquake implements ISpellEffect {
 
     @Override
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
-        int range = potencies.getPotency(Element.EARTH) / 5;
+        int potency = potencies.getPotency(Element.EARTH) / 5;
         RayTraceResult result = RayTraceHelper.getTargetBlock(caster, 32);
         if(result != null && result.getBlockPos() != null) {
-            for(int x = -range; x <= range; x++) {
-                for(int z = -range; z <= range; z++) {
-                    this.putEarthquake(caster, caster.getEntityWorld(), result.getBlockPos().add(x, 0, z));
+            for(int x = -potency; x <= potency; x++) {
+                for(int z = -potency; z <= potency; z++) {
+                    this.putEarthquake(caster, potency, caster.getEntityWorld(), result.getBlockPos().add(x, 0, z));
                 }
             }
         }
         return false;
     }
 
-    protected void putEarthquake(EntityPlayer caster, World world, BlockPos pos) {
+    protected void putEarthquake(EntityPlayer caster, int potency, World world, BlockPos pos) {
         if(world.isAirBlock(pos)) {
-            this.putEarthQuakeDown(caster, world, pos.down(), 0);
+            this.putEarthQuakeDown(caster, potency, world, pos.down(), 0);
         } else {
-            this.putEarthQuakeUp(caster, world, pos.up(), 0);
+            this.putEarthQuakeUp(caster, potency, world, pos.up(), 0);
         }
     }
 
-    protected void putEarthQuakeDown(EntityPlayer caster, World world, BlockPos pos, int index) {
+    protected void putEarthQuakeDown(EntityPlayer caster, int potency, World world, BlockPos pos, int index) {
         if(index >= RANGE) {
             return;
         }
         if(world.isAirBlock(pos)) {
-            this.putEarthQuakeDown(caster, world, pos.down(), index + 1);
+            this.putEarthQuakeDown(caster, potency, world, pos.down(), index + 1);
         } else {
-            this.makeEarthQuake(caster, world, pos);
+            this.makeEarthQuake(caster, potency, world, pos);
         }
     }
 
-    protected void putEarthQuakeUp(EntityPlayer caster, World world, BlockPos pos, int index) {
+    protected void putEarthQuakeUp(EntityPlayer caster, int potency, World world, BlockPos pos, int index) {
         if(index >= RANGE) {
             return;
         }
         if(world.isAirBlock(pos)) {
-            this.makeEarthQuake(caster, world, pos.down());
+            this.makeEarthQuake(caster, potency, world, pos.down());
         } else {
-            this.putEarthQuakeUp(caster, world, pos.up(), index + 1);
+            this.putEarthQuakeUp(caster, potency, world, pos.up(), index + 1);
         }
     }
 
-    protected void makeEarthQuake(EntityPlayer caster, World world, BlockPos pos) {
+    protected void makeEarthQuake(EntityPlayer caster, int potency, World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         if(BLOCKS.contains(state.getBlock())) {
             world.setBlockState(pos, BlockRegistry.getInstance().blockEarthQuake.getDefaultState());
             TileEntity tile = world.getTileEntity(pos);
             if(tile instanceof TileEarthquake) {
-                ((TileEarthquake) tile).setOriginalState(state).setCaster(caster);
+                ((TileEarthquake) tile).setOriginalState(state).setCaster(caster).setPotency(potency);
             } else {
                 world.setBlockState(pos, state);
             }

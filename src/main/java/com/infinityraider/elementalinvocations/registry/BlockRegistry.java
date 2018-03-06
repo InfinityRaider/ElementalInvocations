@@ -1,7 +1,6 @@
 package com.infinityraider.elementalinvocations.registry;
 
-import com.infinityraider.elementalinvocations.block.BlockEarthquake;
-import com.infinityraider.elementalinvocations.block.BlockSolidAir;
+import com.infinityraider.elementalinvocations.block.*;
 import net.minecraft.block.Block;
 
 public class BlockRegistry {
