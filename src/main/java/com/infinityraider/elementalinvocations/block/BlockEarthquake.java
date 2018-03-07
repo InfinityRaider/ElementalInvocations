@@ -107,7 +107,7 @@ public class BlockEarthquake extends BlockTileCustomRenderedBase<TileEarthquake>
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("deprecation")
     public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World world, BlockPos pos) {
-        return getBoundingBox(state, world, pos);
+        return getBoundingBox(state, world, pos).offset(pos);
     }
 
     @Override

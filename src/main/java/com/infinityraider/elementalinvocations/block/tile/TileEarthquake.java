@@ -85,7 +85,7 @@ public class TileEarthquake extends TileEntityBase implements ITickable {
     }
 
     public AxisAlignedBB getBoundingBox() {
-        return HIT_BOXES[this.getFrame()].offset(this.xCoord(), this.yCoord(), this.zCoord());
+        return HIT_BOXES[this.getFrame()];
     }
 
     @Override
@@ -150,7 +150,7 @@ public class TileEarthquake extends TileEntityBase implements ITickable {
         AxisAlignedBB[] boxes = new AxisAlignedBB[PERIOD];
         for(int i = 0; i < PERIOD; i++) {
             double dy = AMPLITUDE*Math.sin(2*Math.PI*i/PERIOD);
-            boxes[i] = new AxisAlignedBB(0, 0, 0, 1, 1 + dy, 1);
+            boxes[i] = new AxisAlignedBB(0., 0, 0, 1, 1 + dy, 1);
         }
         HIT_BOXES = boxes;
     }

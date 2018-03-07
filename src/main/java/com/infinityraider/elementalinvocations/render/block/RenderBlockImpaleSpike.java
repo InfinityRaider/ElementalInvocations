@@ -5,7 +5,6 @@ import com.infinityraider.infinitylib.render.block.RenderBlockBase;
 import com.infinityraider.infinitylib.render.tessellation.ITessellator;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.EntityLivingBase;
@@ -39,13 +38,16 @@ public class RenderBlockImpaleSpike extends RenderBlockBase<BlockImpaleSpike> {
         this.drawSpike(tessellator, 16, 6, 2, 6, 0, 12);
 
         //Secondary spike 2
-        this.drawSpike(tessellator, 12, 8, 5, 12, 2, 14);
+        this.drawSpike(tessellator, 12, 8, 5, 4, 6, 14);
 
         //Secondary spike 3
-        this.drawSpike(tessellator, 14, 7, 4, 8, 8, 1);
+        this.drawSpike(tessellator, 14, 7, 4, 3, 8, 1);
 
         //Secondary spike 4
         this.drawSpike(tessellator, 18, 8, 6, 4, 15, 8);
+
+        //Bottom face
+        tessellator.drawScaledFace(2, 2, 14, 14, EnumFacing.DOWN, this.getIcon(), 0);
     }
 
     protected void drawSpike(ITessellator tessellator, int height, int width, int offX, int offZ, int tipX, int tipZ) {
@@ -78,7 +80,7 @@ public class RenderBlockImpaleSpike extends RenderBlockBase<BlockImpaleSpike> {
 
     @Override
     public TextureAtlasSprite getIcon() {
-        return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("stone");
+        return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:blocks/stone");
     }
 
     @Override
