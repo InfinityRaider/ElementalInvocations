@@ -10,7 +10,7 @@ public class EffectTornado implements ISpellEffect {
     @Override
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         EntityTornado tornado = new EntityTornado(caster, potencies.getPotency(Element.AIR), potencies.getPotency(Element.DEATH));
-        caster.getEntityWorld().spawnEntityInWorld(tornado);
+        caster.getEntityWorld().spawnEntity(tornado);
         return false;
     }
 

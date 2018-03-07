@@ -22,7 +22,7 @@ public class EffectConjureMeteor implements ISpellEffect {
         int potencyEarth = potencies.getPotency(Element.EARTH);
         if(channelTick == 0) {
             EntityMeteor meteor = new EntityMeteor(caster, potencyFire, potencyEarth);
-            caster.worldObj.spawnEntityInWorld(meteor);
+            caster.getEntityWorld().spawnEntity(meteor);
             meteors.put(caster, meteor);
         }
         EntityMeteor meteor = meteors.get(caster);

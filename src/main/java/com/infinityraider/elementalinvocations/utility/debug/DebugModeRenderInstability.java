@@ -45,7 +45,7 @@ public class DebugModeRenderInstability extends DebugMode {
     @SideOnly(Side.CLIENT)
     protected void toggleInstabilityRender(EntityPlayer player) {
         flag = !flag;
-        player.addChatMessage(new TextComponentString((flag ? "En" : "Dis") + "abled instability rendering on HUD"));
+        player.sendMessage(new TextComponentString((flag ? "En" : "Dis") + "abled instability rendering on HUD"));
     }
 
     @SideOnly(Side.CLIENT)

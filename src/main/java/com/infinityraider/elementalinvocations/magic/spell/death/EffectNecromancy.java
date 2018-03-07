@@ -57,7 +57,7 @@ public class EffectNecromancy implements ISpellEffect {
                 dmg.setBaseValue(dmg.getBaseValue() * (1 + modifier));
                 summons.add(mob);
             }
-            summons.forEach(m -> caster.getEntityWorld().spawnEntityInWorld(m));
+            summons.forEach(m -> caster.getEntityWorld().spawnEntity(m));
         }
         return false;
     }

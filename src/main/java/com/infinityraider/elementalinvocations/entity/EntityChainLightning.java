@@ -144,7 +144,7 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
         }
         this.getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, this.getSearchBox(), e -> e != this.getCaster() && !this.isTarget(e)).stream().findAny().ifPresent(target -> {
             this.daughter = new EntityChainLightning(this, target, this.index - 1);
-            this.getEntityWorld().spawnEntityInWorld(this.daughter);
+            this.getEntityWorld().spawnEntity(this.daughter);
             this.daughterId = this.daughter.getEntityId();
         });
     }

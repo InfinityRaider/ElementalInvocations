@@ -121,7 +121,7 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
         if (properties == null) {
             return;
         }
-        if (!player.worldObj.isRemote) {
+        if (!player.getEntityWorld().isRemote) {
             //conjure charge
             properties.getChargeConfiguration().addCharge(this.getCharge(stack));
         }

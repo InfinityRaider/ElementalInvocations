@@ -130,11 +130,6 @@ public class BlockSolidAir extends BlockTileCustomRenderedBase<TileSolidAir> {
     }
 
     @Override
-    public Class<? extends ItemBlock> getItemBlockClass() {
-        return null;
-    }
-
-    @Override
     @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState state) {
         return false;

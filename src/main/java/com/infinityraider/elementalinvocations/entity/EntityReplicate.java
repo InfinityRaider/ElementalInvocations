@@ -159,7 +159,7 @@ public class EntityReplicate extends EntityLiving implements IEntityAdditionalSp
         if(this.getPlayer() == null || this.lifeTime < 0) {
             this.setDead();
         }
-        if(!this.worldObj.isRemote && this.spellEffect == null) {
+        if(!this.getEntityWorld().isRemote && this.spellEffect == null) {
             this.setDead();
         }
     }

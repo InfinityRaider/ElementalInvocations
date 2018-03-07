@@ -24,7 +24,7 @@ public class EffectChainLightning implements ISpellEffect {
         RayTraceResult target = RayTraceHelper.getTargetEntityOrBlock(caster, 5, EntityLivingBase.class);
         if(target != null && target.typeOfHit == RayTraceResult.Type.ENTITY && target.entityHit instanceof EntityLivingBase) {
             EntityChainLightning chain = new EntityChainLightning(caster, (EntityLivingBase) target.entityHit, potencies.getPotency(Element.AIR)/5);
-            caster.getEntityWorld().spawnEntityInWorld(chain);
+            caster.getEntityWorld().spawnEntity(chain);
             chains.put(caster.getUniqueID(), chain);
             return true;
         }

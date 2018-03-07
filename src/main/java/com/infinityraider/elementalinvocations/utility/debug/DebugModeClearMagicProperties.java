@@ -34,7 +34,7 @@ public class DebugModeClearMagicProperties extends DebugMode {
             if(collection != null) {
                 collection.releaseSouls();
             }
-            player.addChatComponentMessage(new TextComponentString("Reset player magic properties"));
+            player.sendMessage(new TextComponentString("Reset player magic properties"));
         }
     }
 

@@ -26,16 +26,16 @@ public class DebugModeDisplayMagicProperties extends DebugMode {
     public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
         IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
         if(properties == null) {
-            player.addChatComponentMessage(new TextComponentString("Player magic properties not found"));
+            player.sendMessage(new TextComponentString("Player magic properties not found"));
         } else {
             if(world.isRemote) {
-                player.addChatComponentMessage(new TextComponentString("Magic properties: CLIENT"));
+                player.sendMessage(new TextComponentString("Magic properties: CLIENT"));
             } else {
-                player.addChatComponentMessage(new TextComponentString("Magic properties: SERVER"));
+                player.sendMessage(new TextComponentString("Magic properties: SERVER"));
             }
-            player.addChatComponentMessage(new TextComponentString("------------------------"));
+            player.sendMessage(new TextComponentString("------------------------"));
             for(Element element : Element.values()) {
-                player.addChatComponentMessage(
+                player.sendMessage(
                         new TextComponentString(""
                                 + element.getTextFormat() + element.name()
                                 + ": level = " + properties.getPlayerAdeptness(element)

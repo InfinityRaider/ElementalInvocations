@@ -29,7 +29,7 @@ public class PlayerSoulCollection implements ISoulCollection, ISerializable {
 
     @Override
     public void addSoul(ISoul soul) {
-        if(!player.worldObj.isRemote) {
+        if(!player.getEntityWorld().isRemote) {
             this.souls.add(soul);
             this.syncToClient();
         }
@@ -37,7 +37,7 @@ public class PlayerSoulCollection implements ISoulCollection, ISerializable {
 
     @Override
     public ISoul removeSoul() {
-        if(!player.worldObj.isRemote) {
+        if(!player.getEntityWorld().isRemote) {
             ISoul soul = this.souls.pollFirst();
             this.syncToClient();
             return soul;
@@ -47,7 +47,7 @@ public class PlayerSoulCollection implements ISoulCollection, ISerializable {
 
     @Override
     public List<ISoul> releaseSouls() {
-        if (!player.worldObj.isRemote) {
+        if (!player.getEntityWorld().isRemote) {
             List<ISoul> temp = new ArrayList<>(this.souls);
             this.souls.clear();
             this.syncToClient();

@@ -84,7 +84,7 @@ public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
     private void findEntities() {
         this.entities = new ArrayList<>();
         AxisAlignedBB area = AreaHelper.getArea(this.getPositionVector(), (this.getPotencyAir()/2 + 4)/2);
-        List<Entity> targets = this.worldObj.getEntitiesWithinAABB(Entity.class, area);
+        List<Entity> targets = this.getEntityWorld().getEntitiesWithinAABB(Entity.class, area);
         for(Entity e : targets) {
             if(e == this) {
                 continue;

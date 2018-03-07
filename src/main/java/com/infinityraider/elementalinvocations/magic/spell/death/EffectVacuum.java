@@ -14,7 +14,7 @@ public class EffectVacuum implements ISpellEffect {
         RayTraceResult target = RayTraceHelper.getTargetBlock(caster, 64);
         if(target != null && target.hitVec != null) {
             EntityVacuum vacuum = new EntityVacuum(caster.getEntityWorld(), target.hitVec, potencies.getPotency(Element.AIR), potencies.getPotency(Element.DEATH));
-            caster.getEntityWorld().spawnEntityInWorld(vacuum);
+            caster.getEntityWorld().spawnEntity(vacuum);
         }
         return false;
     }

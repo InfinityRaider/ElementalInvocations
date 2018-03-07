@@ -83,7 +83,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
             if (spell.isPresent()) {
                 spell.get().invoke(getPlayer(), this.getPotencyMap());
             } else {
-                this.getPlayer().getEntityWorld().spawnEntityInWorld(new EntityMagicProjectile(this.getPlayer(), this.getPotencyMap()));
+                this.getPlayer().getEntityWorld().spawnEntity(new EntityMagicProjectile(this.getPlayer(), this.getPotencyMap()));
             }
             new MessageChargeAction(getPlayer(), EnumMagicChargeAction.INVOKE).sendToAll();
         }

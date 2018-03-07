@@ -34,7 +34,7 @@ public class DebugModeConfigureAdeptness extends DebugMode {
         IPlayerMagicProperties magicProperties = CapabilityPlayerMagicProperties.getMagicProperties(player);
         if(magicProperties != null && !world.isRemote) {
             magicProperties.setPlayerAdeptness(this.element, (magicProperties.getPlayerAdeptness(this.element) % Constants.MAX_LEVEL ) + 1);
-            player.addChatComponentMessage(new TextComponentString(
+            player.sendMessage(new TextComponentString(
                     "Set player magic properties to: " + this.element.name() + " level " + magicProperties.getPlayerAdeptness(this.element)));
         }
     }

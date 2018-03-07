@@ -15,8 +15,8 @@ public class EffectSunstrike implements ISpellEffect {
         if(result == null) {
             return false;
         }
-        caster.worldObj.spawnEntityInWorld(new EntitySunstrike(
-                        caster.worldObj, result.hitVec.xCoord, result.hitVec.zCoord,
+        caster.getEntityWorld().spawnEntity(new EntitySunstrike(
+                        caster.getEntityWorld(), result.hitVec.xCoord, result.hitVec.zCoord,
                         potencies.getPotency(Element.FIRE), potencies.getPotency(Element.AIR)));
         return false;
     }
