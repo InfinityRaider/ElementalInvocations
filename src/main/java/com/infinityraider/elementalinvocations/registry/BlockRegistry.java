@@ -11,10 +11,12 @@ public class BlockRegistry {
     }
 
     public final Block blockEarthQuake;
+    public final Block blockImpaleSpike;
     public final Block blockSolidAir;
 
     private BlockRegistry() {
-        this.blockSolidAir = new BlockSolidAir();
         this.blockEarthQuake = new BlockEarthquake();
+        this.blockImpaleSpike = new BlockImpaleSpike();
+        this.blockSolidAir = new BlockSolidAir();
     }
 }
