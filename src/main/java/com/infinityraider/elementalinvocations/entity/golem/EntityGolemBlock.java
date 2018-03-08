@@ -1,4 +1,4 @@
-package com.infinityraider.elementalinvocations.entity;
+package com.infinityraider.elementalinvocations.entity.golem;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;

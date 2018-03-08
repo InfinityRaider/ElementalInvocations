@@ -5,14 +5,12 @@ import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.registry.BlockRegistry;
-import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 
 import java.util.List;
@@ -24,9 +22,10 @@ public class EffectImpale implements ISpellEffect {
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         int amount = potencies.getPotency(Element.EARTH) / 3;
         int potency = potencies.getPotency(Element.DEATH);
-        BlockPos pos = initialSpikePosition(caster);
+        EnumFacing dir = caster.getHorizontalFacing();
+        BlockPos pos = caster.getPosition().offset(dir, 9);
         if(pos != null) {
-            EnumFacing back = caster.getHorizontalFacing().getOpposite();
+            EnumFacing back = dir.getOpposite();
             EnumFacing left = back.rotateY();
             EnumFacing right = left.getOpposite();
             switch(amount) {
@@ -53,37 +52,32 @@ public class EffectImpale implements ISpellEffect {
 
     protected void placeSpike(EntityPlayer caster, int potency, BlockPos pos) {
         IBlockAccess world = caster.getEntityWorld();
-        if(world.isAirBlock(pos) && isValidBaseBlock(world, pos.down())) {
+        BlockPos actual = validateBlockPos(world, pos);
+        if(actual != null) {
             caster.getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(pos, pos.up(2)), e -> e != caster).forEach(entity ->
                     MagicDamageHandler.getInstance().dealDamage(entity, potency, caster, Element.EARTH, potency, caster.getLookVec()));
             caster.getEntityWorld().setBlockState(pos, BlockRegistry.getInstance().blockImpaleSpike.getDefaultState());
         }
     }
 
-    protected BlockPos initialSpikePosition(EntityPlayer caster) {
-        RayTraceResult result = RayTraceHelper.getTargetEntityOrBlock(caster, 32, e -> e instanceof EntityLivingBase);
-        if(result != null) {
-            if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
-                return validateBlockPos(caster.getEntityWorld(), result.getBlockPos());
-            }
-            if (result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit != null) {
-                return validateBlockPos(caster.getEntityWorld(), result.entityHit.getPosition());
-            }
-        }
-        return null;
+    protected BlockPos validateBlockPos(IBlockAccess world, BlockPos pos) {
+        return this.validateBlockPos(world, pos, 5);
     }
 
-    protected BlockPos validateBlockPos(IBlockAccess world, BlockPos pos) {
-        if(pos == null) {
+    protected BlockPos validateBlockPos(IBlockAccess world, BlockPos pos, int index) {
+        if(pos == null || index <= 0) {
             return null;
         }
         if(world.isAirBlock(pos)) {
-            return isValidBaseBlock(world, pos.down()) ? pos : null;
+            return validateBlockPos(world, pos.down(), index - 1);
+        } else {
+            BlockPos up = pos.up();
+            if(world.isAirBlock(up)) {
+                return isValidBaseBlock(world, pos) ? up : null;
+            } else {
+                return validateBlockPos(world, up, index - 1);
+            }
         }
-        if(world.isAirBlock(pos.up()) && isValidBaseBlock(world, pos)) {
-            return pos.up();
-        }
-        return null;
     }
 
     protected boolean isValidBaseBlock(IBlockAccess world, BlockPos pos) {
