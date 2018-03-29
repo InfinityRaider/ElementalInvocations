@@ -1,5 +1,6 @@
 package com.infinityraider.elementalinvocations.registry;
 
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.item.ItemWand;
 import com.infinityraider.elementalinvocations.item.ItemDebugger;
 import com.infinityraider.elementalinvocations.item.ItemElementalCore;
@@ -13,8 +14,8 @@ public class ItemRegistry {
     }
 
     private ItemRegistry() {
-        this.itemWand = new ItemWand();
-        this.itemElementalCore = new ItemElementalCore();
+        this.itemWand = ModConfiguration.getInstance().useClassicMode() ? new ItemWand() : null;
+        this.itemElementalCore = ModConfiguration.getInstance().useClassicMode() ? new ItemElementalCore() : null;
         this.itemDebugger = new ItemDebugger();
     }
 

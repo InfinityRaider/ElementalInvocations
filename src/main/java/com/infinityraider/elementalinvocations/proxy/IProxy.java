@@ -3,6 +3,7 @@ package com.infinityraider.elementalinvocations.proxy;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import com.infinityraider.elementalinvocations.handler.*;
+import com.infinityraider.elementalinvocations.magic.thaum.ThaumInitializer;
 import com.infinityraider.infinitylib.modules.dualwield.ModuleDualWield;
 import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
 import com.infinityraider.infinitylib.modules.specialpotioneffect.ModuleSpecialPotion;
@@ -18,6 +19,7 @@ public interface IProxy extends IProxyBase {
     default void initStart(FMLInitializationEvent event) {
         registerKeyBindings();
         SpellInitializer.init();
+        ThaumInitializer.getInstance().init();
     }
 
     @Override

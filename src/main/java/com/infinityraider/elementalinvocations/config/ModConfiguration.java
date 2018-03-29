@@ -26,6 +26,8 @@ public class ModConfiguration implements IModConfiguration {
     private final InfinityConfigurationHandler handler;
 
     //general
+    public ConfigEntry<Boolean> useThaumcraft;
+    public ConfigEntry<Boolean> classicMode;
     public ConfigEntry<Boolean> orbRecipes;
 
     //balance
@@ -50,6 +52,14 @@ public class ModConfiguration implements IModConfiguration {
 
     public Configuration getConfiguration() {
         return this.handler.getConfiguration();
+    }
+
+    public boolean useThaumcraft() {
+        return this.useThaumcraft.getValue();
+    }
+
+    public boolean useClassicMode() {
+        return this.classicMode.getValue();
     }
 
     public boolean enableOrbRecipes() {
@@ -96,7 +106,11 @@ public class ModConfiguration implements IModConfiguration {
     @Override
     public void initializeConfiguration(InfinityConfigurationHandler handler) {
         //general
-        orbRecipes = ConfigEntry.Boolean("enable orb recipes", handler, Categories.GENERAL.getCategory(), true,
+        useThaumcraft = ConfigEntry.Boolean("Use Thaumcraft", handler, Categories.GENERAL.getCategory(), true,
+                "set to false to disable Thaumcraft integration");
+        classicMode = ConfigEntry.Boolean("Classic mode", handler, Categories.GENERAL.getCategory(), false,
+                "set to true to enable the classic mode items (wands and cores)");
+        orbRecipes = ConfigEntry.Boolean("enable orb recipes", handler, Categories.GENERAL.getCategory(), false,
                 "set to false to disable recipes for the elemental orbs");
         //balance
         damageMultiplier = ConfigEntry.Float("damage multiplier", handler, Categories.BALANCE.getCategory(), 1.0F, 0.1F, 100.0F,
