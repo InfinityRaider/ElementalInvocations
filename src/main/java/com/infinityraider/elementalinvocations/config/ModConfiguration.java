@@ -26,11 +26,10 @@ public class ModConfiguration implements IModConfiguration {
     private final InfinityConfigurationHandler handler;
 
     //general
-    public ConfigEntry<Boolean> useThaumcraft;
-    public ConfigEntry<Boolean> classicMode;
     public ConfigEntry<Boolean> orbRecipes;
 
     //balance
+    public ConfigEntry<Integer> expLevelPerPotency;
     public ConfigEntry<Float> damageMultiplier;
     public ConfigEntry<Integer> fizzleConstant;
     public ConfigEntry<Integer> expConstant;
@@ -54,16 +53,12 @@ public class ModConfiguration implements IModConfiguration {
         return this.handler.getConfiguration();
     }
 
-    public boolean useThaumcraft() {
-        return this.useThaumcraft.getValue();
-    }
-
-    public boolean useClassicMode() {
-        return this.classicMode.getValue();
-    }
-
     public boolean enableOrbRecipes() {
         return this.orbRecipes.getValue();
+    }
+
+    public int getLevelsForTierLevelup() {
+        return this.expLevelPerPotency.getValue();
     }
 
     public float getDamageMultiplier() {
@@ -106,13 +101,11 @@ public class ModConfiguration implements IModConfiguration {
     @Override
     public void initializeConfiguration(InfinityConfigurationHandler handler) {
         //general
-        useThaumcraft = ConfigEntry.Boolean("Use Thaumcraft", handler, Categories.GENERAL.getCategory(), true,
-                "set to false to disable Thaumcraft integration");
-        classicMode = ConfigEntry.Boolean("Classic mode", handler, Categories.GENERAL.getCategory(), false,
-                "set to true to enable the classic mode items (wands and cores)");
         orbRecipes = ConfigEntry.Boolean("enable orb recipes", handler, Categories.GENERAL.getCategory(), false,
                 "set to false to disable recipes for the elemental orbs");
         //balance
+        expLevelPerPotency = ConfigEntry.Integer("Wand levelup exp requirement", handler, Categories.BALANCE.getCategory(), 10, 1, 20,
+                "The amount of levels needed to increase the potency of a wand in an enchantment table (<lvl req> = <cfg> * <wand tier>");
         damageMultiplier = ConfigEntry.Float("damage multiplier", handler, Categories.BALANCE.getCategory(), 1.0F, 0.1F, 100.0F,
                 "The global damage multiplier applied to all damage done by spells, tweak to balance the mod in your modpack");
         fizzleConstant = ConfigEntry.Integer("Fizzle growth factor", handler, Categories.BALANCE.getCategory(), 500, 1, 100000,
@@ -156,17 +149,6 @@ public class ModConfiguration implements IModConfiguration {
             this.getConfiguration().save();
         }
         return id;
-    }
-
-    public Tuple<Float, Integer> getElementChargeLootProperties(Element element, String type, boolean generate) {
-        float chance = this.getConfiguration().getFloat(element.name().toLowerCase() + " elemental charge " + type + " loot chance", Categories.LOOT.name(), generate ? 0.1F : 1.0F, 0.0F, 1.0F,
-                "chance for this elemental charge to generate as loot in " + type + "s");
-        int rolls = this.getConfiguration().getInt(element.name().toLowerCase() + " elemental charge " + type + " loot rolls", Categories.LOOT.name(), 1, 1, 5,
-                "maximum amount of charges generating in each chest");
-        if(this.getConfiguration().hasChanged()) {
-            this.getConfiguration().save();
-        }
-        return new Tuple<>(chance, rolls);
     }
 
     public boolean isSpellDisabled(ISpell spell) {
