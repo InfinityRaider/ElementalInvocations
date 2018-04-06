@@ -27,12 +27,13 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDualWieldedWeapon {
@@ -65,12 +66,12 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("deprecation")
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
-        WandCore core = getWandCore(stack);
-        if(core == null) {
+        Optional<WandCore> core = getWandCore(stack);
+        if(!core.isPresent()) {
             tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.noCore"));
         } else {
-            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.coreType") + ": " + core.element().getTextFormat() + core.element().name());
-            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.coreLevel") + ": " + (core.tier() + 1));
+            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.coreType") + ": " + core.get().element().getTextFormat() + core.get().element().name());
+            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.coreLevel") + ": " + (core.get().tier() + 1));
         }
         tooltip.add(" ");
         if(ElementalInvocations.proxy.isShiftKeyPressed()) {
@@ -82,6 +83,10 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
             tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L5"));
             tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L6"));
             tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L7"));
+            if(this.isEnchantable(stack)) {
+                tooltip.add(" ");
+                tooltip.add(TextFormatting.ITALIC + "(" + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info.L8") + ")");
+            }
         } else {
             tooltip.add(TextFormatting.ITALIC + TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.info"));
         }
@@ -96,17 +101,17 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
         subItems.addAll(CORES.stream().map(core -> new ItemStack(this, 1, core.getMeta())).collect(Collectors.toList()));
     }
 
-    @Nullable
-    public WandCore getWandCore(ItemStack stack) {
+    public Optional<WandCore> getWandCore(ItemStack stack) {
         if(stack == null || stack.getItemDamage() > CORES.size() || stack.getItemDamage() <= 0) {
-            return null;
+            return Optional.empty();
         }
-        return CORES.get(stack.getItemDamage() - 1);
+        return Optional.of(CORES.get(stack.getItemDamage() - 1));
     }
 
     public List<IRecipe> getRecipes() {
+        String ingot = OreDictionary.getOres("ingotSilver").isEmpty() ? "ingotIron" : "ingotSilver";
         return ImmutableList.of(
-                new ShapedOreRecipe(this, "idi", " i ", " i ", 'i', "ingotIron", 'd', "gemDiamond")
+                new ShapedOreRecipe(this, "qdq", " i ", " i ", 'i', ingot, 'd', "gemDiamond", 'q', "gemQuartz")
         );
     }
 
@@ -128,25 +133,41 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
     }
 
     @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return this.getWandCore(stack).map(WandCore::isEnchantable).orElse(false);
+    }
+
+    @Override
+    public int getItemEnchantability(ItemStack stack) {
+        return this.isEnchantable(stack) ? 1 : 0;
+    }
+
+    @Override
     public boolean onItemAttack(ItemStack stack, EntityPlayer player, Entity e, boolean shift, boolean ctrl, EnumHand hand) {
         //wands do not damage the entity, they are only used to invoke charges
         return false;
     }
 
     public IMagicCharge getCharge(ItemStack stack) {
-        WandCore core = this.getWandCore(stack);
-        return core == null ? null : core.getCharge();
+        return this.getWandCore(stack).map(WandCore::getCharge).orElse(null);
     }
 
     public ItemStack applyElementalCore(ItemStack stack, ElementalCore core) {
-        WandCore wandCore = this.getWandCore(stack);
-        if(wandCore == null) {
-            return new ItemStack(this, 1, core.element().ordinal() * Constants.CORE_TIERS + 1);
-        }
-        if(wandCore.element() == core.element() && wandCore.tier() < (Constants.CORE_TIERS - 1)) {
-            return new ItemStack(this, 1, core.element().ordinal() * Constants.CORE_TIERS + wandCore.tier() + 2);
+        if(!this.getWandCore(stack).isPresent()) {
+            return new ItemStack(this, 1 , core.element().ordinal() * Constants.CORE_TIERS + 1);
         }
         return stack;
+    }
+
+    public ItemStack incrementPotency(ItemStack stack) {
+        if(this.isEnchantable(stack)) {
+            stack.setItemDamage(stack.getItemDamage() + 1);
+        }
+        return stack;
+    }
+
+    public int getPotency(ItemStack stack) {
+        return this.getWandCore(stack).map(WandCore::tier).orElse(0);
     }
 
     public static class WandCore {
@@ -168,6 +189,10 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
 
         public int getMeta() {
             return element().ordinal() * Constants.CORE_TIERS + tier() + 1;
+        }
+
+        public boolean isEnchantable() {
+            return this.tier() < (Constants.CORE_TIERS - 1);
         }
 
         public IMagicCharge getCharge() {

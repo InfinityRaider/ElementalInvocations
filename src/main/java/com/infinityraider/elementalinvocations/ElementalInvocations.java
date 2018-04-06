@@ -15,9 +15,7 @@ import com.infinityraider.elementalinvocations.magic.spell.SpellBuilder;
 import com.infinityraider.elementalinvocations.magic.spell.SpellRegistry;
 import com.infinityraider.elementalinvocations.network.*;
 import com.infinityraider.elementalinvocations.proxy.IProxy;
-import com.infinityraider.elementalinvocations.registry.BlockRegistry;
-import com.infinityraider.elementalinvocations.registry.EntityRegistry;
-import com.infinityraider.elementalinvocations.registry.ItemRegistry;
+import com.infinityraider.elementalinvocations.registry.*;
 import com.infinityraider.infinitylib.InfinityMod;
 import com.infinityraider.infinitylib.config.IModConfiguration;
 import com.infinityraider.infinitylib.network.INetworkWrapper;
@@ -60,18 +58,28 @@ public class ElementalInvocations extends InfinityMod implements IElementalInvoc
     }
 
     @Override
-    public Object getModBlockRegistry() {
+    public BlockRegistry getModBlockRegistry() {
         return BlockRegistry.getInstance();
     }
 
     @Override
-    public Object getModItemRegistry() {
+    public ItemRegistry getModItemRegistry() {
         return ItemRegistry.getInstance();
     }
 
     @Override
-    public Object getModEntityRegistry() {
+    public EntityRegistry getModEntityRegistry() {
         return EntityRegistry.getInstance();
+    }
+
+    @Override
+    public PotionRegistry getModPotionRegistry() {
+        return PotionRegistry.getInstance();
+    }
+
+    @Override
+    public EnchantmentRegistry getModEnchantmentRegistry() {
+        return EnchantmentRegistry.getInstance();
     }
 
     @Override

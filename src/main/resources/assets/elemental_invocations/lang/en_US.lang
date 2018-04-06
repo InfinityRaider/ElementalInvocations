@@ -12,13 +12,21 @@ item.elemental_invocations:debugger.name=Debugger
 itemGroup.elemental_invocations:Elemental Invocations
 
 //tooltips
+tooltip.elemental_invocations.core.life=Simply holding it makes me feel invigorated
+tooltip.elemental_invocations.core.air=It releases a small spark on contact
+tooltip.elemental_invocations.core.fire=A peculiar warmth emanates from it
+tooltip.elemental_invocations.core.death=A shiver runs down my spine, it's probably nothing
+tooltip.elemental_invocations.core.earth=It is surprisingly heavy for its size
+tooltip.elemental_invocations.core.water=It feels cold to the touch
+
 tooltip.elemental_invocations.core.L1=A rare artifact found in dungeons
-tooltip.elemental_invocations.core.L2=Apply to a wand in an anvil to augment the wand
+tooltip.elemental_invocations.core.L2=Apply to a wand in an anvil
 tooltip.elemental_invocations.core.L3=Or consume to increase your adeptness in magic
 tooltip.elemental_invocations.core.L4=Or consume to set your magic affinity to
 tooltip.elemental_invocations.core.neutral=It emits a strange glow
 tooltip.elemental_invocations.core.positive=The orb radiates strongly, you feel energized by touching it
 tooltip.elemental_invocations.core.negative=Merely touching the orb hurts your skin
+
 tooltip.elemental_invocations.wand.info=Hold shift to show more info
 tooltip.elemental_invocations.wand.info.L1=Wands are used to conjure magic charges,
 tooltip.elemental_invocations.wand.info.L2=combinations of magic charges allow you to invoke spells
@@ -27,6 +35,8 @@ tooltip.elemental_invocations.wand.info.L4=When your concentration slips, the ma
 tooltip.elemental_invocations.wand.info.L5=Use the invoke key bind to invoke a spell, the invoked spell depends on the active charges
 tooltip.elemental_invocations.wand.info.L6=use LMB to conjure a charge from the wand in your left hand
 tooltip.elemental_invocations.wand.info.L7=use RMB to conjure a charge from the wand in your right hand
+tooltip.elemental_invocations.wand.info.L8=Use an enchanting table to empower the wand
+
 tooltip.elemental_invocations.wand.noCore=This wand does not have a core, apply a core in an anvil
 tooltip.elemental_invocations.wand.coreType=Current wand core
 tooltip.elemental_invocations.wand.coreLevel=Wand power level

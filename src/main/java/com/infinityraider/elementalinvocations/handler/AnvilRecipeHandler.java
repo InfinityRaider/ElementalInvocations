@@ -1,5 +1,6 @@
 package com.infinityraider.elementalinvocations.handler;
 
+import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.item.ItemElementalCore;
 import com.infinityraider.elementalinvocations.item.ItemWand;
 import net.minecraft.item.ItemStack;
@@ -28,7 +29,7 @@ public class AnvilRecipeHandler {
         ItemStack result = wand.applyElementalCore(wandStack, core.getElementalCore(coreStack));
         if(result.getItemDamage() != wandStack.getItemDamage()) {
             event.setMaterialCost(1);
-            event.setCost(10 * (wand.getWandCore(result).tier() + 1));
+            event.setCost(ModConfiguration.getInstance().getLevelsForTierLevelup());
             event.setOutput(result);
         }
     }

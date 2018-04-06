@@ -1,29 +1,23 @@
 package com.infinityraider.elementalinvocations.item;
 
 import com.google.common.collect.ImmutableList;
-import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.magic.ElementalCore;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import com.infinityraider.infinitylib.utility.IRecipeRegister;
 import com.infinityraider.infinitylib.utility.TranslationHelper;
 import com.infinityraider.elementalinvocations.api.Element;
-import com.infinityraider.elementalinvocations.api.IPlayerMagicProperties;
-import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.reference.InventoryTabs;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.*;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -42,56 +36,6 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
         this.setCreativeTab(InventoryTabs.ELEMENTAL_INVOCATIONS);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
-    }
-
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-        player.setActiveHand(hand);
-        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
-    }
-
-    @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase entity) {
-        boolean consume = false;
-        if(entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
-            if(properties != null) {
-                Element current = properties.getPlayerAffinity();
-                Element orb = this.getElement(stack);
-                if(current == null) {
-                    properties.setPlayerAffinity(orb);
-                    consume = true;
-                } else {
-                    if(orb == current.getOpposite() && !world.isRemote) {
-                        player.attackEntityFrom(new DamageSourceChangeAffinity(), properties.getPlayerAdeptness(orb) * player.getMaxHealth() / Constants.MAX_LEVEL);
-                    }
-                    int lvlNew = properties.getPlayerAdeptness(orb) - ModConfiguration.getInstance().getLevelLossOnAffinityChange();
-                    int lvlOld = properties.getPlayerAdeptness(current) - ModConfiguration.getInstance().getLevelLossOnAffinityChange();
-                    properties.reset();
-                    properties.setPlayerAffinity(orb);
-                    properties.setPlayerAdeptness(orb, lvlNew);
-                    properties.setPlayerAdeptness(current, lvlOld);
-                    consume = true;
-                }
-            }
-            if(player.capabilities.isCreativeMode) {
-                consume = false;
-            }
-        }
-        return consume ? null : stack;
-    }
-
-    public int getMaxItemUseDuration(ItemStack stack) {
-        return 100;
-    }
-
-    /**
-     * returns the action that specifies what animation to play when the items is being used
-     */
-    public EnumAction getItemUseAction(ItemStack stack)
-    {
-        return EnumAction.BOW;
     }
 
     @Override
@@ -114,22 +58,8 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
-        tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L1"));
-        IPlayerMagicProperties properties = CapabilityPlayerMagicProperties.getMagicProperties(player);
-        Element orb = this.getElement(stack);
-        if(properties == null) {
-            tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));
-        } else {
-            if(orb == properties.getPlayerAffinity()) {
-                tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.positive"));
-            } else if(orb.getOpposite() == properties.getPlayerAffinity()) {
-                tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.negative"));
-            } else {
-                tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.neutral"));
-            }
-        }
-        tooltip.add(TranslationHelper.translateToLocal(" "));
-        tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core.L2"));
+        Element element = this.getElement(stack);
+        tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core." + element.name().toLowerCase()));
     }
 
     @Override

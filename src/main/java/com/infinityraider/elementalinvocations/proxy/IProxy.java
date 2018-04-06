@@ -1,35 +1,24 @@
 package com.infinityraider.elementalinvocations.proxy;
 
+import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicProperties;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
 import com.infinityraider.elementalinvocations.handler.*;
-import com.infinityraider.elementalinvocations.magic.thaum.ThaumInitializer;
 import com.infinityraider.infinitylib.modules.dualwield.ModuleDualWield;
 import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
 import com.infinityraider.infinitylib.modules.specialpotioneffect.ModuleSpecialPotion;
 import com.infinityraider.infinitylib.proxy.base.IProxyBase;
 import com.infinityraider.elementalinvocations.magic.spell.SpellInitializer;
 import com.infinityraider.elementalinvocations.potion.PotionConfusion;
-import com.infinityraider.elementalinvocations.registry.PotionRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public interface IProxy extends IProxyBase {
     @Override
     default void initStart(FMLInitializationEvent event) {
         registerKeyBindings();
         SpellInitializer.init();
-        ThaumInitializer.getInstance().init();
-    }
-
-    @Override
-    default void postInitStart(FMLPostInitializationEvent event) {
-        PotionRegistry.getInstance();
-    }
-
-    @Override
-    default void onServerAboutToStart(FMLServerAboutToStartEvent event) {
-        this.registerEventHandler(LootHandler.getInstance());
     }
 
     @Override
@@ -44,6 +33,8 @@ public interface IProxy extends IProxyBase {
         this.registerEventHandler(AnvilRecipeHandler.getInstance());
         this.registerEventHandler(PlayerTickHandler.getInstance());
         this.registerEventHandler(DamageReductorHandler.getInstance());
+        this.registerEventHandler(EnchantingHandler.getInstance());
+        NetworkRegistry.INSTANCE.registerGuiHandler(ElementalInvocations.instance, EnchantingHandler.getInstance());
     }
 
     @Override
