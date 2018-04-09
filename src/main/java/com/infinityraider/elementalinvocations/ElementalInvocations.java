@@ -103,6 +103,7 @@ public class ElementalInvocations extends InfinityMod implements IElementalInvoc
         wrapper.registerMessage(MessageTrackPlayer.class);
         wrapper.registerMessage(MessageTrackPlayerUpdate.class);
         wrapper.registerMessage(MessageUpdateBeamRange.class);
+        wrapper.registerMessage(MessageUpdateGuiEnchantment.class);
     }
 
     @Override

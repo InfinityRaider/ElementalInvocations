@@ -41,6 +41,15 @@ tooltip.elemental_invocations.wand.noCore=This wand does not have a core, apply 
 tooltip.elemental_invocations.wand.coreType=Current wand core
 tooltip.elemental_invocations.wand.coreLevel=Wand power level
 
+tooltip.elemental_invocations.ench.requirements_met=The wand's core is glowing, the conditions are favorable
+tooltip.elemental_invocations.ench.requirements_life=The wand's core is not responding, perhaps I should plant some flowers nearby
+tooltip.elemental_invocations.ench.requirements_air=The wand's core is not responding, perhaps I should expose it more to the sky
+tooltip.elemental_invocations.ench.requirements_fire=The wand's core is not responding, perhaps I should try adding more netherrack nearby
+tooltip.elemental_invocations.ench.requirements_death=The wand's core is not responding, perhaps I should place some more skulls nearby
+tooltip.elemental_invocations.ench.requirements_earth=The wand's core is not responding, perhaps I should try adding more obsidian nearby
+tooltip.elemental_invocations.ench.requirements_water=The The wand's core is not responding, perhaps I should try adding more water nearby
+tooltip.elemental_invocations.ench.requirements_error=The The wand's core is not responding, I don't know what's wrong...
+
 //potion
 elemental_invocations:potion.confusion=Confused
 elemental_invocations:potion.wraith_form=Wraith Form
