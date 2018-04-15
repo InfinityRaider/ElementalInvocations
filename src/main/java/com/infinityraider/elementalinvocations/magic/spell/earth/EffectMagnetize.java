@@ -4,11 +4,14 @@ import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.entity.EntityMagnetizedRock;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -63,6 +66,9 @@ public class EffectMagnetize implements ISpellEffect {
         for(EntityMagnetizedRock rock : rocks) {
             caster.getEntityWorld().spawnEntity(rock);
         }
+        if(rocks.size() > 0) {
+            ModSoundHandler.getInstance().playSoundAtEntityOnce(caster, SoundRegistry.getInstance().SOUND_MAGNETIZE, SoundCategory.PLAYERS);
+        }
         return false;
     }
 
@@ -114,6 +120,7 @@ public class EffectMagnetize implements ISpellEffect {
                 return true;
             }
             list.get(0).throwStone(caster.getLookVec());
+            ModSoundHandler.getInstance().playSoundAtEntityOnce(caster, SoundRegistry.getInstance().SOUND_THROW_ROCK, SoundCategory.PLAYERS);
         }
         return false;
     }

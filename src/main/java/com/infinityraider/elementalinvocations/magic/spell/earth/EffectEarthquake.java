@@ -32,6 +32,7 @@ public class EffectEarthquake implements ISpellEffect {
                 }
             }
         }
+        //TODO: sound
         return false;
     }
 

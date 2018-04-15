@@ -12,6 +12,7 @@ public class EffectBallLightning implements ISpellEffect {
         EntityBallLightning ball = new EntityBallLightning(caster, potencies.getPotency(Element.AIR), potencies.getPotency(Element.WATER));
         caster.getEntityWorld().spawnEntity(ball);
         caster.startRiding(ball, true);
+        ball.startPlayingSound();
         return false;
     }
 }

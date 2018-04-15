@@ -8,11 +8,14 @@ import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.entity.ai.EntityAIFollowLord;
 import com.infinityraider.elementalinvocations.entity.ai.EntityAILordHurtByTarget;
 import com.infinityraider.elementalinvocations.entity.ai.EntityAILordHurtTarget;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
@@ -58,6 +61,9 @@ public class EffectNecromancy implements ISpellEffect {
                 summons.add(mob);
             }
             summons.forEach(m -> caster.getEntityWorld().spawnEntity(m));
+            if(summons.size() > 0) {
+                ModSoundHandler.getInstance().playSoundAtEntityOnce(caster, SoundRegistry.getInstance().SOUND_NECROMANCY, SoundCategory.PLAYERS);
+            }
         }
         return false;
     }

@@ -23,6 +23,7 @@ public class EffectWaveForm implements ISpellEffect {
             EntityWaveForm waveForm = new EntityWaveForm(caster, potency);
             caster.getEntityWorld().spawnEntity(waveForm);
             caster.startRiding(waveForm);
+            waveForm.startPlayingSound();
             waveForms.put(caster, waveForm);
         }
         EntityWaveForm waveForm = waveForms.get(caster);

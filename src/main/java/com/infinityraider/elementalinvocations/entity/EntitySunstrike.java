@@ -3,9 +3,11 @@ package com.infinityraider.elementalinvocations.entity;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
 import com.infinityraider.elementalinvocations.utility.AreaHelper;
 import com.infinityraider.elementalinvocations.network.MessageRenderSunstrike;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntitySunstrike;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.Render;
@@ -13,6 +15,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -78,6 +81,7 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
                 entities.forEach(e ->
                                 MagicDamageHandler.getInstance().dealDamage(e, getPotencyFire() * 2, Element.FIRE, this.getPotencyFire(), new Vec3d(0, 1, 0))
                 );
+                ModSoundHandler.getInstance().playSoundAtEntityOnce(this, SoundRegistry.getInstance().SOUND_SUNSTRIKE, SoundCategory.PLAYERS);
             }
             if (timer <= -10) {
                 this.setDead();
@@ -89,10 +93,12 @@ public class EntitySunstrike extends Entity implements IEntityAdditionalSpawnDat
         }
     }
 
-    @Override
-    protected void entityInit() {
-
+    public SoundCategory getSoundCategory() {
+        return SoundCategory.PLAYERS;
     }
+
+    @Override
+    protected void entityInit() {}
 
     @SideOnly(Side.CLIENT)
     public void setShouldRender() {

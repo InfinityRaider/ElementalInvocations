@@ -3,8 +3,11 @@ package com.infinityraider.elementalinvocations.entity;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityWaveForm;
 import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
+import com.infinityraider.infinitylib.sound.SoundTask;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -12,6 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -27,12 +31,15 @@ public class EntityWaveForm extends EntityThrowableMagic {
     private int potencyWater;
     private boolean channeled;
 
+    private SoundTask sound;
+
     @SuppressWarnings("unused")
     public EntityWaveForm(World world) {
         super(world);
         this.setEntityBoundingBox(BOX);
         this.noClip = false;
     }
+
     public EntityWaveForm(EntityPlayer caster, int potencyWater) {
         super(caster);
         this.potencyWater = potencyWater;
@@ -129,7 +136,23 @@ public class EntityWaveForm extends EntityThrowableMagic {
             caster.dismountRidingEntity();
             ModulePlayerState.getInstance().getState(caster).setInvisible(false).setInvulnerable(false).setEthereal(false);
         }
+        if(!this.getEntityWorld().isRemote) {
+            this.stopPlayingSound();
+        }
         super.setDead();
+    }
+
+    public void startPlayingSound() {
+        if(!this.getEntityWorld().isRemote && this.sound == null && this.getThrower() != null) {
+            this.sound = ModSoundHandler.getInstance().playSoundAtEntityContinuous(this.getThrower(), SoundRegistry.getInstance().SOUND_WAVEFORM, SoundCategory.PLAYERS);
+        }
+    }
+
+    public void stopPlayingSound() {
+        if(!this.getEntityWorld().isRemote && this.sound != null) {
+            this.sound.stop();
+            this.sound = null;
+        }
     }
 
     @Override

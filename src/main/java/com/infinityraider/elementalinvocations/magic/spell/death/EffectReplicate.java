@@ -2,6 +2,8 @@ package com.infinityraider.elementalinvocations.magic.spell.death;
 
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.capability.CapabilityPlayerSoulCollection;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.souls.ISoulCollection;
@@ -10,6 +12,7 @@ import com.infinityraider.elementalinvocations.entity.EntityReplicate;
 import com.infinityraider.elementalinvocations.utility.PlayerHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.RayTraceResult;
 
 import java.util.*;
@@ -58,6 +61,9 @@ public class EffectReplicate implements ISpellEffect {
             EffectReplicate.replicas.put(caster.getUniqueID(), replicas);
         } else {
             EffectReplicate.replicas.get(caster.getUniqueID()).addAll(replicas);
+        }
+        if(replicas.size() > 0) {
+            ModSoundHandler.getInstance().playSoundAtEntityOnce(caster, SoundRegistry.getInstance().SOUND_REPLICATE, SoundCategory.PLAYERS);
         }
         return false;
     }

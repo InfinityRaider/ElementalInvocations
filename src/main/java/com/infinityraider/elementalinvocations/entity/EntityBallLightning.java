@@ -3,14 +3,18 @@ package com.infinityraider.elementalinvocations.entity;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityBallLightning;
 import com.infinityraider.infinitylib.modules.playerstate.ModulePlayerState;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
+import com.infinityraider.infinitylib.sound.SoundTask;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -25,6 +29,8 @@ public class EntityBallLightning extends EntityThrowableMagic {
     private int potencyAir;
     private int potencyWater;
     private int timer;
+
+    private SoundTask sound;
 
     @SuppressWarnings("unused")
     public EntityBallLightning(World world) {
@@ -75,7 +81,23 @@ public class EntityBallLightning extends EntityThrowableMagic {
             caster.dismountRidingEntity();
             ModulePlayerState.getInstance().getState(caster).setInvisible(false).setInvulnerable(false).setEthereal(false).setUndetectable(false);
         }
+        if(!this.getEntityWorld().isRemote) {
+            this.stopPlayingSound();
+        }
         super.setDead();
+    }
+
+    public void startPlayingSound() {
+        if(!this.getEntityWorld().isRemote && this.sound == null && this.getThrower() != null) {
+            this.sound = ModSoundHandler.getInstance().playSoundAtEntityContinuous(this.getThrower(), SoundRegistry.getInstance().SOUND_BALL_LIGHTNING, SoundCategory.PLAYERS);
+        }
+    }
+
+    public void stopPlayingSound() {
+        if(!this.getEntityWorld().isRemote && this.sound != null) {
+            this.sound.stop();
+            this.sound = null;
+        }
     }
 
     @Override

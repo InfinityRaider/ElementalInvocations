@@ -37,6 +37,7 @@ public class EffectFireBeam extends SpellEffectBeamAbstract {
                 }
             }
         }
+        //TODO: sound
         return true;
     }
 

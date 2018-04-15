@@ -3,7 +3,9 @@ package com.infinityraider.elementalinvocations.entity;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityMeteor;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import com.infinityraider.elementalinvocations.utility.AreaHelper;
 import net.minecraft.client.Minecraft;
@@ -13,6 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -80,6 +83,9 @@ public class EntityMeteor extends EntityThrowableMagic {
         entities.forEach(e ->
                 MagicDamageHandler.getInstance().dealDamage(e, 2*getPotencyFire(), this, Element.FIRE, this.getPotencyFire(), this.getDirection())
         );
+        if(!this.getEntityWorld().isRemote) {
+            ModSoundHandler.getInstance().playSoundAtEntityOnce(this, SoundRegistry.getInstance().SOUND_METEOR, SoundCategory.PLAYERS);
+        }
         this.setDead();
     }
 

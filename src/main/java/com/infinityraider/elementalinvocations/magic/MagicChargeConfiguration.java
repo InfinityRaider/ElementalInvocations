@@ -10,10 +10,12 @@ import com.infinityraider.elementalinvocations.network.MessageAddCharge;
 import com.infinityraider.elementalinvocations.network.MessageChargeAction;
 import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.reference.Names;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
 import javafx.util.Pair;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
@@ -86,6 +88,8 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
                 this.getPlayer().getEntityWorld().spawnEntity(new EntityMagicProjectile(this.getPlayer(), this.getPotencyMap()));
             }
             new MessageChargeAction(getPlayer(), EnumMagicChargeAction.INVOKE).sendToAll();
+            this.getPlayer().getEntityWorld().playSound(null, this.getPlayer().posX, this.getPlayer().posY, this.getPlayer().posZ,
+                    SoundRegistry.getInstance().SOUND_INVOKE, SoundCategory.PLAYERS, 0.5F, 0.5F);
         }
         this.addExperienceOnCast(spell.isPresent());
         this.effectTimers.add(MagicEffectTimer.Invoke(this));
@@ -96,6 +100,8 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
     public void fade() {
         if(!this.getPlayer().getEntityWorld().isRemote) {
             new MessageChargeAction(this.getPlayer(), EnumMagicChargeAction.FADE).sendToAll();
+            this.getPlayer().getEntityWorld().playSound(null, this.getPlayer().posX, this.getPlayer().posY, this.getPlayer().posZ,
+                    SoundRegistry.getInstance().SOUND_FADE, SoundCategory.PLAYERS, 0.5F, 0.5F);
         }
         this.effectTimers.add(MagicEffectTimer.Fade(this));
         this.clearCharges();
@@ -113,6 +119,8 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
                 }
             }
             new MessageChargeAction(this.getPlayer(), EnumMagicChargeAction.FIZZLE).sendToAll();
+            this.getPlayer().getEntityWorld().playSound(null, this.getPlayer().posX, this.getPlayer().posY, this.getPlayer().posZ,
+                    SoundRegistry.getInstance().SOUND_FIZZLE, SoundCategory.PLAYERS, 0.5F, 0.5F);
         }
         this.effectTimers.add(MagicEffectTimer.Fizzle(this));
         this.clearCharges();

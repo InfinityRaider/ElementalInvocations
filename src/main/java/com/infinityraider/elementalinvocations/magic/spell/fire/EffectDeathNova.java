@@ -13,6 +13,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
 public class EffectDeathNova implements ISpellEffect {
+    //TODO: rework
     @Override
     public boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
         int potencyFire = potencies.getPotency(Element.FIRE);

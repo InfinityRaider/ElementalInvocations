@@ -6,11 +6,14 @@ import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.api.spells.ISpellEffect;
 import com.infinityraider.elementalinvocations.block.tile.TileSolidAir;
 import com.infinityraider.elementalinvocations.registry.BlockRegistry;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -55,6 +58,7 @@ public class EffectSolidAir implements ISpellEffect {
                 }
             }
         }
+        ModSoundHandler.getInstance().playSoundAtEntityOnce(caster, SoundRegistry.getInstance().SOUND_SOLID_AIR, SoundCategory.PLAYERS);
         return false;
     }
 

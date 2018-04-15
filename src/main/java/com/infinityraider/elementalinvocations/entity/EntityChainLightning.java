@@ -4,7 +4,10 @@ import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.magic.spell.air.EffectChainLightning;
 import com.infinityraider.elementalinvocations.reference.Names;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityChainLightning;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
+import com.infinityraider.infinitylib.sound.SoundTask;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -13,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -31,6 +35,8 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
     private EntityLivingBase target;
     private EntityChainLightning parent;
     private EntityChainLightning daughter;
+
+    private SoundTask sound;
 
     private UUID casterId;
     private int targetId;
@@ -145,6 +151,7 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
         this.getEntityWorld().getEntitiesWithinAABB(EntityLivingBase.class, this.getSearchBox(), e -> e != this.getCaster() && !this.isTarget(e)).stream().findAny().ifPresent(target -> {
             this.daughter = new EntityChainLightning(this, target, this.index - 1);
             this.getEntityWorld().spawnEntity(this.daughter);
+            this.daughter.startPlayingSound();
             this.daughterId = this.daughter.getEntityId();
         });
     }
@@ -216,6 +223,7 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
             parent.daughterId = -1;
         });
         if(!this.getEntityWorld().isRemote) {
+            this.stopPlayingSound();
             EffectChainLightning.onChainStopped(this);
         }
         super.setDead();
@@ -223,6 +231,19 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
 
     @Override
     protected void entityInit() {}
+
+    public void startPlayingSound() {
+        if(!this.getEntityWorld().isRemote && this.sound == null) {
+            this.sound = ModSoundHandler.getInstance().playSoundAtEntityContinuous(this, SoundRegistry.getInstance().SOUND_CHAIN_LIGHTNING, SoundCategory.PLAYERS);
+        }
+    }
+
+    public void stopPlayingSound() {
+        if(!this.getEntityWorld().isRemote && this.sound != null) {
+            this.sound.stop();
+            this.sound = null;
+        }
+    }
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound tag) {

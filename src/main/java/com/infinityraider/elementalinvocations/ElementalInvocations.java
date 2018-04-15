@@ -84,8 +84,7 @@ public class ElementalInvocations extends InfinityMod implements IElementalInvoc
 
     @Override
     public Object getModSoundRegistry() {
-        //TODO: Mod sounds
-        return null;
+        return SoundRegistry.getInstance();
     }
 
     @Override

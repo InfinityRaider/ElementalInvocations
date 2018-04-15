@@ -26,6 +26,7 @@ public class EffectChainLightning implements ISpellEffect {
             EntityChainLightning chain = new EntityChainLightning(caster, (EntityLivingBase) target.entityHit, potencies.getPotency(Element.AIR)/5);
             caster.getEntityWorld().spawnEntity(chain);
             chains.put(caster.getUniqueID(), chain);
+            chain.startPlayingSound();
             return true;
         }
         return false;

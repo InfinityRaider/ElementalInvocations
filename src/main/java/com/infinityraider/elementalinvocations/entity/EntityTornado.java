@@ -3,13 +3,17 @@ package com.infinityraider.elementalinvocations.entity;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityTornado;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
+import com.infinityraider.infinitylib.sound.SoundTask;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -23,10 +27,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class EntityTornado extends EntityThrowableMagic {
-    int potencyAir;
-    int potencyDeath;
+    private int potencyAir;
+    private int potencyDeath;
 
-    int timer;
+    private int timer;
+
+    private SoundTask sound;
 
     private Map<Entity, Boolean> suckedEntities;
 
@@ -106,9 +112,23 @@ public class EntityTornado extends EntityThrowableMagic {
     public void setDead() {
         if(!this.getEntityWorld().isRemote) {
             this.suckedEntities.forEach((e, b) -> this.applyDamage(e));
+            this.stopPlayingSound();
         }
         this.suckedEntities.clear();
         super.setDead();
+    }
+
+    public void startPlayingSound() {
+        if(!this.getEntityWorld().isRemote && this.sound == null) {
+            this.sound = ModSoundHandler.getInstance().playSoundAtEntityOnce(this, SoundRegistry.getInstance().SOUND_TORNADO, SoundCategory.PLAYERS);
+        }
+    }
+
+    public void stopPlayingSound() {
+        if(!this.getEntityWorld().isRemote && this.sound != null) {
+            this.sound.stop();
+            this.sound = null;
+        }
     }
 
     @Override
