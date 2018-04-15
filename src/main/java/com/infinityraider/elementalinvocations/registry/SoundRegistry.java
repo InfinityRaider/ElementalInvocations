@@ -17,6 +17,7 @@ public class SoundRegistry {
     public final SoundEvent SOUND_FADE;
     public final SoundEvent SOUND_FIZZLE;
     public final SoundEvent SOUND_FROST_ARMOR;
+    public final SoundEvent SOUND_HEX;
     public final SoundEvent SOUND_IMPALE;
     public final SoundEvent SOUND_INVOKE;
     public final SoundEvent SOUND_LIVING_ARMOR;
@@ -38,6 +39,7 @@ public class SoundRegistry {
         this.SOUND_FADE = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "fade"));
         this.SOUND_FIZZLE = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "fizzle"));
         this.SOUND_FROST_ARMOR = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "frost_armor"));
+        this.SOUND_HEX = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "hex"));
         this.SOUND_IMPALE = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "impale"));
         this.SOUND_INVOKE = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "invoke"));
         this.SOUND_LIVING_ARMOR = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "living_armor"));

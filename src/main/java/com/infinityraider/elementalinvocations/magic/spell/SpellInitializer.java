@@ -10,6 +10,7 @@ import com.infinityraider.elementalinvocations.magic.spell.death.EffectReplicate
 import com.infinityraider.elementalinvocations.magic.spell.earth.*;
 import com.infinityraider.elementalinvocations.magic.spell.air.EffectSolidAir;
 import com.infinityraider.elementalinvocations.magic.spell.fire.*;
+import com.infinityraider.elementalinvocations.magic.spell.life.EffectHex;
 import com.infinityraider.elementalinvocations.magic.spell.life.EffectSummonEnt;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectMistForm;
 import com.infinityraider.elementalinvocations.magic.spell.water.EffectFrozenSoil;
@@ -26,14 +27,11 @@ public class SpellInitializer {
                 .setSpellEffects(new EffectSummonEnt())
                 .createSpell("summon_ent", 0));
 
-        /*
-        //TODO: need idea
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
-                .setSpellDescription("", "")
+                .setSpellDescription("Chicken!", "Bukaw, bukaw, bukaw")
                 .setSpellElements(Element.LIFE, Element.LIFE, Element.LIFE, Element.AIR, Element.AIR)
-                .setSpellEffects()
-                .createSpell("", 0));
-        */
+                .setSpellEffects(new EffectHex())
+                .createSpell("hex", 0));
 
         SpellRegistry.getInstance().addSpell(new SpellBuilder()
                 .setSpellDescription("Solar Rebirth", "From the ashes I shall return")

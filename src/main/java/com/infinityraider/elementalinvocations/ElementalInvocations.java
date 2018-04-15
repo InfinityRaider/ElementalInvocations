@@ -83,7 +83,7 @@ public class ElementalInvocations extends InfinityMod implements IElementalInvoc
     }
 
     @Override
-    public Object getModSoundRegistry() {
+    public SoundRegistry getModSoundRegistry() {
         return SoundRegistry.getInstance();
     }
 
@@ -91,6 +91,7 @@ public class ElementalInvocations extends InfinityMod implements IElementalInvoc
     public void registerMessages(INetworkWrapper wrapper) {
         wrapper.registerMessage(MessageAddCharge.class);
         wrapper.registerMessage(MessageChargeAction.class);
+        wrapper.registerMessage(MessageHexed.class);
         wrapper.registerMessage(MessageKeyPressed.class);
         wrapper.registerMessage(MessageRenderSunstrike.class);
         wrapper.registerMessage(MessageSetPlayerPosition.class);

@@ -5,6 +5,7 @@
   "fade": {"category": "player", "sounds": ["elemental_invocations:fade"], "subtitle": "sound.elemental_invocations.fade"},
   "fizzle": {"category": "player", "sounds": ["elemental_invocations:fizzle"], "subtitle": "sound.elemental_invocations.fizzle"},
   "frost_armor": {"category": "player", "sounds": ["elemental_invocations:frost_armor"], "subtitle": "sound.elemental_invocations.frost_armor"},
+  "hex": {"category": "player", "sounds": ["elemental_invocations:hex"], "subtitle": "sound.elemental_invocations.hex"},
   "impale": {"category": "player", "sounds": ["elemental_invocations:impale"], "subtitle": "sound.elemental_invocations.impale"},
   "invoke": {"category": "player", "sounds": ["elemental_invocations:invoke"], "subtitle": "sound.elemental_invocations.invoke"},
   "living_armor": {"category": "player", "sounds": ["elemental_invocations:living_armor"], "subtitle": "sound.elemental_invocations.living_armor"},

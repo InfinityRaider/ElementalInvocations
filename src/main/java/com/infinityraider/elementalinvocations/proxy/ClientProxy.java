@@ -3,6 +3,7 @@ package com.infinityraider.elementalinvocations.proxy;
 import com.infinityraider.elementalinvocations.handler.KeyInputHandler;
 import com.infinityraider.elementalinvocations.handler.PlayerMovementTrackingHandler;
 import com.infinityraider.elementalinvocations.potion.PotionConfusion;
+import com.infinityraider.elementalinvocations.render.entity.RenderHexedHandler;
 import com.infinityraider.elementalinvocations.render.player.RenderLayerPotionEffect;
 import com.infinityraider.elementalinvocations.render.player.RenderThirdPersonHandler;
 import com.infinityraider.elementalinvocations.render.player.RenderFirstPersonHandler;
@@ -32,6 +33,7 @@ public class ClientProxy implements IProxy, IClientProxyBase {
         IProxy.super.registerEventHandlers();
         this.registerEventHandler(KeyInputHandler.getInstance());
         this.registerEventHandler(RenderFirstPersonHandler.getInstance());
+        this.registerEventHandler(RenderHexedHandler.getInstance());
         this.registerEventHandler(RenderThirdPersonHandler.getInstance());
         this.registerEventHandler(PlayerMovementTrackingHandler.getInstance());
     }
