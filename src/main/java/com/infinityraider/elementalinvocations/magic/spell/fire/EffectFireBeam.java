@@ -4,15 +4,23 @@ import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IPotencyMap;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.magic.spell.SpellEffectBeamAbstract;
+import com.infinityraider.elementalinvocations.registry.SoundRegistry;
+import com.infinityraider.infinitylib.sound.ModSoundHandler;
+import com.infinityraider.infinitylib.sound.SoundTask;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class EffectFireBeam extends SpellEffectBeamAbstract {
+    private static Map<UUID, SoundTask> sounds = new HashMap<>();
 
     @Override
     protected boolean apply(EntityPlayer caster, IPotencyMap potencies, int channelTick, @Nullable RayTraceResult target) {
@@ -37,12 +45,19 @@ public class EffectFireBeam extends SpellEffectBeamAbstract {
                 }
             }
         }
-        //TODO: sound
+        if(sounds.containsKey(caster.getUniqueID())) {
+            sounds.get(caster.getUniqueID()).stop();
+        }
+        sounds.put(caster.getUniqueID(), ModSoundHandler.getInstance().playSoundAtEntityContinuous(caster, SoundRegistry.getInstance().SOUND_FIRE_BEAM, SoundCategory.PLAYERS));
         return true;
     }
 
     @Override
-    protected void afterPlayerStoppedChanneling(EntityPlayer caster, IPotencyMap potencies, int channelTick) {}
+    protected void afterPlayerStoppedChanneling(EntityPlayer caster, IPotencyMap potencies, int channelTick) {
+        if(sounds.containsKey(caster.getUniqueID())) {
+            sounds.remove(caster.getUniqueID()).stop();
+        }
+    }
 
     @Override
     protected double getBeamRange(EntityPlayer caster, IPotencyMap potencies, int channelTick) {

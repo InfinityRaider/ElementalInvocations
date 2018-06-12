@@ -15,6 +15,7 @@ public class SoundRegistry {
     public final SoundEvent SOUND_CHAIN_LIGHTNING;
     public final SoundEvent SOUND_EARTHQUAKE;
     public final SoundEvent SOUND_FADE;
+    public final SoundEvent SOUND_FIRE_BEAM;
     public final SoundEvent SOUND_FIZZLE;
     public final SoundEvent SOUND_FROST_ARMOR;
     public final SoundEvent SOUND_HEX;
@@ -37,6 +38,7 @@ public class SoundRegistry {
         this.SOUND_CHAIN_LIGHTNING = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "chain_lightning"));
         this.SOUND_EARTHQUAKE = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "earthquake"));
         this.SOUND_FADE = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "fade"));
+        this.SOUND_FIRE_BEAM = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "fire_beam"));
         this.SOUND_FIZZLE = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "fizzle"));
         this.SOUND_FROST_ARMOR = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "frost_armor"));
         this.SOUND_HEX = new SoundEvent(new ResourceLocation(Reference.MOD_ID.toLowerCase(), "hex"));

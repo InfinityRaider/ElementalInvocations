@@ -30,7 +30,7 @@ public class RenderEntityReplicate extends RenderLivingBase<EntityReplicate> {
 
     @Override
     public ModelPlayer getMainModel() {
-        return (ModelPlayer)super.getMainModel();
+        return (ModelPlayer) super.getMainModel();
     }
 
     @Override

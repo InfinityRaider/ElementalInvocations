@@ -3,6 +3,7 @@
   "chain_lightning": {"category": "player", "sounds": ["elemental_invocations:chain_lightning"], "subtitle": "sound.elemental_invocations.chain_lightning"},
   "earthquake": {"category": "player", "sounds": ["elemental_invocations:earthquake"], "subtitle": "sound.elemental_invocations.earthquake"},
   "fade": {"category": "player", "sounds": ["elemental_invocations:fade"], "subtitle": "sound.elemental_invocations.fade"},
+  "fire_beam": {"category": "player", "sounds": ["elemental_invocations:fire_beam"], "subtitle": "sound.elemental_invocations.fire_beam"},
   "fizzle": {"category": "player", "sounds": ["elemental_invocations:fizzle"], "subtitle": "sound.elemental_invocations.fizzle"},
   "frost_armor": {"category": "player", "sounds": ["elemental_invocations:frost_armor"], "subtitle": "sound.elemental_invocations.frost_armor"},
   "hex": {"category": "player", "sounds": ["elemental_invocations:hex"], "subtitle": "sound.elemental_invocations.hex"},

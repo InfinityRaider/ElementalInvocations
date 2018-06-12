@@ -148,7 +148,6 @@ public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
         this.potencyAir = buffer.readInt();
     }
 
-
     public static class RenderFactory implements IRenderFactory<EntityVacuum> {
         private static final RenderFactory INSTANCE = new RenderFactory();
 

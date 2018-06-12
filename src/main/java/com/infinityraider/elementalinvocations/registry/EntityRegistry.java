@@ -21,6 +21,7 @@ public class EntityRegistry {
     public final EntityRegistryEntry<EntityMagnetizedRock> entityMagnetizedRock;
     public final EntityRegistryEntry<EntityTornado> entityTornado;
     public final EntityRegistryEntry<EntityChainLightning> entityChainLightning;
+    public final EntityRegistryEntry<EntityStaticRemnant> entityStaticRemnant;
 
     @SuppressWarnings("unchecked")
     private EntityRegistry() {
@@ -85,5 +86,11 @@ public class EntityRegistry {
                 .setUpdateFrequency(2)
                 .setVelocityUpdates(true)
                 .setRenderFactory(EntityChainLightning.RenderFactory.getInstance());
+
+        entityStaticRemnant = new EntityRegistryEntry<>(EntityStaticRemnant.class, "entity.static_remnant")
+                .setTrackingDistance(32)
+                .setUpdateFrequency(1)
+                .setVelocityUpdates(false)
+                .setRenderFactory(EntityStaticRemnant.RenderFactory.getInstance());
     }
 }
