@@ -1,3 +1,23 @@
-{	
-	
+{
+  "ball_lightning": {"category": "player", "sounds": ["elemental_invocations:ball_lightning"], "subtitle": "sound.elemental_invocations.ball_lightning"},
+  "chain_lightning": {"category": "player", "sounds": ["elemental_invocations:chain_lightning"], "subtitle": "sound.elemental_invocations.chain_lightning"},
+  "earthquake": {"category": "player", "sounds": ["elemental_invocations:earthquake"], "subtitle": "sound.elemental_invocations.earthquake"},
+  "fade": {"category": "player", "sounds": ["elemental_invocations:fade"], "subtitle": "sound.elemental_invocations.fade"},
+  "fire_beam": {"category": "player", "sounds": ["elemental_invocations:fire_beam"], "subtitle": "sound.elemental_invocations.fire_beam"},
+  "fizzle": {"category": "player", "sounds": ["elemental_invocations:fizzle"], "subtitle": "sound.elemental_invocations.fizzle"},
+  "frost_armor": {"category": "player", "sounds": ["elemental_invocations:frost_armor"], "subtitle": "sound.elemental_invocations.frost_armor"},
+  "hex": {"category": "player", "sounds": ["elemental_invocations:hex"], "subtitle": "sound.elemental_invocations.hex"},
+  "impale": {"category": "player", "sounds": ["elemental_invocations:impale"], "subtitle": "sound.elemental_invocations.impale"},
+  "invoke": {"category": "player", "sounds": ["elemental_invocations:invoke"], "subtitle": "sound.elemental_invocations.invoke"},
+  "living_armor": {"category": "player", "sounds": ["elemental_invocations:living_armor"], "subtitle": "sound.elemental_invocations.living_armor"},
+  "magnetize": {"category": "player", "sounds": ["elemental_invocations:magnetize"], "subtitle": "sound.elemental_invocations.magnetize"},
+  "meteor": {"category": "player", "sounds": ["elemental_invocations:meteor"], "subtitle": "sound.elemental_invocations.meteor"},
+  "necromancy": {"category": "player", "sounds": ["elemental_invocations:necromancy"], "subtitle": "sound.elemental_invocations.necromancy"},
+  "replicate": {"category": "player", "sounds": ["elemental_invocations:replicate"], "subtitle": "sound.elemental_invocations.replicate"},
+  "solid_air": {"category": "player", "sounds": ["elemental_invocations:solid_air"], "subtitle": "sound.elemental_invocations.solid_air"},
+  "sunstrike": {"category": "player", "sounds": ["elemental_invocations:sunstrike"], "subtitle": "sound.elemental_invocations.sunstrike"},
+  "throw_rock": {"category": "player", "sounds": ["elemental_invocations:throw_rock"], "subtitle": "sound.elemental_invocations.throw_rock"},
+  "tornado": {"category": "player", "sounds": ["elemental_invocations:tornado"], "subtitle": "sound.elemental_invocations.tornado"},
+  "vacuum": {"category": "player", "sounds": ["elemental_invocations:vacuum"], "subtitle": "sound.elemental_invocations.vacuum"},
+  "waveform": {"category": "player", "sounds": ["elemental_invocations:waveform"], "subtitle": "sound.elemental_invocations.waveform"}
 }

@@ -17,6 +17,21 @@ plugins {
 	id 'com.rlonryan.quikmod' version '1.0.17'
 }
 
+repositories {
+    maven {
+        name "JEI"
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
+// List Deps.
+dependencies {
+	//JEI
+    deobfCompile "mezz.jei:jei_1.10.2:3.14.7.416"
+	//Thaumcraft
+	//compile files(Thaumcraft-1.10.2-6.0.BETA3-deobf.jar')
+}
+
 dependencies {
     compile project(':lib/InfinityLib')
 }
