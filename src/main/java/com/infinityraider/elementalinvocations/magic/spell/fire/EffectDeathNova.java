@@ -26,7 +26,7 @@ public class EffectDeathNova implements ISpellEffect {
                 Vec3d position = target.getPositionVector();
                 target.setDead();
                 //tnt = 4, creeper = 3, this goes from 1 to 5
-                target.getEntityWorld().newExplosion(target, position.xCoord, position.yCoord, position.zCoord, potencyFire/3, true, potencyFire >= 12);
+                target.getEntityWorld().newExplosion(target, position.x, position.y, position.z, potencyFire/3, true, potencyFire >= 12);
                 ISoulCollection collection = CapabilityPlayerSoulCollection.getSoulCollection(caster);
                 if(collection != null) {
                     collection.addSoul(new BasicSoul(target.getName()));

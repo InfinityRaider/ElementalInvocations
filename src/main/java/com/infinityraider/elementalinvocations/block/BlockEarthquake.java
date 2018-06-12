@@ -94,11 +94,11 @@ public class BlockEarthquake extends BlockTileCustomRenderedBase<TileEarthquake>
         return getTile(world, pos).map(TileEarthquake::getBoundingBox).orElse(FULL_BLOCK_AABB);
     }
 
-    @Nullable
     @Override
     @Deprecated
+    @Nullable
     @SuppressWarnings("deprecation")
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
         return getBoundingBox(state, world, pos);
     }
 

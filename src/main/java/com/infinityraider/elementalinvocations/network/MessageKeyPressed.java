@@ -29,7 +29,7 @@ public class MessageKeyPressed extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        EntityPlayer player = ctx.getServerHandler().playerEntity;
+        EntityPlayer player = ctx.getServerHandler().player;
         if (player != null) {
             switch (this.buttonId) {
                 case KeyBindings.KEY_INVOKE:

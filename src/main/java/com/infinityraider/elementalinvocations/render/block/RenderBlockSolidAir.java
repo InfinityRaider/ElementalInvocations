@@ -28,7 +28,7 @@ public class RenderBlockSolidAir extends RenderBlockWithTileBase<BlockSolidAir, 
 
     @Override
     public void renderWorldBlockDynamic(ITessellator tessellator, World world, BlockPos pos, double x, double y, double z,
-                                        BlockSolidAir block, TileSolidAir tile, float partialTick, int destroyStage) {}
+                                        BlockSolidAir block, TileSolidAir tile, float partialTick, int destroyStage, float alpha) {}
 
     @Override
     public void renderInventoryBlock(ITessellator tessellator, World world, IBlockState state, BlockSolidAir block, TileSolidAir tile,

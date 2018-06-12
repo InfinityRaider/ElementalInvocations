@@ -1,9 +1,9 @@
 package com.infinityraider.elementalinvocations.render;
 
 import com.infinityraider.elementalinvocations.config.ModConfiguration;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -18,7 +18,7 @@ public class RenderUtil {
     public void renderCoordinateSystemDebug() {
         if(ModConfiguration.getInstance().debug()) {
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer buffer = tessellator.getBuffer();
+            BufferBuilder buffer = tessellator.getBuffer();
 
             GlStateManager.pushAttrib();
             GlStateManager.disableTexture2D();

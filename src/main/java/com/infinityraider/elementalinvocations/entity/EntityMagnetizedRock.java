@@ -72,7 +72,7 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
     }
 
     public void throwStone(Vec3d direction) {
-        this.setThrowableHeading(direction.xCoord, direction.yCoord, direction.zCoord, 2.5F, 0.1F);
+        this.shoot(direction.x, direction.y, direction.z, 2.5F, 0.1F);
         this.setStage(EnumStage.THROWN);
     }
 
@@ -117,9 +117,9 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
             if(delta > 2*VELOCITY) {
                 m = 2*delta/3;
             }
-            this.motionX = direction.xCoord*(VELOCITY)*m*(delta > 0 ? 1 : -1);
+            this.motionX = direction.x*(VELOCITY)*m*(delta > 0 ? 1 : -1);
             this.motionY = dy;
-            this.motionZ = direction.zCoord*(VELOCITY)*m*(delta > 0 ? 1 : -1);
+            this.motionZ = direction.z*(VELOCITY)*m*(delta > 0 ? 1 : -1);
         } else {
             this.motionX = 0;
             this.motionY = (VELOCITY) * ((player.posY + player.height/2) >= this.posY ? 1 : -1);
@@ -152,19 +152,19 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
             RayTraceResult hit = this.getEntityWorld().rayTraceBlocks(oldPosition, nextPosition);
             oldPosition = new Vec3d(this.posX, this.posY, this.posZ);
             if (hit != null) {
-                nextPosition = new Vec3d(hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord);
+                nextPosition = new Vec3d(hit.hitVec.x, hit.hitVec.y, hit.hitVec.z);
             } else {
                 nextPosition = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
             }
             Entity entity = null;
-            List<Entity> list = this.getEntityWorld().getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expandXyz(1.0D));
+            List<Entity> list = this.getEntityWorld().getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(this.motionX, this.motionY, this.motionZ).grow(1.0D));
             double d0 = 0.0D;
             for (Entity entityAt : list) {
                 if (entityAt.canBeCollidedWith()) {
                     if (this.ticksExisted < 2 && this.ignoreEntity == null) {
                         this.ignoreEntity = entityAt;
                     } else {
-                        AxisAlignedBB axisalignedbb = entityAt.getEntityBoundingBox().expandXyz(0.30000001192092896D);
+                        AxisAlignedBB axisalignedbb = entityAt.getEntityBoundingBox().grow(0.30000001192092896D);
                         RayTraceResult hitEntity = axisalignedbb.calculateIntercept(oldPosition, nextPosition);
                         if (hitEntity != null) {
                             double d1 = oldPosition.squareDistanceTo(hitEntity.hitVec);
@@ -357,6 +357,11 @@ public class EntityMagnetizedRock extends EntityThrowableMagic {
             @Override
             public DataParameter<EnumStage> createKey(int id) {
                 return new DataParameter<>(id, this);
+            }
+
+            @Override
+            public EnumStage copyValue(EnumStage value) {
+                return value;
             }
         };
     }

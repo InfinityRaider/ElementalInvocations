@@ -116,8 +116,8 @@ public class HexHandler {
         public void onLivingAttack(LivingAttackEvent event) {
             if(event.getSource() instanceof EntityDamageSource && !(event.getSource() instanceof EntityDamageSourceIndirect)) {
                 EntityDamageSource source = (EntityDamageSource) event.getSource();
-                if(source.getSourceOfDamage() instanceof EntityLivingBase) {
-                    if(isHexed((EntityLivingBase) source.getSourceOfDamage())) {
+                if(source.getTrueSource() instanceof EntityLivingBase) {
+                    if(isHexed((EntityLivingBase) source.getTrueSource())) {
                         event.setCanceled(true);
                         event.setResult(Event.Result.DENY);
                     }

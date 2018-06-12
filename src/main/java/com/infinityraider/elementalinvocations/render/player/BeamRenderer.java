@@ -65,9 +65,9 @@ public class BeamRenderer extends RenderUtilBase {
         float y1 = (float) (0.65*player.height);
         float z1 = (float) (dx*sin + dz*cos);
 
-        float x2 = (float) (target.xCoord - pX);
-        float y2 = (float) (target.yCoord - pY);
-        float z2 = (float) (target.zCoord - pZ);
+        float x2 = (float) (target.x - pX);
+        float y2 = (float) (target.y - pY);
+        float z2 = (float) (target.z - pZ);
 
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();
@@ -132,9 +132,9 @@ public class BeamRenderer extends RenderUtilBase {
         float y1 = pY + transformed.y();
         float z1 = pZ + transformed.z();
 
-        float x2 = (float) (target.xCoord);
-        float y2 = (float) (target.yCoord);
-        float z2 = (float) (target.zCoord);
+        float x2 = (float) (target.x);
+        float y2 = (float) (target.y);
+        float z2 = (float) (target.z);
 
         GlStateManager.pushMatrix();
         GlStateManager.pushAttrib();
@@ -146,7 +146,7 @@ public class BeamRenderer extends RenderUtilBase {
 
         GlStateManager.rotate(pitch, 1, 0, 0);
         GlStateManager.rotate(yaw + 180, 0, 1, 0);
-        GlStateManager.translate(-eyes.xCoord, -eyes.yCoord, -eyes.zCoord);
+        GlStateManager.translate(-eyes.x, -eyes.y, -eyes.z);
 
         this.renderBeam(x1, y1, z1, x2, y2, z2, thickness, red, green, blue, alpha);
 

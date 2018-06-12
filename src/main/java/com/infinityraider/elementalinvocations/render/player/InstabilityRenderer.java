@@ -4,9 +4,9 @@ import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.api.IChargeConfiguration;
 import com.infinityraider.elementalinvocations.api.IPlayerMagicProperties;
 import com.infinityraider.elementalinvocations.reference.Constants;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -77,7 +77,7 @@ public class InstabilityRenderer {
 
     private void renderCircle(int vertices, double radius, double x, double y, double z, float r, float g, float b, float alpha) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
         for(int j = 0; j <= vertices; j++) {
             buffer.pos(x + radius*Math.cos(2*j*Math.PI/vertices), y + radius*Math.sin(2*j*Math.PI/vertices), z).color(r, g, b, alpha).endVertex();
@@ -87,7 +87,7 @@ public class InstabilityRenderer {
 
     private void renderElementLines(IPlayerMagicProperties props, int vertices, double z, float alpha) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
         double factor = ((double) Constants.NOMINAL_ORBS*Constants.CORE_TIERS)/Constants.MAX_LEVEL;
         int period = 250;
         int time = (int) (System.currentTimeMillis() % period);
@@ -142,7 +142,7 @@ public class InstabilityRenderer {
         renderCircle(CIRCLE_VERTICES, 0.5, x, y, z, r, g, b, alpha);
     }
 
-    private void addVertex(VertexBuffer buffer, int index, int total,
+    private void addVertex(BufferBuilder buffer, int index, int total,
                            double x0, double dx, double y0, double dy, double z,
                            float r0, float dr, float g0, float dg, float b0, float db, float alpha,
                            double amplitude, int time, int period) {

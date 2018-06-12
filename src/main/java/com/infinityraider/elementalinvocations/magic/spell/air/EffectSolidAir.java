@@ -46,7 +46,7 @@ public class EffectSolidAir implements ISpellEffect {
         BlockPos pos = getStartPos(caster, 5);
         EnumFacing dir = caster.getHorizontalFacing();
         Vec3d look = caster.getLookVec();
-        boolean horizontal = Math.abs(look.yCoord) > Math.max(Math.abs(look.xCoord), Math.abs(look.zCoord));
+        boolean horizontal = Math.abs(look.y) > Math.max(Math.abs(look.x), Math.abs(look.z));
         int time = potencyEarth*30;
         int limX = horizontal || dir.getAxis() == EnumFacing.Axis.Z ? potencyAir/3 : 0;
         int limY = horizontal ? 0 : potencyAir/3;
@@ -72,7 +72,7 @@ public class EffectSolidAir implements ISpellEffect {
         }
         Vec3d eyes = new Vec3d(caster.posX, caster.posY + (double)caster.getEyeHeight(), caster.posZ);
         Vec3d look = caster.getLookVec();
-        return new BlockPos(eyes.xCoord + distance*look.xCoord, eyes.yCoord + distance*look.yCoord, eyes.zCoord + distance*look.zCoord);
+        return new BlockPos(eyes.x + distance*look.x, eyes.y + distance*look.y, eyes.z + distance*look.z);
     }
 
     private void placeBarrier(World world, BlockPos pos, EntityPlayer caster, int time) {

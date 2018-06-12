@@ -44,9 +44,6 @@ public interface IProxy extends IProxyBase {
         this.registerCapability(CapabilityPlayerSoulCollection.getInstance());
     }
 
-    @Override
-    default void registerSounds() {}
-
     default void registerKeyBindings() {}
 
     default boolean isShiftKeyPressed() {

@@ -46,7 +46,7 @@ public class EntityAIFollowLord  extends EntityAIBase {
         } else if (boss.isSpectator()) {
             return false;
         }
-        else if (this.entity.getDistanceSqToEntity(boss) < (double)(this.minDist * this.minDist)) {
+        else if (this.entity.getDistanceSq(boss) < (double)(this.minDist * this.minDist)) {
             return false;
         } else {
             return true;
@@ -57,7 +57,7 @@ public class EntityAIFollowLord  extends EntityAIBase {
      * Returns whether an in-progress EntityAIBase should continue executing
      */
     public boolean continueExecuting() {
-        return !this.petPathfinder.noPath() && this.entity.getDistanceSqToEntity(this.boss) > (double)(this.maxDist * this.maxDist);
+        return !this.petPathfinder.noPath() && this.entity.getDistanceSq(this.boss) > (double)(this.maxDist * this.maxDist);
     }
 
     /**
@@ -74,7 +74,7 @@ public class EntityAIFollowLord  extends EntityAIBase {
      */
     public void resetTask() {
         this.boss = null;
-        this.petPathfinder.clearPathEntity();
+        this.petPathfinder.clearPath();
         this.entity.setPathPriority(PathNodeType.WATER, this.oldWaterCost);
     }
 
@@ -92,15 +92,15 @@ public class EntityAIFollowLord  extends EntityAIBase {
             this.timeToRecalcPath = 10;
             if (!this.petPathfinder.tryMoveToEntityLiving(this.boss, this.followSpeed)) {
                 if (!this.entity.getLeashed()) {
-                    if (this.entity.getDistanceSqToEntity(this.boss) >= 144.0D) {
+                    if (this.entity.getDistanceSq(this.boss) >= 144.0D) {
                         int i = MathHelper.floor(this.boss.posX) - 2;
                         int j = MathHelper.floor(this.boss.posZ) - 2;
                         int k = MathHelper.floor(this.boss.getEntityBoundingBox().minY);
                         for (int l = 0; l <= 4; ++l) {
                             for (int i1 = 0; i1 <= 4; ++i1) {
-                                if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.theWorld.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isEmptyBlock(new BlockPos(i + l, k, j + i1)) && this.isEmptyBlock(new BlockPos(i + l, k + 1, j + i1))) {
+                                if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.theWorld.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isOpaqueCube() && this.isEmptyBlock(new BlockPos(i + l, k, j + i1)) && this.isEmptyBlock(new BlockPos(i + l, k + 1, j + i1))) {
                                     this.entity.setLocationAndAngles((double) ((float) (i + l) + 0.5F), (double) k, (double) ((float) (j + i1) + 0.5F), this.entity.rotationYaw, this.entity.rotationPitch);
-                                    this.petPathfinder.clearPathEntity();
+                                    this.petPathfinder.clearPath();
                                     return;
                                 }
                             }

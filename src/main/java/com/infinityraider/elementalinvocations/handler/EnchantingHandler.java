@@ -330,10 +330,10 @@ public class EnchantingHandler implements IGuiHandler {
                             wand.incrementPotency(stack);
                             if(!player.capabilities.isCreativeMode) {
                                 ItemStack lapis = this.tableInventory.getStackInSlot(1);
-                                player.removeExperienceLevel(req);
-                                lapis.stackSize -= 1;
-                                if (lapis.stackSize <= 0) {
-                                    this.tableInventory.setInventorySlotContents(1, null);
+                                player.addExperienceLevel(-req);
+                                lapis.setCount(lapis.getCount() - 1);
+                                if (lapis.getCount() <= 0) {
+                                    this.tableInventory.setInventorySlotContents(1, ItemStack.EMPTY);
                                 }
                             }
                             player.addStat(StatList.ITEM_ENCHANTED);
@@ -384,7 +384,7 @@ public class EnchantingHandler implements IGuiHandler {
         }
 
         @Override
-        protected void drawHoveringText(List<String> textLines, int x, int y) {
+        public void drawHoveringText(List<String> textLines, int x, int y) {
             if(textLines.size() > 1) {
                 int k = this.container.enchantLevels[0];
                 Enchantment enchantment = Enchantment.getEnchantmentByID(this.container.enchantClue[0]);

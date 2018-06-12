@@ -64,7 +64,7 @@ public class EntityWaveForm extends EntityThrowableMagic {
     public void channelUpdate(EntityPlayer caster) {
         Vec3d direction = caster.getLookVec();
         caster.extinguish();
-        this.setThrowableHeading(direction.xCoord, direction.yCoord, direction.zCoord, 0.95F, 0.1F);
+        this.shoot(direction.x, direction.y, direction.z, 0.95F, 0.1F);
         this.channeled = true;
     }
 

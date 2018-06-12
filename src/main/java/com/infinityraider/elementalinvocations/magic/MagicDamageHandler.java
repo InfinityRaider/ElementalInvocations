@@ -149,7 +149,7 @@ public class MagicDamageHandler implements IMagicDamageHandler {
             if(target.isEntityAlive()) {
                 return;
             }
-            Entity cause = damage.getEntity();
+            Entity cause = damage.getTrueSource();
             if(cause instanceof EntityPlayer) {
                 ISoulCollection souls = CapabilityPlayerSoulCollection.getSoulCollection((EntityPlayer) cause);
                 //reap target soul
@@ -176,7 +176,7 @@ public class MagicDamageHandler implements IMagicDamageHandler {
             Vec3d dir = damage.getDirection();
             if(dir != null && target instanceof EntityLivingBase && damage instanceof DamageSourceElemental) {
                 int potency = ((DamageSourceElemental) damage).getPotency();
-                ((EntityLivingBase) target).knockBack(damage.getEntity(), ((float) potency)/Constants.CORE_TIERS, -dir.xCoord, -dir.zCoord);
+                ((EntityLivingBase) target).knockBack(damage.getTrueSource(), ((float) potency)/Constants.CORE_TIERS, -dir.x, -dir.z);
             }
         });
         return dmg;

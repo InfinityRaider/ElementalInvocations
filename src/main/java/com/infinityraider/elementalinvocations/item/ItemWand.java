@@ -5,7 +5,6 @@ import com.infinityraider.elementalinvocations.capability.CapabilityPlayerMagicP
 import com.infinityraider.elementalinvocations.magic.ElementalCore;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import com.infinityraider.infinitylib.modules.dualwield.IDualWieldedWeapon;
-import com.infinityraider.infinitylib.utility.IRecipeRegister;
 import com.infinityraider.infinitylib.utility.TranslationHelper;
 import com.infinityraider.elementalinvocations.ElementalInvocations;
 import com.infinityraider.elementalinvocations.api.Element;
@@ -15,29 +14,27 @@ import com.infinityraider.elementalinvocations.reference.Constants;
 import com.infinityraider.elementalinvocations.reference.InventoryTabs;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDualWieldedWeapon {
+public class ItemWand extends ItemWithModelBase implements /*IRecipeRegister, */IDualWieldedWeapon {
     public final List<WandCore> CORES;
 
     public ItemWand() {
@@ -65,8 +62,7 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
 
     @Override
     @SideOnly(Side.CLIENT)
-    @SuppressWarnings("deprecation")
-    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flag) {
         Optional<WandCore> core = getWandCore(stack);
         if(!core.isPresent()) {
             tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".wand.noCore"));
@@ -94,8 +90,7 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
         //wand without a core
         subItems.add(new ItemStack(this, 1, 0));
         //all cores
@@ -109,6 +104,7 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
         return Optional.of(CORES.get(stack.getItemDamage() - 1));
     }
 
+    /*
     public List<IRecipe> getRecipes() {
         String ingot = OreDictionary.getOres("ingotSilver").isEmpty() ? "ingotIron" : "ingotSilver";
         return ImmutableList.of(
@@ -120,6 +116,7 @@ public class ItemWand extends ItemWithModelBase implements IRecipeRegister, IDua
     public void registerRecipes() {
         this.getRecipes().forEach(GameRegistry::addRecipe);
     }
+    */
 
     @Override
     public void onItemUsed(ItemStack stack, EntityPlayer player, boolean shift, boolean ctrl, EnumHand hand) {

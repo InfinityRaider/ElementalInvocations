@@ -56,7 +56,7 @@ public class PotionFrostArmor extends PotionBase implements IDamageReductor, IPo
     @Override
     public float getDamageReduction(EntityLivingBase entity, DamageSource source, float amount, PotionEffect effect) {
         int potency = effect.getAmplifier();
-        Entity attacker = source.getSourceOfDamage();
+        Entity attacker = source.getTrueSource();
         if(attacker != null && (attacker instanceof EntityLivingBase) && attacker != entity) {
             ((EntityLivingBase) attacker).addPotionEffect(new PotionEffect(Potion.getPotionById(2), 60));
         }

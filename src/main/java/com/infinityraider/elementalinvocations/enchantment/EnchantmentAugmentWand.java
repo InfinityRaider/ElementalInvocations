@@ -10,6 +10,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 public class EnchantmentAugmentWand extends Enchantment {
 
@@ -40,8 +42,8 @@ public class EnchantmentAugmentWand extends Enchantment {
 
     @Nullable
     @Override
-    public Iterable<ItemStack> getEntityEquipment(EntityLivingBase entity) {
-        return null;
+    public List<ItemStack> getEntityEquipment(EntityLivingBase entity) {
+        return Collections.emptyList();
     }
 
     @Override

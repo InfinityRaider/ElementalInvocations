@@ -1,33 +1,26 @@
 package com.infinityraider.elementalinvocations.item;
 
-import com.google.common.collect.ImmutableList;
-import com.infinityraider.elementalinvocations.config.ModConfiguration;
 import com.infinityraider.elementalinvocations.magic.ElementalCore;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
-import com.infinityraider.infinitylib.utility.IRecipeRegister;
 import com.infinityraider.infinitylib.utility.TranslationHelper;
 import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.reference.InventoryTabs;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.*;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegister {
+public class ItemElementalCore extends ItemWithModelBase /*implements IRecipeRegister*/ {
     public final List<ElementalCore> CORES;
 
     public ItemElementalCore() {
@@ -57,15 +50,14 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flag) {
         Element element = this.getElement(stack);
         tooltip.add(TranslationHelper.translateToLocal("tooltip." + Reference.MOD_ID.toLowerCase() + ".core." + element.name().toLowerCase()));
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-        subItems.addAll(CORES.stream().map(core -> new ItemStack(this, 1, core.getMeta())).collect(Collectors.toList()));
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+        items.addAll(CORES.stream().map(core -> new ItemStack(this, 1, core.getMeta())).collect(Collectors.toList()));
     }
 
     public ElementalCore getElementalCore(ItemStack stack) {
@@ -79,6 +71,7 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
         return getElementalCore(stack).element();
     }
 
+    /*
     public List<IRecipe> getRecipes() {
         if(ModConfiguration.getInstance().enableOrbRecipes()) {
             return ImmutableList.of(
@@ -128,6 +121,7 @@ public class ItemElementalCore extends ItemWithModelBase implements IRecipeRegis
     public void registerRecipes() {
         this.getRecipes().forEach(GameRegistry::addRecipe);
     }
+    */
 
     public static class DamageSourceChangeAffinity extends DamageSource {
         public DamageSourceChangeAffinity() {

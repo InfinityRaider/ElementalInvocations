@@ -4,7 +4,7 @@ import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityVacuum;
-import com.infinityraider.elementalinvocations.utility.AreaHelper;
+import com.infinityraider.infinitylib.utility.AreaHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -41,12 +41,12 @@ public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
         this(world);
         this.potencyAir = potencyAir;
         this.potencyDeath = potencyDeath;
-        this.posX = position.xCoord;
-        this.posY = position.yCoord;
-        this.posZ = position.zCoord;
-        this.prevPosX = position.xCoord;
-        this.prevPosY = position.yCoord;
-        this.prevPosZ = position.zCoord;
+        this.posX = position.x;
+        this.posY = position.y;
+        this.posZ = position.z;
+        this.prevPosX = position.x;
+        this.prevPosY = position.y;
+        this.prevPosZ = position.z;
         this.motionX = 0;
         this.motionY = 0;
         this.motionZ = 0;
@@ -114,9 +114,9 @@ public class EntityVacuum extends Entity implements IEntityAdditionalSpawnData {
     private void attractEntity(Entity e) {
         Vec3d m = this.getPositionVector();
         Vec3d p = e.getPositionVector();
-        e.motionX = -(p.xCoord - m.xCoord)/2;
-        e.motionY = -(p.yCoord - m.yCoord)/2;
-        e.motionZ = -(p.zCoord - m.zCoord)/2;
+        e.motionX = -(p.x - m.x)/2;
+        e.motionY = -(p.y - m.y)/2;
+        e.motionZ = -(p.z - m.z)/2;
     }
 
     @Override

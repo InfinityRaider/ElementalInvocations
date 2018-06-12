@@ -34,7 +34,7 @@ public class EntityMagicProjectile extends EntityThrowableMagic {
         super(caster);
         this.potencies = potencies;
         this.setEntityBoundingBox(BOX);
-        this.setThrowableHeading(getDirection().xCoord, getDirection().yCoord, getDirection().zCoord, 2F, 0.5F);
+        this.shoot(getDirection().x, getDirection().y, getDirection().z, 2F, 0.5F);
     }
 
     @Override

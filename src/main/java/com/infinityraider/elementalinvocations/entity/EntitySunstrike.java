@@ -4,7 +4,7 @@ import com.infinityraider.elementalinvocations.api.Element;
 import com.infinityraider.elementalinvocations.magic.MagicDamageHandler;
 import com.infinityraider.elementalinvocations.reference.Names;
 import com.infinityraider.elementalinvocations.registry.SoundRegistry;
-import com.infinityraider.elementalinvocations.utility.AreaHelper;
+import com.infinityraider.infinitylib.utility.AreaHelper;
 import com.infinityraider.elementalinvocations.network.MessageRenderSunstrike;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntitySunstrike;
 import com.infinityraider.infinitylib.sound.ModSoundHandler;

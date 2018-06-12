@@ -22,7 +22,7 @@ public class EntityAILordHurtByTarget extends EntityAITarget {
         if (boss == null) {
             return false;
         } else {
-            EntityLivingBase theOwnerAttacker = boss.getAITarget();
+            EntityLivingBase theOwnerAttacker = boss.getRevengeTarget();
             int i = boss.getRevengeTimer();
             return i != this.timestamp && this.isSuitableTarget(theOwnerAttacker, false);
         }

@@ -49,7 +49,7 @@ public class RenderEntityWaveForm extends RenderEntityAnimated<EntityWaveForm> {
 
         //rotate in the direction of the caster' view
         Vec3d look = caster.getLook(partialTicks);
-        double yaw = Math.toDegrees(Math.atan2(look.zCoord, look.xCoord));
+        double yaw = Math.toDegrees(Math.atan2(look.z, look.x));
         GlStateManager.rotate((float) -yaw, 0, 1, 0);
 
         //gl settings

@@ -62,10 +62,12 @@ public class BlockImpaleSpike extends BlockCustomRenderedBase {
         return BOX;
     }
 
+
     @Override
     @Deprecated
+    @Nullable
     @SuppressWarnings("deprecation")
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World world, BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
         return BOX;
     }
 

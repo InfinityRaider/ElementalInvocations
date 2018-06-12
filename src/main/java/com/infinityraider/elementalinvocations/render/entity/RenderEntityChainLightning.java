@@ -4,9 +4,9 @@ import com.infinityraider.elementalinvocations.entity.EntityChainLightning;
 import com.infinityraider.elementalinvocations.reference.Reference;
 import com.infinityraider.infinitylib.render.tessellation.ITessellator;
 import com.infinityraider.infinitylib.render.tessellation.TessellatorVertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
@@ -87,7 +87,7 @@ public class RenderEntityChainLightning  extends  RenderEntityAnimated<EntityCha
         tessellator.draw();
 
         Tessellator tess = Tessellator.getInstance();
-        VertexBuffer buff = tess.getBuffer();
+        BufferBuilder buff = tess.getBuffer();
         buff.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
         buff.pos(x1, y1, z1).color(1.F, 0.F, 0.F, 1.F).endVertex();
         buff.pos(x2, y2, z2).color(1.F, 0.F, 0.F, 1.F).endVertex();

@@ -111,7 +111,7 @@ public class MagicChargeConfiguration implements IChargeConfiguration {
     public void fizzle() {
         if(!this.getPlayer().getEntityWorld().isRemote) {
             Vec3d vec3d = this.getPlayer().getLookVec();
-            Vec3d dir = new Vec3d(-vec3d.xCoord, -vec3d.yCoord, -vec3d.zCoord);
+            Vec3d dir = new Vec3d(-vec3d.x, -vec3d.y, -vec3d.z);
             for(Element element : Element.values()) {
                 int potency = this.getPotencyMap().getPotency(element);
                 if(potency > 0) {

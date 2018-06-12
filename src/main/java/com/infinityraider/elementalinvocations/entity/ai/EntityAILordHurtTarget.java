@@ -23,8 +23,8 @@ public class EntityAILordHurtTarget extends EntityAITarget {
         if (boss == null) {
             return false;
         } else {
-            this.theTarget = boss.getLastAttacker();
-            int i = boss.getLastAttackerTime();
+            this.theTarget = boss.getLastAttackedEntity();
+            int i = boss.getLastAttackedEntityTime();
             return i != this.timestamp && this.isSuitableTarget(this.theTarget, false);
         }
     }
@@ -35,7 +35,7 @@ public class EntityAILordHurtTarget extends EntityAITarget {
     public void startExecuting() {
         this.taskOwner.setAttackTarget(this.theTarget);
         if (boss != null) {
-            this.timestamp = boss.getLastAttackerTime();
+            this.timestamp = boss.getLastAttackedEntityTime();
         }
         super.startExecuting();
     }

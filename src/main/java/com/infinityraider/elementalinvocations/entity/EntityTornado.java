@@ -51,10 +51,10 @@ public class EntityTornado extends EntityThrowableMagic {
         this.timer = this.getPotencyAir() * 20 / 3;
         this.suckedEntities = new IdentityHashMap<>();
         Vec3d look = caster.getLookVec();
-        this.posX = caster.posX + look.xCoord;
+        this.posX = caster.posX + look.x;
         this.posY = caster.posY;
-        this.posZ = caster.posZ + look.zCoord;
-        this.setThrowableHeading(look.xCoord, 0, look.zCoord, 1.0F, 0F);
+        this.posZ = caster.posZ + look.z;
+        this.shoot(look.x, 0, look.z, 1.0F, 0F);
     }
 
     public int getPotencyAir() {
@@ -95,9 +95,9 @@ public class EntityTornado extends EntityThrowableMagic {
                 Entity e = entry.getKey();
                 Vec3d m = this.getPositionVector();
                 Vec3d p = e.getPositionVector();
-                e.motionX = -(p.xCoord - m.xCoord)/2;
+                e.motionX = -(p.x - m.x)/2;
                 e.motionY = 1;
-                e.motionZ = -(p.zCoord - m.zCoord)/2;
+                e.motionZ = -(p.z - m.z)/2;
             }
         }
     }

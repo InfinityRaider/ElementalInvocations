@@ -167,7 +167,7 @@ public class EntityChainLightning extends Entity implements IEntityAdditionalSpa
         } else {
             check = this.getParent();
         }
-        return check.map(source -> source.getDistanceSqToEntity(this.getTarget()) <= RANGE*RANGE).orElse(false);
+        return check.map(source -> source.getDistanceSq(this.getTarget()) <= RANGE*RANGE).orElse(false);
     }
 
     protected void damageTarget() {

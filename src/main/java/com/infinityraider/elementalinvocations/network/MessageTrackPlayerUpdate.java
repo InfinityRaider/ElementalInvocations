@@ -29,8 +29,8 @@ public class MessageTrackPlayerUpdate extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if(ctx.getServerHandler().playerEntity != null) {
-            EntityReplicate.updatePlayerMovement(ctx.getServerHandler().playerEntity, this.deltaX, this.deltaY, this.deltaZ);
+        if(ctx.getServerHandler().player != null) {
+            EntityReplicate.updatePlayerMovement(ctx.getServerHandler().player, this.deltaX, this.deltaY, this.deltaZ);
         }
     }
 

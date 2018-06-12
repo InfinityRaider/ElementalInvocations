@@ -42,7 +42,7 @@ public class EntityBallLightning extends EntityThrowableMagic {
         this.potencyAir = potencyAir;
         this.potencyWater = potencyWater;
         this.setEntityBoundingBox(BOX);
-        this.setThrowableHeading(getDirection().xCoord, getDirection().yCoord, getDirection().zCoord, 3F, 0.1F);
+        this.shoot(getDirection().x, getDirection().y, getDirection().z, 3F, 0.1F);
         ModulePlayerState.getInstance().getState(caster).setInvisible(true).setInvulnerable(true).setEthereal(true).setUndetectable(true);
     }
 

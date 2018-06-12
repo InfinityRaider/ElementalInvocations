@@ -32,7 +32,7 @@ public class RenderBlockEarthquake extends RenderBlockWithTileBase<BlockEarthqua
 
     @Override
     public void renderWorldBlockDynamic(ITessellator tessellator, World world, BlockPos pos, double x, double y, double z,
-                                        BlockEarthquake block, TileEarthquake tile, float partialTick, int destroyStage) {
+                                        BlockEarthquake block, TileEarthquake tile, float partialTick, int destroyStage, float alpha) {
 
         IBlockState state = tile.getOriginalState();
         if(state == null) {

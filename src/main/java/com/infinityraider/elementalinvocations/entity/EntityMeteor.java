@@ -7,7 +7,7 @@ import com.infinityraider.elementalinvocations.registry.SoundRegistry;
 import com.infinityraider.elementalinvocations.render.entity.RenderEntityMeteor;
 import com.infinityraider.infinitylib.sound.ModSoundHandler;
 import com.infinityraider.infinitylib.utility.RayTraceHelper;
-import com.infinityraider.elementalinvocations.utility.AreaHelper;
+import com.infinityraider.infinitylib.utility.AreaHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -41,10 +41,10 @@ public class EntityMeteor extends EntityThrowableMagic {
         this.potencyFire = potencyFire;
         this.potencyEarth = potencyEarth;
         Vec3d look = caster.getLookVec();
-        this.posX = caster.posX - look.xCoord * 50;
+        this.posX = caster.posX - look.x * 50;
         this.posY = caster.posY + 100;
-        this.posZ = caster.posZ - look.zCoord * 50;
-        this.setThrowableHeading(look.xCoord, 0, look.zCoord, 5.0F, 0F);
+        this.posZ = caster.posZ - look.z * 50;
+        this.shoot(look.x, 0, look.z, 5.0F, 0F);
     }
 
     public int getPotencyFire() {
@@ -58,13 +58,13 @@ public class EntityMeteor extends EntityThrowableMagic {
     public void channelUpdate(EntityPlayer caster) {
         RayTraceResult result = RayTraceHelper.getTargetBlock(caster, 64);
         if(result != null && result.hitVec != null) {
-            Vec3d target = new Vec3d(result.hitVec.xCoord - posX, 0, result.hitVec.zCoord - posZ).normalize();
+            Vec3d target = new Vec3d(result.hitVec.x - posX, 0, result.hitVec.z - posZ).normalize();
             Vec3d vOld = new Vec3d(motionX, 0, motionZ).normalize();
             double v = Math.sqrt(motionX*motionX + motionZ*motionZ);
             double x = 1.0 - 0.05*(getPotencyFire()/3);
-            Vec3d vNew = new Vec3d(x*vOld.xCoord + (1 - x)*target.xCoord, 0, x*vOld.zCoord + (1 - x)*target.zCoord).scale(v);
-            this.motionX = vNew.xCoord;
-            this.motionZ = vNew.zCoord;
+            Vec3d vNew = new Vec3d(x*vOld.x + (1 - x)*target.x, 0, x*vOld.z + (1 - x)*target.z).scale(v);
+            this.motionX = vNew.x;
+            this.motionZ = vNew.z;
         }
     }
 

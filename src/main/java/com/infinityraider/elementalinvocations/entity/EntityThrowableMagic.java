@@ -49,9 +49,9 @@ public abstract class EntityThrowableMagic extends EntityThrowable implements IE
     }
 
     private NBTTagCompound writeToNBTExtra(NBTTagCompound tag) {
-        tag.setDouble(Names.NBT.X, this.dir.xCoord);
-        tag.setDouble(Names.NBT.Y, this.dir.yCoord);
-        tag.setDouble(Names.NBT.Z, this.dir.zCoord);
+        tag.setDouble(Names.NBT.X, this.dir.x);
+        tag.setDouble(Names.NBT.Y, this.dir.y);
+        tag.setDouble(Names.NBT.Z, this.dir.z);
         return this.writeDataToNBT(tag);
     }
 
